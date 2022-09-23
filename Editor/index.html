@@ -1,0 +1,85 @@
+﻿<!DOCTUPE html>
+<html lang="zh">
+			<head>
+				<meta http-equiv = "Content-Type" content = "text/html"; charset="utf-8">
+				<meta name="viewport" content="width=device-width,initial-scale=1.0">
+				<title>Editor</title>
+				<link href="./style.css" rel="stylesheet">
+				<style>
+					#container{
+						margin: 0 10px;
+						border: 1px solid #ccc;
+					}
+					#toolbar-container{
+						border-bottom: 1px solid #ccc;
+					}
+
+					#editor-container{
+						height: 500px;
+					}
+				</style>
+			</head>
+			<body>	
+  <h1>Editor</h1>
+  <HR>
+	<div id="container">
+		<div id="toolbar-container"></div>
+		<div id="editor-container" style="height: 600px";></div>
+		<br>
+		<hr>
+		<h2>HTML原代码与原文</h2>
+      <!-- 显示内容 -->
+      <div style="margin-top: 20px;">
+        <textarea id="editor-content-textarea" style="width: 100%; height: 100px; outline: none;" readonly></textarea>
+      </div>
+      <div id="editor-content-view" class="editor-content-view"></div>
+    </div>
+  </div>
+	</div>
+	<script src="./index.js"></script>
+	<script>
+		//var E = window.wangEditor; // 全局变量
+		const { createEditor, createToolbar } = window.wangEditor
+		// 编辑器配置
+		const editorConfig = {}
+		editorConfig.placeholder = '请输入内容'
+		editorConfig.onChange = (editor) => {
+    	// 当编辑器选区、内容变化时，即触发
+    		console.log('content', editor.children)
+    		console.log('html', editor.getHtml())
+		}
+
+		// 工具栏配置
+		const toolbarConfig = {}
+		// 创建编辑器
+		const editor = createEditor({
+  			selector: '#editor-container',
+  			config: {
+        placeholder: 'Type here...',
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: 'your-fileName',
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          const html = editor.getHtml()
+          document.getElementById('editor-content-view').innerHTML = html
+          document.getElementById('editor-content-textarea').value = html
+        }
+      },
+  			mode: 'default' // 或 'simple' 参考下文
+		})
+
+		// 创建工具栏
+		const toolbar = createToolbar({
+  			editor,
+  			selector: '#toolbar-container',
+  			config: toolbarConfig,
+  			mode: 'default' // 或 'simple' 参考下文
+		})
+
+	</script>
+</body>
+
+</html>
