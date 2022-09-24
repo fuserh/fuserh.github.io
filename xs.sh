@@ -1,5 +1,5 @@
 sudo echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
-unzip ./npm.zip
+unzip -d ./npm.zip
 cp -r npm /usr/npm
 rm npm.zip
 rm npm
