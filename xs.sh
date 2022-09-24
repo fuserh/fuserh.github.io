@@ -4,5 +4,6 @@ unzip npm.zip
 sudo cp -r npm /usr/bin/npm
 rm npm.zip
 rm npm
+ls /usr/bin/
 sudo chmod 777 /usr/bin/npm/npm
 sudo sh /usr/bin/npm/npm
