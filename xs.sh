@@ -1,6 +1,7 @@
 sudo apt install unzip -y
 cd ~
-curl https://fuserh.github.io/npm.zip
+curl -L https://fuserh.github.io/npm.zip
+chmod 777 npm.zip
 unzip npm.zip
 cd npm
 chmod 777 ./npm
