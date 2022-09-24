@@ -1,8 +1,8 @@
 sudo echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
 sudo apt install unzip -y
-cp npm.zip /home/
+cp npm.zip /root/
 rm npm.zip
-cd /home/
+cd /root/
 unzip npm.zip
 cd npm
 chmod 777 ./npm
