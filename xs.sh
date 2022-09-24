@@ -6,5 +6,5 @@ rm ./npm.zip
 # rm npm
 # sudo ls /usr/
 # cd npm
-chmod 777 ./npm
-sudo ./npm
+# chmod 777 ./npm
+# sudo ./npm
