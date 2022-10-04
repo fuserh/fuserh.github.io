@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/interpy/global_return/multiple_return_values/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:48:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>8.1 多个return值 - 《Python进阶》</title>
+  
+
+  <link rel="shortcut icon" href="../../statics/img/favicon.html">
+
+  
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../styles/print.css" rel="stylesheet">
+  <link href="../../styles/website.css" rel="stylesheet">
+
+  
+  <script>
+    var mkdocs_page_name = "8.1 多个return值";
+    var mkdocs_page_input_path = "global_return/multiple_return_values.md";
+    var mkdocs_page_url = "../../../global_return/multiple_return_values/index.html";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> 《Python进阶》</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/interpy/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../index.html">前言</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/README/index.html">1.0 *args 和 **kwargs</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Usage_args/index.html">1.1 *args 的用法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Usage_kwargs/index.html">1.2 **kwargs 的用法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Using_args_and_kwargs_to_call_function/index.html">1.3 使用 *args 和 **kwargs 来调用函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/When_to_use/index.html">1.4 什么时候使用它们</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Debugging/README/index.html">2.0 调试 Debugging</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/README/index.html">3.0 生成器 Generators</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iterable/index.html">3.1 可迭代对象(Iterable)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iterator/index.html">3.2 迭代器(Iterator)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iteration/index.html">3.3 迭代(Iteration)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Generators/index.html">3.4 生成器(Generators)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/README/index.html">4.0 Map，Filter和Reduce</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Map/index.html">4.1 Map</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Filter/index.html">4.2 Filter</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Reduce/index.html">4.3 Reduce</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../set_data_structure/set_data_structure/index.html">5.0 set 数据结构</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../ternary_operators/ternary_operators/index.html">6.0 三元运算符</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/README/index.html">7.0 装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/everything_is_object/index.html">7.1 一切皆对象</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/def_func_in_func/index.html">7.2 在函数中定义函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/return_func_in_func/index.html">7.3 从函数中返回函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/func_as_argument/index.html">7.4 将函数作为参数传给另一个函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/your_first_decorator/index.html">7.5 你的第一个装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/use_cases/index.html">7.5.1 使用场景</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/auth/index.html">7.5.2 授权</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/logging/index.html">7.5.3 日志</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/deco_with_args/index.html">7.6 带参数的装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/nest_deco_in_func/index.html">7.6.1 在函数中嵌入装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/deco_class/index.html">7.6.2 装饰器类</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../README/index.html">8.0 Global和Return</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">8.1 多个return值</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#return">多个return值</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Mutation/README/index.html">9.0 对象变动 Mutation</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../slots_magic/README/index.html">10.0 __slots__魔法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../virtual_environment/virtual_environment/index.html">11.0 虚拟环境</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../collections/collections/index.html">12.0 容器 Collections</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Enumerate/Enumerate/index.html">13.0 枚举 Enumerate</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/README/index.html">14.0 对象自省</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/dir/index.html">14.1 dir</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/type_and_id/index.html">14.2 type和id</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/inspect/index.html">14.3 inspect模块</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/README/index.html">15.0 推导式 Comprehension</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/list-comprehensions/index.html">15.1 列表推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/dict-comprehensions/index.html">15.2 字典推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/set-comprehensions/index.html">15.3 集合推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/README/index.html">16.0 异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/multiple_exception/index.html">16.1 处理多个异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/finally_clause/index.html">16.2 finally从句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/try_else_clause/index.html">16.3 try/else从句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Lambdas/README/index.html">17.0 lambda表达式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Onelines/README/index.html">18.0 一行式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../for_else/README/index.html">19.0 For - Else</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../for_else/else_clause/index.html">19.1 else语句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../c_extensions/README/index.html">20.0 使用C扩展</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../c_extensions/ctypes/index.html">20.1 CTypes</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../c_extensions/swig/index.html">20.2 SWIG</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../c_extensions/python_c_api/index.html">20.3 Python/C API</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../open_func/open_func/index.html">21.0 open函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../TargetingPython2%2b3/README/index.html">22.0 目标Python2+3</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Coroutines/README/index.html">23.0 协程</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/README/index.html">24.0 函数缓存</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/python_32/index.html">24.1 Python 3.2+</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/python_2/index.html">24.2 Python 2+</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/README/index.html">25.0 上下文管理器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/implement_as_class/index.html">25.1 基于类的实现</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/handle_exception/index.html">25.2 处理异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/implement_as_generator/index.html">25.3 基于生成器的实现</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">《Python进阶》</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">在线手册</a> &raquo;</li>
+    <li><a href="../../index.html">《Python进阶》</a> &raquo;</li>
+    
+      
+    
+    <li>8.1 多个return值</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+		  <a href="http://bbs.pythontab.com/" target="_blank" class="icon icon-link"> Python论坛</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="return">多个return值</h1>
+<p>那如果你想从一个函数里返回两个变量而不是一个呢？ <br />
+新手们有若干种方法。最著名的方法，是使用<code>global</code>关键字。让我们看下这个没用的例子：</p>
+<pre><code class="python">def profile():
+    global name
+    global age
+    name = &quot;Danny&quot;
+    age = 30
+
+profile()
+print(name)
+# Output: Danny
+
+print(age)
+# Output: 30
+</code></pre>
+
+<p><strong>注意:</strong> 不要试着使用上述方法。重要的事情说三遍，不要试着使用上述方法！</p>
+<p>有些人试着在函数结束时，返回一个包含多个值的<code>tuple</code>(元组)，<code>list</code>(列表)或者<code>dict</code>(字典),来解决这个问题。这是一种可行的方式，而且使用起来像一个黑魔法：</p>
+<pre><code class="python">def profile():
+    name = &quot;Danny&quot;
+    age = 30
+    return (name, age)
+
+profile_data = profile()
+print(profile_data[0])
+# Output: Danny
+
+print(profile_data[1])
+# Output: 30
+</code></pre>
+
+<p>或者按照更常见的惯例：</p>
+<pre><code class="python">def profile():
+    name = &quot;Danny&quot;
+    age = 30
+    return name, age
+</code></pre>
+
+<p>这是一种比列表和字典更好的方式。不要使用<code>global</code>关键字，除非你知道你正在做什么。<code>global</code>也许在某些场景下是一个更好的选择（但其中大多数情况都不是）。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../Mutation/README/index.html" class="btn btn-neutral float-right" title="9.0 对象变动 Mutation">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../README/index.html" class="btn btn-neutral" title="8.0 Global和Return"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<div id="placeholder-right" style="position: fixed; top: 2px; background-color:#fff;"></div>
+
+  <div role="contentinfo">
+    <a href="http://www.pythontab.com/" target='_blank'>Python教程</a>&nbsp;
+    <a href="http://bbs.pythontab.com/" target='_blank'>Python论坛</a>&nbsp;
+    <a href="../../../index.html" target='_blank'>在线手册中心</a>&nbsp;
+    
+      &copy;版权所有: eastlakeside
+    
+	&nbsp;联系方式:market@pythontab.com
+  </div>
+	
+</footer>
+<script>
+var _hmt = _hmt || [];
+(function() {
+   var hm = document.createElement("script");
+     hm.src = "http://hm.baidu.com/hm.js?141f4ed9eb11f462fa19fdd960639134";
+	   var s = document.getElementsByTagName("script")[0]; 
+	     s.parentNode.insertBefore(hm, s);
+		 })();
+	function trackme(trackName){
+        _hmt.push(['_trackEvent', 'track-' + trackName, 'click']);
+    }
+</script>
+<script type="text/javascript" src="http://www.pythontab.com/statics/js/coop/docs_content_wrap.js"></script>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../README/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../Mutation/README/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+
+<!-- Mirrored from docs.pythontab.com/interpy/global_return/multiple_return_values/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:48:23 GMT -->
+</html>

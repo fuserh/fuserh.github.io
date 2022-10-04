@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/interpy/c_extensions/python_c_api/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:50:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>20.3 Python/C API - 《Python进阶》</title>
+  
+
+  <link rel="shortcut icon" href="../../statics/img/favicon.html">
+
+  
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../styles/print.css" rel="stylesheet">
+  <link href="../../styles/website.css" rel="stylesheet">
+
+  
+  <script>
+    var mkdocs_page_name = "20.3 Python/C API";
+    var mkdocs_page_input_path = "c_extensions/python_c_api.md";
+    var mkdocs_page_url = "../../../c_extensions/python_c_api/index.html";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> 《Python进阶》</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/interpy/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../index.html">前言</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/README/index.html">1.0 *args 和 **kwargs</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Usage_args/index.html">1.1 *args 的用法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Usage_kwargs/index.html">1.2 **kwargs 的用法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/Using_args_and_kwargs_to_call_function/index.html">1.3 使用 *args 和 **kwargs 来调用函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../args_kwargs/When_to_use/index.html">1.4 什么时候使用它们</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Debugging/README/index.html">2.0 调试 Debugging</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/README/index.html">3.0 生成器 Generators</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iterable/index.html">3.1 可迭代对象(Iterable)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iterator/index.html">3.2 迭代器(Iterator)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Iteration/index.html">3.3 迭代(Iteration)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Generators/Generators/index.html">3.4 生成器(Generators)</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/README/index.html">4.0 Map，Filter和Reduce</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Map/index.html">4.1 Map</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Filter/index.html">4.2 Filter</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Map_Filter/Reduce/index.html">4.3 Reduce</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../set_data_structure/set_data_structure/index.html">5.0 set 数据结构</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../ternary_operators/ternary_operators/index.html">6.0 三元运算符</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/README/index.html">7.0 装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/everything_is_object/index.html">7.1 一切皆对象</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/def_func_in_func/index.html">7.2 在函数中定义函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/return_func_in_func/index.html">7.3 从函数中返回函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/func_as_argument/index.html">7.4 将函数作为参数传给另一个函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/your_first_decorator/index.html">7.5 你的第一个装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/use_cases/index.html">7.5.1 使用场景</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/auth/index.html">7.5.2 授权</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/logging/index.html">7.5.3 日志</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/deco_with_args/index.html">7.6 带参数的装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/nest_deco_in_func/index.html">7.6.1 在函数中嵌入装饰器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../decorators/deco_class/index.html">7.6.2 装饰器类</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../global_return/README/index.html">8.0 Global和Return</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../global_return/multiple_return_values/index.html">8.1 多个return值</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Mutation/README/index.html">9.0 对象变动 Mutation</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../slots_magic/README/index.html">10.0 __slots__魔法</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../virtual_environment/virtual_environment/index.html">11.0 虚拟环境</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../collections/collections/index.html">12.0 容器 Collections</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Enumerate/Enumerate/index.html">13.0 枚举 Enumerate</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/README/index.html">14.0 对象自省</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/dir/index.html">14.1 dir</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/type_and_id/index.html">14.2 type和id</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../introspection/inspect/index.html">14.3 inspect模块</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/README/index.html">15.0 推导式 Comprehension</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/list-comprehensions/index.html">15.1 列表推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/dict-comprehensions/index.html">15.2 字典推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Comprehensions/set-comprehensions/index.html">15.3 集合推导式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/README/index.html">16.0 异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/multiple_exception/index.html">16.1 处理多个异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/finally_clause/index.html">16.2 finally从句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../exception/try_else_clause/index.html">16.3 try/else从句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Lambdas/README/index.html">17.0 lambda表达式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Onelines/README/index.html">18.0 一行式</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../for_else/README/index.html">19.0 For - Else</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../for_else/else_clause/index.html">19.1 else语句</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../README/index.html">20.0 使用C扩展</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../ctypes/index.html">20.1 CTypes</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../swig/index.html">20.2 SWIG</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="index.html">20.3 Python/C API</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#pythonc-api">Python/C API</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../open_func/open_func/index.html">21.0 open函数</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../TargetingPython2%2b3/README/index.html">22.0 目标Python2+3</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../Coroutines/README/index.html">23.0 协程</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/README/index.html">24.0 函数缓存</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/python_32/index.html">24.1 Python 3.2+</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../func_caching/python_2/index.html">24.2 Python 2+</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/README/index.html">25.0 上下文管理器</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/implement_as_class/index.html">25.1 基于类的实现</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/handle_exception/index.html">25.2 处理异常</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../context_managers/implement_as_generator/index.html">25.3 基于生成器的实现</a>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">《Python进阶》</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">在线手册</a> &raquo;</li>
+    <li><a href="../../index.html">《Python进阶》</a> &raquo;</li>
+    
+      
+    
+    <li>20.3 Python/C API</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+		  <a href="http://bbs.pythontab.com/" target="_blank" class="icon icon-link"> Python论坛</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="pythonc-api">Python/C API</h1>
+<p><a href="https://docs.python.org/2/c-api/">Python/C API</a>可能是被最广泛使用的方法。它不仅简单，而且可以在C代码中操作你的Python对象。</p>
+<p>这种方法需要以特定的方式来编写C代码以供Python去调用它。所有的Python对象都被表示为一种叫做PyObject的结构体，并且<code>Python.h</code>头文件中提供了各种操作它的函数。例如，如果PyObject表示为PyListType(列表类型)时，那么我们便可以使用<code>PyList_Size()</code>函数来获取该结构的长度，类似Python中的<code>len(list)</code>函数。大部分对Python原生对象的基础函数和操作在<code>Python.h</code>头文件中都能找到。</p>
+<p>示例</p>
+<p>编写一个C扩展，添加所有元素到一个Python列表(所有元素都是数字)</p>
+<p>来看一下我们要实现的效果，这里演示了用Python调用C扩展的代码</p>
+<pre><code class="Python">#Though it looks like an ordinary python import, the addList module is implemented in C
+import addList
+
+l = [1,2,3,4,5]
+print &quot;Sum of List - &quot; + str(l) + &quot; = &quot; +  str(addList.add(l))
+
+</code></pre>
+
+<p>上面的代码和普通的Python文件并没有什么分别，导入并使用了另一个叫做<code>addList</code>的Python模块。唯一差别就是这个模块并不是用Python编写的，而是C。</p>
+<p>接下来我们看看如何用C编写<code>addList</code>模块，这可能看起来有点让人难以接受，但是一旦你了解了这之中的各种组成，你就可以一往无前了。</p>
+<pre><code class="C">//Python.h has all the required function definitions to manipulate the Python objects
+#include &lt;Python.h&gt;
+
+//This is the function that is called from your python code
+static PyObject* addList_add(PyObject* self, PyObject* args){
+
+    PyObject * listObj;
+
+    //The input arguments come as a tuple, we parse the args to get the various variables
+    //In this case it's only one list variable, which will now be referenced by listObj
+    if (! PyArg_ParseTuple( args, &quot;O&quot;, &amp;listObj ))
+        return NULL;
+
+    //length of the list
+    long length = PyList_Size(listObj);
+
+    //iterate over all the elements
+    int i, sum =0;
+    for (i = 0; i &lt; length; i++) {
+        //get an element out of the list - the element is also a python objects
+        PyObject* temp = PyList_GetItem(listObj, i);
+        //we know that object represents an integer - so convert it into C long
+        long elem = PyInt_AsLong(temp);
+        sum += elem;
+    }
+
+    //value returned back to python code - another python object
+    //build value here converts the C long to a python integer
+    return Py_BuildValue(&quot;i&quot;, sum);
+
+}
+
+//This is the docstring that corresponds to our 'add' function.
+static char addList_docs[] =
+&quot;add(  ): add all elements of the list\n&quot;;
+
+/* This table contains the relavent info mapping -
+   &lt;function-name in python module&gt;, &lt;actual-function&gt;,
+   &lt;type-of-args the function expects&gt;, &lt;docstring associated with the function&gt;
+ */
+static PyMethodDef addList_funcs[] = {
+    {&quot;add&quot;, (PyCFunction)addList_add, METH_VARARGS, addList_docs},
+    {NULL, NULL, 0, NULL}
+
+};
+
+/*
+   addList is the module name, and this is the initialization block of the module.
+   &lt;desired module name&gt;, &lt;the-info-table&gt;, &lt;module's-docstring&gt;
+ */
+PyMODINIT_FUNC initaddList(void){
+    Py_InitModule3(&quot;addList&quot;, addList_funcs,
+            &quot;Add all ze lists&quot;);
+
+}
+
+</code></pre>
+
+<p>逐步解释
+- <code>Python.h</code>头文件中包含了所有需要的类型(Python对象类型的表示)和函数定义(对Python对象的操作)
+- 接下来我们编写将要在Python调用的函数, 函数传统的命名方式由{模块名}_{函数名}组成，所以我们将其命名为<code>addList_add</code> <br />
+- 然后填写想在模块内实现函数的相关信息表，每行一个函数，以空行作为结束
+- 最后的模块初始化块签名为<code>PyMODINIT_FUNC init{模块名}</code>。</p>
+<p>函数<code>addList_add</code>接受的参数类型为PyObject类型结构(同时也表示为元组类型，因为Python中万物皆为对象，所以我们先用PyObject来定义)。传入的参数则通过<code>PyArg_ParseTuple()</code>来解析。第一个参数是被解析的参数变量。第二个参数是一个字符串，告诉我们如何去解析元组中每一个元素。字符串的第n个字母正是代表着元组中第n个参数的类型。例如，"i"代表整形，"s"代表字符串类型, "O"则代表一个Python对象。接下来的参数都是你想要通过<code>PyArg_ParseTuple()</code>函数解析并保存的元素。这样参数的数量和模块中函数期待得到的参数数量就可以保持一致，并保证了位置的完整性。例如，我们想传入一个字符串，一个整数和一个Python列表，可以这样去写</p>
+<pre><code class="C">int n;
+char *s;
+PyObject* list;
+PyArg_ParseTuple(args, &quot;siO&quot;, &amp;n, &amp;s, &amp;list);
+
+</code></pre>
+
+<p>在这种情况下，我们只需要提取一个列表对象，并将它存储在<code>listObj</code>变量中。然后用列表对象中的<code>PyList_Size()</code>函数来获取它的长度。就像Python中调用<code>len(list)</code>。</p>
+<p>现在我们通过循环列表，使用<code>PyList_GetItem(list, index)</code>函数来获取每个元素。这将返回一个<code>PyObject*</code>对象。既然Python对象也能表示<code>PyIntType</code>，我们只要使用<code>PyInt_AsLong(PyObj *)</code>函数便可获得我们所需要的值。我们对每个元素都这样处理，最后再得到它们的总和。</p>
+<p>总和将被转化为一个Python对象并通过<code>Py_BuildValue()</code>返回给Python代码，这里的i表示我们要返回一个Python整形对象。</p>
+<p>现在我们已经编写完C模块了。将下列代码保存为<code>setup.py</code></p>
+<pre><code class="Python">#build the modules
+
+from distutils.core import setup, Extension
+
+setup(name='addList', version='1.0',  \
+      ext_modules=[Extension('addList', ['adder.c'])])
+</code></pre>
+
+<p>并且运行</p>
+<pre><code class="Shell">python setup.py install
+
+</code></pre>
+
+<p>现在应该已经将我们的C文件编译安装到我们的Python模块中了。</p>
+<p>在一番辛苦后，让我们来验证下我们的模块是否有效</p>
+<pre><code class="Python">#module that talks to the C code
+import addList
+
+l = [1,2,3,4,5]
+print &quot;Sum of List - &quot; + str(l) + &quot; = &quot; +  str(addList.add(l))
+</code></pre>
+
+<p>输出结果如下</p>
+<pre><code>Sum of List - [1, 2, 3, 4, 5] = 15
+
+</code></pre>
+
+<p>如你所见，我们已经使用Python.h API成功开发出了我们第一个Python C扩展。这种方法看似复杂，但你一旦习惯，它将变的非常有效。</p>
+<p>Python调用C代码的另一种方式便是使用<a href="http://cython.org/">Cython</a>让Python编译的更快。但是Cython和传统的Python比起来可以将它理解为另一种语言，所以我们就不在这里过多描述了。</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../open_func/open_func/index.html" class="btn btn-neutral float-right" title="21.0 open函数">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../swig/index.html" class="btn btn-neutral" title="20.2 SWIG"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<div id="placeholder-right" style="position: fixed; top: 2px; background-color:#fff;"></div>
+
+  <div role="contentinfo">
+    <a href="http://www.pythontab.com/" target='_blank'>Python教程</a>&nbsp;
+    <a href="http://bbs.pythontab.com/" target='_blank'>Python论坛</a>&nbsp;
+    <a href="../../../index.html" target='_blank'>在线手册中心</a>&nbsp;
+    
+      &copy;版权所有: eastlakeside
+    
+	&nbsp;联系方式:market@pythontab.com
+  </div>
+	
+</footer>
+<script>
+var _hmt = _hmt || [];
+(function() {
+   var hm = document.createElement("script");
+     hm.src = "http://hm.baidu.com/hm.js?141f4ed9eb11f462fa19fdd960639134";
+	   var s = document.getElementsByTagName("script")[0]; 
+	     s.parentNode.insertBefore(hm, s);
+		 })();
+	function trackme(trackName){
+        _hmt.push(['_trackEvent', 'track-' + trackName, 'click']);
+    }
+</script>
+<script type="text/javascript" src="http://www.pythontab.com/statics/js/coop/docs_content_wrap.js"></script>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../swig/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../open_func/open_func/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+
+<!-- Mirrored from docs.pythontab.com/interpy/c_extensions/python_c_api/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:50:13 GMT -->
+</html>
