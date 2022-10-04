@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/sandbox.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>沙箱 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">沙箱</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-jinja2.sandbox">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">运算符拦截</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>沙箱</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>沙箱<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Jinja2 沙箱用于为不信任的代码求值。访问不安全的属性和方法是被禁止的。</p>
+<p>假定在默认配置中 <cite>env</cite> 是一个 <code class="xref py py-class docutils literal"><span class="pre">SandboxedEnvironment</span></code> 实例，下面的代码展示
+了它如何工作:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s">&quot;{{ func.func_code }}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="bp">None</span><span class="p">)</span>
+<span class="go">u&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="s">&quot;{{ func.func_code.do_something }}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span><span class="bp">None</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">SecurityError</span>: <span class="n">access to attribute &#39;func_code&#39; of &#39;function&#39; object is unsafe.</span>
+</pre></div>
+</div>
+<div class="section" id="module-jinja2.sandbox">
+<span id="api"></span><h2>API<a class="headerlink" href="#module-jinja2.sandbox" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="jinja2.sandbox.SandboxedEnvironment">
+<em class="property">class </em><code class="descclassname">jinja2.sandbox.</code><code class="descname">SandboxedEnvironment</code><span class="sig-paren">(</span><span class="optional">[</span><em>options</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sandboxed environment.  It works like the regular environment but
+tells the compiler to generate sandboxed code.  Additionally subclasses of
+this environment may override the methods that tell the runtime what
+attributes or functions are safe to access.</p>
+<p>If the template tries to access insecure code a <a class="reference internal" href="#jinja2.sandbox.SecurityError" title="jinja2.sandbox.SecurityError"><code class="xref py py-exc docutils literal"><span class="pre">SecurityError</span></code></a> is
+raised.  However also other exceptions may occour during the rendering so
+the caller has to ensure that all exceptions are catched.</p>
+<dl class="method">
+<dt id="jinja2.sandbox.SandboxedEnvironment.call_binop">
+<code class="descname">call_binop</code><span class="sig-paren">(</span><em>context</em>, <em>operator</em>, <em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.call_binop" title="Permalink to this definition">¶</a></dt>
+<dd><p>For intercepted binary operator calls (<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.intercepted_binops" title="jinja2.sandbox.SandboxedEnvironment.intercepted_binops"><code class="xref py py-meth docutils literal"><span class="pre">intercepted_binops()</span></code></a>)
+this function is executed instead of the builtin operator.  This can
+be used to fine tune the behavior of certain operators.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.sandbox.SandboxedEnvironment.call_unop">
+<code class="descname">call_unop</code><span class="sig-paren">(</span><em>context</em>, <em>operator</em>, <em>arg</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.call_unop" title="Permalink to this definition">¶</a></dt>
+<dd><p>For intercepted unary operator calls (<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.intercepted_unops" title="jinja2.sandbox.SandboxedEnvironment.intercepted_unops"><code class="xref py py-meth docutils literal"><span class="pre">intercepted_unops()</span></code></a>)
+this function is executed instead of the builtin operator.  This can
+be used to fine tune the behavior of certain operators.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.sandbox.SandboxedEnvironment.default_binop_table">
+<code class="descname">default_binop_table</code><em class="property"> = {'//': &lt;built-in function floordiv&gt;, '%': &lt;built-in function mod&gt;, '+': &lt;built-in function add&gt;, '*': &lt;built-in function mul&gt;, '-': &lt;built-in function sub&gt;, '/': &lt;built-in function truediv&gt;, '**': &lt;built-in function pow&gt;}</em><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.default_binop_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>default callback table for the binary operators.  A copy of this is
+available on each instance of a sandboxed environment as
+<code class="xref py py-attr docutils literal"><span class="pre">binop_table</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.sandbox.SandboxedEnvironment.default_unop_table">
+<code class="descname">default_unop_table</code><em class="property"> = {'+': &lt;built-in function pos&gt;, '-': &lt;built-in function neg&gt;}</em><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.default_unop_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>default callback table for the unary operators.  A copy of this is
+available on each instance of a sandboxed environment as
+<code class="xref py py-attr docutils literal"><span class="pre">unop_table</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.sandbox.SandboxedEnvironment.intercepted_binops">
+<code class="descname">intercepted_binops</code><em class="property"> = frozenset([])</em><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.intercepted_binops" title="Permalink to this definition">¶</a></dt>
+<dd><p>a set of binary operators that should be intercepted.  Each operator
+that is added to this set (empty by default) is delegated to the
+<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.call_binop" title="jinja2.sandbox.SandboxedEnvironment.call_binop"><code class="xref py py-meth docutils literal"><span class="pre">call_binop()</span></code></a> method that will perform the operator.  The default
+operator callback is specified by <code class="xref py py-attr docutils literal"><span class="pre">binop_table</span></code>.</p>
+<p>The following binary operators are interceptable:
+<code class="docutils literal"><span class="pre">//</span></code>, <code class="docutils literal"><span class="pre">%</span></code>, <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">/</span></code>, and <code class="docutils literal"><span class="pre">**</span></code></p>
+<p>The default operation form the operator table corresponds to the
+builtin function.  Intercepted calls are always slower than the native
+operator call, so make sure only to intercept the ones you are
+interested in.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.sandbox.SandboxedEnvironment.intercepted_unops">
+<code class="descname">intercepted_unops</code><em class="property"> = frozenset([])</em><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.intercepted_unops" title="Permalink to this definition">¶</a></dt>
+<dd><p>a set of unary operators that should be intercepted.  Each operator
+that is added to this set (empty by default) is delegated to the
+<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.call_unop" title="jinja2.sandbox.SandboxedEnvironment.call_unop"><code class="xref py py-meth docutils literal"><span class="pre">call_unop()</span></code></a> method that will perform the operator.  The default
+operator callback is specified by <code class="xref py py-attr docutils literal"><span class="pre">unop_table</span></code>.</p>
+<p>The following unary operators are interceptable: <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">-</span></code></p>
+<p>The default operation form the operator table corresponds to the
+builtin function.  Intercepted calls are always slower than the native
+operator call, so make sure only to intercept the ones you are
+interested in.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.sandbox.SandboxedEnvironment.is_safe_attribute">
+<code class="descname">is_safe_attribute</code><span class="sig-paren">(</span><em>obj</em>, <em>attr</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.is_safe_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sandboxed environment will call this method to check if the
+attribute of an object is safe to access.  Per default all attributes
+starting with an underscore are considered private as well as the
+special attributes of internal python objects as returned by the
+<a class="reference internal" href="#jinja2.sandbox.is_internal_attribute" title="jinja2.sandbox.is_internal_attribute"><code class="xref py py-func docutils literal"><span class="pre">is_internal_attribute()</span></code></a> function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.sandbox.SandboxedEnvironment.is_safe_callable">
+<code class="descname">is_safe_callable</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SandboxedEnvironment.is_safe_callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object is safely callable.  Per default a function is
+considered safe unless the <cite>unsafe_callable</cite> attribute exists and is
+True.  Override this method to alter the behavior, but this won&#8217;t
+affect the <cite>unsafe</cite> decorator from this module.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.sandbox.ImmutableSandboxedEnvironment">
+<em class="property">class </em><code class="descclassname">jinja2.sandbox.</code><code class="descname">ImmutableSandboxedEnvironment</code><span class="sig-paren">(</span><span class="optional">[</span><em>options</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.ImmutableSandboxedEnvironment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Works exactly like the regular <cite>SandboxedEnvironment</cite> but does not
+permit modifications on the builtin mutable objects <cite>list</cite>, <cite>set</cite>, and
+<cite>dict</cite> by using the <a class="reference internal" href="#jinja2.sandbox.modifies_known_mutable" title="jinja2.sandbox.modifies_known_mutable"><code class="xref py py-func docutils literal"><span class="pre">modifies_known_mutable()</span></code></a> function.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="jinja2.sandbox.SecurityError">
+<em class="property">exception </em><code class="descclassname">jinja2.sandbox.</code><code class="descname">SecurityError</code><span class="sig-paren">(</span><em>message=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.SecurityError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised if a template tries to do something insecure if the
+sandbox is enabled.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="jinja2.sandbox.unsafe">
+<code class="descclassname">jinja2.sandbox.</code><code class="descname">unsafe</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.unsafe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks a function or method as unsafe.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@unsafe</span>
+<span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="jinja2.sandbox.is_internal_attribute">
+<code class="descclassname">jinja2.sandbox.</code><code class="descname">is_internal_attribute</code><span class="sig-paren">(</span><em>obj</em>, <em>attr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.is_internal_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test if the attribute given is an internal python attribute.  For
+example this function returns <cite>True</cite> for the <cite>func_code</cite> attribute of
+python objects.  This is useful if the environment method
+<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.is_safe_attribute" title="jinja2.sandbox.SandboxedEnvironment.is_safe_attribute"><code class="xref py py-meth docutils literal"><span class="pre">is_safe_attribute()</span></code></a> is overridden.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">jinja2.sandbox</span> <span class="kn">import</span> <span class="n">is_internal_attribute</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_internal_attribute</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">&quot;mro&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_internal_attribute</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="s">&quot;upper&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="jinja2.sandbox.modifies_known_mutable">
+<code class="descclassname">jinja2.sandbox.</code><code class="descname">modifies_known_mutable</code><span class="sig-paren">(</span><em>obj</em>, <em>attr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.sandbox.modifies_known_mutable" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function checks if an attribute on a builtin mutable object
+(list, dict, set or deque) would modify it if called.  It also supports
+the &#8220;user&#8221;-versions of the objects (<cite>sets.Set</cite>, <cite>UserDict.*</cite> etc.) and
+with Python 2.6 onwards the abstract base classes <cite>MutableSet</cite>,
+<cite>MutableMapping</cite>, and <cite>MutableSequence</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">modifies_known_mutable</span><span class="p">({},</span> <span class="s">&quot;clear&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modifies_known_mutable</span><span class="p">({},</span> <span class="s">&quot;keys&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modifies_known_mutable</span><span class="p">([],</span> <span class="s">&quot;append&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">modifies_known_mutable</span><span class="p">([],</span> <span class="s">&quot;index&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>If called with an unsupported object (such as unicode) <cite>False</cite> is
+returned.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">modifies_known_mutable</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;upper&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p>Jinja2 沙箱自己并没有彻底解决安全问题。特别是对 web 应用，你必须晓得用户
+可能用任意 HTML 来创建模板，所以保证他们不通过注入 JavaScript 或其它更多
+方法来互相损害至关重要（如果你在同一个服务
+器上运行多用户）。</p>
+<p>同样，沙箱的好处取决于配置。我们强烈建议只向模板传递非共享资源，并
+且使用某种属性白名单。</p>
+<p class="last">也请记住，模板会抛出运行时或编译期错误，确保捕获它们。</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>运算符拦截<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+<p>为了性能最大化， Jinja2 会让运算符直接条用类型特定的回调方法。这意味着，
+通过重载 <code class="xref py py-meth docutils literal"><span class="pre">Environment.call()</span></code> 来拦截是不可能的。此外，由于运算符的工作
+方式，把运算符转换为特殊方法不总是直接可行的。比如为了分类，至少一个特殊
+方法存在。</p>
+<p>在 Jinja 2.6 中，开始支持显式的运算符拦截。必要时也可以用于自定义的特定
+运算符。为了拦截运算符，需要覆写
+<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.intercepted_binops" title="jinja2.sandbox.SandboxedEnvironment.intercepted_binops"><code class="xref py py-attr docutils literal"><span class="pre">SandboxedEnvironment.intercepted_binops</span></code></a> 属性。当需要拦截的运算符
+被添加到这个集合， Jinja2 会生成调用
+<a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.call_binop" title="jinja2.sandbox.SandboxedEnvironment.call_binop"><code class="xref py py-meth docutils literal"><span class="pre">SandboxedEnvironment.call_binop()</span></code></a> 函数的字节码。对于一元运算符，
+必须替代地使用 <cite>unary</cite> 属性和方法。</p>
+<p><a class="reference internal" href="#jinja2.sandbox.SandboxedEnvironment.call_binop" title="jinja2.sandbox.SandboxedEnvironment.call_binop"><code class="xref py py-attr docutils literal"><span class="pre">SandboxedEnvironment.call_binop</span></code></a> 的默认实现会使用
+<code class="xref py py-attr docutils literal"><span class="pre">SandboxedEnvironment.binop_table</span></code> 来把运算符标号翻译成执行默认
+运算符行为的回调。</p>
+<p>这个例子展示了幂（ <code class="docutils literal"><span class="pre">**</span></code> ）操作符可以在 Jinja2 中禁用:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">jinja2.sandbox</span> <span class="kn">import</span> <span class="n">SandboxedEnvironment</span>
+
+
+<span class="k">class</span> <span class="nc">MyEnvironment</span><span class="p">(</span><span class="n">SandboxedEnvironment</span><span class="p">):</span>
+    <span class="n">intercepted_binops</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s">&#39;**&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">call_binop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s">&#39;**&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">undefined</span><span class="p">(</span><span class="s">&#39;the power operator is unavailable&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SandboxedEnvironment</span><span class="o">.</span><span class="n">call_binop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span>
+                                               <span class="n">operator</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>确保始终调入 super 方法，即使你不拦截这个调用。 Jinja2 内部会调用
+这个方法来对表达式求值。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="templates.html" class="btn btn-neutral float-right" title="模板设计者文档" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/sandbox.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>

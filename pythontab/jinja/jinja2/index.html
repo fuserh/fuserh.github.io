@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:42:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>欢迎来到 Jinja2 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>欢迎来到 Jinja2</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="jinja2">
+<h1>欢迎来到 Jinja2<a class="headerlink" href="#jinja2" title="Permalink to this headline">¶</a></h1>
+<p>Jinja2 是一个现代的，设计者友好的，仿照 Django 模板的 Python 模板语言。
+它速度快，被广泛使用，并且提供了可选的沙箱模板执行环境保证安全:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">user.url</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p><strong>特性:</strong></p>
+<ul class="simple">
+<li>沙箱中执行</li>
+<li>强大的 HTML 自动转义系统保护系统免受 XSS</li>
+<li>模板继承</li>
+<li>及时编译最优的 python 代码</li>
+<li>可选提前编译模板的时间</li>
+<li>易于调试。异常的行数直接指向模板中的对应行。</li>
+<li>可配置的语法</li>
+</ul>
+<div class="section" id="id1">
+<h2>Jinja2 文档<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#id2">预备知识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#id3">安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#api">基本 API 使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#python-3">实验性的 Python 3 支持</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#unicode">Unicode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id2">高层 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id3">自动转义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#identifier-naming">标识符的说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id5">未定义类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id6">上下文</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loaders">加载器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#bytecode-cache">字节码缓存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id9">实用工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id10">异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-filters">自定义过滤器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#eval-context">求值上下文</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-tests">自定义测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#global-namespace">全局命名空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#low-level-api">低层 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id16">元 API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#module-jinja2.sandbox">API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sandbox.html#id2">运算符拦截</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#variables">变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#filters">过滤器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#tests">测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id6">注释</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id7">空白控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id8">转义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#line-statements">行语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#template-inheritance">模板继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#html">HTML 转义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id18">控制结构清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#import-visibility">导入上下文行为</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#expressions">表达式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#builtin-filters">内置过滤器清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#builtin-tests">内置测试清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#builtin-globals">全局函数清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#id38">扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html#autoescape-overrides">自动转义扩展</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#id2">添加扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#i18n">i18n 扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#id5">表达式语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#loopcontrols-extension">循环控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#with">With 语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#autoescape-extension">自动转义扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions.html#module-jinja2.ext">编写扩展</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#babel">Babel 集成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#pylons">Pylons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#textmate">TextMate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#vim">Vim</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="switching.html#jinja1">Jinja1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="switching.html#django">Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="switching.html#mako">Mako</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tricks.html#null-master">Null-Master 退回</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tricks.html#id2">交替的行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tricks.html#id3">高亮活动菜单项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tricks.html#accessing-the-parent-loop">访问父级循环</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>额外信息<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#jinja">为什么叫做 Jinja ？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id2">它有多快？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#jinja2-django">Jinja2 与 Django 兼容性如何？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id3">把逻辑放在模板里是不是个可怕的主意？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id4">为什么自动转义不默认开启？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id5">为什么上下文是不可修改的？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id6">加速模块是什么和为什么缺失它？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id7">我的回溯看起来很怪异。发生了什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#python-2-3">为什么没有 Python 2.3 支持？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#id8">我的宏被什么东西给覆盖了</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-7">Version 2.7</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-6">Version 2.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5-5">Version 2.5.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5-4">Version 2.5.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5-3">Version 2.5.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5-2">Version 2.5.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5-1">Version 2.5.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-5">Version 2.5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-4-1">Version 2.4.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-4">Version 2.4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-3-1">Version 2.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-3">Version 2.3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-2-1">Version 2.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-2">Version 2.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-1-1">Version 2.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-1">Version 2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-0">Version 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-2-0rc1">Version 2.0rc1</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>如果你找不到你想要的信息，请查看索引或尝试用搜索功能搜寻:</p>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="intro.html" class="btn btn-neutral float-right" title="介绍" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:42:23 GMT -->
+</html>

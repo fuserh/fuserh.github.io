@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/switching.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>从其它的模板引擎切换 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">从其它的模板引擎切换</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jinja1">Jinja1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">模板</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#django">Django</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">方法调用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">条件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">过滤器参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">测试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">循环</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">周期计</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mako">Mako</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>从其它的模板引擎切换</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>从其它的模板引擎切换<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>如果你过去使用一个不同的模板引擎，并且想要转换到 Jinja2 ，这里是一份简小的
+指导展示了一些常见的、相似的 Python 文本模板引擎基本语法和语义差异。</p>
+<div class="section" id="jinja1">
+<h2>Jinja1<a class="headerlink" href="#jinja1" title="Permalink to this headline">¶</a></h2>
+<p>Jinja2 与 Jinja1 在 API 使用和模板语法上最为兼容。下面的列表解释了 Jinja1 和
+Jinja2 的区别。</p>
+<div class="section" id="api">
+<h3>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>加载器</dt>
+<dd>Jinja2 使用不同的加载器 API 。因为模板的内部表示更改，不再支持 memcached
+这样的外部缓存系统。模板的内存开销与常规的 Python 模块相当，外部缓存不能
+带来优势。如果你以前使用了一个自定义的加载器，请阅读
+<a class="reference internal" href="api.html#loaders"><span>loader API</span></a> 部分。</dd>
+<dt>从字符串加载模板</dt>
+<dd>在过去，在默认环境配置中使用 <cite>jinja.from_string</cite> 从字符串生成模板是可能
+的。 Jinja2 提供了一个 <code class="xref py py-class docutils literal"><span class="pre">Template</span></code> 类来用于做同样的事情，但是需要
+可选的额外配置。</dd>
+<dt>自动 Unicode 转换</dt>
+<dd>Jinja1 执行把字节串从一个给定编码到 unicode 对象的自动转换。这个转换不再
+被实现，因为它与大多数使用常规 Python ASCII 字节串到 Unicode 转换的库不
+一致。一个由 Jinja2 驱动的应用 <em>必须</em> 在内部的每个地方都使用 unicode 或
+确保 Jinja2 只会被传递 unicode 字符串。</dd>
+<dt>i18n</dt>
+<dd>Jinja1 使用自定义的国际化翻译器。 i18n 现在作为 Jinja2 的一个扩展，并且
+使用更简单、更 gettext 友好的接口，并且支持 babel 。更多细节见
+<a class="reference internal" href="extensions.html#i18n-extension"><span>i18n 扩展</span></a> 。</dd>
+<dt>内部方法</dt>
+<dd>Jinja1 在环境对象上暴露了诸如 <cite>call_function</cite> 、 <cite>get_attribute</cite> 等内部
+方法。当它们被标记为一个内部方法，则可以覆盖它们。 Jinja2 并没有等价的
+方法。</dd>
+<dt>沙箱</dt>
+<dd>Jinja1 默认运行沙箱模式。实际上只有少数应用使用这一特性，所以这在
+Jinja2 中是可选的。更多关于上下执行的细节见
+<code class="xref py py-class docutils literal"><span class="pre">SandboxedEnvironment</span></code> 。</dd>
+<dt>上下文</dt>
+<dd>Jinja1 有一个上下文栈存储传递到环境的变量。在 Jinja2 中有一个类似的
+对象，但它不允许修改也不是单例的。由于继承是动态的，现在当模板求值时
+可能存在多个上下文对象。</dd>
+<dt>过滤器和测试</dt>
+<dd>过滤器和测试现在是常规的函数。不再允许使用工厂函数，且也没有必要。</dd>
+</dl>
+</div>
+<div class="section" id="id2">
+<h3>模板<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Jinja2 与 Jinja1 的语法几乎相同。区别是，现在宏需要用小括号包裹参数。</p>
+<p>此外， Jinja2 允许动态继承和动态包含。老的辅助函数 <cite>rendertemplate</cite> 作古，
+而使用 <cite>include</cite> 。包含不再导入宏和变量声明，因为采用了新的 <cite>import</cite> 标签。
+这个概念在 <a class="reference internal" href="templates.html#import"><span>导入</span></a> 文档中做了解释。</p>
+<p>另一个改变发生在 <cite>for</cite> 标签里。特殊的循环变量不再拥有 <cite>parent</cite> 属性，而
+你需要自己给循环起别名。见 <a class="reference internal" href="tricks.html#accessing-the-parent-loop"><span>访问父级循环</span></a> 了解更多细节。</p>
+</div>
+</div>
+<div class="section" id="django">
+<h2>Django<a class="headerlink" href="#django" title="Permalink to this headline">¶</a></h2>
+<p>如果你之前使用 Django 模板，你应该会发现跟 Jinja2 非常相似。实际上，
+很多的语法元素看起来相同，工作也相同。</p>
+<p>尽管如此， Jinja2 提供了更多的在之前文档中描述的语法元素，并且某些
+工作会有一点不一样。</p>
+<p>本节介绍了模板差异。由于 API 是从根本上不同，我们不会再这里赘述。</p>
+<div class="section" id="id3">
+<h3>方法调用<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>在 Django 中，方法调用是隐式的。在 Jinja2 中，你必须指定你要调用一个对象。如
+此，这段 Django 代码:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">page</span> <span class="k">in</span> <span class="nv">user.get_created_pages</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>在 Jinja 中应该是这样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">page</span> <span class="k">in</span> <span class="nv">user.get_created_pages</span><span class="o">()</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这允许你给函数传递变量，且宏也使用这种方式，而这在 Django 中是不可能的。</p>
+</div>
+<div class="section" id="id4">
+<h3>条件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>在 Django 中你可以使用下面的结构来判断是否相等:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">ifequal</span> <span class="nv">foo</span> <span class="s2">&quot;bar&quot;</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endifequal</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>在 Jinja2 中你可以像通常一样使用 if 语句和操作符来做比较:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">foo</span> <span class="o">==</span> <span class="s1">&#39;bar&#39;</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>你也可以在模板中使用多个 elif 分支:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">something</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">elif</span> <span class="nv">otherthing</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">elif</span> <span class="nv">foothing</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>过滤器参数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Jinja2 为过滤器提供不止一个参数。参数传递的语法也是不同的。一个这样的
+Django 模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">items</span><span class="o">|</span><span class="nf">join</span><span class="s2">:&quot;, &quot;</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>在 Jinja2 中是这样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">items</span><span class="o">|</span><span class="nf">join</span><span class="o">(</span><span class="s1">&#39;, &#39;</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>实际上这有点冗赘，但它允许不同类型的参数——包括变量——且不仅是一种。</p>
+</div>
+<div class="section" id="id6">
+<h3>测试<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>除过滤器外，同样有用 is 操作符运行的测试。这里是一些例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">user.user_id</span> <span class="k">is</span> <span class="nf">odd</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span> is odd
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    hmm. <span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span> looks pretty normal
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>循环<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>因为循环与 Django 中的十分相似，仅有的不兼容是 Jinja2 中循环上下文的特殊变
+量名为 <cite>loop</cite> 而不是 Django 中的 <cite>forloop</cite> 。</p>
+</div>
+<div class="section" id="id8">
+<h3>周期计<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>Jinja 中没有 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">cycle</span> <span class="pre">%}</span></code> 标签，因为它是隐式的性质。而你可以用循环对象
+的 <cite>cycle</cite> 方法实现几乎相同的东西。</p>
+<p>下面的 Django 模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">cycle</span> <span class="s1">&#39;odd&#39;</span> <span class="s1">&#39;even&#39;</span> <span class="cp">%}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Jinja 中看起来是这样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.cycle</span><span class="o">(</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>没有与 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">cycle</span> <span class="pre">...</span> <span class="pre">as</span> <span class="pre">variable</span> <span class="pre">%}</span></code> 等价的。</p>
+</div>
+</div>
+<div class="section" id="mako">
+<h2>Mako<a class="headerlink" href="#mako" title="Permalink to this headline">¶</a></h2>
+<p>如果你迄今使用 Mako 并且想要转换到 Jinja2 ，你可以把 Jinja2 配置成 Mako 一
+样:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="s">&#39;&lt;%&#39;</span><span class="p">,</span> <span class="s">&#39;%&gt;&#39;</span><span class="p">,</span> <span class="s">&#39;${&#39;</span><span class="p">,</span> <span class="s">&#39;}&#39;</span><span class="p">,</span> <span class="s">&#39;%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>环境配置成这样后， Jinja2 应该可以解释一个 Mako 模板的小型子集。 Jinja2 不支持
+嵌入 Python 代码，所以你可能需要把它们移出模板。 def 的语法（在 Jinja2 中 def
+被叫做宏）并且模板继承也是不同的。下面的 Mako 模板:</p>
+<div class="highlight-html+mako"><div class="highlight"><pre><span class="cp">&lt;%</span><span class="nb">inherit</span> <span class="na">file=</span><span class="s">&quot;layout.html&quot;</span> <span class="cp">/&gt;</span>
+<span class="cp">&lt;%</span><span class="nb">def</span> <span class="na">name=</span><span class="s">&quot;title()&quot;</span><span class="cp">&gt;</span>Page Title<span class="cp">&lt;/%</span><span class="nb">def</span><span class="cp">&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">${</span><span class="n">item</span><span class="cp">}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">%</span><span class="k"> endfor</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>在以上配置的 Jinja2 中看起来是这样:</p>
+<div class="highlight-html+mako"><div class="highlight"><pre><span class="cp">&lt;%</span> <span class="n">extends</span> <span class="s">&quot;layout.html&quot;</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">block</span> <span class="n">title</span> <span class="cp">%&gt;</span>Page Title<span class="cp">&lt;%</span> <span class="n">endblock</span> <span class="cp">%&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">block</span> <span class="n">body</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">%</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">${</span><span class="n">item</span><span class="cp">}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">%</span><span class="k"> endfor</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;%</span> <span class="n">endblock</span> <span class="cp">%&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tricks.html" class="btn btn-neutral float-right" title="提示和技巧" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="integration.html" class="btn btn-neutral" title="集成" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/switching.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>

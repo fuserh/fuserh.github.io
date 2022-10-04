@@ -1,0 +1,1828 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>扩展 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">扩展</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">添加扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i18n">i18n 扩展</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">环境方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#newstyle-gettext">新样式 Gettext</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">表达式语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loopcontrols-extension">循环控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#with">With 语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#autoescape-extension">自动转义扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-jinja2.ext">编写扩展</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">示例扩展</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">扩展 API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">解析器 API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ast">AST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>扩展</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="jinja-extensions">
+<span id="id1"></span><h1>扩展<a class="headerlink" href="#jinja-extensions" title="Permalink to this headline">¶</a></h1>
+<p>Jinja2 支持扩展来添加过滤器、测试、全局变量或者甚至是处理器。扩展的主要动力是
+把诸如添加国际化支持的常用代码迁移到一个可重用的类。</p>
+<div class="section" id="id2">
+<h2>添加扩展<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>扩展在 Jinja2 环境创建时被添加。一旦环境被创建，就不能添加额外的扩展。要添加
+一个扩展，传递一个扩展类或导入路径的列表到 <code class="xref py py-class docutils literal"><span class="pre">Environment</span></code> 构造函数的
+<cite>environment</cite> 参数。下面的例子创建了一个加载了 i18n 扩展的 Jinja2 环境:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">jinja_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;jinja2.ext.i18n&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="i18n">
+<span id="i18n-extension"></span><h2>i18n 扩展<a class="headerlink" href="#i18n" title="Permalink to this headline">¶</a></h2>
+<p><strong>Import name:</strong> <cite>jinja2.ext.i18n</cite></p>
+<p>Jinja2 当前只附带一个扩展，就是 i18n 扩展。它可以与 <a class="reference external" href="http://docs.python.org/dev/library/gettext">gettext</a> 或 <a class="reference external" href="http://babel.edgewall.org/">babel</a>
+联合使用。如果启用了 i18n 扩展， Jinja2 提供了 <cite>trans</cite> 语句来标记被其包裹的
+字符串为可翻译的，并调用 <cite>gettext</cite> 。</p>
+<p>在启用虚拟的 <cite>_</cite> 函数后，之后的 <cite>gettext</cite> 调用会被添加到环境的全局变量。那么
+一个国际化的应用应该不仅在全局，以及在每次渲染中在命名空间中提供至少一个
+<cite>gettext</cite>  或可选的 <cite>ngettext</cite> 函数。</p>
+<div class="section" id="id3">
+<h3>环境方法<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>在启用这个扩展后，环境提供下面的额外方法:</p>
+<dl class="method">
+<dt id="jinja2.Environment.install_gettext_translations">
+<code class="descclassname">jinja2.Environment.</code><code class="descname">install_gettext_translations</code><span class="sig-paren">(</span><em>translations</em>, <em>newstyle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.Environment.install_gettext_translations" title="Permalink to this definition">¶</a></dt>
+<dd><p>在该环境中全局安装翻译。提供的翻译对象要至少实现 <cite>uggettext</cite> 和
+<cite>ungettext</cite> 。 <cite>gettext.NullTranslations</cite> 和 <cite>gettext.GNUTranslations</cite>
+类和 <a class="reference external" href="http://babel.edgewall.org/">Babel</a>&#8216;s 的 <cite>Translations</cite> 类也被支持。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.5: </span>添加了新样式的 gettext</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.Environment.install_null_translations">
+<code class="descclassname">jinja2.Environment.</code><code class="descname">install_null_translations</code><span class="sig-paren">(</span><em>newstyle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.Environment.install_null_translations" title="Permalink to this definition">¶</a></dt>
+<dd><p>安装虚拟的 gettext 函数。这在你想使应用为国际化做准备但还不想实现完整的
+国际化系统时很有用。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.5: </span>添加了新样式的 gettext</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.Environment.install_gettext_callables">
+<code class="descclassname">jinja2.Environment.</code><code class="descname">install_gettext_callables</code><span class="sig-paren">(</span><em>gettext</em>, <em>ngettext</em>, <em>newstyle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.Environment.install_gettext_callables" title="Permalink to this definition">¶</a></dt>
+<dd><p>在环境中把给出的 <cite>gettext</cite> 和 <cite>ngettext</cite> 可调用量安装为全局变量。它们
+应该表现得几乎与标准库中的 <code class="xref py py-func docutils literal"><span class="pre">gettext.ugettext()</span></code> 和
+<code class="xref py py-func docutils literal"><span class="pre">gettext.ungettext()</span></code> 函数相同。</p>
+<p>如果激活了 <cite>新样式</cite> ，可调用量被包装为新样式的可调用量一样工作。更多
+信息见 <a class="reference internal" href="#newstyle-gettext"><span>新样式 Gettext</span></a> 。</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.5.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.Environment.uninstall_gettext_translations">
+<code class="descclassname">jinja2.Environment.</code><code class="descname">uninstall_gettext_translations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.Environment.uninstall_gettext_translations" title="Permalink to this definition">¶</a></dt>
+<dd><p>再次卸载翻译。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.Environment.extract_translations">
+<code class="descclassname">jinja2.Environment.</code><code class="descname">extract_translations</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.Environment.extract_translations" title="Permalink to this definition">¶</a></dt>
+<dd><p>从给定的模板或源中提取本地化字符串。</p>
+<p>对找到的每一个字符串，这个函数生产一个 <code class="docutils literal"><span class="pre">(lineno,</span> <span class="pre">function,</span> <span class="pre">message</span>
+<span class="pre">)</span></code> 元组，在这里:</p>
+<ul class="simple">
+<li><cite>lineno</cite> 是这个字符串所在行的行号。</li>
+<li><cite>function</cite> 是 <cite>gettext</cite> 函数使用的名称（如果字符串是从内嵌的 Python
+代码中抽取的）。</li>
+<li><cite>message</cite> 是字符串本身（一个 <cite>unicode</cite> 对象，在函数有多个字符串参数
+时是一个 <cite>unicode</cite> 对象的元组）。</li>
+</ul>
+<p>如果安装了 <a class="reference external" href="http://babel.edgewall.org/">Babel</a> ， <a class="reference internal" href="integration.html#babel-integration"><span>Babel 集成</span></a> 可以用来为
+babel 抽取字符串。</p>
+</dd></dl>
+
+<p>对于一个对多种语言可用而对所有用户给出同一种的语言的 web 应用（例如一个法国社
+区安全了一个多种语言的论坛软件）可能会一次性加载翻译并且在环境生成时把翻译方
+法添加到环境上:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">translations</span> <span class="o">=</span> <span class="n">get_gettext_translations</span><span class="p">()</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;jinja2.ext.i18n&#39;</span><span class="p">])</span>
+<span class="n">env</span><span class="o">.</span><span class="n">install_gettext_translations</span><span class="p">(</span><span class="n">translations</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>get_get_translations</cite> 函数会返回当前配置的翻译器。（比如使用 <cite>gettext.find</cite>
+）</p>
+<p>模板设计者的 <cite>i18n</cite> 扩展使用在 <a class="reference internal" href="templates.html#i18n-in-templates"><span>模板文档</span></a> 中有描述。</p>
+</div>
+<div class="section" id="newstyle-gettext">
+<span id="id4"></span><h3>新样式 Gettext<a class="headerlink" href="#newstyle-gettext" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.5.</span></p>
+</div>
+<p>从版本 2.5 开始你可以使用新样式的 gettext 调用。这些的启发源于 trac 的内部
+gettext 函数并且完全被 babel 抽取工具支持。如果你不使用 Babel 的抽取工具，
+它可能不会像其它抽取工具预期的那样工作。</p>
+<p>标准 gettext 调用和新样式的 gettext 调用有什么区别？通常，它们要输入的东西
+更少，出错率更低。并且如果在自动转义环境中使用它们，它们也能更好地支持自动
+转义。这里是一些新老样式调用的差异:</p>
+<p>标准 gettext:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello %(name)s!&#39;</span><span class="o">)|</span><span class="nf">format</span><span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;World&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">ngettext</span><span class="o">(</span><span class="s1">&#39;%(num)d apple&#39;</span><span class="o">,</span> <span class="s1">&#39;%(num)d apples&#39;</span><span class="o">,</span> <span class="nv">apples</span><span class="o">|</span><span class="nf">count</span><span class="o">)|</span><span class="nf">format</span><span class="o">(</span>
+    <span class="nv">num</span><span class="o">=</span><span class="nv">apples</span><span class="o">|</span><span class="nf">count</span>
+<span class="o">)</span><span class="cp">}}</span>
+</pre></div>
+</div>
+<p>新样式看起来是这样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello %(name)s!&#39;</span><span class="o">,</span> <span class="nv">name</span><span class="o">=</span><span class="s1">&#39;World&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">ngettext</span><span class="o">(</span><span class="s1">&#39;%(num)d apple&#39;</span><span class="o">,</span> <span class="s1">&#39;%(num)d apples&#39;</span><span class="o">,</span> <span class="nv">apples</span><span class="o">|</span><span class="nf">count</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>新样式 gettext 的优势是你需要输入的更少，并且命名占位符是强制的。后者看起
+来似乎是缺陷，但解决了当翻译者不能切换两个占位符的位置时经常勉励的一大堆
+麻烦。使用新样式的 gettext ，所有的格式化字符串看起来都一样。</p>
+<p>除此之外，在新样式 gettext 中，如果没有使用占位符，字符串格式化也会被使用，
+这使得所有的字符串表现一致。最后，不仅是新样式的 gettext 调用可以妥善地为
+解决了许多转义相关问题的自动转义标记字符串，许多模板也在使用自动转义时体验
+了多次。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>表达式语句<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p><strong>Import name:</strong> <cite>jinja2.ext.do</cite></p>
+<p>“do”又叫做表达式语句扩展，向模板引擎添加了一个简单的 <cite>do</cite> 标签，其工作如同
+一个变量表达式，只是忽略返回值。</p>
+</div>
+<div class="section" id="loopcontrols-extension">
+<span id="id6"></span><h2>循环控制<a class="headerlink" href="#loopcontrols-extension" title="Permalink to this headline">¶</a></h2>
+<p><strong>Import name:</strong> <cite>jinja2.ext.loopcontrols</cite></p>
+<p>这个扩展添加了循环中的 <cite>break</cite> 和 <cite>continue</cite> 支持。在启用它之后， Jinja2
+提供的这两个关键字如同 Python 中那样工作。</p>
+</div>
+<div class="section" id="with">
+<span id="with-extension"></span><h2>With 语句<a class="headerlink" href="#with" title="Permalink to this headline">¶</a></h2>
+<p><strong>Import name:</strong> <cite>jinja2.ext.with_</cite></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.3.</span></p>
+</div>
+<p>这个扩展添加了 with 关键字支持。使用这个关键字可以在模板中强制一块嵌套的
+作用域。变量可以在 with 语句的块头中直接声明，或直接在里面使用标准的 <cite>set</cite>
+语句。</p>
+</div>
+<div class="section" id="autoescape-extension">
+<span id="id7"></span><h2>自动转义扩展<a class="headerlink" href="#autoescape-extension" title="Permalink to this headline">¶</a></h2>
+<p><strong>Import name:</strong> <cite>jinja2.ext.autoescape</cite></p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.4.</span></p>
+</div>
+<p>自动转义扩展允许你在模板内开关自动转义特性。如果环境的
+<code class="xref py py-attr docutils literal"><span class="pre">autoescape</span></code> 设定为 <cite>False</cite> ，它可以被激活。如果是 <cite>True</cite>
+可以被关闭。这个设定的覆盖是有作用域的。</p>
+</div>
+<div class="section" id="module-jinja2.ext">
+<span id="id8"></span><span id="writing-extensions"></span><h2>编写扩展<a class="headerlink" href="#module-jinja2.ext" title="Permalink to this headline">¶</a></h2>
+<p>你可以编写扩展来向 Jinja2 中添加自定义标签。这是一个不平凡的任务，而且通常不需
+要，因为默认的标签和表达式涵盖了所有常用情况。如 i18n 扩展是一个扩展有用的好例
+子，而另一个会是碎片缓存。</p>
+<p>当你编写扩展时，你需要记住你在与 Jinja2 模板编译器一同工作，而它并不验证你传递
+到它的节点树。如果 AST 是畸形的，你会得到各种各样的编译器或运行时错误，这调试起
+来极其可怕。始终确保你在使用创建正确的节点。下面的 API 文档展示了有什么节点和如
+何使用它们。</p>
+<div class="section" id="id9">
+<h3>示例扩展<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>下面的例子用 <a class="reference external" href="http://werkzeug.pocoo.org/">Werkzeug</a> 的缓存 contrib 模块为 Jinja2 实现了一个 <cite>cache</cite> 标签:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">nodes</span>
+<span class="kn">from</span> <span class="nn">jinja2.ext</span> <span class="kn">import</span> <span class="n">Extension</span>
+
+
+<span class="k">class</span> <span class="nc">FragmentCacheExtension</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span>
+    <span class="c"># a set of names that trigger the extension.</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;cache&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FragmentCacheExtension</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">environment</span><span class="p">)</span>
+
+        <span class="c"># add the defaults to the environment</span>
+        <span class="n">environment</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">fragment_cache_prefix</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">fragment_cache</span><span class="o">=</span><span class="bp">None</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="c"># the first token is the token that started the tag.  In our case</span>
+        <span class="c"># we only listen to ``&#39;cache&#39;`` so this will be a name token with</span>
+        <span class="c"># `cache` as value.  We get the line number so that we can give</span>
+        <span class="c"># that line number to the nodes we create by hand.</span>
+        <span class="n">lineno</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">next</span><span class="p">()</span><span class="o">.</span><span class="n">lineno</span>
+
+        <span class="c"># now we parse a single expression that is used as cache key.</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_expression</span><span class="p">()]</span>
+
+        <span class="c"># if there is a comma, the user provided a timeout.  If not use</span>
+        <span class="c"># None as second parameter.</span>
+        <span class="k">if</span> <span class="n">parser</span><span class="o">.</span><span class="n">stream</span><span class="o">.</span><span class="n">skip_if</span><span class="p">(</span><span class="s">&#39;comma&#39;</span><span class="p">):</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_expression</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">Const</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+
+        <span class="c"># now we parse the body of the cache block up to `endcache` and</span>
+        <span class="c"># drop the needle (which would always be `endcache` in that case)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_statements</span><span class="p">([</span><span class="s">&#39;name:endcache&#39;</span><span class="p">],</span> <span class="n">drop_needle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c"># now return a `CallBlock` node that calls our _cache_support</span>
+        <span class="c"># helper method on this extension.</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="o">.</span><span class="n">CallBlock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="s">&#39;_cache_support&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+                               <span class="p">[],</span> <span class="p">[],</span> <span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">set_lineno</span><span class="p">(</span><span class="n">lineno</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_cache_support</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">caller</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper callback.&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">fragment_cache_prefix</span> <span class="o">+</span> <span class="n">name</span>
+
+        <span class="c"># try to load the block from the cache</span>
+        <span class="c"># if there is no fragment in the cache, render it and store</span>
+        <span class="c"># it in the cache.</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">fragment_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rv</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">caller</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">fragment_cache</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">rv</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+</pre></div>
+</div>
+<p>而这是你在环境中使用它的方式:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">werkzeug.contrib.cache</span> <span class="kn">import</span> <span class="n">SimpleCache</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">FragmentCacheExtension</span><span class="p">])</span>
+<span class="n">env</span><span class="o">.</span><span class="n">fragment_cache</span> <span class="o">=</span> <span class="n">SimpleCache</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>之后，在模板中可以标记块为可缓存的。下面的例子缓存一个边栏 300 秒:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">cache</span> <span class="s1">&#39;sidebar&#39;</span><span class="o">,</span> <span class="m">300</span> <span class="cp">%}</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+    ...
+<span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endcache</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api">
+<h3>扩展 API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h3>
+<p>扩展总是继承 <a class="reference internal" href="#jinja2.ext.Extension" title="jinja2.ext.Extension"><code class="xref py py-class docutils literal"><span class="pre">jinja2.ext.Extension</span></code></a> 类:</p>
+<dl class="class">
+<dt id="jinja2.ext.Extension">
+<em class="property">class </em><code class="descclassname">jinja2.ext.</code><code class="descname">Extension</code><span class="sig-paren">(</span><em>environment</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extensions can be used to add extra functionality to the Jinja template
+system at the parser level.  Custom extensions are bound to an environment
+but may not store environment specific data on <cite>self</cite>.  The reason for
+this is that an extension can be bound to another environment (for
+overlays) by creating a copy and reassigning the <cite>environment</cite> attribute.</p>
+<p>As extensions are created by the environment they cannot accept any
+arguments for configuration.  One may want to work around that by using
+a factory function, but that is not possible as extensions are identified
+by their import name.  The correct way to configure the extension is
+storing the configuration values on the environment.  Because this way the
+environment ends up acting as central configuration storage the
+attributes may clash which is why extensions have to ensure that the names
+they choose for configuration are not too generic.  <code class="docutils literal"><span class="pre">prefix</span></code> for example
+is a terrible name, <code class="docutils literal"><span class="pre">fragment_cache_prefix</span></code> on the other hand is a good
+name as includes the name of the extension (fragment cache).</p>
+<dl class="attribute">
+<dt id="jinja2.ext.Extension.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#jinja2.ext.Extension.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>扩展的标识符。这始终是扩展类的真实导入名，不能被修改。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.ext.Extension.tags">
+<code class="descname">tags</code><a class="headerlink" href="#jinja2.ext.Extension.tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>如果扩展实现自定义标签，这是扩展监听的标签名的集合。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.ext.Extension.attr">
+<code class="descname">attr</code><span class="sig-paren">(</span><em>name</em>, <em>lineno=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension.attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an attribute node for the current extension.  This is useful
+to pass constants on extensions to generated template code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">attr</span><span class="p">(</span><span class="s">&#39;_my_attribute&#39;</span><span class="p">,</span> <span class="n">lineno</span><span class="o">=</span><span class="n">lineno</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.ext.Extension.call_method">
+<code class="descname">call_method</code><span class="sig-paren">(</span><em>name</em>, <em>args=None</em>, <em>kwargs=None</em>, <em>dyn_args=None</em>, <em>dyn_kwargs=None</em>, <em>lineno=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension.call_method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call a method of the extension.  This is a shortcut for
+<a class="reference internal" href="templates.html#attr" title="attr"><code class="xref py py-meth docutils literal"><span class="pre">attr()</span></code></a> + <a class="reference internal" href="#jinja2.nodes.Call" title="jinja2.nodes.Call"><code class="xref py py-class docutils literal"><span class="pre">jinja2.nodes.Call</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.ext.Extension.filter_stream">
+<code class="descname">filter_stream</code><span class="sig-paren">(</span><em>stream</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension.filter_stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>It&#8217;s passed a <a class="reference internal" href="#jinja2.lexer.TokenStream" title="jinja2.lexer.TokenStream"><code class="xref py py-class docutils literal"><span class="pre">TokenStream</span></code></a> that can be used
+to filter tokens returned.  This method has to return an iterable of
+<a class="reference internal" href="#jinja2.lexer.Token" title="jinja2.lexer.Token"><code class="xref py py-class docutils literal"><span class="pre">Token</span></code></a>s, but it doesn&#8217;t have to return a
+<a class="reference internal" href="#jinja2.lexer.TokenStream" title="jinja2.lexer.TokenStream"><code class="xref py py-class docutils literal"><span class="pre">TokenStream</span></code></a>.</p>
+<p>In the <cite>ext</cite> folder of the Jinja2 source distribution there is a file
+called <cite>inlinegettext.py</cite> which implements a filter that utilizes this
+method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.ext.Extension.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><em>parser</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>If any of the <a class="reference internal" href="#jinja2.ext.Extension.tags" title="jinja2.ext.Extension.tags"><code class="xref py py-attr docutils literal"><span class="pre">tags</span></code></a> matched this method is called with the
+parser as first argument.  The token the parser stream is pointing at
+is the name token that matched.  This method has to return one or a
+list of multiple nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.ext.Extension.preprocess">
+<code class="descname">preprocess</code><span class="sig-paren">(</span><em>source</em>, <em>name</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.ext.Extension.preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called before the actual lexing and can be used to
+preprocess the source.  The <cite>filename</cite> is optional.  The return value
+must be the preprocessed source.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id10">
+<h3>解析器 API<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>传递到 <a class="reference internal" href="#jinja2.ext.Extension.parse" title="jinja2.ext.Extension.parse"><code class="xref py py-meth docutils literal"><span class="pre">Extension.parse()</span></code></a> 的解析器提供解析不同类型表达式的方式。下
+面的方法可能会在扩展中使用:</p>
+<dl class="class">
+<dt id="jinja2.parser.Parser">
+<em class="property">class </em><code class="descclassname">jinja2.parser.</code><code class="descname">Parser</code><span class="sig-paren">(</span><em>environment</em>, <em>source</em>, <em>name=None</em>, <em>filename=None</em>, <em>state=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the central parsing class Jinja2 uses.  It&#8217;s passed to
+extensions and can be used to parse expressions or statements.</p>
+<dl class="attribute">
+<dt id="jinja2.ext.Parser.filename">
+<code class="descname">filename</code><a class="headerlink" href="#jinja2.ext.Parser.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>解析器处理的模板文件名。这 <strong>不是</strong> 模板的加载名。加载名见
+<a class="reference internal" href="#jinja2.ext.Parser.name" title="jinja2.ext.Parser.name"><code class="xref py py-attr docutils literal"><span class="pre">name</span></code></a> 。对于不是从文件系统中加载的模板，这个值为 <cite>None</cite> 。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.ext.Parser.name">
+<code class="descname">name</code><a class="headerlink" href="#jinja2.ext.Parser.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>模板的加载名。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.ext.Parser.stream">
+<code class="descname">stream</code><a class="headerlink" href="#jinja2.ext.Parser.stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>当前的 <a class="reference internal" href="#jinja2.lexer.TokenStream" title="jinja2.lexer.TokenStream"><code class="xref py py-class docutils literal"><span class="pre">TokenStream</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.fail">
+<code class="descname">fail</code><span class="sig-paren">(</span><em>msg</em>, <em>lineno=None</em>, <em>exc=&lt;class 'jinja2.exceptions.TemplateSyntaxError'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method that raises <cite>exc</cite> with the message, passed
+line number or last line number as well as the current name and
+filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.free_identifier">
+<code class="descname">free_identifier</code><span class="sig-paren">(</span><em>lineno=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.free_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new free identifier as <a class="reference internal" href="#jinja2.nodes.InternalName" title="jinja2.nodes.InternalName"><code class="xref py py-class docutils literal"><span class="pre">InternalName</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.parse_assign_target">
+<code class="descname">parse_assign_target</code><span class="sig-paren">(</span><em>with_tuple=True</em>, <em>name_only=False</em>, <em>extra_end_rules=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.parse_assign_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse an assignment target.  As Jinja2 allows assignments to
+tuples, this function can parse all allowed assignment targets.  Per
+default assignments to tuples are parsed, that can be disable however
+by setting <cite>with_tuple</cite> to <cite>False</cite>.  If only assignments to names are
+wanted <cite>name_only</cite> can be set to <cite>True</cite>.  The <cite>extra_end_rules</cite>
+parameter is forwarded to the tuple parsing function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.parse_expression">
+<code class="descname">parse_expression</code><span class="sig-paren">(</span><em>with_condexpr=True</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.parse_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse an expression.  Per default all expressions are parsed, if
+the optional <cite>with_condexpr</cite> parameter is set to <cite>False</cite> conditional
+expressions are not parsed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.parse_statements">
+<code class="descname">parse_statements</code><span class="sig-paren">(</span><em>end_tokens</em>, <em>drop_needle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.parse_statements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse multiple statements into a list until one of the end tokens
+is reached.  This is used to parse the body of statements as it also
+parses template data if appropriate.  The parser checks first if the
+current token is a colon and skips it if there is one.  Then it checks
+for the block end and parses until if one of the <cite>end_tokens</cite> is
+reached.  Per default the active token in the stream at the end of
+the call is the matched end token.  If this is not wanted <cite>drop_needle</cite>
+can be set to <cite>True</cite> and the end token is removed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.parser.Parser.parse_tuple">
+<code class="descname">parse_tuple</code><span class="sig-paren">(</span><em>simplified=False</em>, <em>with_condexpr=True</em>, <em>extra_end_rules=None</em>, <em>explicit_parentheses=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.parser.Parser.parse_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Works like <cite>parse_expression</cite> but if multiple expressions are
+delimited by a comma a <a class="reference internal" href="#jinja2.nodes.Tuple" title="jinja2.nodes.Tuple"><code class="xref py py-class docutils literal"><span class="pre">Tuple</span></code></a> node is created.
+This method could also return a regular expression instead of a tuple
+if no commas where found.</p>
+<p>The default parsing mode is a full tuple.  If <cite>simplified</cite> is <cite>True</cite>
+only names and literals are parsed.  The <cite>no_condexpr</cite> parameter is
+forwarded to <code class="xref py py-meth docutils literal"><span class="pre">parse_expression()</span></code>.</p>
+<p>Because tuples do not require delimiters and may end in a bogus comma
+an extra hint is needed that marks the end of a tuple.  For example
+for loops support tuples between <cite>for</cite> and <cite>in</cite>.  In that case the
+<cite>extra_end_rules</cite> is set to <code class="docutils literal"><span class="pre">['name:in']</span></code>.</p>
+<p><cite>explicit_parentheses</cite> is true if the parsing was triggered by an
+expression in parentheses.  This is used to figure out if an empty
+tuple is a valid expression or not.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.lexer.TokenStream">
+<em class="property">class </em><code class="descclassname">jinja2.lexer.</code><code class="descname">TokenStream</code><span class="sig-paren">(</span><em>generator</em>, <em>name</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream" title="Permalink to this definition">¶</a></dt>
+<dd><p>A token stream is an iterable that yields <code class="xref py py-class docutils literal"><span class="pre">Token</span></code>s.  The
+parser however does not iterate over it but calls <code class="xref py py-meth docutils literal"><span class="pre">next()</span></code> to go
+one token ahead.  The current active token is stored as <a class="reference internal" href="#jinja2.ext.TokenStream.current" title="jinja2.ext.TokenStream.current"><code class="xref py py-attr docutils literal"><span class="pre">current</span></code></a>.</p>
+<dl class="attribute">
+<dt id="jinja2.ext.TokenStream.current">
+<code class="descname">current</code><a class="headerlink" href="#jinja2.ext.TokenStream.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>当前的 <a class="reference internal" href="#jinja2.lexer.Token" title="jinja2.lexer.Token"><code class="xref py py-class docutils literal"><span class="pre">Token</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.lexer.TokenStream.eos">
+<code class="descname">eos</code><a class="headerlink" href="#jinja2.lexer.TokenStream.eos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Are we at the end of the stream?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.expect">
+<code class="descname">expect</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.expect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expect a given token type and return it.  This accepts the same
+argument as <a class="reference internal" href="#jinja2.lexer.Token.test" title="jinja2.lexer.Token.test"><code class="xref py py-meth docutils literal"><span class="pre">jinja2.lexer.Token.test()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.look">
+<code class="descname">look</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.look" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look at the next token.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go one token ahead and return the old one</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.next_if">
+<code class="descname">next_if</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.next_if" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the token test and return the token if it matched.
+Otherwise the return value is <cite>None</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.push">
+<code class="descname">push</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push a token back to the stream.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.skip">
+<code class="descname">skip</code><span class="sig-paren">(</span><em>n=1</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.skip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Got n tokens ahead.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.TokenStream.skip_if">
+<code class="descname">skip_if</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.TokenStream.skip_if" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like <code class="xref py py-meth docutils literal"><span class="pre">next_if()</span></code> but only returns <cite>True</cite> or <cite>False</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.lexer.Token">
+<em class="property">class </em><code class="descclassname">jinja2.lexer.</code><code class="descname">Token</code><a class="headerlink" href="#jinja2.lexer.Token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Token class.</p>
+<dl class="attribute">
+<dt id="jinja2.ext.Token.lineno">
+<code class="descname">lineno</code><a class="headerlink" href="#jinja2.ext.Token.lineno" title="Permalink to this definition">¶</a></dt>
+<dd><p>token 的行号。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.ext.Token.type">
+<code class="descname">type</code><a class="headerlink" href="#jinja2.ext.Token.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>token 的类型。这个值是被禁锢的，所以你可以用 <cite>is</cite> 运算符同任意字符
+串比较。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="jinja2.ext.Token.value">
+<code class="descname">value</code><a class="headerlink" href="#jinja2.ext.Token.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>token 的值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.Token.test">
+<code class="descname">test</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.Token.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test a token against a token expression.  This can either be a
+token type or <code class="docutils literal"><span class="pre">'token_type:token_value'</span></code>.  This can only test
+against string values and types.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.lexer.Token.test_any">
+<code class="descname">test_any</code><span class="sig-paren">(</span><em>*iterable</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.lexer.Token.test_any" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test against multiple token expressions.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>同样，在词法分析模块中也有一个实用函数可以计算字符串中的换行符数目:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. autofunction:: jinja2.lexer.count_newlines
+</pre></div>
+</div>
+</div>
+<div class="section" id="ast">
+<h3>AST<a class="headerlink" href="#ast" title="Permalink to this headline">¶</a></h3>
+<p>AST（抽象语法树: Abstract Syntax Tree）用于表示解析后的模板。它有编译器之后
+转换到可执行的 Python 代码对象的节点构建。提供自定义语句的扩展可以返回执行自
+定义 Python 代码的节点。</p>
+<p>下面的清单展示了所有当前可用的节点。 AST 在 Jinja2 的各个版本中有差异，但会向
+后兼容。</p>
+<p>更多信息请见 <a class="reference internal" href="api.html#jinja2.Environment.parse" title="jinja2.Environment.parse"><code class="xref py py-meth docutils literal"><span class="pre">jinja2.Environment.parse()</span></code></a> 。</p>
+<span class="target" id="module-jinja2.nodes"></span><dl class="class">
+<dt id="jinja2.nodes.Node">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Node</code><a class="headerlink" href="#jinja2.nodes.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for all Jinja2 nodes.  There are a number of nodes available
+of different types.  There are four major types:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a>: statements</li>
+<li><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a>: expressions</li>
+<li><a class="reference internal" href="#jinja2.nodes.Helper" title="jinja2.nodes.Helper"><code class="xref py py-class docutils literal"><span class="pre">Helper</span></code></a>: helper nodes</li>
+<li><a class="reference internal" href="#jinja2.nodes.Template" title="jinja2.nodes.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a>: the outermost wrapper node</li>
+</ul>
+<p>All nodes have fields and attributes.  Fields may be other nodes, lists,
+or arbitrary values.  Fields are passed to the constructor as regular
+positional arguments, attributes as keyword arguments.  Each node has
+two attributes: <cite>lineno</cite> (the line number of the node) and <cite>environment</cite>.
+The <cite>environment</cite> attribute is set at the end of the parsing process for
+all nodes automatically.</p>
+<dl class="method">
+<dt id="jinja2.nodes.Node.find">
+<code class="descname">find</code><span class="sig-paren">(</span><em>node_type</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the first node of a given type.  If no such node exists the
+return value is <cite>None</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.find_all">
+<code class="descname">find_all</code><span class="sig-paren">(</span><em>node_type</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.find_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all the nodes of a given type.  If the type is a tuple,
+the check is performed for any of the tuple items.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.iter_child_nodes">
+<code class="descname">iter_child_nodes</code><span class="sig-paren">(</span><em>exclude=None</em>, <em>only=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.iter_child_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates over all direct child nodes of the node.  This iterates
+over all fields and yields the values of they are nodes.  If the value
+of a field is a list all the nodes in that list are returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.iter_fields">
+<code class="descname">iter_fields</code><span class="sig-paren">(</span><em>exclude=None</em>, <em>only=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.iter_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method iterates over all fields that are defined and yields
+<code class="docutils literal"><span class="pre">(key,</span> <span class="pre">value)</span></code> tuples.  Per default all fields are returned, but
+it&#8217;s possible to limit that to some fields by providing the <cite>only</cite>
+parameter or to exclude some using the <cite>exclude</cite> parameter.  Both
+should be sets or tuples of field names.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.set_ctx">
+<code class="descname">set_ctx</code><span class="sig-paren">(</span><em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.set_ctx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the context of a node and all child nodes.  Per default the
+parser will all generate nodes that have a &#8216;load&#8217; context as it&#8217;s the
+most common one.  This method is used in the parser to set assignment
+targets and other nodes to a store context.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.set_environment">
+<code class="descname">set_environment</code><span class="sig-paren">(</span><em>environment</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.set_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the environment for all nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Node.set_lineno">
+<code class="descname">set_lineno</code><span class="sig-paren">(</span><em>lineno</em>, <em>override=False</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Node.set_lineno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the line numbers of the node and children.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Expr">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Expr</code><a class="headerlink" href="#jinja2.nodes.Expr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for all expressions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Node" title="jinja2.nodes.Node"><code class="xref py py-class docutils literal"><span class="pre">Node</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="jinja2.nodes.Expr.as_const">
+<code class="descname">as_const</code><span class="sig-paren">(</span><em>eval_ctx=None</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Expr.as_const" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value of the expression as constant or raise
+<a class="reference internal" href="#jinja2.nodes.Impossible" title="jinja2.nodes.Impossible"><code class="xref py py-exc docutils literal"><span class="pre">Impossible</span></code></a> if this was not possible.</p>
+<p>An <a class="reference internal" href="api.html#jinja2.nodes.EvalContext" title="jinja2.nodes.EvalContext"><code class="xref py py-class docutils literal"><span class="pre">EvalContext</span></code></a> can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.4: </span>the <cite>eval_ctx</cite> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="jinja2.nodes.Expr.can_assign">
+<code class="descname">can_assign</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Expr.can_assign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if it&#8217;s possible to assign something to this node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.BinExpr">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">BinExpr</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.BinExpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for all binary expressions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Add">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Add</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the left to the right node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.And">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">And</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.And" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short circuited AND.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Div">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Div</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Div" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divides the left by the right node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.FloorDiv">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">FloorDiv</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.FloorDiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divides the left by the right node and truncates conver the
+result into an integer by truncating.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Mod">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Mod</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Mod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left modulo right.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Mul">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Mul</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Mul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplies the left with the right node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Or">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Or</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Or" title="Permalink to this definition">¶</a></dt>
+<dd><p>Short circuited OR.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Pow">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Pow</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Pow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left to the power of right.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Sub">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Sub</code><span class="sig-paren">(</span><em>left</em>, <em>right</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Sub" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract the right from the left node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.BinExpr" title="jinja2.nodes.BinExpr"><code class="xref py py-class docutils literal"><span class="pre">BinExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Call">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Call</code><span class="sig-paren">(</span><em>node</em>, <em>args</em>, <em>kwargs</em>, <em>dyn_args</em>, <em>dyn_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls an expression.  <cite>args</cite> is a list of arguments, <cite>kwargs</cite> a list
+of keyword arguments (list of <a class="reference internal" href="#jinja2.nodes.Keyword" title="jinja2.nodes.Keyword"><code class="xref py py-class docutils literal"><span class="pre">Keyword</span></code></a> nodes), and <cite>dyn_args</cite>
+and <cite>dyn_kwargs</cite> has to be either <cite>None</cite> or a node that is used as
+node for dynamic positional (<code class="docutils literal"><span class="pre">*args</span></code>) or keyword (<code class="docutils literal"><span class="pre">**kwargs</span></code>)
+arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Compare">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Compare</code><span class="sig-paren">(</span><em>expr</em>, <em>ops</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares an expression with some other expressions.  <cite>ops</cite> must be a
+list of <a class="reference internal" href="#jinja2.nodes.Operand" title="jinja2.nodes.Operand"><code class="xref py py-class docutils literal"><span class="pre">Operand</span></code></a>s.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Concat">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Concat</code><span class="sig-paren">(</span><em>nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenates the list of expressions provided after converting them to
+unicode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.CondExpr">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">CondExpr</code><span class="sig-paren">(</span><em>test</em>, <em>expr1</em>, <em>expr2</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.CondExpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>A conditional expression (inline if expression).  (<code class="docutils literal"><span class="pre">{{</span>
+<span class="pre">foo</span> <span class="pre">if</span> <span class="pre">bar</span> <span class="pre">else</span> <span class="pre">baz</span> <span class="pre">}}</span></code>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.ContextReference">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">ContextReference</code><a class="headerlink" href="#jinja2.nodes.ContextReference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current template context.  It can be used like a
+<a class="reference internal" href="#jinja2.nodes.Name" title="jinja2.nodes.Name"><code class="xref py py-class docutils literal"><span class="pre">Name</span></code></a> node, with a <code class="docutils literal"><span class="pre">'load'</span></code> ctx and will return the
+current <a class="reference internal" href="api.html#jinja2.runtime.Context" title="jinja2.runtime.Context"><code class="xref py py-class docutils literal"><span class="pre">Context</span></code></a> object.</p>
+<p>Here an example that assigns the current template name to a
+variable named <cite>foo</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Assign</span><span class="p">(</span><span class="n">Name</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="s">&#39;store&#39;</span><span class="p">),</span>
+       <span class="n">Getattr</span><span class="p">(</span><span class="n">ContextReference</span><span class="p">(),</span> <span class="s">&#39;name&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.EnvironmentAttribute">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">EnvironmentAttribute</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.EnvironmentAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads an attribute from the environment object.  This is useful for
+extensions that want to call a callback stored on the environment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.ExtensionAttribute">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">ExtensionAttribute</code><span class="sig-paren">(</span><em>identifier</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.ExtensionAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the attribute of an extension bound to the environment.
+The identifier is the identifier of the <code class="xref py py-class docutils literal"><span class="pre">Extension</span></code>.</p>
+<p>This node is usually constructed by calling the
+<a class="reference internal" href="#jinja2.ext.Extension.attr" title="jinja2.ext.Extension.attr"><code class="xref py py-meth docutils literal"><span class="pre">attr()</span></code></a> method on an extension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Filter">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Filter</code><span class="sig-paren">(</span><em>node</em>, <em>name</em>, <em>args</em>, <em>kwargs</em>, <em>dyn_args</em>, <em>dyn_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This node applies a filter on an expression.  <cite>name</cite> is the name of
+the filter, the rest of the fields are the same as for <a class="reference internal" href="#jinja2.nodes.Call" title="jinja2.nodes.Call"><code class="xref py py-class docutils literal"><span class="pre">Call</span></code></a>.</p>
+<p>If the <cite>node</cite> of a filter is <cite>None</cite> the contents of the last buffer are
+filtered.  Buffers are created by macros and filter blocks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Getattr">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Getattr</code><span class="sig-paren">(</span><em>node</em>, <em>attr</em>, <em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Getattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute or item from an expression that is a ascii-only
+bytestring and prefer the attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Getitem">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Getitem</code><span class="sig-paren">(</span><em>node</em>, <em>arg</em>, <em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Getitem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute or item from an expression and prefer the item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.ImportedName">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">ImportedName</code><span class="sig-paren">(</span><em>importname</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.ImportedName" title="Permalink to this definition">¶</a></dt>
+<dd><p>If created with an import name the import name is returned on node
+access.  For example <code class="docutils literal"><span class="pre">ImportedName('cgi.escape')</span></code> returns the <cite>escape</cite>
+function from the cgi module on evaluation.  Imports are optimized by the
+compiler so there is no need to assign them to local variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.InternalName">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">InternalName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.InternalName" title="Permalink to this definition">¶</a></dt>
+<dd><p>An internal name in the compiler.  You cannot create these nodes
+yourself but the parser provides a
+<a class="reference internal" href="#jinja2.parser.Parser.free_identifier" title="jinja2.parser.Parser.free_identifier"><code class="xref py py-meth docutils literal"><span class="pre">free_identifier()</span></code></a> method that creates
+a new identifier for you.  This identifier is not available from the
+template and is not threated specially by the compiler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Literal">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Literal</code><a class="headerlink" href="#jinja2.nodes.Literal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for literals.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Const">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Const</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Const" title="Permalink to this definition">¶</a></dt>
+<dd><p>All constant values.  The parser will return this node for simple
+constants such as <code class="docutils literal"><span class="pre">42</span></code> or <code class="docutils literal"><span class="pre">&quot;foo&quot;</span></code> but it can be used to store more
+complex values such as lists too.  Only constants with a safe
+representation (objects where <code class="docutils literal"><span class="pre">eval(repr(x))</span> <span class="pre">==</span> <span class="pre">x</span></code> is true).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Literal" title="jinja2.nodes.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Dict">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Dict</code><span class="sig-paren">(</span><em>items</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any dict literal such as <code class="docutils literal"><span class="pre">{1:</span> <span class="pre">2,</span> <span class="pre">3:</span> <span class="pre">4}</span></code>.  The items must be a list of
+<a class="reference internal" href="#jinja2.nodes.Pair" title="jinja2.nodes.Pair"><code class="xref py py-class docutils literal"><span class="pre">Pair</span></code></a> nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Literal" title="jinja2.nodes.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.List">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">List</code><span class="sig-paren">(</span><em>items</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any list literal such as <code class="docutils literal"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Literal" title="jinja2.nodes.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.TemplateData">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">TemplateData</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.TemplateData" title="Permalink to this definition">¶</a></dt>
+<dd><p>A constant template string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Literal" title="jinja2.nodes.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Tuple">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Tuple</code><span class="sig-paren">(</span><em>items</em>, <em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>For loop unpacking and some other things like multiple arguments
+for subscripts.  Like for <a class="reference internal" href="#jinja2.nodes.Name" title="jinja2.nodes.Name"><code class="xref py py-class docutils literal"><span class="pre">Name</span></code></a> <cite>ctx</cite> specifies if the tuple
+is used for loading the names or storing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Literal" title="jinja2.nodes.Literal"><code class="xref py py-class docutils literal"><span class="pre">Literal</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.MarkSafe">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">MarkSafe</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.MarkSafe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark the wrapped expression as safe (wrap it as <cite>Markup</cite>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.MarkSafeIfAutoescape">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">MarkSafeIfAutoescape</code><span class="sig-paren">(</span><em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.MarkSafeIfAutoescape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark the wrapped expression as safe (wrap it as <cite>Markup</cite>) but
+only if autoescaping is active.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.5.</span></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Name">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Name</code><span class="sig-paren">(</span><em>name</em>, <em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks up a name or stores a value in a name.
+The <cite>ctx</cite> of the node can be one of the following values:</p>
+<ul class="simple">
+<li><cite>store</cite>: store a value in the name</li>
+<li><cite>load</cite>: load that name</li>
+<li><cite>param</cite>: like <cite>store</cite> but if the name was defined as function parameter.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Slice">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Slice</code><span class="sig-paren">(</span><em>start</em>, <em>stop</em>, <em>step</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a slice object.  This must only be used as argument for
+<code class="xref py py-class docutils literal"><span class="pre">Subscript</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Test">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Test</code><span class="sig-paren">(</span><em>node</em>, <em>name</em>, <em>args</em>, <em>kwargs</em>, <em>dyn_args</em>, <em>dyn_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a test on an expression.  <cite>name</cite> is the name of the test, the
+rest of the fields are the same as for <a class="reference internal" href="#jinja2.nodes.Call" title="jinja2.nodes.Call"><code class="xref py py-class docutils literal"><span class="pre">Call</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.UnaryExpr">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">UnaryExpr</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.UnaryExpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Baseclass for all unary expressions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Expr" title="jinja2.nodes.Expr"><code class="xref py py-class docutils literal"><span class="pre">Expr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Neg">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Neg</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Neg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the expression negative.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.UnaryExpr" title="jinja2.nodes.UnaryExpr"><code class="xref py py-class docutils literal"><span class="pre">UnaryExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Not">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Not</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negate the expression.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.UnaryExpr" title="jinja2.nodes.UnaryExpr"><code class="xref py py-class docutils literal"><span class="pre">UnaryExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Pos">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Pos</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make the expression positive (noop for most expressions)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.UnaryExpr" title="jinja2.nodes.UnaryExpr"><code class="xref py py-class docutils literal"><span class="pre">UnaryExpr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Helper">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Helper</code><a class="headerlink" href="#jinja2.nodes.Helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nodes that exist in a specific context only.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Node" title="jinja2.nodes.Node"><code class="xref py py-class docutils literal"><span class="pre">Node</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Keyword">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Keyword</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Keyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>A key, value pair for keyword arguments where key is a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Helper" title="jinja2.nodes.Helper"><code class="xref py py-class docutils literal"><span class="pre">Helper</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Operand">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Operand</code><span class="sig-paren">(</span><em>op</em>, <em>expr</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Operand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Holds an operator and an expression.
+The following operators are available: <code class="docutils literal"><span class="pre">%</span></code>, <code class="docutils literal"><span class="pre">**</span></code>, <code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">-</span></code>, <code class="docutils literal"><span class="pre">//</span></code>, <code class="docutils literal"><span class="pre">/</span></code>, <code class="docutils literal"><span class="pre">eq</span></code>, <code class="docutils literal"><span class="pre">gt</span></code>, <code class="docutils literal"><span class="pre">gteq</span></code>, <code class="docutils literal"><span class="pre">in</span></code>, <code class="docutils literal"><span class="pre">lt</span></code>, <code class="docutils literal"><span class="pre">lteq</span></code>, <code class="docutils literal"><span class="pre">ne</span></code>, <code class="docutils literal"><span class="pre">not</span></code>, <code class="docutils literal"><span class="pre">notin</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Helper" title="jinja2.nodes.Helper"><code class="xref py py-class docutils literal"><span class="pre">Helper</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Pair">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Pair</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Pair" title="Permalink to this definition">¶</a></dt>
+<dd><p>A key, value pair for dicts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Helper" title="jinja2.nodes.Helper"><code class="xref py py-class docutils literal"><span class="pre">Helper</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Stmt">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Stmt</code><a class="headerlink" href="#jinja2.nodes.Stmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base node for all statements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Node" title="jinja2.nodes.Node"><code class="xref py py-class docutils literal"><span class="pre">Node</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Assign">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Assign</code><span class="sig-paren">(</span><em>target</em>, <em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Assign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns an expression to a target.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.AssignBlock">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">AssignBlock</code><span class="sig-paren">(</span><em>target</em>, <em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.AssignBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns a block to a target.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Block">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Block</code><span class="sig-paren">(</span><em>name</em>, <em>body</em>, <em>scoped</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Block" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node that represents a block.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Break">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Break</code><a class="headerlink" href="#jinja2.nodes.Break" title="Permalink to this definition">¶</a></dt>
+<dd><p>Break a loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.CallBlock">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">CallBlock</code><span class="sig-paren">(</span><em>call</em>, <em>args</em>, <em>defaults</em>, <em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.CallBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like a macro without a name but a call instead.  <cite>call</cite> is called with
+the unnamed macro as <cite>caller</cite> argument this node holds.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Continue">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Continue</code><a class="headerlink" href="#jinja2.nodes.Continue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Continue a loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.EvalContextModifier">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">EvalContextModifier</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.EvalContextModifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies the eval context.  For each option that should be modified,
+a <a class="reference internal" href="#jinja2.nodes.Keyword" title="jinja2.nodes.Keyword"><code class="xref py py-class docutils literal"><span class="pre">Keyword</span></code></a> has to be added to the <code class="xref py py-attr docutils literal"><span class="pre">options</span></code> list.</p>
+<p>Example to change the <cite>autoescape</cite> setting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">EvalContextModifier</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="n">Keyword</span><span class="p">(</span><span class="s">&#39;autoescape&#39;</span><span class="p">,</span> <span class="n">Const</span><span class="p">(</span><span class="bp">True</span><span class="p">))])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.ScopedEvalContextModifier">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">ScopedEvalContextModifier</code><span class="sig-paren">(</span><em>options</em>, <em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.ScopedEvalContextModifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies the eval context and reverts it later.  Works exactly like
+<a class="reference internal" href="#jinja2.nodes.EvalContextModifier" title="jinja2.nodes.EvalContextModifier"><code class="xref py py-class docutils literal"><span class="pre">EvalContextModifier</span></code></a> but will only modify the
+<a class="reference internal" href="api.html#jinja2.nodes.EvalContext" title="jinja2.nodes.EvalContext"><code class="xref py py-class docutils literal"><span class="pre">EvalContext</span></code></a> for nodes in the <code class="xref py py-attr docutils literal"><span class="pre">body</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.EvalContextModifier" title="jinja2.nodes.EvalContextModifier"><code class="xref py py-class docutils literal"><span class="pre">EvalContextModifier</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.ExprStmt">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">ExprStmt</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.ExprStmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>A statement that evaluates an expression and discards the result.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Extends">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Extends</code><span class="sig-paren">(</span><em>template</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Extends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an extends statement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.FilterBlock">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">FilterBlock</code><span class="sig-paren">(</span><em>body</em>, <em>filter</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.FilterBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Node for filter sections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.For">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">For</code><span class="sig-paren">(</span><em>target</em>, <em>iter</em>, <em>body</em>, <em>else_</em>, <em>test</em>, <em>recursive</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.For" title="Permalink to this definition">¶</a></dt>
+<dd><p>The for loop.  <cite>target</cite> is the target for the iteration (usually a
+<a class="reference internal" href="#jinja2.nodes.Name" title="jinja2.nodes.Name"><code class="xref py py-class docutils literal"><span class="pre">Name</span></code></a> or <a class="reference internal" href="#jinja2.nodes.Tuple" title="jinja2.nodes.Tuple"><code class="xref py py-class docutils literal"><span class="pre">Tuple</span></code></a>), <cite>iter</cite> the iterable.  <cite>body</cite> is a list
+of nodes that are used as loop-body, and <cite>else_</cite> a list of nodes for the
+<cite>else</cite> block.  If no else node exists it has to be an empty list.</p>
+<p>For filtered nodes an expression can be stored as <cite>test</cite>, otherwise <cite>None</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.FromImport">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">FromImport</code><span class="sig-paren">(</span><em>template</em>, <em>names</em>, <em>with_context</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.FromImport" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node that represents the from import tag.  It&#8217;s important to not
+pass unsafe names to the name attribute.  The compiler translates the
+attribute lookups directly into getattr calls and does <em>not</em> use the
+subscript callback of the interface.  As exported variables may not
+start with double underscores (which the parser asserts) this is not a
+problem for regular Jinja code, but if this node is used in an extension
+extra care must be taken.</p>
+<p>The list of names may contain tuples if aliases are wanted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.If">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">If</code><span class="sig-paren">(</span><em>test</em>, <em>body</em>, <em>else_</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.If" title="Permalink to this definition">¶</a></dt>
+<dd><p>If <cite>test</cite> is true, <cite>body</cite> is rendered, else <cite>else_</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Import">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Import</code><span class="sig-paren">(</span><em>template</em>, <em>target</em>, <em>with_context</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Import" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node that represents the import tag.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Include">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Include</code><span class="sig-paren">(</span><em>template</em>, <em>with_context</em>, <em>ignore_missing</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Include" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node that represents the include tag.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Macro">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Macro</code><span class="sig-paren">(</span><em>name</em>, <em>args</em>, <em>defaults</em>, <em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Macro" title="Permalink to this definition">¶</a></dt>
+<dd><p>A macro definition.  <cite>name</cite> is the name of the macro, <cite>args</cite> a list of
+arguments and <cite>defaults</cite> a list of defaults if there are any.  <cite>body</cite> is
+a list of nodes for the macro body.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Output">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Output</code><span class="sig-paren">(</span><em>nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Output" title="Permalink to this definition">¶</a></dt>
+<dd><p>A node that holds multiple expressions which are then printed out.
+This is used both for the <cite>print</cite> statement and the regular template data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Scope">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Scope</code><span class="sig-paren">(</span><em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Scope" title="Permalink to this definition">¶</a></dt>
+<dd><p>An artificial scope.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Stmt" title="jinja2.nodes.Stmt"><code class="xref py py-class docutils literal"><span class="pre">Stmt</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="jinja2.nodes.Template">
+<em class="property">class </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Template</code><span class="sig-paren">(</span><em>body</em><span class="sig-paren">)</span><a class="headerlink" href="#jinja2.nodes.Template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Node that represents a template.  This must be the outermost node that
+is passed to the compiler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Node type:</th><td class="field-body"><a class="reference internal" href="#jinja2.nodes.Node" title="jinja2.nodes.Node"><code class="xref py py-class docutils literal"><span class="pre">Node</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="exception">
+<dt id="jinja2.nodes.Impossible">
+<em class="property">exception </em><code class="descclassname">jinja2.nodes.</code><code class="descname">Impossible</code><a class="headerlink" href="#jinja2.nodes.Impossible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised if the node could not perform a requested action.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="integration.html" class="btn btn-neutral float-right" title="集成" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="templates.html" class="btn btn-neutral" title="模板设计者文档" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>

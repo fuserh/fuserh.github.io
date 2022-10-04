@@ -1,0 +1,2133 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/templates.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>模板设计者文档 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">模板设计者文档</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variables">变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filters">过滤器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests">测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">注释</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">空白控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">转义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#line-statements">行语句</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-inheritance">模板继承</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id11">基本模板</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">子模板</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#super">Super 块</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">命名块结束标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">嵌套块和作用域</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">模板对象</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#html">HTML 转义</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id16">使用手动转义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">使用自动转义</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">控制结构清单</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#for">For</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#if">If</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">宏</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#call">调用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">过滤器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">赋值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">继承</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">块</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">包含</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#import">导入</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#import-visibility">导入上下文行为</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expressions">表达式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id29">字面量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id30">算术</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">比较</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">逻辑</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">其它运算符</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#if-expression">If 表达式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#builtin-filters">内置过滤器清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#builtin-tests">内置测试清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#builtin-globals">全局函数清单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id38">扩展</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#i18n">i18n</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">表达式语句</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id40">循环控制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with">With 语句</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#autoescape-overrides">自动转义扩展</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>模板设计者文档</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>模板设计者文档<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>这份文档描述了模板引擎中的语法和语义结构，对于创建 Jinja 模板是一份相当有用
+的参考。因为模板引擎非常灵活，应用中的配置会在分隔符和未定义值的行为方面与
+这里的配置有细微差异。</p>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>模板仅仅是文本文件。它可以生成任何基于文本的格式（HTML、XML、CSV、LaTex 等等）。
+它并没有特定的扩展名， <code class="docutils literal"><span class="pre">.html</span></code> 或 <code class="docutils literal"><span class="pre">.xml</span></code> 都是可以的。</p>
+<p>模板包含 <strong>变量</strong> 或 <strong>表达式</strong> ，这两者在模板求值的时候会被替换为值。模板中
+还有标签，控制模板的逻辑。模板语法的大量灵感来自于 Django 和 Python 。</p>
+<p>下面是一个最小的模板，它阐明了一些基础。我们会在文档中后面的部分解释细节:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>My Webpage<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">navigation</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">item.href</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">item.caption</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+
+    <span class="nt">&lt;h1&gt;</span>My Webpage<span class="nt">&lt;/h1&gt;</span>
+    <span class="cp">{{</span> <span class="nv">a_variable</span> <span class="cp">}}</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>这包含了默认的设定。应用开发者也会把语法从 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">foo</span> <span class="pre">%}</span></code> 改成 <code class="docutils literal"><span class="pre">&lt;%</span> <span class="pre">foo</span> <span class="pre">%&gt;</span></code>
+或类似的东西。</p>
+<p>这里有两种分隔符:  <code class="docutils literal"><span class="pre">{%</span> <span class="pre">...</span> <span class="pre">%}</span></code> 和 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">...</span> <span class="pre">}}</span></code> 。前者用于执行诸如 for 循环
+或赋值的语句，后者把表达式的结果打印到模板上。</p>
+</div>
+<div class="section" id="variables">
+<span id="id3"></span><h2>变量<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h2>
+<p>应用把变量传递到模板，你可能在模板中弄混。变量上面也可以有你能访问的属性或元
+素。变量看起来是什么，完全取决于应用提供了什么。</p>
+<p>你可以使用点（ <code class="docutils literal"><span class="pre">.</span></code> ）来访问变量的属性，作为替代，也可以使用所谓的“下标”语
+法（ <code class="docutils literal"><span class="pre">[]</span></code> ）。下面的几行效果是一样的:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">foo.bar</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">foo</span><span class="o">[</span><span class="s1">&#39;bar&#39;</span><span class="o">]</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>知晓花括号 <em>不是</em> 变量的一部分，而是打印语句的一部分是重要的。如果你访问标签
+里的不带括号的变量。</p>
+<p>如果变量或属性不存在，会返回一个未定义值。你可以对这类值做什么取决于应用的配
+置，默认的行为是它如果被打印，其求值为一个空字符串，并且你可以迭代它，但其它
+操作会失败。</p>
+<div class="admonition- admonition" id="notes-on-subscriptions">
+<p class="first admonition-title">实现</p>
+<p>为方便起见，Jinja2 中 <code class="docutils literal"><span class="pre">foo.bar</span></code> 在 Python 层中做下面的事情:</p>
+<ul class="simple">
+<li>检查 <cite>foo</cite> 上是否有一个名为 <cite>bar</cite> 的属性。</li>
+<li>如果没有，检查 <cite>foo</cite> 中是否有一个 <code class="docutils literal"><span class="pre">'bar'</span></code> 项 。</li>
+<li>如果没有，返回一个未定义对象。</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">foo['bar']</span></code> 的方式相反，只在顺序上有细小差异:</p>
+<ul class="simple">
+<li>检查在 <cite>foo</cite> 中是否有一个 <code class="docutils literal"><span class="pre">'bar'</span></code> 项。</li>
+<li>如果没有，检查 <cite>foo</cite> 上是否有一个名为 <cite>bar</cite> 的属性。</li>
+<li>如果没有，返回一个未定义对象。</li>
+</ul>
+<p class="last">如果一个对象有同名的项和属性，这很重要。此外，有一个 <a class="reference internal" href="#attr" title="attr"><code class="xref py py-func docutils literal"><span class="pre">attr()</span></code></a> 过滤
+器，它只查找属性。</p>
+</div>
+</div>
+<div class="section" id="filters">
+<span id="id4"></span><h2>过滤器<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h2>
+<p>变量可以通过 <strong>过滤器</strong> 修改。过滤器与变量用管道符号（ <code class="docutils literal"><span class="pre">|</span></code> ）分割，并且也
+可以用圆括号传递可选参数。多个过滤器可以链式调用，前一个过滤器的输出会被作为
+后一个过滤器的输入。</p>
+<p>例如 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">name|striptags|title</span> <span class="pre">}}</span></code> 会移除 <cite>name</cite> 中的所有 HTML 标签并且改写
+为标题样式的大小写格式。过滤器接受带圆括号的参数，如同函数调用。这个例子会
+把一个列表用逗号连接起来: <code class="docutils literal"><span class="pre">{{</span> <span class="pre">list|join(',</span> <span class="pre">')</span> <span class="pre">}}</span></code> 。</p>
+<p>下面的 <a class="reference internal" href="#builtin-filters"><span>内置过滤器清单</span></a> 节介绍了所有的内置过滤器。</p>
+</div>
+<div class="section" id="tests">
+<span id="id5"></span><h2>测试<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>除了过滤器，所谓的“测试”也是可用的。测试可以用于对照普通表达式测试一个变量。
+要测试一个变量或表达式，你要在变量后加上一个 <cite>is</cite> 以及测试的名称。例如，要得出
+一个值是否定义过，你可以用 <code class="docutils literal"><span class="pre">name</span> <span class="pre">is</span> <span class="pre">defined</span></code> ，这会根据 <cite>name</cite> 是否定义返回
+true 或 false 。</p>
+<p>测试也可以接受参数。如果测试只接受一个参数，你可以省去括号来分组它们。例如，
+下面的两个表达式做同样的事情:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="k">is</span> <span class="nf">divisibleby</span> <span class="m">3</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="k">is</span> <span class="nf">divisibleby</span><span class="o">(</span><span class="m">3</span><span class="o">)</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>下面的 <a class="reference internal" href="#builtin-tests"><span>内置测试清单</span></a> 章节介绍了所有的内置测试。</p>
+</div>
+<div class="section" id="id6">
+<h2>注释<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>要把模板中一行的部分注释掉，默认使用 <code class="docutils literal"><span class="pre">{#</span> <span class="pre">...</span> <span class="pre">#}</span></code> 注释语法。这在调试或
+添加给你自己或其它模板设计者的信息时是有用的:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# note: disabled template because we no longer use this</span>
+<span class="c">    {% for user in users %}</span>
+<span class="c">        ...</span>
+<span class="c">    {% endfor %}</span>
+<span class="c">#}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>空白控制<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>默认配置中，模板引擎不会对空白做进一步修改，所以每个空白（空格、制表符、换行符
+等等）都会原封不动返回。如果应用配置了 Jinja 的 <cite>trim_blocks</cite> ，模板标签后的
+第一个换行符会被自动移除（像 PHP 中一样）。</p>
+<p>此外，你也可以手动剥离模板中的空白。当你在块（比如一个 for 标签、一段注释或变
+量表达式）的开始或结束放置一个减号（ <code class="docutils literal"><span class="pre">-</span></code> ），可以移除块前或块后的空白:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">seq</span> -<span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span>
+<span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这会产出中间不带空白的所有元素。如果 <cite>seq</cite> 是 <code class="docutils literal"><span class="pre">1</span></code> 到 <code class="docutils literal"><span class="pre">9</span></code> 的数字的列表，
+输出会是 <code class="docutils literal"><span class="pre">123456789</span></code> 。</p>
+<p>如果开启了 <a class="reference internal" href="#line-statements"><span>行语句</span></a> ，它们会自动去除行首的空白。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p>标签和减号之间不能有空白。</p>
+<p><strong>有效的</strong>:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span>- <span class="k">if</span> <span class="nv">foo</span> -<span class="cp">%}</span>...<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><strong>无效的</strong>:</p>
+<div class="last highlight-html+jinja"><div class="highlight"><pre>{% - if foo - %}...<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>转义<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>有时想要或甚至必要让 Jinja 忽略部分，不会把它作为变量或块来处理。例如，如果
+使用默认语法，你想在在使用把 <code class="docutils literal"><span class="pre">{{</span></code> 作为原始字符串使用，并且不会开始一个变量
+的语法结构，你需要使用一个技巧。</p>
+<p>最简单的方法是在变量分隔符中（ <code class="docutils literal"><span class="pre">{{</span></code> ）使用变量表达式输出:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="s1">&#39;{{&#39;</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>对于较大的段落，标记一个块为  <cite>raw</cite> 是有意义的。例如展示 Jinja 语法的实例，
+你可以在模板中用这个片段:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">raw</span> <span class="cp">%}</span>
+    &lt;ul&gt;
+    {% for item in seq %}
+        &lt;li&gt;{{ item }}&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+<span class="cp">{%</span> <span class="k">endraw</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="line-statements">
+<span id="id9"></span><h2>行语句<a class="headerlink" href="#line-statements" title="Permalink to this headline">¶</a></h2>
+<p>如果应用启用了行语句，就可以把一个行标记为一个语句。例如如果行语句前缀配置为
+<code class="docutils literal"><span class="pre">#</span></code> ，下面的两个例子是等价的:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+# for item in seq
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+# endfor
+<span class="nt">&lt;/ul&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">seq</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>行语句前缀可以出现在一行的任意位置，只要它前面没有文本。为了语句有更好的可读
+性，在块的开始（比如 <cite>for</cite> 、 <cite>if</cite> 、 <cite>elif</cite> 等等）以冒号结尾:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre># for item in seq:
+    ...
+# endfor
+</pre></div>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p>若有未闭合的圆括号、花括号或方括号，行语句可以跨越多行:</p>
+<div class="last highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+# for href, caption in [(&#39;index.html&#39;, &#39;Index&#39;),
+                        (&#39;about.html&#39;, &#39;About&#39;)]:
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">href</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">caption</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+# endfor
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>从 Jinja 2.2 开始，行注释也可以使用了。例如如果配置 <code class="docutils literal"><span class="pre">##</span></code> 为行注释前缀，
+行中所有 <code class="docutils literal"><span class="pre">##</span></code> 之后的内容（不包括换行符）会被忽略:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre># for item in seq:
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>     ## this comment is ignored
+# endfor
+</pre></div>
+</div>
+</div>
+<div class="section" id="template-inheritance">
+<span id="id10"></span><h2>模板继承<a class="headerlink" href="#template-inheritance" title="Permalink to this headline">¶</a></h2>
+<p>Jinja 中最强大的部分就是模板继承。模板继承允许你构建一个包含你站点共同元素的基
+本模板“骨架”，并定义子模板可以覆盖的 <strong>块</strong> 。</p>
+<p>听起来复杂，实际上很简单。从例子上手是最易于理解的。</p>
+<div class="section" id="id11">
+<h3>基本模板<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>这个模板，我们会把它叫做 <code class="docutils literal"><span class="pre">base.html</span></code> ，定义了一个简单的 HTML 骨架文档，你可
+能使用一个简单的两栏页面。用内容填充空的块是子模板的工作:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot;&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="cp">{%</span> <span class="k">block</span> <span class="nv">head</span> <span class="cp">%}</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;style.css&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span> - My Webpage<span class="nt">&lt;/title&gt;</span>
+    <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;footer&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{%</span> <span class="k">block</span> <span class="nv">footer</span> <span class="cp">%}</span>
+        <span class="ni">&amp;copy;</span> Copyright 2008 by <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://domain.invalid/&quot;</span><span class="nt">&gt;</span>you<span class="nt">&lt;/a&gt;</span>.
+        <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+</pre></div>
+</div>
+<p>在本例中， <code class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></code> 标签定义了四个字幕版可以填充的块。所有的 <cite>block</cite> 标签
+告诉模板引擎子模板可以覆盖模板中的这些部分。</p>
+</div>
+<div class="section" id="id12">
+<h3>子模板<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>一个子模板看起来是这样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;base.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>Index<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">head</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nb">super</span><span class="o">()</span> <span class="cp">}}</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+        <span class="nc">.important</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="m">#336699</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h1&gt;</span>Index<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&quot;important&quot;</span><span class="nt">&gt;</span>
+      Welcome on my awesome homepage.
+    <span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">{%</span> <span class="pre">extend</span> <span class="pre">%}</span></code> 标签是这里的关键。它告诉模板引擎这个模板“继承”另一个模板。
+当模板系统对这个模板求值时，首先定位父模板。 extends 标签应该是模板中的第一个
+标签。它前面的所有东西都会按照普通情况打印出来，而且可能会导致一些困惑。更多
+该行为的细节以及如何利用它，见 <a class="reference internal" href="tricks.html#null-master-fallback"><span>Null-Master 退回</span></a> 。</p>
+<p>模板的文件名依赖于模板加载器。例如 <code class="xref py py-class docutils literal"><span class="pre">FileSystemLoader</span></code> 允许你用文件名访
+问其它模板。你可以使用斜线访问子目录中的模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout/default.html&quot;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这种行为也可能依赖于应用内嵌的 Jinja 。注意子模板没有定义 <code class="docutils literal"><span class="pre">footer</span></code> 块，会
+使用父模板中的值。</p>
+<p>你不能在同一个模板中定义多个同名的 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></code> 标签。因为块标签以两种
+方向工作，所以存在这种限制。即一个块标签不仅提供一个可以填充的部分，也在父级
+定义填充的内容。如果同一个模板中有两个同名的 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">blok</span> <span class="pre">%}</span></code> 标签，父模板
+无法获知要使用哪一个块的内容。</p>
+<p>如果你想要多次打印一个块，无论如何你可以使用特殊的 <cite>self</cite> 变量并调用与块同名
+的函数:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">self.title</span><span class="o">()</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="super">
+<h3>Super 块<a class="headerlink" href="#super" title="Permalink to this headline">¶</a></h3>
+<p>可以调用 <cite>super</cite> 来渲染父级块的内容。这会返回父级块的结果:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">sidebar</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h3&gt;</span>Table Of Contents<span class="nt">&lt;/h3&gt;</span>
+    ...
+    <span class="cp">{{</span> <span class="nb">super</span><span class="o">()</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h3>命名块结束标签<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>Jinja2 允许你在块的结束标签中加入的名称来改善可读性:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">sidebar</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">block</span> <span class="nv">inner_sidebar</span> <span class="cp">%}</span>
+        ...
+    <span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">inner_sidebar</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">sidebar</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>无论如何， <cite>endblock</cite> 后面的名称一定与块名匹配。</p>
+</div>
+<div class="section" id="id14">
+<h3>嵌套块和作用域<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>嵌套块可以胜任更复杂的布局。而默认的块不允许访问块外作用域中的变量:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">seq</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">loop_item</span> <span class="cp">%}{{</span> <span class="nv">item</span> <span class="cp">}}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这个例子会输出空的 <code class="docutils literal"><span class="pre">&lt;li&gt;</span></code> 项，因为 <cite>item</cite> 在块中是不可用的。其原因是，如果
+块被子模板替换，变量在其块中可能是未定义的或未被传递到上下文。</p>
+<p>从 Jinja 2.2 开始，你可以显式地指定在块中可用的变量，只需在块声明中添加
+<cite>scoped</cite> 修饰，就把块设定到作用域中:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">seq</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">loop_item</span> <span class="k">scoped</span> <span class="cp">%}{{</span> <span class="nv">item</span> <span class="cp">}}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>当覆盖一个块时，不需要提供 <cite>scoped</cite> 修饰。</p>
+</div>
+<div class="section" id="id15">
+<h3>模板对象<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.4.</span></p>
+</div>
+<p>当一个模板对象被传递到模板上下文，你也可以从那个对象继承。假设调用
+代码传递 <cite>layout_template</cite> 布局模板到环境，这段代码会工作:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="nv">layout_template</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>之前 <cite>layout_template</cite> 变量一定是布局模板文件名的字符串才能工作。</p>
+</div>
+</div>
+<div class="section" id="html">
+<h2>HTML 转义<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h2>
+<p>当从模板生成 HTML 时，始终有这样的风险:变量包含影响已生成 HTML 的字符。有两种
+解决方法:手动转义每个字符或默认自动转义所有的东西。</p>
+<p>Jinja 两者都支持，使用哪个取决于应用的配置。默认的配置未开启自动转义有这样几个
+原因:</p>
+<ul class="simple">
+<li>转义所有非安全值的东西也意味着 Jijna 转义已知不包含 HTML 的值，比如数字，对
+性能有巨大影响。</li>
+<li>关于变量安全性的信息是易碎的。可能会发生强制标记一个值为安全或非安全的情况，
+而返回值会被作为 HTML 转义两次。</li>
+</ul>
+<div class="section" id="id16">
+<h3>使用手动转义<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>如果启用了手动转义，按需转义变量就是 <strong>你的</strong> 责任。要转义什么？如果你有
+一个 <em>可能</em> 包含 <code class="docutils literal"><span class="pre">&gt;</span></code> 、 <code class="docutils literal"><span class="pre">&lt;</span></code> 、 <code class="docutils literal"><span class="pre">&amp;</span></code> 或 <code class="docutils literal"><span class="pre">&quot;</span></code> 字符的变量，你必须转义
+它，除非变量中的 HTML 有可信的良好格式。转义通过用管道传递到过滤器 <code class="docutils literal"><span class="pre">|e</span></code>
+来实现:
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">user.username|e</span> <span class="pre">}}</span></code> 。</p>
+</div>
+<div class="section" id="id17">
+<h3>使用自动转义<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>当启用了自动转移，默认会转移一切，除非值被显式地标记为安全的。可以在应用中
+标记，也可以在模板中使用 <cite>|safe</cite> 过滤器标记。这种方法的主要问题是 Python 本
+身没有被污染的值的概念，所以一个值是否安全的信息会丢失。如果这个信息丢失，
+会继续转义，你最后会得到一个转义了两次的内容。</p>
+<p>但双重转义很容易避免，只需要依赖 Jinja2 提供的工具而不使用诸如字符串模运算符
+这样的 Python 内置结构。</p>
+<p>返回模板数据（宏、 <cite>super</cite> 、 <cite>self.BLOCKNAME</cite> ）的函数，其返回值总是被标记
+为安全的。</p>
+<p>模板中的字符串字面量在自动转义中被也被视为是不安全的。这是因为安全的字符串是
+一个对 Python 的扩展，而不是每个库都能妥善地使用它。</p>
+</div>
+</div>
+<div class="section" id="id18">
+<h2>控制结构清单<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>控制结构指的是所有的那些可以控制程序流的东西 —— 条件（比如 if/elif/ekse ）、
+for 循环、以及宏和块之类的东西。控制结构在默认语法中以 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">..</span> <span class="pre">%}</span></code> 块的形式
+出现。</p>
+<div class="section" id="for">
+<h3>For<a class="headerlink" href="#for" title="Permalink to this headline">¶</a></h3>
+<p>遍历序列中的每项。例如，要显示一个由 <cite>users`</cite> 变量提供的用户列表:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span>Members<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>因为模板中的变量保留它们的对象属性，可以迭代像 <cite>dict</cite> 的容器:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;dl&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">key</span><span class="o">,</span> <span class="nv">value</span> <span class="k">in</span> <span class="nv">my_dict.iteritems</span><span class="o">()</span> <span class="cp">%}</span>
+    <span class="nt">&lt;dt&gt;</span><span class="cp">{{</span> <span class="nv">key</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">value</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/dl&gt;</span>
+</pre></div>
+</div>
+<p>注意无论如何字典通常是无序的，所以你可能需要把它作为一个已排序的列表传入
+到模板或使用 <cite>dictsort</cite> 过滤器。</p>
+<p>在一个 for 循环块中你可以访问这些特殊的变量:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">变量</th>
+<th class="head">描述</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><cite>loop.index</cite></td>
+<td>当前循环迭代的次数（从 1 开始）</td>
+</tr>
+<tr class="row-odd"><td><cite>loop.index0</cite></td>
+<td>当前循环迭代的次数（从 0 开始）</td>
+</tr>
+<tr class="row-even"><td><cite>loop.revindex</cite></td>
+<td>到循环结束需要迭代的次数（从 1 开始）</td>
+</tr>
+<tr class="row-odd"><td><cite>loop.revindex0</cite></td>
+<td>到循环结束需要迭代的次数（从 0 开始）</td>
+</tr>
+<tr class="row-even"><td><cite>loop.first</cite></td>
+<td>如果是第一次迭代，为 True 。</td>
+</tr>
+<tr class="row-odd"><td><cite>loop.last</cite></td>
+<td>如果是最后一次迭代，为 True 。</td>
+</tr>
+<tr class="row-even"><td><cite>loop.length</cite></td>
+<td>序列中的项目数。</td>
+</tr>
+<tr class="row-odd"><td><cite>loop.cycle</cite></td>
+<td>在一串序列间期取值的辅助函数。见下面的解释。</td>
+</tr>
+</tbody>
+</table>
+<p>在 for 循环中，可以使用特殊的 <cite>loop.cycle</cite> 辅助函数，伴随循环在一个字符串/变
+量列表中周期取值:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.cycle</span><span class="o">(</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">row</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>从 Jinja 2.1 开始，一个额外的 <cite>cycle</cite> 辅助函数允许循环限定外的周期取值。
+更多信息请阅读 <a class="reference internal" href="#builtin-globals"><span>全局函数清单</span></a> 。</p>
+<p id="loop-filtering">与 Python 中不同，模板中的循环内不能 <cite>break</cite> 或 <cite>continue</cite> 。但你可以在迭代
+中过滤序列来跳过项目。下面的例子中跳过了所有隐藏的用户:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="k">if</span> <span class="k">not</span> <span class="nv">user.hidden</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>好处是特殊的 <cite>loop</cite> 可以正确地计数，从而不计入未迭代过的用户。</p>
+<p>如果因序列是空或者过滤移除了序列中的所有项目而没有执行循环，你可以使用
+<cite>else</cite> 渲染一个用于替换的块:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;&lt;em&gt;</span>no users found<span class="nt">&lt;/em&gt;&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>也可以递归地使用循环。当你处理诸如站点地图之类的递归数据时很有用。要递归地
+使用循环，你只需要在循环定义中加上 <cite>recursive</cite> 修饰，并在你想使用递归的地
+方，对可迭代量调用 <cite>loop</cite> 变量。</p>
+<p>下面的例子用递归循环实现了站点地图:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;sitemap&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span>- <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">sitemap</span> <span class="k">recursive</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">item.href</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">item.title</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>
+    <span class="cp">{%</span>- <span class="k">if</span> <span class="nv">item.children</span> -<span class="cp">%}</span>
+        <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;submenu&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nb">loop</span><span class="o">(</span><span class="nv">item.children</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/ul&gt;</span>
+    <span class="cp">{%</span>- <span class="k">endif</span> <span class="cp">%}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="if">
+<h3>If<a class="headerlink" href="#if" title="Permalink to this headline">¶</a></h3>
+<p>Jinja 中的 <cite>if</cite> 语句可比 Python 中的 if 语句。在最简单的形式中，你可以测试
+一个变量是否未定义，为空或 false:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">users</span> <span class="cp">%}</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>像在 Python 中一样，用 <cite>elif</cite> 和 <cite>else</cite> 来构建多个分支。你也可以用更复杂的
+<a class="reference internal" href="#expressions"><span>表达式</span></a>:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">kenny.sick</span> <span class="cp">%}</span>
+    Kenny is sick.
+<span class="cp">{%</span> <span class="k">elif</span> <span class="nv">kenny.dead</span> <span class="cp">%}</span>
+    You killed Kenny!  You bastard!!!
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    Kenny looks okay --- so far
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>If 也可以被用作 <a class="reference internal" href="#if-expression"><span>内联表达式</span></a> 并作为
+<a class="reference internal" href="#loop-filtering"><span>循环过滤</span></a> 。</p>
+</div>
+<div class="section" id="id19">
+<h3>宏<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>宏类似常规编程语言中的函数。它们用于把常用行为作为可重用的函数，取代
+手动重复的工作。</p>
+<p>这里是一个宏渲染表单元素的小例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">input</span><span class="o">(</span><span class="nv">name</span><span class="o">,</span> <span class="nv">value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="o">,</span> <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="o">,</span> <span class="nv">size</span><span class="o">=</span><span class="m">20</span><span class="o">)</span> -<span class="cp">%}</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">type</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">name=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span>
+        <span class="nv">value</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">size=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">size</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span>- <span class="k">endmacro</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>在命名空间中，宏之后可以像函数一样调用:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">input</span><span class="o">(</span><span class="s1">&#39;username&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">input</span><span class="o">(</span><span class="s1">&#39;password&#39;</span><span class="o">,</span> <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>如果宏在不同的模板中定义，你需要首先使用 <a class="reference internal" href="#import"><span>import</span></a> 。</p>
+<p>在宏内部，你可以访问三个特殊的变量:</p>
+<dl class="docutils">
+<dt><cite>varargs</cite></dt>
+<dd>如果有多于宏接受的参数个数的位置参数被传入，它们会作为列表的值保存在
+<cite>varargs</cite> 变量上。</dd>
+<dt><cite>kwargs</cite></dt>
+<dd>同 <cite>varargs</cite> ，但只针对关键字参数。所有未使用的关键字参数会存储在
+这个特殊变量中。</dd>
+<dt><cite>caller</cite></dt>
+<dd>如果宏通过 <a class="reference internal" href="#call"><span>call</span></a> 标签调用，调用者会作为可调用的宏被存储在这个
+变量中。</dd>
+</dl>
+<p>宏也可以暴露某些内部细节。下面的宏对象属性是可用的:</p>
+<dl class="docutils">
+<dt><cite>name</cite></dt>
+<dd>宏的名称。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">input.name</span> <span class="pre">}}</span></code> 会打印 <code class="docutils literal"><span class="pre">input</span></code> 。</dd>
+<dt><cite>arguments</cite></dt>
+<dd>一个宏接受的参数名的元组。</dd>
+<dt><cite>defaults</cite></dt>
+<dd>默认值的元组。</dd>
+<dt><cite>catch_kwargs</cite></dt>
+<dd>如果宏接受额外的关键字参数（也就是访问特殊的 <cite>kwargs</cite> 变量），为 <cite>true</cite> 。</dd>
+<dt><cite>catch_varargs</cite></dt>
+<dd>如果宏接受额外的位置参数（也就是访问特殊的 <cite>varargs</cite> 变量），为 <cite>true</cite> 。</dd>
+<dt><cite>caller</cite></dt>
+<dd>如果宏访问特殊的 <cite>caller</cite> 变量且由 <a class="reference internal" href="#call"><span>call</span></a> 标签调用，为 <cite>true</cite> 。</dd>
+</dl>
+<p>如果一个宏的名称以下划线开始，它不是导出的且不能被导入。</p>
+</div>
+<div class="section" id="call">
+<span id="id20"></span><h3>调用<a class="headerlink" href="#call" title="Permalink to this headline">¶</a></h3>
+<p>在某些情况下，需要把一个宏传递到另一个宏。为此，可以使用特殊的 <cite>call</cite> 块。
+下面的例子展示了如何让宏利用调用功能:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">render_dialog</span><span class="o">(</span><span class="nv">title</span><span class="o">,</span> <span class="nv">class</span><span class="o">=</span><span class="s1">&#39;dialog&#39;</span><span class="o">)</span> -<span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">class</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">title</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;contents&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{{</span> <span class="nv">caller</span><span class="o">()</span> <span class="cp">}}</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span>- <span class="k">endmacro</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">call</span> <span class="nv">render_dialog</span><span class="o">(</span><span class="s1">&#39;Hello World&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+    This is a simple dialog rendered by using a macro and
+    a call block.
+<span class="cp">{%</span> <span class="k">endcall</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>也可以向调用块传递参数。这在为循环做替换时很有用。总而言之，调用块的工作方
+式几乎与宏相同，只是调用块没有名称。</p>
+<p>这里是一个带参数的调用块的例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">dump_users</span><span class="o">(</span><span class="nv">users</span><span class="o">)</span> -<span class="cp">%}</span>
+    <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">{%</span>- <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span><span class="cp">{{</span> <span class="nv">caller</span><span class="o">(</span><span class="nv">user</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span>- <span class="k">endmacro</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">call</span><span class="o">(</span><span class="nv">user</span><span class="o">)</span> <span class="nv">dump_users</span><span class="o">(</span><span class="nv">list_of_user</span><span class="o">)</span> <span class="cp">%}</span>
+    <span class="nt">&lt;dl&gt;</span>
+        <span class="nt">&lt;dl&gt;</span>Realname<span class="nt">&lt;/dl&gt;</span>
+        <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">user.realname</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+        <span class="nt">&lt;dl&gt;</span>Description<span class="nt">&lt;/dl&gt;</span>
+        <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">user.description</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+    <span class="nt">&lt;/dl&gt;</span>
+<span class="cp">{%</span> <span class="k">endcall</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>过滤器<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>过滤器段允许你在一块模板数据上应用常规 Jinja2 过滤器。只需要把代码用
+<cite>filter</cite> 节包裹起来:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">filter</span> <span class="nf">upper</span> <span class="cp">%}</span>
+    This text becomes uppercase
+<span class="cp">{%</span> <span class="k">endfilter</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id22">
+<h3>赋值<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>在代码块中，你也可以为变量赋值。在顶层的（块、宏、循环之外）赋值是可导出的，即
+可以从别的模板中导入。</p>
+<p>赋值使用 <cite>set</cite> 标签，并且可以为多个变量赋值:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">set</span> <span class="nv">navigation</span> <span class="o">=</span> <span class="o">[(</span><span class="s1">&#39;index.html&#39;</span><span class="o">,</span> <span class="s1">&#39;Index&#39;</span><span class="o">),</span> <span class="o">(</span><span class="s1">&#39;about.html&#39;</span><span class="o">,</span> <span class="s1">&#39;About&#39;</span><span class="o">)]</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">set</span> <span class="nv">key</span><span class="o">,</span> <span class="nv">value</span> <span class="o">=</span> <span class="nv">call_something</span><span class="o">()</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id23">
+<h3>继承<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p><cite>extends</cite> 标签用于从另一个模板继承。你可以在一个文件中使用多次继承，但是
+只会执行其中的一个。见上面的关于 <a class="reference internal" href="#template-inheritance"><span>模板继承</span></a> 的节。</p>
+</div>
+<div class="section" id="id24">
+<h3>块<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<p>块用于继承，同时作为占位符和用于替换的内容。 <a class="reference internal" href="#template-inheritance"><span>模板继承</span></a>
+节中详细地介绍了块。</p>
+</div>
+<div class="section" id="id25">
+<h3>包含<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p><cite>include</cite> 语句用于包含一个模板，并在当前命名空间中返回那个文件的内容渲
+染结果:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;header.html&#39;</span> <span class="cp">%}</span>
+    Body
+<span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;footer.html&#39;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>被包含的模板默认可以访问活动的上下文中的变量。更多关于导入和包含的上下文
+行为见 <a class="reference internal" href="#import-visibility"><span>导入上下文行为</span></a> 。</p>
+<p>从 Jinja 2.2 开始，你可以把一句 include 用 <code class="docutils literal"><span class="pre">ignore</span> <span class="pre">missing</span></code> 标记，这样
+如果模板不存在，Jinja 会忽略这条语句。当与 <code class="docutils literal"><span class="pre">with</span></code> 或 <code class="docutils literal"><span class="pre">without</span> <span class="pre">context</span></code>
+语句联合使用时，它必须被放在上下文可见性语句 <em>之前</em> 。这里是一些有效的例
+子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">include</span> <span class="s2">&quot;sidebar.html&quot;</span> <span class="k">ignore missing</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">include</span> <span class="s2">&quot;sidebar.html&quot;</span> <span class="k">ignore missing</span> <span class="k">with context</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">include</span> <span class="s2">&quot;sidebar.html&quot;</span> <span class="k">ignore missing</span> <span class="k">without context</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.2.</span></p>
+</div>
+<p>你也可以提供一个模板列表，它会在包含前被检查是否存在。第一个存在的模板会
+被包含进来。如果给出了 <cite>ignore missing</cite> ，且所有这些模板都不存在，会退化
+至不做任何渲染，否则将会抛出一个异常。</p>
+<p>例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">include</span> <span class="o">[</span><span class="s1">&#39;page_detailed.html&#39;</span><span class="o">,</span> <span class="s1">&#39;page.html&#39;</span><span class="o">]</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">include</span> <span class="o">[</span><span class="s1">&#39;special_sidebar.html&#39;</span><span class="o">,</span> <span class="s1">&#39;sidebar.html&#39;</span><span class="o">]</span> <span class="k">ignore missing</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.4: </span>如果传递一个模板对象到模板上下文，你可以用 <cite>include</cite> 包含这个对
+象。</p>
+</div>
+</div>
+<div class="section" id="import">
+<span id="id26"></span><h3>导入<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h3>
+<p>Jinja2 支持在宏中放置经常使用的代码。这些宏可以被导入，并不同的模板中使用。这
+与 Python 中的 import 语句类似。要知道的是，导入量会被缓存，并且默认下导入的
+模板不能访问当前模板中的非全局变量。更多关于导入和包含的上下文行为见
+<a class="reference internal" href="#import-visibility"><span>导入上下文行为</span></a> 。</p>
+<p>有两种方式来导入模板。你可以把整个模板导入到一个变量或从其中导入请求特定的宏
+/导出量。</p>
+<p>比如我们有一个渲染表单（名为 <cite>forms.html</cite> ）的助手模块:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">input</span><span class="o">(</span><span class="nv">name</span><span class="o">,</span> <span class="nv">value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="o">,</span> <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="o">)</span> -<span class="cp">%}</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">type</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">value</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">name=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span>- <span class="k">endmacro</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span>- <span class="k">macro</span> <span class="nv">textarea</span><span class="o">(</span><span class="nv">name</span><span class="o">,</span> <span class="nv">value</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="o">,</span> <span class="nv">rows</span><span class="o">=</span><span class="m">10</span><span class="o">,</span> <span class="nv">cols</span><span class="o">=</span><span class="m">40</span><span class="o">)</span> -<span class="cp">%}</span>
+    <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rows=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">rows</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">cols=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">cols</span>
+        <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">value</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/textarea&gt;</span>
+<span class="cp">{%</span>- <span class="k">endmacro</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>最简单灵活的方式是把整个模块导入为一个变量。这样你可以访问属性:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">import</span> <span class="s1">&#39;forms.html&#39;</span> <span class="k">as</span> <span class="nv">forms</span> <span class="cp">%}</span>
+<span class="nt">&lt;dl&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Username<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">forms.input</span><span class="o">(</span><span class="s1">&#39;username&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Password<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">forms.input</span><span class="o">(</span><span class="s1">&#39;password&#39;</span><span class="o">,</span> <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+<span class="nt">&lt;/dl&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">forms.textarea</span><span class="o">(</span><span class="s1">&#39;comment&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>此外你也可以从模板中导入名称到当前的命名空间:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">from</span> <span class="s1">&#39;forms.html&#39;</span> <span class="k">import</span> <span class="nv">input</span> <span class="k">as</span> <span class="nv">input_field</span><span class="o">,</span> <span class="nv">textarea</span> <span class="cp">%}</span>
+<span class="nt">&lt;dl&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Username<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">input_field</span><span class="o">(</span><span class="s1">&#39;username&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+    <span class="nt">&lt;dt&gt;</span>Password<span class="nt">&lt;/dt&gt;</span>
+    <span class="nt">&lt;dd&gt;</span><span class="cp">{{</span> <span class="nv">input_field</span><span class="o">(</span><span class="s1">&#39;password&#39;</span><span class="o">,</span> <span class="nv">type</span><span class="o">=</span><span class="s1">&#39;password&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/dd&gt;</span>
+<span class="nt">&lt;/dl&gt;</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">textarea</span><span class="o">(</span><span class="s1">&#39;comment&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>名称以一个或更多下划线开始的宏和变量是私有的，不能被导入。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.4: </span>如果传递一个模板对象到模板上下文，从那个对象中导入。</p>
+</div>
+</div>
+</div>
+<div class="section" id="import-visibility">
+<span id="id27"></span><h2>导入上下文行为<a class="headerlink" href="#import-visibility" title="Permalink to this headline">¶</a></h2>
+<p>默认下，每个包含的模板会被传递到当前上下文，而导入的模板不会。这样做的原因
+是导入量不会像包含量被缓存，因为导入量经常只作容纳宏的模块。</p>
+<p>无论如何，这当然也可以显式地更改。通过在 import/include 声明中直接添加
+<cite>with context</cite> 或 <cite>without context</cite> ，当前的上下文可以传递到模板，而且不会
+自动禁用缓存。</p>
+<p>这里有两个例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">from</span> <span class="s1">&#39;forms.html&#39;</span> <span class="k">import</span> <span class="nv">input</span> <span class="k">with context</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;header.html&#39;</span> <span class="k">without context</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p>在 Jinja 2.0 中，被传递到被包含模板的上下文不包含模板中定义的变量。
+事实上，这不能工作:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">box</span> <span class="k">in</span> <span class="nv">boxes</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">include</span> <span class="s2">&quot;render_box.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p class="last">在 Jinja 2.0 中，被包含的模板 <code class="docutils literal"><span class="pre">render_box.html</span></code> <em>不能</em> 访问
+<cite>box</cite> 。从 Jinja 2.1 开始， <code class="docutils literal"><span class="pre">render_box.html</span></code> <em>可以</em> 这么做。</p>
+</div>
+</div>
+<div class="section" id="expressions">
+<span id="id28"></span><h2>表达式<a class="headerlink" href="#expressions" title="Permalink to this headline">¶</a></h2>
+<p>Jinja 中到处都允许使用基本表达式。这像常规的 Python 一样工作，即使你不用
+Python 工作，你也会感受到其带来的便利。</p>
+<div class="section" id="id29">
+<h3>字面量<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>表达式最简单的形式就是字面量。字面量表示诸如字符串和数值的 Python 对象。下面
+的字面量是可用的:</p>
+<dl class="docutils">
+<dt>&#8220;Hello World&#8221;:</dt>
+<dd>双引号或单引号中间的一切都是字符串。无论何时你需要在模板中使用一个字
+符串（比如函数调用、过滤器或只是包含或继承一个模板的参数），它们都是
+有用的。</dd>
+<dt>42 / 42.23:</dt>
+<dd>直接写下数值就可以创建整数和浮点数。如果有小数点，则为浮点数，否则为
+整数。记住在 Python 里， <code class="docutils literal"><span class="pre">42</span></code> 和 <code class="docutils literal"><span class="pre">42.0</span></code> 是不一样的。</dd>
+<dt>[&#8216;list&#8217;, &#8216;of&#8217;, &#8216;objects&#8217;]:</dt>
+<dd><p class="first">一对中括号括起来的东西是一个列表。列表用于存储和迭代序列化的数据。例如
+你可以容易地在 for 循环中用列表和元组创建一个链接的列表:</p>
+<div class="last highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">href</span><span class="o">,</span> <span class="nv">caption</span> <span class="k">in</span> <span class="o">[(</span><span class="s1">&#39;index.html&#39;</span><span class="o">,</span> <span class="s1">&#39;Index&#39;</span><span class="o">),</span> <span class="o">(</span><span class="s1">&#39;about.html&#39;</span><span class="o">,</span> <span class="s1">&#39;About&#39;</span><span class="o">),</span>
+                         <span class="o">(</span><span class="s1">&#39;downloads.html&#39;</span><span class="o">,</span> <span class="s1">&#39;Downloads&#39;</span><span class="o">)]</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">href</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">caption</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</dd>
+<dt>(&#8216;tuple&#8217;, &#8216;of&#8217;, &#8216;values&#8217;):</dt>
+<dd>元组与列表类似，只是你不能修改元组。如果元组中只有一个项，你需要以逗号
+结尾它。元组通常用于表示两个或更多元素的项。更多细节见上面的例子。</dd>
+<dt>{&#8216;dict&#8217;: &#8216;of&#8217;, &#8216;key&#8217;: &#8216;and&#8217;, &#8216;value&#8217;: &#8216;pairs&#8217;}:</dt>
+<dd>Python 中的字典是一种关联键和值的结构。键必须是唯一的，并且键必须只有一个
+值。字典在模板中很少使用，罕用于诸如 <a class="reference internal" href="#xmlattr" title="xmlattr"><code class="xref py py-func docutils literal"><span class="pre">xmlattr()</span></code></a> 过滤器之类。</dd>
+<dt>true / false:</dt>
+<dd>true 永远是 true ，而 false 始终是 false 。</dd>
+</dl>
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p class="last">特殊常量 <cite>true</cite> 、 <cite>false</cite> 和 <cite>none</cite> 实际上是小写的。因为这在过去会导致
+混淆，过去 <cite>True</cite> 扩展为一个被认为是 false 的未定义的变量。所有的这三个
+常量也可以被写成首字母大写（ <cite>True</cite> 、 <cite>False</cite> 和 <cite>None</cite> ）。尽管如此，
+为了一致性（所有的 Jinja 标识符是小写的），你应该使用小写的版本。</p>
+</div>
+</div>
+<div class="section" id="id30">
+<h3>算术<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>Jinja 允许你用计算值。这在模板中很少用到，但是为了完整性允许其存在。支持下面的
+运算符:</p>
+<dl class="docutils">
+<dt>+</dt>
+<dd>把两个对象加到一起。通常对象是素质，但是如果两者是字符串或列表，你可以用这
+种方式来衔接它们。无论如何这不是首选的连接字符串的方式！连接字符串见 <code class="docutils literal"><span class="pre">~</span></code>
+运算符。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">1</span> <span class="pre">}}</span></code> 等于 <code class="docutils literal"><span class="pre">2</span></code> 。</dd>
+<dt>-</dt>
+<dd>用第一个数减去第二个数。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">3</span> <span class="pre">-</span> <span class="pre">2</span> <span class="pre">}}</span></code> 等于 <code class="docutils literal"><span class="pre">1</span></code> 。</dd>
+</dl>
+<dl class="docutils">
+<dt>/</dt>
+<dd>对两个数做除法。返回值会是一个浮点数。
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">1</span> <span class="pre">/</span> <span class="pre">2</span> <span class="pre">}}</span></code> 等于 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">0.5</span> <span class="pre">}}</span></code> 。</dd>
+</dl>
+<dl class="docutils">
+<dt>//</dt>
+<dd>对两个数做除法，返回整数商。
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">20</span> <span class="pre">//</span> <span class="pre">7</span> <span class="pre">}}</span></code> 等于 <code class="docutils literal"><span class="pre">2</span></code> 。</dd>
+</dl>
+<dl class="docutils">
+<dt>%</dt>
+<dd>计算整数除法的余数。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">11</span> <span class="pre">%</span> <span class="pre">7</span> <span class="pre">}}</span></code> 等于 <code class="docutils literal"><span class="pre">4</span></code> 。</dd>
+<dt>*</dt>
+<dd>用右边的数乘左边的操作数。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">2</span> <span class="pre">}}</span></code> 会返回 <code class="docutils literal"><span class="pre">4</span></code> 。也可以用于重
+复一个字符串多次。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">‘=’</span> <span class="pre">*</span> <span class="pre">80</span> <span class="pre">}}</span></code> 会打印 80 个等号的横条。</dd>
+<dt>**</dt>
+<dd>取左操作数的右操作数次幂。 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">2**3</span> <span class="pre">}}</span></code> 会返回 <code class="docutils literal"><span class="pre">8</span></code> 。</dd>
+</dl>
+</div>
+<div class="section" id="id31">
+<h3>比较<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>==</dt>
+<dd>比较两个对象是否相等。</dd>
+<dt>!=</dt>
+<dd>比较两个对象是否不等。</dd>
+</dl>
+<dl class="docutils">
+<dt>&gt;</dt>
+<dd>如果左边大于右边，返回 <cite>true</cite> 。</dd>
+<dt>&gt;=</dt>
+<dd>如果左边大于等于右边，返回 <cite>true</cite> 。</dd>
+</dl>
+<dl class="docutils">
+<dt>&lt;</dt>
+<dd>如果左边小于右边，返回 <cite>true</cite> 。</dd>
+<dt>&lt;=</dt>
+<dd>如果左边小于等于右边，返回 <cite>true</cite> 。</dd>
+</dl>
+</div>
+<div class="section" id="id32">
+<h3>逻辑<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<p>对于 <cite>if</cite> 语句，在 <cite>for</cite> 过滤或 <cite>if</cite> 表达式中，它可以用于联合多个表达式:</p>
+<dl class="docutils">
+<dt>and</dt>
+<dd>如果左操作数和右操作数同为真，返回 true 。</dd>
+<dt>or</dt>
+<dd>如果左操作数和右操作数有一个为真，返回 true 。</dd>
+<dt>not</dt>
+<dd>对一个表达式取反（见下）。</dd>
+<dt>(expr)</dt>
+<dd>表达式组。</dd>
+</dl>
+<div class="admonition- admonition">
+<p class="first admonition-title">提示</p>
+<p class="last"><code class="docutils literal"><span class="pre">is</span></code> 和 <code class="docutils literal"><span class="pre">in</span></code> 运算符同样支持使用中缀记法: <code class="docutils literal"><span class="pre">foo</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">bar</span></code> 和
+<code class="docutils literal"><span class="pre">foo</span> <span class="pre">not</span> <span class="pre">in</span> <span class="pre">bar</span></code> 而不是 <code class="docutils literal"><span class="pre">not</span> <span class="pre">foo</span> <span class="pre">is</span> <span class="pre">bar</span></code> 和 <code class="docutils literal"><span class="pre">not</span> <span class="pre">foo</span> <span class="pre">in</span> <span class="pre">bar</span></code> 。所有的
+其它表达式需要前缀记法 <code class="docutils literal"><span class="pre">not</span> <span class="pre">(foo</span> <span class="pre">and</span> <span class="pre">bar)</span></code> 。</p>
+</div>
+</div>
+<div class="section" id="id33">
+<h3>其它运算符<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<p>下面的运算符非常有用，但不适用于其它的两个分类:</p>
+<dl class="docutils">
+<dt>in</dt>
+<dd>运行序列/映射包含检查。如果左操作数包含于右操作数，返回 true 。比如
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">1</span> <span class="pre">in</span> <span class="pre">[1,2,3]</span> <span class="pre">}}</span></code> 会返回 true 。</dd>
+<dt>is</dt>
+<dd>运行一个 <a class="reference internal" href="#tests"><span>测试</span></a> 。</dd>
+<dt>|</dt>
+<dd>应用一个 <a class="reference internal" href="#filters"><span>过滤器</span></a> 。</dd>
+</dl>
+<dl class="docutils">
+<dt>~</dt>
+<dd>把所有的操作数转换为字符串，并且连接它们。
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">&quot;Hello</span> <span class="pre">&quot;</span> <span class="pre">~</span> <span class="pre">name</span> <span class="pre">~</span> <span class="pre">&quot;!&quot;</span> <span class="pre">}}</span></code> 会返回（假设 <cite>name</cite> 值为
+<code class="docutils literal"><span class="pre">''John'</span></code> ） <code class="docutils literal"><span class="pre">Hello</span> <span class="pre">John!</span></code> 。</dd>
+<dt>()</dt>
+<dd>调用一个可调用量:<code class="docutils literal"><span class="pre">{{</span> <span class="pre">post.render()</span> <span class="pre">}}</span></code> 。在圆括号中，你可以像在 python
+中一样使用位置参数和关键字参数:
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">post.render(user,</span> <span class="pre">full=true)</span> <span class="pre">}}</span></code> 。</dd>
+<dt>. / []</dt>
+<dd>获取一个对象的属性。（见 <a class="reference internal" href="#variables"><span>变量</span></a> ）</dd>
+</dl>
+</div>
+<div class="section" id="if-expression">
+<span id="id34"></span><h3>If 表达式<a class="headerlink" href="#if-expression" title="Permalink to this headline">¶</a></h3>
+<p>同样，也可以使用内联的 <cite>if</cite> 表达式。这在某些情况很有用。例如你可以用来在一个
+变量定义的情况下才继承一个模板，否则继承默认的布局模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="nv">layout_template</span> <span class="k">if</span> <span class="nv">layout_template</span> <span class="k">is</span> <span class="nf">defined</span> <span class="k">else</span> <span class="s1">&#39;master.html&#39;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>一般的语法是 <code class="docutils literal"><span class="pre">&lt;do</span> <span class="pre">something&gt;</span> <span class="pre">if</span> <span class="pre">&lt;something</span> <span class="pre">is</span> <span class="pre">true&gt;</span> <span class="pre">else</span> <span class="pre">&lt;do</span> <span class="pre">something</span>
+<span class="pre">else&gt;</span></code> 。</p>
+<p><cite>else</cite> 部分是可选的。如果没有显式地提供 else 块，会求值一个未定义对象:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre>{{ &#39;[%s]&#39; % page.title if page.title }}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="builtin-filters">
+<span id="id35"></span><h2>内置过滤器清单<a class="headerlink" href="#builtin-filters" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="abs">
+<code class="descname">abs</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="headerlink" href="#abs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the absolute value of the argument.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="attr">
+<code class="descname">attr</code><span class="sig-paren">(</span><em>obj</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute of an object.  <code class="docutils literal"><span class="pre">foo|attr(&quot;bar&quot;)</span></code> works like
+<code class="docutils literal"><span class="pre">foo.bar</span></code> just that always an attribute is returned and items are not
+looked up.</p>
+<p>See <a class="reference internal" href="#notes-on-subscriptions"><span>Notes on subscriptions</span></a> for more details.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="batch">
+<code class="descname">batch</code><span class="sig-paren">(</span><em>value</em>, <em>linecount</em>, <em>fill_with=None</em><span class="sig-paren">)</span><a class="headerlink" href="#batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>A filter that batches items. It works pretty much like <cite>slice</cite>
+just the other way round. It returns a list of lists with the
+given number of items. If you provide a second parameter this
+is used to fill up missing items. See this example:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+<span class="cp">{%</span>- <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">items</span><span class="o">|</span><span class="nf">batch</span><span class="o">(</span><span class="m">3</span><span class="o">,</span> <span class="s1">&#39;&amp;nbsp;&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+  <span class="nt">&lt;tr&gt;</span>
+  <span class="cp">{%</span>- <span class="k">for</span> <span class="nv">column</span> <span class="k">in</span> <span class="nv">row</span> <span class="cp">%}</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">column</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+  <span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/tr&gt;</span>
+<span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="capitalize">
+<code class="descname">capitalize</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#capitalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Capitalize a value. The first character will be uppercase, all others
+lowercase.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="center">
+<code class="descname">center</code><span class="sig-paren">(</span><em>value</em>, <em>width=80</em><span class="sig-paren">)</span><a class="headerlink" href="#center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Centers the value in a field of a given width.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="default">
+<code class="descname">default</code><span class="sig-paren">(</span><em>value</em>, <em>default_value=u''</em>, <em>boolean=False</em><span class="sig-paren">)</span><a class="headerlink" href="#default" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the value is undefined it will return the passed default value,
+otherwise the value of the variable:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">my_variable</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;my_variable is not defined&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>This will output the value of <code class="docutils literal"><span class="pre">my_variable</span></code> if the variable was
+defined, otherwise <code class="docutils literal"><span class="pre">'my_variable</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">defined'</span></code>. If you want
+to use default with variables that evaluate to false you have to
+set the second parameter to <cite>true</cite>:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="s1">&#39;&#39;</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;the string was empty&#39;</span><span class="o">,</span> <span class="kp">true</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Aliases:</th><td class="field-body"><code class="docutils literal"><span class="pre">d</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="dictsort">
+<code class="descname">dictsort</code><span class="sig-paren">(</span><em>value</em>, <em>case_sensitive=False</em>, <em>by='key'</em><span class="sig-paren">)</span><a class="headerlink" href="#dictsort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort a dict and yield (key, value) pairs. Because python dicts are
+unsorted you may want to use this function to order them by either
+key or value:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">mydict</span><span class="o">|</span><span class="nf">dictsort</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    sort the dict by key, case insensitive</span>
+
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">mydict</span><span class="o">|</span><span class="nf">dictsort</span><span class="o">(</span><span class="kp">true</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    sort the dict by key, case sensitive</span>
+
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">mydict</span><span class="o">|</span><span class="nf">dictsort</span><span class="o">(</span><span class="kp">false</span><span class="o">,</span> <span class="s1">&#39;value&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    sort the dict by value, case insensitive</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="escape">
+<code class="descname">escape</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#escape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the characters &amp;, &lt;, &gt;, &#8216;, and &#8221; in string s to HTML-safe
+sequences.  Use this if you need to display text that might contain
+such characters in HTML.  Marks return value as markup string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Aliases:</th><td class="field-body"><code class="docutils literal"><span class="pre">e</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="filesizeformat">
+<code class="descname">filesizeformat</code><span class="sig-paren">(</span><em>value</em>, <em>binary=False</em><span class="sig-paren">)</span><a class="headerlink" href="#filesizeformat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the value like a &#8216;human-readable&#8217; file size (i.e. 13 kB,
+4.1 MB, 102 Bytes, etc).  Per default decimal prefixes are used (Mega,
+Giga, etc.), if the second parameter is set to <cite>True</cite> the binary
+prefixes are used (Mebi, Gibi).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="first">
+<code class="descname">first</code><span class="sig-paren">(</span><em>seq</em><span class="sig-paren">)</span><a class="headerlink" href="#first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the first item of a sequence.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="float">
+<code class="descname">float</code><span class="sig-paren">(</span><em>value</em>, <em>default=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the value into a floating point number. If the
+conversion doesn&#8217;t work it will return <code class="docutils literal"><span class="pre">0.0</span></code>. You can
+override this default using the first parameter.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="forceescape">
+<code class="descname">forceescape</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#forceescape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enforce HTML escaping.  This will probably double escape variables.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="format">
+<code class="descname">format</code><span class="sig-paren">(</span><em>value</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply python string formatting on an object:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="s2">&quot;%s - %s&quot;</span><span class="o">|</span><span class="nf">format</span><span class="o">(</span><span class="s2">&quot;Hello?&quot;</span><span class="o">,</span> <span class="s2">&quot;Foo!&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; Hello? - Foo!</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="groupby">
+<code class="descname">groupby</code><span class="sig-paren">(</span><em>value</em>, <em>attribute</em><span class="sig-paren">)</span><a class="headerlink" href="#groupby" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group a sequence of objects by a common attribute.</p>
+<p>If you for example have a list of dicts or objects that represent persons
+with <cite>gender</cite>, <cite>first_name</cite> and <cite>last_name</cite> attributes and you want to
+group all users by genders you can do something like the following
+snippet:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">group</span> <span class="k">in</span> <span class="nv">persons</span><span class="o">|</span><span class="nf">groupby</span><span class="o">(</span><span class="s1">&#39;gender&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">group.grouper</span> <span class="cp">}}</span><span class="nt">&lt;ul&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">person</span> <span class="k">in</span> <span class="nv">group.list</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">person.first_name</span> <span class="cp">}}</span> <span class="cp">{{</span> <span class="nv">person.last_name</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="nt">&lt;/ul&gt;&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>Additionally it&#8217;s possible to use tuple unpacking for the grouper and
+list:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">grouper</span><span class="o">,</span> <span class="nv">list</span> <span class="k">in</span> <span class="nv">persons</span><span class="o">|</span><span class="nf">groupby</span><span class="o">(</span><span class="s1">&#39;gender&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>As you can see the item we&#8217;re grouping by is stored in the <cite>grouper</cite>
+attribute and the <cite>list</cite> contains all the objects that have this grouper
+in common.</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.6: </span>It&#8217;s now possible to use dotted notation to group by the child
+attribute of another attribute.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="indent">
+<code class="descname">indent</code><span class="sig-paren">(</span><em>s</em>, <em>width=4</em>, <em>indentfirst=False</em><span class="sig-paren">)</span><a class="headerlink" href="#indent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the passed string, each line indented by
+4 spaces. The first line is not indented. If you want to
+change the number of spaces or indent the first line too
+you can pass additional parameters to the filter:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">mytext</span><span class="o">|</span><span class="nf">indent</span><span class="o">(</span><span class="m">2</span><span class="o">,</span> <span class="kp">true</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    indent by two spaces and indent the first line too.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="int">
+<code class="descname">int</code><span class="sig-paren">(</span><em>value</em>, <em>default=0</em>, <em>base=10</em><span class="sig-paren">)</span><a class="headerlink" href="#int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the value into an integer. If the
+conversion doesn&#8217;t work it will return <code class="docutils literal"><span class="pre">0</span></code>. You can
+override this default using the first parameter. You
+can also override the default base (10) in the second
+parameter, which handles input with prefixes such as
+0b, 0o and 0x for bases 2, 8 and 16 respectively.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>value</em>, <em>d=u''</em>, <em>attribute=None</em><span class="sig-paren">)</span><a class="headerlink" href="#join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string which is the concatenation of the strings in the
+sequence. The separator between elements is an empty string per
+default, you can define it with the optional parameter:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="o">[</span><span class="m">1</span><span class="o">,</span> <span class="m">2</span><span class="o">,</span> <span class="m">3</span><span class="o">]|</span><span class="nf">join</span><span class="o">(</span><span class="s1">&#39;|&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; 1|2|3</span>
+
+<span class="cp">{{</span> <span class="o">[</span><span class="m">1</span><span class="o">,</span> <span class="m">2</span><span class="o">,</span> <span class="m">3</span><span class="o">]|</span><span class="nf">join</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; 123</span>
+</pre></div>
+</div>
+<p>It is also possible to join certain attributes of an object:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">join</span><span class="o">(</span><span class="s1">&#39;, &#39;</span><span class="o">,</span> <span class="nv">attribute</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6: </span>The <cite>attribute</cite> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="last">
+<code class="descname">last</code><span class="sig-paren">(</span><em>seq</em><span class="sig-paren">)</span><a class="headerlink" href="#last" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the last item of a sequence.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="length">
+<code class="descname">length</code><span class="sig-paren">(</span><em>object</em><span class="sig-paren">)</span><a class="headerlink" href="#length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of items of a sequence or mapping.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Aliases:</th><td class="field-body"><code class="docutils literal"><span class="pre">count</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the value into a list.  If it was a string the returned list
+will be a list of characters.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="lower">
+<code class="descname">lower</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value to lowercase.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="map">
+<code class="descname">map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a filter on a sequence of objects or looks up an attribute.
+This is useful when dealing with lists of objects but you are really
+only interested in a certain value of it.</p>
+<p>The basic usage is mapping on an attribute.  Imagine you have a list
+of users but you are only interested in a list of usernames:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="x">Users on this page: </span><span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">map</span><span class="o">(</span><span class="nv">attribute</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="o">)|</span><span class="nf">join</span><span class="o">(</span><span class="s1">&#39;, &#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>Alternatively you can let it invoke a filter by passing the name of the
+filter and the arguments afterwards.  A good example would be applying a
+text conversion filter on a sequence:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="x">Users on this page: </span><span class="cp">{{</span> <span class="nv">titles</span><span class="o">|</span><span class="nf">map</span><span class="o">(</span><span class="s1">&#39;lower&#39;</span><span class="o">)|</span><span class="nf">join</span><span class="o">(</span><span class="s1">&#39;, &#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pprint">
+<code class="descname">pprint</code><span class="sig-paren">(</span><em>value</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pprint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pretty print a variable. Useful for debugging.</p>
+<p>With Jinja 1.2 onwards you can pass it a parameter.  If this parameter
+is truthy the output will be more verbose (this requires <cite>pretty</cite>)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="random">
+<code class="descname">random</code><span class="sig-paren">(</span><em>seq</em><span class="sig-paren">)</span><a class="headerlink" href="#random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a random item from the sequence.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="reject">
+<code class="descname">reject</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#reject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a sequence of objects by applying a test to the object and
+rejecting the ones with the test succeeding.</p>
+<p>Example usage:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">numbers</span><span class="o">|</span><span class="nf">reject</span><span class="o">(</span><span class="s2">&quot;odd&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="rejectattr">
+<code class="descname">rejectattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rejectattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a sequence of objects by applying a test to an attribute of an
+object or the attribute and rejecting the ones with the test succeeding.</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">rejectattr</span><span class="o">(</span><span class="s2">&quot;is_active&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">rejectattr</span><span class="o">(</span><span class="s2">&quot;email&quot;</span><span class="o">,</span> <span class="s2">&quot;none&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="replace">
+<code class="descname">replace</code><span class="sig-paren">(</span><em>s</em>, <em>old</em>, <em>new</em>, <em>count=None</em><span class="sig-paren">)</span><a class="headerlink" href="#replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the value with all occurrences of a substring
+replaced with a new one. The first argument is the substring
+that should be replaced, the second is the replacement string.
+If the optional third argument <code class="docutils literal"><span class="pre">count</span></code> is given, only the first
+<code class="docutils literal"><span class="pre">count</span></code> occurrences are replaced:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="s2">&quot;Hello World&quot;</span><span class="o">|</span><span class="nf">replace</span><span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="o">,</span> <span class="s2">&quot;Goodbye&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; Goodbye World</span>
+
+<span class="cp">{{</span> <span class="s2">&quot;aaaaargh&quot;</span><span class="o">|</span><span class="nf">replace</span><span class="o">(</span><span class="s2">&quot;a&quot;</span><span class="o">,</span> <span class="s2">&quot;d&#39;oh, &quot;</span><span class="o">,</span> <span class="m">2</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; d&#39;oh, d&#39;oh, aaargh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="reverse">
+<code class="descname">reverse</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#reverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse the object or return an iterator that iterates over it the other
+way round.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="round">
+<code class="descname">round</code><span class="sig-paren">(</span><em>value</em>, <em>precision=0</em>, <em>method='common'</em><span class="sig-paren">)</span><a class="headerlink" href="#round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the number to a given precision. The first
+parameter specifies the precision (default is <code class="docutils literal"><span class="pre">0</span></code>), the
+second the rounding method:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'common'</span></code> rounds either up or down</li>
+<li><code class="docutils literal"><span class="pre">'ceil'</span></code> always rounds up</li>
+<li><code class="docutils literal"><span class="pre">'floor'</span></code> always rounds down</li>
+</ul>
+<p>If you don&#8217;t specify a method <code class="docutils literal"><span class="pre">'common'</span></code> is used.</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="m">42.55</span><span class="o">|</span><span class="nf">round</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; 43.0</span>
+<span class="cp">{{</span> <span class="m">42.55</span><span class="o">|</span><span class="nf">round</span><span class="o">(</span><span class="m">1</span><span class="o">,</span> <span class="s1">&#39;floor&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; 42.5</span>
+</pre></div>
+</div>
+<p>Note that even if rounded to 0 precision, a float is returned.  If
+you need a real integer, pipe it through <cite>int</cite>:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="m">42.55</span><span class="o">|</span><span class="nf">round</span><span class="o">|</span><span class="nf">int</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; 43</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="safe">
+<code class="descname">safe</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#safe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark the value as safe which means that in an environment with automatic
+escaping enabled this variable will not be escaped.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="select">
+<code class="descname">select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a sequence of objects by applying a test to the object and only
+selecting the ones with the test succeeding.</p>
+<p>Example usage:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">numbers</span><span class="o">|</span><span class="nf">select</span><span class="o">(</span><span class="s2">&quot;odd&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">numbers</span><span class="o">|</span><span class="nf">select</span><span class="o">(</span><span class="s2">&quot;odd&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="selectattr">
+<code class="descname">selectattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#selectattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a sequence of objects by applying a test to an attribute of an
+object and only selecting the ones with the test succeeding.</p>
+<p>Example usage:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">selectattr</span><span class="o">(</span><span class="s2">&quot;is_active&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">selectattr</span><span class="o">(</span><span class="s2">&quot;email&quot;</span><span class="o">,</span> <span class="s2">&quot;none&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="slice">
+<code class="descname">slice</code><span class="sig-paren">(</span><em>value</em>, <em>slices</em>, <em>fill_with=None</em><span class="sig-paren">)</span><a class="headerlink" href="#slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slice an iterator and return a list of lists containing
+those items. Useful if you want to create a div containing
+three ul tags that represent columns:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;columwrapper&quot;</span><span class="nt">&gt;</span>
+  <span class="cp">{%</span>- <span class="k">for</span> <span class="nv">column</span> <span class="k">in</span> <span class="nv">items</span><span class="o">|</span><span class="nf">slice</span><span class="o">(</span><span class="m">3</span><span class="o">)</span> <span class="cp">%}</span>
+    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;column-</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span>- <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">column</span> <span class="cp">%}</span>
+      <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">item</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>If you pass it a second argument it&#8217;s used to fill missing
+values on the last iteration.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sort">
+<code class="descname">sort</code><span class="sig-paren">(</span><em>value</em>, <em>reverse=False</em>, <em>case_sensitive=False</em>, <em>attribute=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort an iterable.  Per default it sorts ascending, if you pass it
+true as first argument it will reverse the sorting.</p>
+<p>If the iterable is made of strings the third parameter can be used to
+control the case sensitiveness of the comparison which is disabled by
+default.</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">iterable</span><span class="o">|</span><span class="nf">sort</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    ...</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>It is also possible to sort by an attribute (for example to sort
+by the date of an object) by specifying the <cite>attribute</cite> parameter:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">iterable</span><span class="o">|</span><span class="nf">sort</span><span class="o">(</span><span class="nv">attribute</span><span class="o">=</span><span class="s1">&#39;date&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    ...</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.6: </span>The <cite>attribute</cite> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="string">
+<code class="descname">string</code><span class="sig-paren">(</span><em>object</em><span class="sig-paren">)</span><a class="headerlink" href="#string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a string unicode if it isn&#8217;t already.  That way a markup
+string is not converted back to unicode.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="striptags">
+<code class="descname">striptags</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#striptags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip SGML/XML tags and replace adjacent whitespace by one space.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sum">
+<code class="descname">sum</code><span class="sig-paren">(</span><em>iterable</em>, <em>attribute=None</em>, <em>start=0</em><span class="sig-paren">)</span><a class="headerlink" href="#sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sum of a sequence of numbers plus the value of parameter
+&#8216;start&#8217; (which defaults to 0).  When the sequence is empty it returns
+start.</p>
+<p>It is also possible to sum up only certain attributes:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="x">Total: </span><span class="cp">{{</span> <span class="nv">items</span><span class="o">|</span><span class="nf">sum</span><span class="o">(</span><span class="nv">attribute</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.6: </span>The <cite>attribute</cite> parameter was added to allow suming up over
+attributes.  Also the <cite>start</cite> parameter was moved on to the right.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="title">
+<code class="descname">title</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a titlecased version of the value. I.e. words will start with
+uppercase letters, all remaining characters are lowercase.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="trim">
+<code class="descname">trim</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strip leading and trailing whitespace.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="truncate">
+<code class="descname">truncate</code><span class="sig-paren">(</span><em>s</em>, <em>length=255</em>, <em>killwords=False</em>, <em>end='...'</em><span class="sig-paren">)</span><a class="headerlink" href="#truncate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a truncated copy of the string. The length is specified
+with the first parameter which defaults to <code class="docutils literal"><span class="pre">255</span></code>. If the second
+parameter is <code class="docutils literal"><span class="pre">true</span></code> the filter will cut the text at length. Otherwise
+it will discard the last word. If the text was in fact
+truncated it will append an ellipsis sign (<code class="docutils literal"><span class="pre">&quot;...&quot;</span></code>). If you want a
+different ellipsis sign than <code class="docutils literal"><span class="pre">&quot;...&quot;</span></code> you can specify it using the
+third parameter.</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="s2">&quot;foo bar baz&quot;</span><span class="o">|</span><span class="nf">truncate</span><span class="o">(</span><span class="m">9</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; &quot;foo ...&quot;</span>
+<span class="cp">{{</span> <span class="s2">&quot;foo bar baz&quot;</span><span class="o">|</span><span class="nf">truncate</span><span class="o">(</span><span class="m">9</span><span class="o">,</span> <span class="kp">True</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    -&gt; &quot;foo ba...&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="upper">
+<code class="descname">upper</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a value to uppercase.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="urlencode">
+<code class="descname">urlencode</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#urlencode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Escape strings for use in URLs (uses UTF-8 encoding).  It accepts both
+dictionaries and regular strings as well as pairwise iterables.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="urlize">
+<code class="descname">urlize</code><span class="sig-paren">(</span><em>value</em>, <em>trim_url_limit=None</em>, <em>nofollow=False</em>, <em>target=None</em><span class="sig-paren">)</span><a class="headerlink" href="#urlize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts URLs in plain text into clickable links.</p>
+<p>If you pass the filter an additional integer it will shorten the urls
+to that number. Also a third argument exists that makes the urls
+&#8220;nofollow&#8221;:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">mytext</span><span class="o">|</span><span class="nf">urlize</span><span class="o">(</span><span class="m">40</span><span class="o">,</span> <span class="kp">true</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    links are shortened to 40 chars and defined with rel=&quot;nofollow&quot;</span>
+</pre></div>
+</div>
+<p>If <em>target</em> is specified, the <code class="docutils literal"><span class="pre">target</span></code> attribute will be added to the
+<code class="docutils literal"><span class="pre">&lt;a&gt;</span></code> tag:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">mytext</span><span class="o">|</span><span class="nf">urlize</span><span class="o">(</span><span class="m">40</span><span class="o">,</span> <span class="nv">target</span><span class="o">=</span><span class="s1">&#39;_blank&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.8+: </span>The <em>target</em> parameter was added.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="wordcount">
+<code class="descname">wordcount</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#wordcount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the words in that string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="wordwrap">
+<code class="descname">wordwrap</code><span class="sig-paren">(</span><em>s</em>, <em>width=79</em>, <em>break_long_words=True</em>, <em>wrapstring=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wordwrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of the string passed to the filter wrapped after
+<code class="docutils literal"><span class="pre">79</span></code> characters.  You can override this default using the first
+parameter.  If you set the second parameter to <cite>false</cite> Jinja will not
+split words apart if they are longer than <cite>width</cite>. By default, the newlines
+will be the default newlines for the environment, but this can be changed
+using the wrapstring keyword argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.7: </span>Added support for the <cite>wrapstring</cite> parameter.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="xmlattr">
+<code class="descname">xmlattr</code><span class="sig-paren">(</span><em>d</em>, <em>autospace=True</em><span class="sig-paren">)</span><a class="headerlink" href="#xmlattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an SGML/XML attribute string based on the items in a dict.
+All values that are neither <cite>none</cite> nor <cite>undefined</cite> are automatically
+escaped:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul</span><span class="cp">{{</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;my_list&#39;</span><span class="o">,</span> <span class="s1">&#39;missing&#39;</span><span class="o">:</span> <span class="kp">none</span><span class="o">,</span>
+        <span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="s1">&#39;list-%d&#39;</span><span class="o">|</span><span class="nf">format</span><span class="o">(</span><span class="nv">variable</span><span class="o">)}|</span><span class="nf">xmlattr</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+...
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>Results in something like this:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;my_list&quot;</span> <span class="na">id=</span><span class="s">&quot;list-42&quot;</span><span class="nt">&gt;</span>
+...
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>As you can see it automatically prepends a space in front of the item
+if the filter returned something unless the second parameter is false.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="builtin-tests">
+<span id="id36"></span><h2>内置测试清单<a class="headerlink" href="#builtin-tests" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="callable">
+<code class="descname">callable</code><span class="sig-paren">(</span><em>object</em><span class="sig-paren">)</span><a class="headerlink" href="#callable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the object is callable (i.e., some kind of function).
+Note that classes are callable, as are instances with a __call__() method.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="defined">
+<code class="descname">defined</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#defined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is defined:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">variable</span> <span class="k">is</span> <span class="nf">defined</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    value of variable: </span><span class="cp">{{</span> <span class="nv">variable</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    variable is not defined</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="#default" title="default"><code class="xref py py-func docutils literal"><span class="pre">default()</span></code></a> filter for a simple way to set undefined
+variables.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="divisibleby">
+<code class="descname">divisibleby</code><span class="sig-paren">(</span><em>value</em>, <em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#divisibleby" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if a variable is divisible by a number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="equalto">
+<code class="descname">equalto</code><span class="sig-paren">(</span><em>value</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#equalto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object has the same value as another object:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">foo.expression</span> <span class="k">is</span> <span class="nf">equalto</span> <span class="m">42</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    the foo attribute evaluates to the constant 42</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>This appears to be a useless test as it does exactly the same as the
+<code class="docutils literal"><span class="pre">==</span></code> operator, but it can be useful when used together with the
+<cite>selectattr</cite> function:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">users</span><span class="o">|</span><span class="nf">selectattr</span><span class="o">(</span><span class="s2">&quot;email&quot;</span><span class="o">,</span> <span class="s2">&quot;equalto&quot;</span><span class="o">,</span> <span class="s2">&quot;foo@bar.invalid&quot;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.8.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="escaped">
+<code class="descname">escaped</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#escaped" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the value is escaped.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="even">
+<code class="descname">even</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#even" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is even.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="iterable">
+<code class="descname">iterable</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#iterable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if it&#8217;s possible to iterate over an object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descname">lower</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span></dt>
+<dd><p>Return true if the variable is lowercased.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mapping">
+<code class="descname">mapping</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the object is a mapping (dict etc.).</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.6.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="none">
+<code class="descname">none</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#none" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is none.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="number">
+<code class="descname">number</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is a number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="odd">
+<code class="descname">odd</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#odd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is odd.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sameas">
+<code class="descname">sameas</code><span class="sig-paren">(</span><em>value</em>, <em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#sameas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object points to the same memory address than another
+object:</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">foo.attribute</span> <span class="k">is</span> <span class="nf">sameas</span> <span class="kp">false</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    the foo attribute really is the `False` singleton</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="sequence">
+<code class="descname">sequence</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the variable is a sequence. Sequences are variables
+that are iterable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descname">string</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span></dt>
+<dd><p>Return true if the object is a string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="undefined">
+<code class="descname">undefined</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#undefined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like <a class="reference internal" href="#defined" title="defined"><code class="xref py py-func docutils literal"><span class="pre">defined()</span></code></a> but the other way round.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descname">upper</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span></dt>
+<dd><p>Return true if the variable is uppercased.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="builtin-globals">
+<span id="id37"></span><h2>全局函数清单<a class="headerlink" href="#builtin-globals" title="Permalink to this headline">¶</a></h2>
+<p>默认下，下面的函数在全局作用域中可用:</p>
+<dl class="function">
+<dt id="range">
+<code class="descname">range</code><span class="sig-paren">(</span><span class="optional">[</span><em>start</em>, <span class="optional">]</span><em>stop</em><span class="optional">[</span>, <em>step</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#range" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回一个包含整等差级数的列表。 range(i, j) 返回 [i, i+1, i+2, ....,
+j-1] ；起始值（！）默认为 0 。当给定了公差，它决定了增长（或减小）。
+例如 range(4) 返回 [0, 1, 2, 3] 。末端的值被丢弃了。这些是一个 4 元素
+数组的有效索引值。</p>
+<p>例如重复一个模板块多次来填充一个列表是有用的。想向你有一个 7 个用户的
+列表，但你想要渲染三个空项目来用 CSS 强制指定高度:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">number</span> <span class="k">in</span> <span class="nv">range</span><span class="o">(</span><span class="m">10</span> <span class="o">-</span> <span class="nv">users</span><span class="o">|</span><span class="nf">count</span><span class="o">)</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;empty&quot;</span><span class="nt">&gt;&lt;span&gt;</span>...<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="lipsum">
+<code class="descname">lipsum</code><span class="sig-paren">(</span><em>n=5</em>, <em>html=True</em>, <em>min=20</em>, <em>max=100</em><span class="sig-paren">)</span><a class="headerlink" href="#lipsum" title="Permalink to this definition">¶</a></dt>
+<dd><p>在模板中生成 lorem ipsum 乱数假文。默认会生成 5 段 HTML ，每段在 20 到 100
+词之间。如果 HTML 被禁用，会返回常规文本。这在测试布局时生成简单内容时很有
+用。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dict">
+<code class="descname">dict</code><span class="sig-paren">(</span><em>**items</em><span class="sig-paren">)</span><a class="headerlink" href="#dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>方便的字典字面量替代品。 <code class="docutils literal"><span class="pre">{'foo'</span> <span class="pre">:</span> <span class="pre">'bar'}</span></code> 与 <code class="docutils literal"><span class="pre">dict(foo=bar)</span></code> 等价。</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="cycler">
+<em class="property">class </em><code class="descname">cycler</code><span class="sig-paren">(</span><em>*items</em><span class="sig-paren">)</span><a class="headerlink" href="#cycler" title="Permalink to this definition">¶</a></dt>
+<dd><p>周期计允许你在若干个值中循环，类似 <cite>loop.cycle</cite> 的工作方式。不同于
+<cite>loop.cycle</cite> 的是，无论如何你都可以在循环外或在多重循环中使用它。</p>
+<p>比如如果你想要显示一个文件夹和文件列表，且文件夹在上，它们在同一个列表中且
+行颜色是交替的。</p>
+<p>下面的例子展示了如何使用周期计:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">set</span> <span class="nv">row_class</span> <span class="o">=</span> <span class="nv">cycler</span><span class="o">(</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+<span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;browser&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">folder</span> <span class="k">in</span> <span class="nv">folders</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;folder </span><span class="cp">{{</span> <span class="nv">row_class.next</span><span class="o">()</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">folder</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">filename</span> <span class="k">in</span> <span class="nv">files</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;file </span><span class="cp">{{</span> <span class="nv">row_class.next</span><span class="o">()</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">filename</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+
+周期计有下面的属性和方法:
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cycler.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cycler.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>重置周期计到第一个项。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cycler.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cycler.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回当前项并跳转到下一个。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cycler.current">
+<code class="descname">current</code><a class="headerlink" href="#cycler.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回当前项。.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1.</span></p>
+</div>
+<dl class="class">
+<dt id="joiner">
+<em class="property">class </em><code class="descname">joiner</code><span class="sig-paren">(</span><em>sep='</em>, <em>'</em><span class="sig-paren">)</span><a class="headerlink" href="#joiner" title="Permalink to this definition">¶</a></dt>
+<dd><p>一个小巧的辅助函数用于“连接”多个节。连接器接受一个字符串，每次被调用时返回
+那个字符串，除了第一次调用时返回一个空字符串。你可以使用它来连接:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">set</span> <span class="nv">pipe</span> <span class="o">=</span> <span class="nv">joiner</span><span class="o">(</span><span class="s2">&quot;|&quot;</span><span class="o">)</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">categories</span> <span class="cp">%}</span> <span class="cp">{{</span> <span class="nv">pipe</span><span class="o">()</span> <span class="cp">}}</span>
+    Categories: <span class="cp">{{</span> <span class="nv">categories</span><span class="o">|</span><span class="nf">join</span><span class="o">(</span><span class="s2">&quot;, &quot;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">author</span> <span class="cp">%}</span> <span class="cp">{{</span> <span class="nv">pipe</span><span class="o">()</span> <span class="cp">}}</span>
+    Author: <span class="cp">{{</span> <span class="nv">author</span><span class="o">()</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">can_edit</span> <span class="cp">%}</span> <span class="cp">{{</span> <span class="nv">pipe</span><span class="o">()</span> <span class="cp">}}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;?action=edit&quot;</span><span class="nt">&gt;</span>Edit<span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1.</span></p>
+</div>
+</div>
+<div class="section" id="id38">
+<h2>扩展<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h2>
+<p>下面的几节涵盖了可能被应用启用的 Jinja2 内置的扩展。应用也可以提供进一步
+的扩展，但这不会在此描述。会有独立的文档来解释那种情况下的扩展。</p>
+<div class="section" id="i18n">
+<span id="i18n-in-templates"></span><h3>i18n<a class="headerlink" href="#i18n" title="Permalink to this headline">¶</a></h3>
+<p>如果启用来 i18n 扩展，可以把模板中的部分标记为可译的。标记一个段为可译的，可
+以使用 <cite>trans</cite>:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span><span class="cp">{%</span> <span class="k">trans</span> <span class="cp">%}</span>Hello <span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span>!<span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span><span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>要翻译一个模板表达式——比如使用模板过滤器或访问对象的属性——你需要绑定表达式到
+一个名称来在翻译块中使用:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span><span class="cp">{%</span> <span class="k">trans</span> <span class="nv">user</span><span class="o">=</span><span class="nv">user.username</span> <span class="cp">%}</span>Hello <span class="cp">{{</span> <span class="nv">user</span> <span class="cp">}}</span>!<span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span><span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>如果你需要在 <cite>trans</cite> 标签中绑定一个以上的表达式，用逗号来分割（ <code class="docutils literal"><span class="pre">,</span></code> ）:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">trans</span> <span class="nv">book_title</span><span class="o">=</span><span class="nv">book.title</span><span class="o">,</span> <span class="nv">author</span><span class="o">=</span><span class="nv">author.name</span> <span class="cp">%}</span>
+This is <span class="cp">{{</span> <span class="nv">book_title</span> <span class="cp">}}</span> by <span class="cp">{{</span> <span class="nv">author</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>在翻译块中不允许使用语句，只能使用变量标签。</p>
+<p>为表示复数，在 <cite>trans</cite> 和 <cite>endtrans</cite> 之间用 <cite>pluralize</cite> 标签同时指定单数和复
+数形式:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">trans</span> <span class="nv">count</span><span class="o">=</span><span class="nv">list</span><span class="o">|</span><span class="nf">length</span> <span class="cp">%}</span>
+There is <span class="cp">{{</span> <span class="nv">count</span> <span class="cp">}}</span> <span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span> object.
+<span class="cp">{%</span> <span class="k">pluralize</span> <span class="cp">%}</span>
+There are <span class="cp">{{</span> <span class="nv">count</span> <span class="cp">}}</span> <span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span> objects.
+<span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>默认情况下块中的第一个变量用于决定使用单数还是复数。如果这不奏效，你可以指定
+用于复数的名称作为 <cite>pluralize</cite> 的参数:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">trans</span> <span class="p">...</span><span class="o">,</span> <span class="nv">user_count</span><span class="o">=</span><span class="nv">users</span><span class="o">|</span><span class="nf">length</span> <span class="cp">%}</span>...
+<span class="cp">{%</span> <span class="k">pluralize</span> <span class="nv">user_count</span> <span class="cp">%}</span>...<span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>也可以翻译表达式中的字符串。为此，有三个函数:</p>
+<p>_   <cite>gettext</cite>: 翻译一个单数字符串
+-   <cite>ngettext</cite>: 翻译一个复数字符串
+-   <cite>_</cite>: <cite>gettext</cite> 的别名</p>
+<p>例如你可以容易地这样打印一个已翻译的字符串:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="kp">_</span><span class="o">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>你可以使用 <cite>format</cite> 过滤器来使用占位符:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="kp">_</span><span class="o">(</span><span class="s1">&#39;Hello %(user)s!&#39;</span><span class="o">)|</span><span class="nf">format</span><span class="o">(</span><span class="nv">user</span><span class="o">=</span><span class="nv">user.username</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>因为其它语言可能不会用同样的顺序使用词汇，要使用多个占位符，应始终用字符
+串参数传给 <cite>format</cite> 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 2.5.</span></p>
+</div>
+<p>如果激活了新样式的 gettext 调用（ <a class="reference internal" href="extensions.html#newstyle-gettext"><span>新样式 Gettext</span></a> ），使用占位符
+会更加简单:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">gettext</span><span class="o">(</span><span class="s1">&#39;Hello %(name)s!&#39;</span><span class="o">,</span> <span class="nv">name</span><span class="o">=</span><span class="s1">&#39;World&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">ngettext</span><span class="o">(</span><span class="s1">&#39;%(num)d apple&#39;</span><span class="o">,</span> <span class="s1">&#39;%(num)d apples&#39;</span><span class="o">,</span> <span class="nv">apples</span><span class="o">|</span><span class="nf">count</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p>注意 <cite>ngettext</cite> 函数的格式化字符串自动接受 <cite>num</cite> 参数作为计数作为附加的
+常规参数。</p>
+</div>
+<div class="section" id="id39">
+<h3>表达式语句<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<p>如果加载了表达式语句扩展，一个名为 <cite>do</cite> 的扩展即可用。它工作几乎如同常规的变量
+表达式（ <code class="docutils literal"><span class="pre">{{</span> <span class="pre">...</span> <span class="pre">}}</span></code> ），只是它不打印任何东西。这可以用于修改列表:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">do</span> <span class="nv">navigation.append</span><span class="o">(</span><span class="s1">&#39;a string&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id40">
+<h3>循环控制<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<p>如果应用启用来 <a class="reference internal" href="extensions.html#loopcontrols-extension"><span>循环控制</span></a> ，则可以在循环中使用 <cite>break</cite> 和
+<cite>continue</cite> 。到达 <cite>break</cite> 时，循环终止。到达 <cite>continue</cite> 时，当前处理会终止并
+从下一次迭代继续。</p>
+<p>这个循环每两项跳过一次:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="cp">{%</span>- <span class="k">if</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="k">is</span> <span class="nf">even</span> <span class="cp">%}{%</span> <span class="k">continue</span> <span class="cp">%}{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+    ...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>同样，这个循环 10 次迭代之后会终止处理:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="cp">%}</span>
+    <span class="cp">{%</span>- <span class="k">if</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="o">&gt;=</span> <span class="m">10</span> <span class="cp">%}{%</span> <span class="k">break</span> <span class="cp">%}{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span>- <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="with">
+<h3>With 语句<a class="headerlink" href="#with" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.3.</span></p>
+</div>
+<p>如果应用启用了 <a class="reference internal" href="extensions.html#with-extension"><span>With 语句</span></a> ，将允许在模板中使用 <cite>with</cite> 关键
+字。这使得创建一个新的内作用域。这个作用域中的变量在外部是不可见的。</p>
+<p>With 用法简介:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">with</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">set</span> <span class="nv">foo</span> <span class="o">=</span> <span class="m">42</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">foo</span> <span class="cp">}}</span>           foo is 42 here
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+foo is not visible here any longer
+</pre></div>
+</div>
+<p>因为在作用域的开始设置变量很常见，你可以在 with 语句里这么做。下面的两
+个例子是等价的:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">with</span> <span class="nv">foo</span> <span class="o">=</span> <span class="m">42</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">foo</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">with</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">set</span> <span class="nv">foo</span> <span class="o">=</span> <span class="m">42</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">foo</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="autoescape-overrides">
+<span id="id41"></span><h2>自动转义扩展<a class="headerlink" href="#autoescape-overrides" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.4.</span></p>
+</div>
+<p>如果你的应用程序设置了 <a class="reference internal" href="extensions.html#autoescape-extension"><span>自动转义扩展</span></a> ，你就可以在模版中开启或者关闭自动转义。</p>
+<p>例子:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">autoescape</span> <span class="kp">true</span> <span class="cp">%}</span>
+自动转义在这块文本中是开启的。
+<span class="cp">{%</span> <span class="k">endautoescape</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">autoescape</span> <span class="kp">false</span> <span class="cp">%}</span>
+自动转义在这块文本中是关闭的。
+<span class="cp">{%</span> <span class="k">endautoescape</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>在 <cite>endautoescape</cite> 标签之后，自动转义的行为将回到与之前相同的状态。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="extensions.html" class="btn btn-neutral float-right" title="扩展" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sandbox.html" class="btn btn-neutral" title="沙箱" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/templates.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>

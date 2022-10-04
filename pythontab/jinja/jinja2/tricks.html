@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/tricks.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>提示和技巧 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">提示和技巧</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#null-master">Null-Master 退回</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">交替的行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">高亮活动菜单项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-the-parent-loop">访问父级循环</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>提示和技巧</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>提示和技巧<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>这部分文档展示了一些 Jinja2 模板的提示和技巧。</p>
+<div class="section" id="null-master">
+<span id="null-master-fallback"></span><h2>Null-Master 退回<a class="headerlink" href="#null-master" title="Permalink to this headline">¶</a></h2>
+<p>Jinja2 支持动态继承并且只要没有 <cite>extends</cite> 标签被访问过，就不分辨父模板和子模
+板。而这会导致令人惊讶的行为：首个 <cite>extends</cite> 标签前的包括空白字符的所有东西
+会被打印出来而不是被忽略，这也可以用作一个巧妙的方法。</p>
+<p>通常，继承一个模板的子模板来添加基本的 HTML 骨架。而把 <cite>extends</cite> 标签放在
+<cite>if</cite> 标签中，当 <cite>standalone</cite> 变量值为 false 时（按照默认未定义也为 false ）继
+承布局模板是可行的。此外，一个非常基本的骨架会被添加到文件，这样如果确实带
+置为 <cite>True</cite> 的 <cite>standalone</cite> 渲染，一个非常基本的 HTML 骨架会被添加:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="k">not</span> <span class="nv">standalone</span> <span class="cp">%}{%</span> <span class="k">extends</span> <span class="s1">&#39;master.html&#39;</span> <span class="cp">%}{%</span> <span class="k">endif</span> -<span class="cp">%}</span>
+<span class="cp">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</span>
+<span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>The Page Title<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;style.css&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="nt">&lt;p&gt;</span>This is the page body.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>交替的行<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>如果你想要对一个表格或列表中的每行使用不同的样式，可以使用 <cite>loop</cite>
+对象的 <cite>cycle</cite> 方法:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.cycle</span><span class="o">(</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">row</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p><cite>cycle</cite> 可接受无限数目的字符串。每次遭遇这个标签，列表中的下一项
+就会被渲染。</p>
+</div>
+<div class="section" id="id3">
+<h2>高亮活动菜单项<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>你经常想要一个带有活动导航项的导航栏。这相当容易实现。因为在 <cite>block</cite> 外
+的声明在子模板中是全局的，并且在布局模板求值前执行，在子模板中定义活动的
+菜单项:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">set</span> <span class="nv">active_page</span> <span class="o">=</span> <span class="s2">&quot;index&quot;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>布局模板之后就可以访问 <cite>active_page</cite> 。此外，这意味着你可以为它定义默认
+值:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">set</span> <span class="nv">navigation_bar</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="o">(</span><span class="s1">&#39;/&#39;</span><span class="o">,</span> <span class="s1">&#39;index&#39;</span><span class="o">,</span> <span class="s1">&#39;Index&#39;</span><span class="o">),</span>
+    <span class="o">(</span><span class="s1">&#39;/downloads/&#39;</span><span class="o">,</span> <span class="s1">&#39;downloads&#39;</span><span class="o">,</span> <span class="s1">&#39;Downloads&#39;</span><span class="o">),</span>
+    <span class="o">(</span><span class="s1">&#39;/about/&#39;</span><span class="o">,</span> <span class="s1">&#39;about&#39;</span><span class="o">,</span> <span class="s1">&#39;About&#39;</span><span class="o">)</span>
+<span class="o">]</span> -<span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">set</span> <span class="nv">active_page</span> <span class="o">=</span> <span class="nv">active_page</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;index&#39;</span><span class="o">)</span> -<span class="cp">%}</span>
+...
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">href</span><span class="o">,</span> <span class="nv">id</span><span class="o">,</span> <span class="nv">caption</span> <span class="k">in</span> <span class="nv">navigation_bar</span> <span class="cp">%}</span>
+  <span class="nt">&lt;li</span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">id</span> <span class="o">==</span> <span class="nv">active_page</span> <span class="cp">%}</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="cp">{%</span> <span class="k">endif</span>
+  <span class="cp">%}</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">href</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">caption</span><span class="o">|</span><span class="nf">e</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>/li&gt;
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+...
+</pre></div>
+</div>
+</div>
+<div class="section" id="accessing-the-parent-loop">
+<span id="id4"></span><h2>访问父级循环<a class="headerlink" href="#accessing-the-parent-loop" title="Permalink to this headline">¶</a></h2>
+<p>特殊的 <cite>loop</cite> 变量总是指向最里层的循环。如果想要访问外层的循环，可以给它
+设置别名:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;table&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">table</span> <span class="cp">%}</span>
+  <span class="nt">&lt;tr&gt;</span>
+  <span class="cp">{%</span> <span class="k">set</span> <span class="nv">rowloop</span> <span class="o">=</span> <span class="nb">loop</span> <span class="cp">%}</span>
+  <span class="cp">{%</span> <span class="k">for</span> <span class="nv">cell</span> <span class="k">in</span> <span class="nv">row</span> <span class="cp">%}</span>
+    <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">&quot;cell-</span><span class="cp">{{</span> <span class="nv">rowloop.index</span> <span class="cp">}}</span><span class="s">-</span><span class="cp">{{</span> <span class="nb">loop</span><span class="nv">.index</span> <span class="cp">}}</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">cell</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+  <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+  <span class="nt">&lt;/tr&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="faq.html" class="btn btn-neutral float-right" title="常见问题" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="switching.html" class="btn btn-neutral" title="从其它的模板引擎切换" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/tricks.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>

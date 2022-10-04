@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/intro.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>介绍 &mdash; Jinja2 中文手册 2.8 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Jinja2 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/jinja/jinja2/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">预备知识</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-egg-easy-install">作为一个 Python egg （通过 easy_install）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tarball">从 tarball 版本安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">安装开发版本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markupsafe">加速 MarkupSafe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">启用调试支持模块</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#api">基本 API 使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-3">实验性的 Python 3 支持</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sandbox.html">沙箱</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">模板设计者文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">集成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="switching.html">从其它的模板引擎切换</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tricks.html">提示和技巧</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Jinja2 Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Jinja2 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Jinja2 中文手册 2.8 documentation</a> &raquo;</li>
+      
+    <li>介绍</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>介绍<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>这里是 Jinja2 通用模板语言的文档。 Jinja2 在其是一个 Python 2.4 库之前，被设计
+为是灵活、快速和安全的。</p>
+<p>如果你接触过其它的基于文本的模板语言，比如 Smarty 或 Django ，那么 Jinja2 会让你有
+宾至如归的感觉。Jinja2 通过坚持 Python 原则来保证对设计者和开发者友好，为模板环
+境添加有帮助的功能。</p>
+<div class="section" id="id2">
+<h2>预备知识<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Jinja2 需要至少 <strong>Python 2.4</strong> 版本来运行。此外，如果你使用 Python 2.4 ，一个可
+以创建 python 扩展的可用的 C 编译器会为调试器安装。</p>
+<p>如果你没有一个可用的 C 编译器，并且你视图安装带调试支持的源码版本，你会得到一个
+编译器错误。
+If you don&#8217;t have a working C-compiler and you are trying to install the source</p>
+</div>
+<div class="section" id="id3">
+<h2>安装<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>条条大路通 Jinja2 。如果你不确定怎么做，用 Python egg 或 tarball 吧。</p>
+<div class="section" id="python-egg-easy-install">
+<h3>作为一个 Python egg （通过 easy_install）<a class="headerlink" href="#python-egg-easy-install" title="Permalink to this headline">¶</a></h3>
+<p>你可以用 <a class="reference external" href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a> 或 <a class="reference external" href="http://pypi.python.org/pypi/pip">pip</a> 安装最新的版本的 Jinja2:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo easy_install Jinja2
+sudo pip install Jinja2
+</pre></div>
+</div>
+<p>这会在你的 Python 安装中的 site-packages 目录安装一个 Jinja2 egg 。</p>
+<p>（如果你在 Windows 的命令行中安装，省略 <cite>sudo</cite> 并且确保你用管理员权限运行
+命令行）</p>
+</div>
+<div class="section" id="tarball">
+<h3>从 tarball 版本安装<a class="headerlink" href="#tarball" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>从 <a class="reference external" href="http://pypi.python.org/pypi/Jinja2">download page</a> 下载最新的 tarball</li>
+<li>解包 tarball</li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></li>
+</ol>
+<p>注意这需要你已经安装了 setuptools 或 <a class="reference external" href="http://pypi.python.org/pypi/distribute">distribute</a> ，首选后者。</p>
+<p>这会在你 Python 安装的 site-packages 目录安装 Jinja2 。</p>
+</div>
+<div class="section" id="id4">
+<h3>安装开发版本<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>安装 <a class="reference external" href="http://git-scm.org/">git</a></li>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git://github.com/mitsuhiko/jinja2.git</span></code></li>
+<li><code class="docutils literal"><span class="pre">cd</span> <span class="pre">jinja2</span></code></li>
+<li><code class="docutils literal"><span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">jinja2</span> <span class="pre">/usr/lib/python2.X/site-packages</span></code></li>
+</ol>
+<p>作为第四步的替代选择，你也可以执行 <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">develop</span></code> ，这会通过
+disbribute 在开发模式下安装包。这样也有编译 C 扩展的优势。</p>
+</div>
+<div class="section" id="markupsafe">
+<h3>加速 MarkupSafe<a class="headerlink" href="#markupsafe" title="Permalink to this headline">¶</a></h3>
+<p>从 2.5.1 开始， Jinja2 会检查是否安装 <a class="reference external" href="http://pypi.python.org/pypi/MarkupSafe">MarkupSafe</a> 模块。如果它找到了，
+它会用这个模块的 Markup 类来代替自带的。 <cite>MarkupSafe</cite> 替换 Jinja2 中附带的
+老的加速模块，其优势在于更好的安装脚本，自动试图安装 C 的版本并在不可行时
+漂亮地退化到纯 Python 实现的版本。</p>
+<p>MarkupSafe 的 C 实现要快得多，并推荐用于 Jinja2 自动转义。</p>
+</div>
+<div class="section" id="id6">
+<h3>启用调试支持模块<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>默认 Jinja2 不会编译调试支持模块。如果你没有 Python 头文件或可用的编译器，
+启用它会失败。这当你在 Windows 上安装 Jinja2 是很常见的情况。</p>
+<p>由于调试模式只对 Python 2.4 是必要的，所以你不需要这么做，除非你在运行
+2.4:</p>
+<div class="highlight-python"><div class="highlight"><pre>sudo python setup.py --with-debugsupport install
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>基本 API 使用<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<p>本节简要介绍 Jinja2 模板的 Python API 。</p>
+<p>最基本的方式就是通过 <a class="reference internal" href="api.html#jinja2.Template" title="jinja2.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a> 创建一个模板并渲染它。
+如果你的模板不是从字符串加载，而是文件系统或别的数据源，无论如何这都不
+是推荐的方式:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&#39;Hello {{ name }}!&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;John Doe&#39;</span><span class="p">)</span>
+<span class="go">u&#39;Hello John Doe!&#39;</span>
+</pre></div>
+</div>
+<p>通过创建一个 <a class="reference internal" href="api.html#jinja2.Template" title="jinja2.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a> 的实例，你会得到一个新的模板对象，提供一
+个名为 <a class="reference internal" href="api.html#jinja2.Template.render" title="jinja2.Template.render"><code class="xref py py-meth docutils literal"><span class="pre">render()</span></code></a> 的方法，该方法在有字典或关键字参数时调用
+扩充模板。字典或关键字参数会被传递到模板，即模板“上下文”。</p>
+<p>如你所见， Jinja2 内部使用 unicode 并且返回值也是 unicode 字符串。所以确
+保你的应用里也确实使用 unicode 。</p>
+</div>
+<div class="section" id="python-3">
+<h2>实验性的 Python 3 支持<a class="headerlink" href="#python-3" title="Permalink to this headline">¶</a></h2>
+<p>Jinja 2.3 带来 Python 3 的实验性支持。这意味着在新版本上，所有的单元测试
+都会通过，但是仍有一些小 bug 和不一致的行为。如果你发现任何 bug ，请向
+<a class="reference external" href="http://github.com/mitsuhiko/jinja2/issues">Jinja bug tracker</a> 提供反馈。</p>
+<p>也请记住本文档是为 Python 2 编撰的，你会需要手动把示例代码转换为 Python 3
+的语法。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index-2.html" class="btn btn-neutral" title="欢迎来到 Jinja2" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Armin Ronacher.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'2.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/jinja/jinja2/intro.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:15 GMT -->
+</html>
