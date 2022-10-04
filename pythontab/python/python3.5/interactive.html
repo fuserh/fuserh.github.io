@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/python/python3.5/interactive.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:42:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>14. 交互式输入行编辑历史回溯 &mdash; Python3 中文手册 3.5.2 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Python3 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.5.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/python/python3.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="appetite.html">1. 开胃菜</a></li>
+<li class="toctree-l1"><a class="reference internal" href="interpreter.html">2. 使用 Python 解释器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">3. Python 简介</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlflow.html">4. 深入 Python 流程控制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">5. 数据结构</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">6. 模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inputoutput.html">7. 输入和输出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">8. 错误和异常</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">9. 类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib.html">10. Python 标准库概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib2.html">11. 标准库浏览 – Part II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="venv.html">12. 虚拟环境和包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whatnow.html">13. 接下来？</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">14. 交互式输入行编辑历史回溯</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tab">14.1. Tab 补全和历史记录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tut-commentary">14.2. 其它交互式解释器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">15. 浮点数算法：争议和限制</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">16. 附录</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Python3 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Python3 中文手册 3.5.2 文档</a> &raquo;</li>
+      
+    <li>14. 交互式输入行编辑历史回溯</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="http://bbs.pythontab.com/?fr=docs" class="icon icon-link" target="_blank">Python论坛</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tut-interacting">
+<span id="id1"></span><h1>14. 交互式输入行编辑历史回溯<a class="headerlink" href="#tut-interacting" title="永久链接至标题">¶</a></h1>
+<p>某些版本的 Python 解释器支持编辑当前的输入行和历史记录，类似于在 Korn shell 和 GNU Bash shell 中看到的功能。这是使用 <a class="reference external" href="http://tiswww.case.edu/php/chet/readline/rltop.html">GNU Readline</a> 库实现的，它支持各种编辑风格。 这个库有它自己的文档，在这里我们不就重复了。</p>
+<div class="section" id="tab">
+<span id="tut-keybindings"></span><h2>14.1. Tab 补全和历史记录<a class="headerlink" href="#tab" title="永久链接至标题">¶</a></h2>
+<p>变量和模块名的补全在解释器启动时 <a class="reference external" href="https://docs.python.org/3/library/site.html#rlcompleter-config">自动打开</a> 以便 <code class="kbd docutils literal"><span class="pre">Tab</span></code> 键调用补全功能；它会查看Python语句的名字，当前局部变量以及可以访问的模块名。对于点分表达式如 <code class="docutils literal"><span class="pre">string.a</span></code>，它将求出表达式最后一个 <code class="docutils literal"><span class="pre">'.'</span></code> 之前的值，然后根据结果的属性给出补全的建议。注意，如果一个具有 <a class="reference external" href="https://docs.python.org/3/reference/datamodel.html#object.__getattr__">__getattr__()</a> 方法的对象是表达式的某部分，这可能执行应用程序定义的代码。默认的配置同时会把历史记录保存在你的用户目录下一个名为 <code class="file docutils literal"><span class="pre">.python_history</span></code> 的文件中。在下次与交互式解释器的会话中，历史记录将还可以访问。</p>
+</div>
+<div class="section" id="tut-commentary">
+<span id="id3"></span><h2>14.2. 其它交互式解释器<a class="headerlink" href="#tut-commentary" title="永久链接至标题">¶</a></h2>
+<p>与早期版本的解释器相比，现在是向前巨大的进步；然而，有些愿望还是没有实现：如果能对连续的行给出正确的建议就更好了（解析器知道下一行是否需要缩进）。补全机制可以使用解释器的符号表。检查（或者只是建议）匹配的括号、 引号的命令等也会非常有用。</p>
+<p>一个增强的交互式解释器是 <a class="reference external" href="http://ipython.scipy.org/">IPython</a>，它已经存在相当一段时间，具有 tab 补全、 对象 exploration 和高级的历史记录功能。它也可以彻底定制并嵌入到其他应用程序中。另一个类似的增强的交互式环境是 <a class="reference external" href="http://www.bpython-interpreter.org/">bpython</a>。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<div id="placeholder-right" style="position: fixed; top: 2px; background-color:#fff;"></div>
+        <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="floatingpoint.html" class="btn btn-neutral float-right" title="15. 浮点数算法：争议和限制" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="whatnow.html" class="btn btn-neutral" title="13. 接下来？" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+	<a href="http://www.pythontab.com/" target='_blank'>Python教程</a>&nbsp;
+	<a href="http://bbs.pythontab.com/" target='_blank'>Python论坛</a>&nbsp;
+	<a href="../../index.html" target='_blank'>在线手册中心</a>&nbsp;
+        &copy; Copyright 2017.
+	&nbsp;联系方式:market@pythontab.com
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'3.5.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+		function trackme(trackName){
+        	_hmt.push(['_trackEvent', 'track-' + trackName, 'click']);
+    	}
+  </script>
+	<script type="text/javascript" src="http://www.pythontab.com/statics/js/coop/docs_content_wrap.js"></script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/python/python3.5/interactive.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:42:50 GMT -->
+</html>
