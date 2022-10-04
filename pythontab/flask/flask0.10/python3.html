@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/python3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python 3 支持 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python 3 支持</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">需求</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">API 稳定性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">少数派</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">小生态系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">建议</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>Python 3 支持</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-3">
+<span id="python3-support"></span><h1>Python 3 支持<a class="headerlink" href="#python-3" title="永久链接至标题">¶</a></h1>
+<p>Flask 与其所有依赖包都支持 Python 3，所以理论上你已经可以在 Python 3 中
+工作了。尽管如此，在你开始为新项目采用 Python 3 之前，仍有一些事情应该
+了解。</p>
+<div class="section" id="id1">
+<h2>需求<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>如果你想要在 Python 3 中使用 Flask，你需要安装 Python 3.3 或更高的版本。
+<em>不支持</em> 3.2 及更古老版本。</p>
+<p>此外你需要使用最新且最大版本的 <cite>itsdangerous</cite> 、 <cite>Jinja2</cite> 和
+<cite>Werkzeug</cite> 。</p>
+</div>
+<div class="section" id="api">
+<h2>API 稳定性<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h2>
+<p>Python 3 中做出的一些关于 Unicode 和 byte 的修改使得编写底层
+代码变得困难。这主要影响 WSGI 中间件和与 WSGI 所提供信息的交互。Werkzeug
+把所有 WSGI 信息封转成高层的辅助函数，但其中的一些是特地为 Python 3 支持而
+新添加的。</p>
+<p>很多关于 WSGI 使用的文档是在 WSGI 升级至 Python 3 编写的，未顾及这些细节。
+虽然 Werkzeug 和 Flask 在 Python 2.x 中的 API 不会做出大改动，但我们不能保
+证 Python 3 中不会发生。</p>
+</div>
+<div class="section" id="id2">
+<h2>少数派<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>根据 PyPI 下载统计，Python 3 用户只有不足 Python 2 用户的 1%。因此，你遭遇的
+Python 3 特定的问题将很难在网上搜索到。</p>
+</div>
+<div class="section" id="id3">
+<h2>小生态系统<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>大多数的 Flask 扩展、所有的文档和绝大多数 PyPI 提供的库尚未支持 Python 3。
+即使你在已知所有所需要的都支持 Python 3 的情况下开始项目，你也不知道接下来
+的 6 个月发生什么。如果你富有冒险精神，你可以开始自行移植那些库，但意志薄弱者
+则无计可施。</p>
+</div>
+<div class="section" id="id4">
+<h2>建议<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>除非你已经熟悉各个版本的差异，否则，我们推荐在生态系统完善前，固守当前版
+本的 Python。</p>
+<p>大多数升级的痛苦在于诸如 Flask 和 Werkzeug 这样的底层库，而非实际的高层应用代码中。
+例如 Flask 代码库中所有的 Flask 实例无需修改一行代码就可以在 2.x 和 3.x 中良好运行。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="upgrading.html" class="btn btn-neutral float-right" title="升级到最新版本" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="styleguide.html" class="btn btn-neutral" title="Pocoo 风格指引" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/python3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:45 GMT -->
+</html>

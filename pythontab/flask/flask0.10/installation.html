@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/installation.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>安装 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#virtualenv">virtualenv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-wide-installation">全局安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#living-on-the-edge">活在边缘</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-pip-distribute">Windows 下的 <cite>pip</cite> 和 <cite>distribute</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>安装</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<span id="id1"></span><h1>安装<a class="headerlink" href="#installation" title="永久链接至标题">¶</a></h1>
+<p>Flask 依赖两个外部库：<a class="reference external" href="http://werkzeug.pocoo.org/">Werkzeug</a> 和 <a class="reference external" href="http://jinja.pocoo.org/2/">Jinja2</a> 。
+Werkzeug 是一个 WSGI（在 Web 应用和多种服务器之间的标准 Python 接口) 工具
+集。Jinja2 负责渲染模板。</p>
+<p>那么如何在你的电脑上安装这一切？虽说条条大道通罗马，但是最强大的方式是
+virtualenv ，所以我们首先来看它。</p>
+<p>你首先需要 Python 2.6 或更高的版本，所以请确认有一个最新的 Python 2.x 安装。
+在 Python 3 中使用 Flask 请参考： <a class="reference internal" href="python3.html#python3-support"><span>Python 3 支持</span></a> 。</p>
+<div class="section" id="virtualenv">
+<span id="id2"></span><h2>virtualenv<a class="headerlink" href="#virtualenv" title="永久链接至标题">¶</a></h2>
+<p>你很可能想在开发中用上 virtualenv，如果你有生产环境的 shell 权限，你同样
+会乐于在生产环境中使用它。</p>
+<p>virtualenv 解决了什么问题？如果你像我一样喜欢 Python，不仅会在采用 Flask
+的Web 应用中用上 virtualenv，在别的项目中你也会想用上它。你拥有的项目越
+多，同时使用不同版本的 Python 工作的可能性也就越大，或者起码需要不同版本
+的 Python 库。悲惨现实是：常常会有库破坏向后兼容性，然而正经应用不采用外
+部库的可能微乎其微。当在你的项目中，出现两个或更多依赖性冲突时，你会怎么
+做？</p>
+<p>virtualenv 拯救世界！virtualenv 为每个不同项目提供一份 Python 安装。它并
+没有真正安装多个 Python 副本，但是它确实提供了一种巧妙的方式来让各项目环
+境保持独立。让我们来看看 virtualenv 是怎么工作的。</p>
+<p>如果你在 Mac OS X 或 Linux 下，下面两条命令可能会适用:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo easy_install virtualenv
+</pre></div>
+</div>
+<p>或更好的:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo pip install virtualenv
+</pre></div>
+</div>
+<p>上述的命令会在你的系统中安装 virtualenv。它甚至可能会存在于包管理器中，
+如果你用的是 Ubuntu，可以尝试:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo apt-get install python-virtualenv
+</pre></div>
+</div>
+<p>如果你用的是 Windows ，而且没有 <cite>easy_install</cite> 命令，那么你必须先安装这
+个命令。查阅 <a class="reference internal" href="#windows-easy-install"><span>Windows 下的 pip 和 distribute</span></a> 章节了解如何安装。之后，运行上
+述的命令，但是要去掉 <cite>sudo</cite> 前缀。</p>
+<p>virtualenv 安装完毕后，你可以立即打开 shell 然后创建你自己的环境。我通
+常创建一个项目文件夹，并在其下创建一个 <cite>venv</cite> 文件夹</p>
+<div class="highlight-python"><div class="highlight"><pre>$ mkdir myproject
+$ cd myproject
+$ virtualenv venv
+New python executable in venv/bin/python
+Installing distribute............done.
+</pre></div>
+</div>
+<p>现在，无论何时你想在某个项目上工作，只需要激活相应的环境。在 OS X 和
+Linux 上，执行如下操作:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ . venv/bin/activate
+</pre></div>
+</div>
+<p>下面的操作适用 Windows:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ venv\scripts\activate
+</pre></div>
+</div>
+<p>无论通过哪种方式，你现在应该已经激活了 virtualenv（注意你的 shell 提示符
+显示的是当前活动的环境）。</p>
+<p>现在你只需要键入以下的命令来激活 virtualenv 中的 Flask:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install Flask
+</pre></div>
+</div>
+<p>几秒钟后，一切都搞定了。</p>
+</div>
+<div class="section" id="system-wide-installation">
+<span id="id3"></span><h2>全局安装<a class="headerlink" href="#system-wide-installation" title="永久链接至标题">¶</a></h2>
+<p>这样也是可以的，虽然我不推荐。只需要以 root 权限运行 <cite>pip</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo pip install Flask
+</pre></div>
+</div>
+<p>（在 Windows 上，在管理员权限的命令提示符中去掉 <cite>sudo</cite> 运行这条命令 。）</p>
+</div>
+<div class="section" id="living-on-the-edge">
+<span id="id4"></span><h2>活在边缘<a class="headerlink" href="#living-on-the-edge" title="永久链接至标题">¶</a></h2>
+<p>如果你需要最新版本的 Flask，有两种方法：你可以使用 <cite>pip</cite> 拉取开发版本，
+或让它操作一个 git checkout。无论哪种方式，依然推荐使用 virtualenv。</p>
+<p>在一个全新的 virtualenv 中 git checkout 并运行在开发模式下:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone http://github.com/mitsuhiko/flask.git
+Initialized empty Git repository in ~/dev/flask/.git/
+$ cd flask
+$ virtualenv venv --distribute
+New python executable in venv/bin/python
+Installing distribute............done.
+$ . venv/bin/activate
+$ python setup.py develop
+...
+Finished processing dependencies for Flask
+</pre></div>
+</div>
+<p>这会拉取依赖并激活 git head 作为 virtualenv 中的当前版本。然后你只需要执
+行 <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span></code> 来升级到最新版本。</p>
+<p>没有 git 时，获取开发版本的替代操作:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ mkdir flask
+$ cd flask
+$ virtualenv venv --distribute
+$ . venv/bin/activate
+New python executable in venv/bin/python
+Installing distribute............done.
+$ pip install Flask==dev
+...
+Finished processing dependencies for Flask==dev
+</pre></div>
+</div>
+</div>
+<div class="section" id="windows-pip-distribute">
+<span id="windows-easy-install"></span><h2>Windows 下的 <cite>pip</cite> 和 <cite>distribute</cite><a class="headerlink" href="#windows-pip-distribute" title="永久链接至标题">¶</a></h2>
+<p>在 Windows 下， <cite>easy_install</cite> 的安装稍微有点麻烦，但还是相当简单。最简
+单的方法是下载 <cite>distribute_setup.py</cite> 文件并运行它。运行这个文件最简单的
+方法就是打开你的下载文件夹并且双击这个文件。</p>
+<p>下一步，把你的 Python 安装中的 Scripts 文件夹添加到 <cite>PATH</cite> 环境变量来，
+这样 <cite>easy_install</cite> 命令和其它 Python 脚本就加入到了命令行自动搜索的路
+径。做法是：右键单击桌面上或是“开始”菜单中的“我的电脑”图标，选择“属性”，
+然后单击“高级系统设置”（在 Windows XP 中，单击“高级”选项卡），然后单击
+“环境变量”按钮，最后双击“系统变量”栏中的“Path”变量，并加入你的 Python
+解释器的 Scripts 文件夹。确保你用分号把它和现有的值分隔开。假设你使用
+Python 2.7 且为默认目录，添加下面的值:</p>
+<div class="highlight-python"><div class="highlight"><pre>;C:\Python27\Scripts
+</pre></div>
+</div>
+<p>如此，你就搞定了！打开命令提示符并执行 <code class="docutils literal"><span class="pre">easy_install</span></code> 测试它是否正常
+工作。如果你开启了 Windows Vista 或 Windows 7 中的用户账户控制，它应该
+会提示你使用管理员权限。</p>
+<p>现在你有了 <code class="docutils literal"><span class="pre">easy_install</span></code> ，你可以用它来安装 <code class="docutils literal"><span class="pre">pip</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; easy_install pip
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="快速入门" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="advanced_foreword.html" class="btn btn-neutral" title="给有经验程序员的前言" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/installation.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:42 GMT -->
+</html>

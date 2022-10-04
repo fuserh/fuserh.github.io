@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/flashing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>消息闪现 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Flask 代码模式</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="packages.html">大型应用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html">应用程序的工厂函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html">应用调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html">使用 URL 处理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html">部署和分发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html">使用 Fabric 部署</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html">在 Flask 中使用 SQLite 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html">在 Flask 中使用 SQLAlchemy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html">上传文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">缓存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html">视图装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html">使用 WTForms 进行表单验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html">模板继承</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">消息闪现</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">简单的闪现</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">分类闪现</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">过滤闪现消息</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html">用 jQuery 实现 Ajax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html">自定义错误页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html">延迟加载视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html">在 Flask 中使用 MongoKit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="favicon.html">添加 Favicon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html">数据流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html">延迟请求回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methodoverrides.html">添加 HTTP Method Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requestchecksum.html">请求内容校验码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html">基于 Celery 的后台任务</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Flask 代码模式</a> &raquo;</li>
+      
+    <li>消息闪现</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="message-flashing-pattern">
+<span id="id1"></span><h1>消息闪现<a class="headerlink" href="#message-flashing-pattern" title="永久链接至标题">¶</a></h1>
+<p>好的应用和用户界面的重点是回馈。如果用户没有得到足够的反馈，他们可能最终
+会对您的应用产生不好的评价。Flask 提供了一个非常简单的方法来使用闪现系统
+向用户反馈信息。闪现系统使得在一个请求结束的时候记录一个信息，然后在且仅仅在
+下一个请求中访问这个数据。这通常配合一个布局模板实现。</p>
+<div class="section" id="id2">
+<h2>简单的闪现<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>这里是一个完成的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">flash</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> \
+     <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s">&#39;some_secret&#39;</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;index.html&#39;</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;admin&#39;</span> <span class="ow">or</span> \
+                <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;secret&#39;</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Invalid credentials&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s">&#39;You were successfully logged in&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;login.html&#39;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这里的 <code class="docutils literal"><span class="pre">layout.html</span></code> 模板完成了所有的魔术:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;title&gt;</span>My Application<span class="nt">&lt;/title&gt;</span>
+<span class="cp">{%</span> <span class="k">with</span> <span class="nv">messages</span> <span class="o">=</span> <span class="nv">get_flashed_messages</span><span class="o">()</span> <span class="cp">%}</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">messages</span> <span class="cp">%}</span>
+    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">flashes</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">message</span> <span class="k">in</span> <span class="nv">messages</span> <span class="cp">%}</span>
+      <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">message</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这里是 <cite>index.html</cite> 模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="nt">&lt;h1&gt;</span>Overview<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Do you want to <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;login&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>log in?<span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这里是登陆模板:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="nt">&lt;h1&gt;</span>Login<span class="nt">&lt;/h1&gt;</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">error</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">error</span><span class="nt">&gt;&lt;strong&gt;</span>Error:<span class="nt">&lt;/strong&gt;</span> <span class="cp">{{</span> <span class="nv">error</span> <span class="cp">}}</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;&quot;</span> <span class="na">method=</span><span class="s">post</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;dl&gt;</span>
+      <span class="nt">&lt;dt&gt;</span>Username:
+      <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">text</span> <span class="na">name=</span><span class="s">username</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span>
+          <span class="nv">request.form.username</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;dt&gt;</span>Password:
+      <span class="nt">&lt;dd&gt;&lt;input</span> <span class="na">type=</span><span class="s">password</span> <span class="na">name=</span><span class="s">password</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/dl&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">submit</span> <span class="na">value=</span><span class="s">Login</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>分类闪现<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.3 新版功能.</span></p>
+</div>
+<p>当闪现一个消息时，是可以提供一个分类的。未指定分类时默认的分类为 <code class="docutils literal"><span class="pre">'message'</span></code> 。
+可以使用分类来提供给用户更好的反馈，例如，错误信息应该被显示为红色北京。</p>
+<p>要使用一个自定义的分类，只要使用 <code class="xref py py-func docutils literal"><span class="pre">flash()</span></code> 函数的第二个参数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">flash</span><span class="p">(</span><span class="s">u&#39;Invalid password provided&#39;</span><span class="p">,</span> <span class="s">&#39;error&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在模板中，您接下来可以调用 <code class="xref py py-func docutils literal"><span class="pre">get_flashed_messages()</span></code> 函数来返回
+这个分类，在下面的情景中，循环看起来将会有一点点不一样:</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">with</span> <span class="nv">messages</span> <span class="o">=</span> <span class="nv">get_flashed_messages</span><span class="o">(</span><span class="nv">with_categories</span><span class="o">=</span><span class="kp">true</span><span class="o">)</span> <span class="cp">%}</span>
+  <span class="cp">{%</span> <span class="k">if</span> <span class="nv">messages</span> <span class="cp">%}</span>
+    <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">flashes</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">category</span><span class="o">,</span> <span class="nv">message</span> <span class="k">in</span> <span class="nv">messages</span> <span class="cp">%}</span>
+      <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">category</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">message</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+  <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>这仅仅是一个渲染闪现信息的例子，您可也可以使用分类来加入一个诸如
+<code class="docutils literal"><span class="pre">&lt;strong&gt;Error:&lt;/strong&gt;</span></code> 的前缀给信息。</p>
+</div>
+<div class="section" id="id4">
+<h2>过滤闪现消息<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.9 新版功能.</span></p>
+</div>
+<p>可选地，您可以将一个分类的列表传入到 <code class="xref py py-func docutils literal"><span class="pre">get_flashed_messages()</span></code> 中，
+以过滤函数返回的结果。如果您希望将每个分类渲染到独立的块中，这会非常有用。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">with</span> <span class="nv">errors</span> <span class="o">=</span> <span class="nv">get_flashed_messages</span><span class="o">(</span><span class="nv">category_filter</span><span class="o">=[</span><span class="s2">&quot;error&quot;</span><span class="o">])</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">errors</span> <span class="cp">%}</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;alert-message block-message error&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;close&quot;</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>×<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">{%</span>- <span class="k">for</span> <span class="nv">msg</span> <span class="k">in</span> <span class="nv">errors</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">msg</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> -<span class="cp">%}</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="jquery.html" class="btn btn-neutral float-right" title="用 jQuery 实现 Ajax" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="templateinheritance.html" class="btn btn-neutral" title="模板继承" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/flashing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

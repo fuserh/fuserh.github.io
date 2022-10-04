@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/deploying/cgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CGI &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">部署选择</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mod_wsgi.html">mod_wsgi (Apache)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi-standalone.html">独立 WSGI 容器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uwsgi.html">uWSGI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fastcgi.html">FastCGI</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CGI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">创建一个 <cite>.cgi</cite> 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">服务器配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">部署选择</a> &raquo;</li>
+      
+    <li>CGI</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cgi">
+<h1>CGI<a class="headerlink" href="#cgi" title="永久链接至标题">¶</a></h1>
+<p>如果所有其它的部署方式都不能奏效，那么 CGI 毫无疑问会奏效。 CGI 被
+所有主流服务器支持，但通常性能欠佳。</p>
+<p>这也是你在 Google 的 <a class="reference external" href="http://code.google.com/appengine/">App Engine</a> 上使用 Flask 应用的方式，其执行方式
+恰好是一个 CGI-like 的环境。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">注意</p>
+<p class="last">请提前确保你在应用文件中的任何 <code class="docutils literal"><span class="pre">app.run()</span></code> 调用在 <code class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></code> 块中或是移到一个独立的文件。这是因为它总会启动一个本地
+的 WSGI 服务器，并且我们在部署应用到 uWSGI 时不需要它。</p>
+</div>
+<div class="section" id="id1">
+<h2>创建一个 <cite>.cgi</cite> 文件<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>首先你需要创建一个 CGI 应用程序文件。我们把它叫做
+<cite>yourapplication.cgi</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="kn">from</span> <span class="nn">wsgiref.handlers</span> <span class="kn">import</span> <span class="n">CGIHandler</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="n">CGIHandler</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>服务器配置<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>通常有两种方式来配置服务器。直接把 <cite>.cgi</cite> 复制到 <cite>cgi-bin</cite> （并且使用
+<cite>mod_rewrite</cite> 或其它类似的东西来重写 URL ） 或让服务器直接指向这个文件。</p>
+<p>例如，在 Apache 中你可以在配置中写入这样的语句:</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">ScriptAlias</span> <span class="sx">/app</span> <span class="sx">/path/to/the/application.cgi</span>
+</pre></div>
+</div>
+<p>更多信息请查阅你的 web 服务器的文档。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../becomingbig.html" class="btn btn-neutral float-right" title="聚沙成塔" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fastcgi.html" class="btn btn-neutral" title="FastCGI" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/deploying/cgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

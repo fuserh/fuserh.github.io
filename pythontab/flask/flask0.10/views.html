@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/views.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>即插视图 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">即插视图</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">基本原则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">方法提示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">基于调度的方法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">装饰视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">用于 API 的方法视图</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>即插视图</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="views">
+<span id="id1"></span><h1>即插视图<a class="headerlink" href="#views" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.7 新版功能.</span></p>
+</div>
+<p>Flask 0.7 引入了即插视图，灵感来自 Django 的基于类而不是函数的通用视图。
+其主要目的是让你可以对已实现的部分进行替换，并且这个方式可以定制即插视
+图。</p>
+<div class="section" id="id2">
+<h2>基本原则<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>想象你有一个从数据库载入一个对象列表并渲染到视图的函数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_users</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;users.html&#39;</span><span class="p">,</span> <span class="n">users</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这是简单而灵活的，但如果你想要用一种通用的，同样可以适应其它模型和模板的
+方式来提供这个视图，你会需要更大的灵活性。这就是基于类的即插视图所做的。
+第一步，把它转换为基于类的视图，你要这样做:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">View</span>
+
+<span class="k">class</span> <span class="nc">ShowUsers</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;users.html&#39;</span><span class="p">,</span> <span class="n">objects</span><span class="o">=</span><span class="n">users</span><span class="p">)</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">ShowUsers</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;show_users&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>如你所见，你需要做的是创建一个 <code class="xref py py-class docutils literal"><span class="pre">flask.views.View</span></code> 的子类，
+并且实现 <code class="xref py py-meth docutils literal"><span class="pre">dispatch_request()</span></code> 。然后我们需要用类方法
+<code class="xref py py-meth docutils literal"><span class="pre">as_view()</span></code> 把这个类转换到一个实际的视图函数。你传给
+这个函数的字符串是视图之后的最终名称。但是用它自己实现的方法不够有效，所以
+我们稍微重构一下代码:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">View</span>
+
+<span class="k">class</span> <span class="nc">ListView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_template_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">render_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_template_name</span><span class="p">(),</span> <span class="o">**</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;objects&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_objects</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_template</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">UserView</span><span class="p">(</span><span class="n">ListView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_template_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;users.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这当然不是那么有助于一个小例子，但是对于解释基本原则已经很有用了。当你有一
+个基于类的视图，那么问题来了， <cite>self</cite> 指向什么。它工作的方式是，无论何时请
+求被调度，会创建这个类的一个新实例，并且
+<code class="xref py py-meth docutils literal"><span class="pre">dispatch_request()</span></code> 方法会以 URL 规则为参数调用。
+这个类本身会用传递到 <code class="xref py py-meth docutils literal"><span class="pre">as_view()</span></code> 函数的参数来实例化。
+比如，你可以像这样写一个类:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">RenderTemplateView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span> <span class="o">=</span> <span class="n">template_name</span>
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>然后你可以这样注册它::
+And then you can register it like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/about&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">RenderTemplateView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span>
+    <span class="s">&#39;about_page&#39;</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&#39;about.html&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>方法提示<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>即插视图可以像常规函数一样用 <code class="xref py py-func docutils literal"><span class="pre">route()</span></code> 或更好的
+<code class="xref py py-meth docutils literal"><span class="pre">add_url_rule()</span></code> 附加到应用中。然而当你附加它时，你必须
+提供 HTTP 方法的名称。为了将这个信息加入到类中，你可以提供
+<code class="xref py py-attr docutils literal"><span class="pre">methods</span></code> 属性来承载它:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">dispatch_request</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="o">...</span>
+        <span class="o">...</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/myview&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">MyView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;myview&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>基于调度的方法<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>对每个 HTTP 方法执行不同的函数，对 RESTful API 非常有用。你可以通过
+<code class="xref py py-class docutils literal"><span class="pre">flask.views.MethodView</span></code> 容易地实现。每个 HTTP 方法映射到同名函数
+（只有名称为小写的）:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.views</span> <span class="kn">import</span> <span class="n">MethodView</span>
+
+<span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">from_form_data</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>
+        <span class="o">...</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;users&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>如此，你可以不提供 <code class="xref py py-attr docutils literal"><span class="pre">methods</span></code> 属性。它会自动的按照
+类中定义的方法来设置。</p>
+</div>
+<div class="section" id="id5">
+<h2>装饰视图<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>既然视图类自己不是加入到路由系统的视图函数，那么装饰视图类并没有多大意义。
+相反的，你可以手动装饰 <code class="xref py py-meth docutils literal"><span class="pre">as_view()</span></code> 的返回值:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">user_required</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks whether user is logged in or raises error 401.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">abort</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="n">view</span> <span class="o">=</span> <span class="n">user_required</span><span class="p">(</span><span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;users&#39;</span><span class="p">))</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>从 Flask 0.8 开始，你也有一种在类声明中设定一个装饰器列表的方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+    <span class="n">decorators</span> <span class="o">=</span> <span class="p">[</span><span class="n">user_required</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>因为从调用者的视角来看 self 是不明确的，所以你不能在单独的视图方法上使用
+常规的视图装饰器，请记住这些。</p>
+</div>
+<div class="section" id="api">
+<h2>用于 API 的方法视图<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h2>
+<p>Web API 的工作通常与 HTTP 动词紧密相关，所以这使得实现这样一个基于
+<code class="xref py py-class docutils literal"><span class="pre">MethodView</span></code> 类的 API 很有意义。也就是说，你会注意到
+大多数时候， API 需要不同的 URL 规则来访问相同的方法视图。譬如，想象一种
+情况，你在 web 上暴露一个用户对象:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="22%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>URL</td>
+<td>HTTP 方法</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">/users/</span></code></td>
+<td><code class="docutils literal"><span class="pre">GET</span></code></td>
+<td>获得全部用户的列表</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">/users/</span></code></td>
+<td><code class="docutils literal"><span class="pre">POST</span></code></td>
+<td>创建一个新用户</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">GET</span></code></td>
+<td>显示某个用户</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">PUT</span></code></td>
+<td>更新某个用户</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">/users/&lt;id&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">DELETE</span></code></td>
+<td>删除某个用户</td>
+</tr>
+</tbody>
+</table>
+<p>那么，你会想用 <code class="xref py py-class docutils literal"><span class="pre">MethodView</span></code> 做什么？诀窍是利用你可以
+对相同的视图提供多个规则的事实。</p>
+<p>让我们假设这时视图看起来是这个样子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">UserAPI</span><span class="p">(</span><span class="n">MethodView</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># return a list of users</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># expose a single user</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># create a new user</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="c"># delete a single user</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+        <span class="c"># update a single user</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>如此，我们怎样把它挂载到路由系统中？添加两条规则，并且为每条规则显式地
+指出 HTTP 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user_view</span> <span class="o">=</span> <span class="n">UserAPI</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="s">&#39;user_api&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;user_id&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+                 <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">,])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/users/&lt;int:user_id&gt;&#39;</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">user_view</span><span class="p">,</span>
+                 <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>如果你有许多看起来类似的 API ，你可以重构上述的注册代码:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">register_api</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="n">pk_type</span><span class="o">=</span><span class="s">&#39;int&#39;</span><span class="p">):</span>
+    <span class="n">view_func</span> <span class="o">=</span> <span class="n">view</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="n">pk</span><span class="p">:</span> <span class="bp">None</span><span class="p">},</span>
+                     <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,])</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">,])</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">&lt;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pk_type</span><span class="p">,</span> <span class="n">pk</span><span class="p">),</span> <span class="n">view_func</span><span class="o">=</span><span class="n">view_func</span><span class="p">,</span>
+                     <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">])</span>
+
+<span class="n">register_api</span><span class="p">(</span><span class="n">UserAPI</span><span class="p">,</span> <span class="s">&#39;user_api&#39;</span><span class="p">,</span> <span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="s">&#39;user_id&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appcontext.html" class="btn btn-neutral float-right" title="应用上下文" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="signals.html" class="btn btn-neutral" title="信号" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/views.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+</html>

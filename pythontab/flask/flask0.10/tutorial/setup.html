@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/tutorial/setup.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>步骤 2: 应用设置代码 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">介绍 Flaskr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folders.html">步骤 0: 创建文件夹</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html">步骤 1: 数据库模式</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">步骤 2: 应用设置代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbcon.html">步骤 3: 数据库连接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbinit.html">步骤 4: 创建数据库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html">步骤 5: 视图函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html">步骤 6: 模板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="css.html">步骤 7: 添加样式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">福利: 应用测试</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">教程</a> &raquo;</li>
+      
+    <li>步骤 2: 应用设置代码</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial-setup">
+<span id="id1"></span><h1>步骤 2: 应用设置代码<a class="headerlink" href="#tutorial-setup" title="永久链接至标题">¶</a></h1>
+<p>现在我们已经有了数据库模式，我们可以创建应用的模块了。让我们把它
+叫做 <cite>flaskr.py</cite> ，并放置在 <cite>flaskr</cite> 目录下。我们从添加所需的导
+入语句和添加配置部分开始。对于小型应用，可以直接把配置放在主模块
+里，正如我们现在要做的一样。但更简洁的方案是创建独立的 <cite>.ini</cite> 或
+<cite>.py</cite> 文件，并载入或导入里面的值。</p>
+<p>首先在 <cite>flaskr.py</cite> 里导入:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># all the imports</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">abort</span><span class="p">,</span> \
+     <span class="n">render_template</span><span class="p">,</span> <span class="n">flash</span>
+</pre></div>
+</div>
+<p><code class="xref py py-class docutils literal"><span class="pre">Config</span></code> 对象的用法如同字典，所以我们可以用新值更新
+它。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">数据库路径</p>
+<p>操作系统有进程当前工作目录的概念。不幸的是，你在 Web 应用中不能
+依赖此概念，因为你可能会在相同的进程中运行多个应用。</p>
+<p>为此，提供了 <code class="docutils literal"><span class="pre">app.root_path</span></code> 属性以获取应用的路径。配合
+<code class="docutils literal"><span class="pre">os.path</span></code> 模块使用，轻松可达任意文件。在本例中，我们把数据库
+放在根目录下。</p>
+<p class="last">对于实际生产环境的应用，推荐使用 <a class="reference internal" href="../config.html#instance-folders"><span>实例文件夹</span></a> 。</p>
+</div>
+<p>通常，加载一个单独的、环境特定的配置文件是个好主意。Flask 允许你导
+入多份配置，并且使用最后的导入中定义的设置。这使得配置设定过程更可
+靠。 <code class="xref py py-meth docutils literal"><span class="pre">from_envvar()</span></code> 可用于达此目的。</p>
+<blockquote>
+<div>app.config.from_envvar(&#8216;FLASKR_SETTINGS&#8217;, silent=True)</div></blockquote>
+<p>只需设置一个名为 <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal"><span class="pre">FLASKR_SETTINGS</span></code> 的环境变量，指向要加载的
+配置文件。启用静默模式告诉 Flask 在没有设置该环境变量的情况下噤声。</p>
+<p>此外，你可以使用配置对象上的 <code class="xref py py-meth docutils literal"><span class="pre">from_object()</span></code> 方
+法，并传递一个模块的导入名作为参数。Flask 会从这个模块初始化变量。
+注意，只有名称全为大写字母的变量才会被采用。</p>
+<p><cite>secret_key</cite> 是保证客户端会话的安全的要点。正确选择一个尽可能难猜
+测、尽可能复杂的密钥。调试标志关系交互式调试器的开启。
+<em>永远不要在生产系统中激活调试模式</em> ，因为它将允许用户在服务器上执
+行代码。</p>
+<p>我们还添加了一个让连接到指定数据库变得很简单的方法，这个方法用于
+在请求时开启一个数据库连接，并且在交互式 Python shell 和脚本中
+也能使用。这为以后的操作提供了相当的便利。我们创建了一个简单的
+SQLite 数据库的连接，并让它用 <a class="reference external" href="http://docs.python.org/dev/library/sqlite3.html#sqlite3.Row" title="(在 Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">sqlite3.Row</span></code></a> 表示数据库中
+的行。这使得我们可以通过字典而不是元组的形式访问行:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">connect_db</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Connects to the specific database.&quot;&quot;&quot;</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">])</span>
+    <span class="n">rv</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
+    <span class="k">return</span> <span class="n">rv</span>
+</pre></div>
+</div>
+<p>最后，如果我们想要把这个文件当做独立应用来运行，我们只需在可启动
+服务器文件的末尾添加这一行:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如此我们便可以开始顺利运行这个应用，使用如下命令:</p>
+<div class="highlight-python"><div class="highlight"><pre>python flaskr.py
+</pre></div>
+</div>
+<p>你将会看见有消息告诉你访问该服务器的地址。</p>
+<p>当你在浏览器中访问服务器遇到一个 404 page not found 错误时，
+是因为我们还没有任何视图。我们之后再来关注视图。首先我们应该让数
+据库工作起来。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">外部可见的服务器</p>
+<dl class="last docutils">
+<dt>想要你的服务器公开可见？</dt>
+<dd><a class="reference internal" href="../quickstart.html#public-server"><span>外部可见的服务器</span></a> 一节有更多信息。</dd>
+</dl>
+</div>
+<p>阅读 <a class="reference internal" href="dbinit.html#tutorial-dbinit"><span>步骤 4: 创建数据库</span></a> 以继续。</p>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dbcon.html" class="btn btn-neutral float-right" title="步骤 3: 数据库连接" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="schema.html" class="btn btn-neutral" title="步骤 1: 数据库模式" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/tutorial/setup.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

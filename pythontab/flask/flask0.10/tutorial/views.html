@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/tutorial/views.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>步骤 5: 视图函数 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">教程</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">介绍 Flaskr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="folders.html">步骤 0: 创建文件夹</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html">步骤 1: 数据库模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">步骤 2: 应用设置代码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbcon.html">步骤 3: 数据库连接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dbinit.html">步骤 4: 创建数据库</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">步骤 5: 视图函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">显示条目</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">添加条目</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">登入和登出</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html">步骤 6: 模板</a></li>
+<li class="toctree-l2"><a class="reference internal" href="css.html">步骤 7: 添加样式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">福利: 应用测试</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">教程</a> &raquo;</li>
+      
+    <li>步骤 5: 视图函数</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial-views">
+<span id="id1"></span><h1>步骤 5: 视图函数<a class="headerlink" href="#tutorial-views" title="永久链接至标题">¶</a></h1>
+<p>现在数据库连接已经正常工作，我们终于可以开始写视图函数了。我们一共需要写
+四个:</p>
+<div class="section" id="id2">
+<h2>显示条目<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>这个视图显示数据库中存储的所有条目。它绑定在应用的根地址，并从数据库查询出
+文章的标题和正文。id 值最大的条目（最新的条目）会显示在最上方。从指针返回的
+行是按 select 语句中声明的列组织的元组。这对像我们这样的小应用已经足够了，
+但是你可能会想把它转换成字典。如果你对这方面有兴趣，请参考 <a class="reference internal" href="../patterns/sqlite3.html#easy-querying"><span>简化查询</span></a>
+的例子。</p>
+<p>视图函数会将条目作为字典传递给 <cite>show_entries.html</cite> 模板，并返回渲染结果:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_entries</span><span class="p">():</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;select title, text from entries order by id desc&#39;</span><span class="p">)</span>
+    <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">text</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;show_entries.html&#39;</span><span class="p">,</span> <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>添加条目<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>这个视图允许已登入的用户添加新条目，并只响应 <cite>POST</cite> 请求，实际的表单显示在
+<cite>show_entries</cite> 页。如果一切工作正常，我们会用 <code class="xref py py-func docutils literal"><span class="pre">flash()</span></code>  向下
+一次请求发送提示消息，并重定向回 <cite>show_entries</cite> 页:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/add&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">add_entry</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;logged_in&#39;</span><span class="p">):</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&#39;insert into entries (title, text) values (?, ?)&#39;</span><span class="p">,</span>
+                 <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">],</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]])</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s">&#39;New entry was successfully posted&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;show_entries&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>注意这里的用户登入检查（ <cite>logged_in</cite> 键在会话中存在，并且为 <cite>True</cite> ）</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">安全提示</p>
+<p class="last">确保像上面例子中一样，使用问号标记来构建 SQL 语句。否则，当你使用格式化
+字符串构建 SQL 语句时，你的应用容易遭受 SQL 注入。
+更多请见 <a class="reference internal" href="../patterns/sqlite3.html#sqlite3"><span>在 Flask 中使用 SQLite 3</span></a> 。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>登入和登出<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>这些函数用来让用户登入登出。登入通过与配置文件中的数据比较检查用户名和密码，
+并设定会话中的 <cite>logged_in</cite> 键值。如果用户成功登入，那么这个键值会被设为
+<cite>True</cite> ，并跳转回 <cite>show_entries</cite> 页。此外，会有消息闪现来提示用户登入成功。
+如果发生一个错误，模板会通知，并提示重新登录。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">():</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;USERNAME&#39;</span><span class="p">]:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Invalid username&#39;</span>
+        <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;PASSWORD&#39;</span><span class="p">]:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Invalid password&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">session</span><span class="p">[</span><span class="s">&#39;logged_in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">flash</span><span class="p">(</span><span class="s">&#39;You were logged in&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;show_entries&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;login.html&#39;</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>登出函数，做相反的事情，从会话中删除 <cite>logged_in</cite> 键。我们这里使用了一个
+简洁的方法：如果你使用字典的 <a class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict.pop" title="(在 Python v3.6)"><code class="xref py py-meth docutils literal"><span class="pre">pop()</span></code></a> 方法并传入第二个参数（默认），
+这个方法会从字典中删除这个键，如果这个键不存在则什么都不做。这很有用，因为
+我们不需要检查用户是否已经登入。</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/logout&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">logout</span><span class="p">():</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;logged_in&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">flash</span><span class="p">(</span><span class="s">&#39;You were logged out&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s">&#39;show_entries&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>继续 <a class="reference internal" href="templates.html#tutorial-templates"><span>步骤 6: 模板</span></a> 。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="templates.html" class="btn btn-neutral float-right" title="步骤 6: 模板" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dbinit.html" class="btn btn-neutral" title="步骤 4: 创建数据库" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/tutorial/views.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

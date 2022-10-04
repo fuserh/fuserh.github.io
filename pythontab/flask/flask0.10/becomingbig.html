@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/becomingbig.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>聚沙成塔 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">聚沙成塔</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">阅读源码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">钩子，继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">用中间件包装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">分支</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">像专家一样扩大规模</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">与社区对话</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>聚沙成塔</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="becomingbig">
+<span id="id1"></span><h1>聚沙成塔<a class="headerlink" href="#becomingbig" title="永久链接至标题">¶</a></h1>
+<p>这里是增长你的代码库或是扩大应用规模的一些选择。</p>
+<div class="section" id="id2">
+<h2>阅读源码<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>Flask 的创建一定程度上是为了展示如何在现有的常用工具 Werkzeug（WSGI）
+和 Jinja（模板）之上构建你自己的框架，并且当它开发出来之后，它对广大
+受众很有用。当你增长你的代码库时，不要仅仅使用 Flask——去理解它。阅读源码。
+Flask 的代码是为了阅读而写；它是发布的文档，所以你可以使用它的内部 API。
+Flask 坚持为上游库里的 API 写文档，并且为内部工具写文档，这样你们可以
+找到你的项目需要的钩子注册点。</p>
+</div>
+<div class="section" id="id3">
+<h2>钩子，继承<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="api.html#api"><span>API</span></a> 文档里面全都是可用的覆盖、钩子注册点和 <a class="reference internal" href="signals.html#signals"><span>信号</span></a> 。
+你可以提供诸如请求和响应对象的自定义类。深入你所用的 API，并且在
+Flask 中探寻框架外可用的定制。去寻找把你的项目重构为实用工具集合和
+Flask 扩展的方法，探索社区中的大量的 <a class="reference external" href="http://flask.pocoo.org/extensions/">扩展</a> ，
+如果你没找到你需要的工具，就去寻找可以用于构建你自己扩展的
+<a class="reference external" href="http://docs.torriacg.org/docs/flask/patterns/">模式</a>。</p>
+</div>
+<div class="section" id="id6">
+<h2>继承<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p><code class="xref py py-class docutils literal"><span class="pre">Flask</span></code> 类有许多为继承设计的方法。你可以继承
+<code class="xref py py-class docutils literal"><span class="pre">Flask</span></code> 快速添加或自定义行为（见链接的方法文档），并且
+无论你在哪里实例化一个应用类都会使用那个子类。这与
+<a class="reference internal" href="patterns/appfactories.html#app-factories"><span>应用程序的工厂函数</span></a> 工作良好。</p>
+</div>
+<div class="section" id="id7">
+<h2>用中间件包装<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="patterns/appdispatch.html#app-dispatch"><span>应用调度</span></a> 章节描述了如何应用中间件的细节。你可以引入 WSGI 中
+间件来包装你的 Flask 实例并在 Flask 应用和 HTTP 服务器之间的中间层引入
+修正和变更。Werkzeug包含了一些
+<a class="reference external" href="http://werkzeug.pocoo.org/docs/middlewares/">中间件</a> 。</p>
+</div>
+<div class="section" id="id9">
+<h2>分支<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>如果上述选择都不奏效，分支(fork) Flask。Flask 的大部分代码都限定在 Werkzeug
+和 Jinja2 中。这些库做了大部分工作。Flask 只作为胶水把它们粘合在一起。
+对每个项目，都有一个底层框架带来阻碍的点（归咎于原始开发者的假设）。
+这很正常，因为如果不是这样，框架本身会是一个非常复杂的系统，导致学习曲
+线陡峭，给用户带来许多挫折。</p>
+<p>不仅仅是对 Flask，许多人用打了补丁的或修改过的框架来弥补短处。这个思路
+也体现在 Flask 的许可证上。如果你决定修改这个框架，你不需要回馈任何的修
+改。</p>
+<p>分支的消极面当然就是 Flask 扩展会更容易不可用，因为新的框架有一个不同
+的导入名称。此外，集成上游的修改可能是一个复杂的过程，取决于修改的数目。
+为此，分支应该作为最后手段。</p>
+</div>
+<div class="section" id="id10">
+<h2>像专家一样扩大规模<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p>对许多 web 应用，代码的复杂程度比起为预期的用户或数据条目而扩大规模就不
+是问题了。 Flask 自己扩大规模的限制只在于你的应用代码、你想用的数据存储
+和 Python 解释器以及你运行的 web 服务器。</p>
+<p>良好的规模扩张意味着，如果你把服务器的数量加倍，你会得到大约两倍于原来的性能。
+而糟糕的则意味着，当你添加了一台新的服务器，应用不会有任何性能提升或根本不
+支持第二台服务器。</p>
+<p>在 Flask 中关于应用的扩张只有一个制约因素，那就是上下文局部代理。它们依赖于在
+Flask 中上下文是被定义为是线程、还是进程或 greenlet。如果你的服务器使用不是基于
+线程或 greenlet 的并行计算， Flask 不再能支持这些全局代理。然而大多数
+服务器使用线程、 greenlet 或独立进程来实现并发，而这些方法在底层的
+Werkzeug 库中有着良好的支持。</p>
+</div>
+<div class="section" id="id11">
+<h2>与社区对话<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+<p>Flask 开发者维护框架对大小代码库用户的可理解性，所以一旦你遇到了由
+Flask 引起的麻烦，不要犹豫，用邮件列表或 IRC 频道联系开发者。 Flask 和
+Flask 扩展开发者为更大型应用改进的最佳途径就是从用户那里获取反馈。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="deploying/cgi.html" class="btn btn-neutral" title="CGI" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/becomingbig.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+</html>

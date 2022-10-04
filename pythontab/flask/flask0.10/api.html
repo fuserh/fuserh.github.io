@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">应用对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">蓝图对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">进入的请求对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">响应对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">会话</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">会话接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">测试客户端</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">应用全局变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">有用的函数和类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">消息闪现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flask.json">JSON 支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">模板渲染</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">扩展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id15">流的辅助函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id16">有用的内构件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">信号</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id18">基于类的视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#url">URL 路由注册</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view-func-options">视图函数选项</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<span class="target" id="module-flask"></span><p>这部分文档涵盖了 Flask 的所有接口。对于那些 Flask 依赖外部库的部分，我们
+这里提供了最重要的部分的文档，并且提供其官方文档的链接。</p>
+<div class="section" id="id2">
+<h2>应用对象<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id3">
+<h2>蓝图对象<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id4">
+<h2>进入的请求对象<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="flask.request">
+<em class="property">class </em><code class="descclassname">flask.</code><code class="descname">request</code><a class="headerlink" href="#flask.request" title="永久链接至目标">¶</a></dt>
+<dd><p>你可以使用全局 <cite>request</cite> 对象访问进入的请求数据。 Flask 处理进入的请求
+数据并允许你用这个全局对象访问它。如果你工作在多线程环境，Flask 内部保证
+你总会在当前线程上获取正确的数据，</p>
+<p>这是一个代理。详情见 <a class="reference internal" href="reqcontext.html#notes-on-proxies"><span>留意代理</span></a> 。</p>
+<p>请求对象是一个 <a class="reference external" href="http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.Request" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 子类的实例，提供所有
+Werkzeug 定义的属性。这里只对最重要的展示了简要概述。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h2>响应对象<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id6">
+<h2>会话<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>如果你设置了 <code class="xref py py-attr docutils literal"><span class="pre">Flask.secret_key</span></code> ，你可以在 Flask 应用中使用会话。会话
+主要使得在请求见保留信息成为可能。 Flask 的实现方法是使用一个签名的 cookie 。
+这样，用户可以查看会话的内容，但是不能修改它，除非用户知道密钥。所以确保密钥
+被设置为一个复杂且无法被容易猜测的值。</p>
+<p>你可以使用 <a class="reference internal" href="#flask.session" title="flask.session"><code class="xref py py-class docutils literal"><span class="pre">session</span></code></a> 对象来访问当前的会话:</p>
+<dl class="class">
+<dt id="flask.session">
+<em class="property">class </em><code class="descclassname">flask.</code><code class="descname">session</code><a class="headerlink" href="#flask.session" title="永久链接至目标">¶</a></dt>
+<dd><p>会话对象很像通常的字典，区别是会话对象会追踪修改。</p>
+<p>这是一个代理。更多信息见 <a class="reference internal" href="reqcontext.html#notes-on-proxies"><span>留意代理</span></a> 。</p>
+<p>下列属性是需要关注的:</p>
+<dl class="attribute">
+<dt id="flask.session.new">
+<code class="descname">new</code><a class="headerlink" href="#flask.session.new" title="永久链接至目标">¶</a></dt>
+<dd><p>如果会话是新的，该值为 <cite>True</cite> ，否则为 <cite>False</cite> 。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flask.session.modified">
+<code class="descname">modified</code><a class="headerlink" href="#flask.session.modified" title="永久链接至目标">¶</a></dt>
+<dd><p>当果会话对象检测到修改，这个值为 <cite>True</cite> 。注意可变结构的修改不会
+被自动捕获，这种情况下你需要自行显式地设置这个属性为 <cite>True</cite> 。这
+里有 一个例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># this change is not picked up because a mutable object (here</span>
+<span class="c"># a list) is changed.</span>
+<span class="n">session</span><span class="p">[</span><span class="s">&#39;objects&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="c"># so mark it as modified yourself</span>
+<span class="n">session</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="flask.session.permanent">
+<code class="descname">permanent</code><a class="headerlink" href="#flask.session.permanent" title="永久链接至目标">¶</a></dt>
+<dd><p>如果设为 <cite>True</cite> ，会话存活
+<code class="xref py py-attr docutils literal"><span class="pre">permanent_session_lifetime</span></code> 秒。默认为 31 天。
+如果是 <cite>False</cite> （默认选项），会话会在用户关闭浏览器时删除。</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h2>会话接口<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.8 新版功能.</span></p>
+</div>
+<p>会话接口提供了简单的途径来替换 Flask 正在使用的会话实现。</p>
+<div class="admonition-notice admonition">
+<p class="first admonition-title">Notice</p>
+<p class="last"><code class="docutils literal"><span class="pre">PERMANENT_SESSION_LIFETIME</span></code> 配置键从 Flask 0.8 开始可以是一个整数。
+你可以自己计算值，或用应用上的
+<code class="xref py py-attr docutils literal"><span class="pre">permanent_session_lifetime</span></code> 属性来自动转换结果为
+一个整数。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>测试客户端<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id9">
+<h2>应用全局变量<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>只在一个请求内，从一个函数到另一个函数共享数据，全局变量并不够好。因为这
+在线程环境下行不通。 Flask 提供了一个特殊的对象来确保只在活动的请求中
+有效，并且每个请求都返回不同的值。一言蔽之：它做正确的事情，如同它对
+<a class="reference internal" href="#flask.request" title="flask.request"><code class="xref py py-class docutils literal"><span class="pre">request</span></code></a> 和 <a class="reference internal" href="#flask.session" title="flask.session"><code class="xref py py-class docutils literal"><span class="pre">session</span></code></a> 做的那样。</p>
+<dl class="data">
+<dt id="flask.g">
+<code class="descclassname">flask.</code><code class="descname">g</code><a class="headerlink" href="#flask.g" title="永久链接至目标">¶</a></dt>
+<dd><p>在这上存储你任何你想要存储的。例如一个数据库连接或者当前登入的用户。</p>
+<p>从 Flask 0.10 起，对象 g 存储在应用上下文中而不再是请求上下文中，这
+意味着即使在应用上下文中它也是可访问的而不是只能在请求上下文中。在
+结合 <a class="reference internal" href="testing.html#faking-resources"><span>伪造资源和上下文</span></a> 模式使用来测试时这尤为有用。</p>
+<p>另外，在 0.10 中你可以使用 <code class="xref py py-meth docutils literal"><span class="pre">get()</span></code> 方法来获取一个属性或者如果这
+个属性没设置的话将得到 <cite>None</cite> (或者第二个参数)。
+这两种用法现在是没有区别的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">flask</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">get</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>现在也能在 g 对象上使用 <code class="docutils literal"><span class="pre">in</span></code> 运算符来确定它是否有某个属性，并且它
+将使用 <cite>yield</cite> 关键字来生成这样一个可迭代的包含所有keys的生成器。</p>
+<p>这是一个代理。详情见 <a class="reference internal" href="reqcontext.html#notes-on-proxies"><span>留意代理</span></a> 。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id10">
+<h2>有用的函数和类<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<dl class="data">
+<dt id="flask.current_app">
+<code class="descclassname">flask.</code><code class="descname">current_app</code><a class="headerlink" href="#flask.current_app" title="永久链接至目标">¶</a></dt>
+<dd><p>指向正在处理请求的应用。这对于想要支持同时运行多个应用的扩展有用。
+它由应用上下文驱动，而不是请求上下文，所以你可以用
+<code class="xref py py-meth docutils literal"><span class="pre">app_context()</span></code> 方法
+修改这个代理的值。</p>
+<p>这是一个代理。详情见 <a class="reference internal" href="reqcontext.html#notes-on-proxies"><span>留意代理</span></a> 。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="flask.abort">
+<code class="descclassname">flask.</code><code class="descname">abort</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#flask.abort" title="永久链接至目标">¶</a></dt>
+<dd><p>抛出一个给定状态代码的 <a class="reference external" href="http://werkzeug.pocoo.org/docs/exceptions/#werkzeug.exceptions.HTTPException" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-exc docutils literal"><span class="pre">HTTPException</span></code></a> 。
+例如想要用一个页面未找到异常来终止请求，你可以调用 <code class="docutils literal"><span class="pre">abort(404)</span></code> 。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>code</strong> &#8211; the HTTP error code.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="id11">
+<h2>消息闪现<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-flask.json">
+<span id="json"></span><h2>JSON 支持<a class="headerlink" href="#module-flask.json" title="永久链接至标题">¶</a></h2>
+<p>Flask 使用 <code class="docutils literal"><span class="pre">simplejson</span></code> 来实现JSON。自从 simplejson 既在标准库中提供也在
+Flask 的拓展中提供。Flask将首先尝试自带的simplejson，如果失败了就使用标准
+库中的json模块。除此之外，为了更容易定制它还会委托访问当前应用的JSON的编码
+器和解码器。</p>
+<p>所以首先不要这样用：</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>try:</dt>
+<dd>import simplejson as json</dd>
+<dt>except ImportError:</dt>
+<dd>import json</dd>
+</dl>
+</div></blockquote>
+<p>你可以这样</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">json</span>
+</pre></div>
+</div>
+<p>For usage examples, read the <a class="reference external" href="http://docs.python.org/dev/library/json.html#module-json" title="(在 Python v3.6)"><code class="xref py py-mod docutils literal"><span class="pre">json</span></code></a> documentation.
+关于更多的用法，请阅读标准库中的 <a class="reference external" href="http://docs.python.org/dev/library/json.html#module-json" title="(在 Python v3.6)"><code class="xref py py-mod docutils literal"><span class="pre">json</span></code></a> 文档。下面的拓展已经默认被集成
+到了标准库中JSON模块里：</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">datetime</span></code> 对象被序列化为 <span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc822.html"><strong>RFC 822</strong></a> 字符串。</li>
+<li>任何带有 <code class="docutils literal"><span class="pre">__html__</span></code> 方法(比如 <code class="xref py py-class docutils literal"><span class="pre">Markup</span></code>)将在序列化的时候
+调用这个方法然后返回的字符串将会被序列化为字符串。</li>
+</ol>
+<p>这个 <code class="xref py py-func docutils literal"><span class="pre">htmlsafe_dumps()</span></code> 方法也能在 Jinja2 的过滤器中使用，名字为
+<code class="docutils literal"><span class="pre">|tojson</span></code> 。请注意在 <cite>script</cite> 标签内部的内容将不会被转义，所以如果你想在
+<cite>script</cite> 内部使用的话请确保它是不可用的通过 <code class="docutils literal"><span class="pre">|safe</span></code> 来转义，除非你正在
+使用 Flask 0.10，如下：</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">text/javascript</span><span class="nt">&gt;</span>
+    <span class="nx">doSomethingWith</span><span class="p">(</span><span class="cp">{{</span> <span class="nv">user.username</span><span class="o">|</span><span class="nf">tojson</span><span class="o">|</span><span class="nf">safe</span> <span class="cp">}}</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>模板渲染<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id13">
+<h2>配置<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id14">
+<h2>扩展<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<dl class="data">
+<dt id="flask.flask.ext">
+<code class="descclassname">flask.</code><code class="descname">ext</code><a class="headerlink" href="#flask.flask.ext" title="永久链接至目标">¶</a></dt>
+<dd><p>这个模块重定向导入模块到 Flask 扩展。它在 0.8 中被加入，作为导入 Flask
+扩展的权威方式，并使得我们在发布扩展时能有更大的灵活性。</p>
+<p>如果你想使用名为 “Flask-Foo” 的扩展，你应按照下述从 <a class="reference internal" href="#flask.flask.ext" title="flask.flask.ext"><code class="xref py py-data docutils literal"><span class="pre">ext</span></code></a>
+导入:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask.ext</span> <span class="kn">import</span> <span class="n">foo</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">0.8 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id15">
+<h2>流的辅助函数<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="id16">
+<h2>有用的内构件<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h2>
+<dl class="data">
+<dt id="flask._request_ctx_stack">
+<code class="descclassname">flask.</code><code class="descname">_request_ctx_stack</code><a class="headerlink" href="#flask._request_ctx_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>Flask 中使用的所有的上下文局部对象，都由内部的
+<a class="reference external" href="http://werkzeug.pocoo.org/docs/local/#werkzeug.local.LocalStack" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">LocalStack</span></code></a> 实现。这是一个带文档的实例，并且可以
+在扩展和应用的代码中使用，但一般来说是不推荐这样使用的。</p>
+<p>下面的属性在栈的每层上都存在:</p>
+<dl class="docutils">
+<dt><cite>app</cite></dt>
+<dd>活动的 Flask 应用</dd>
+<dt><cite>url_adapter</cite></dt>
+<dd>用于匹配请求的 URL 适配器</dd>
+<dt><cite>request</cite></dt>
+<dd>当前的请求对象</dd>
+<dt><cite>session</cite></dt>
+<dd>当前的会话对象</dd>
+<dt><cite>g</cite></dt>
+<dd>拥有 <a class="reference internal" href="#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">flask.g</span></code></a> 对象上全部属性的对象</dd>
+<dt><cite>flashes</cite></dt>
+<dd>闪现消息的内部缓存</dd>
+</dl>
+<p>用法示例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">_request_ctx_stack</span>
+
+<span class="k">def</span> <span class="nf">get_session</span><span class="p">():</span>
+    <span class="n">ctx</span> <span class="o">=</span> <span class="n">_request_ctx_stack</span><span class="o">.</span><span class="n">top</span>
+    <span class="k">if</span> <span class="n">ctx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ctx</span><span class="o">.</span><span class="n">session</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask._app_ctx_stack">
+<code class="descclassname">flask.</code><code class="descname">_app_ctx_stack</code><a class="headerlink" href="#flask._app_ctx_stack" title="永久链接至目标">¶</a></dt>
+<dd><p>类似请求上下文，但是只跟应用绑定。主要为扩展提供数据存储。</p>
+<div class="versionadded">
+<p><span class="versionmodified">0.9 新版功能.</span></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id17">
+<h2>信号<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.6 新版功能.</span></p>
+</div>
+<dl class="data">
+<dt id="flask.signals_available">
+<code class="descclassname">flask.</code><code class="descname">signals_available</code><a class="headerlink" href="#flask.signals_available" title="永久链接至目标">¶</a></dt>
+<dd><p>当信号系统可用时为 <cite>True</cite> ，即在 <a class="reference external" href="http://pypi.python.org/pypi/blinker">blinker</a> 已经被安装的情况下。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.template_rendered">
+<code class="descclassname">flask.</code><code class="descname">template_rendered</code><a class="headerlink" href="#flask.template_rendered" title="永久链接至目标">¶</a></dt>
+<dd><p>当一个模板成功渲染的时候，这个信号会发出。这个信号带着一个模板实例
+<cite>template</cite> 和为一个字典的上下文（叫 <cite>context</cite> ）两个参数被调用。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.request_started">
+<code class="descclassname">flask.</code><code class="descname">request_started</code><a class="headerlink" href="#flask.request_started" title="永久链接至目标">¶</a></dt>
+<dd><p>这个信号在处建立请求上下文之外的任何请求处理开始前发送。因为请求上下文
+这个信号在任何对请求的处理前发送，但是正好是在请求的上下文被建立的时候。
+因为请求上下文已经被约束了，用户可以使用 <a class="reference internal" href="#flask.request" title="flask.request"><code class="xref py py-class docutils literal"><span class="pre">request</span></code></a> 之类的标
+准全局代理访问请求对象。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.request_finished">
+<code class="descclassname">flask.</code><code class="descname">request_finished</code><a class="headerlink" href="#flask.request_finished" title="永久链接至目标">¶</a></dt>
+<dd><p>这个信号恰好在请求发送给客户端之前发送。它传递名为 <cite>response</cite> 的将被发送
+的响应。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.got_request_exception">
+<code class="descclassname">flask.</code><code class="descname">got_request_exception</code><a class="headerlink" href="#flask.got_request_exception" title="永久链接至目标">¶</a></dt>
+<dd><p>这个信号在请求处理中抛出异常时发送。它在标准异常处理生效 <em>之前</em> ，甚至是
+在不会处理异常的调试模式下也是如此。这个异常会被将作为一个 <cite>exception</cite>
+传递到用户那。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.request_tearing_down">
+<code class="descclassname">flask.</code><code class="descname">request_tearing_down</code><a class="headerlink" href="#flask.request_tearing_down" title="永久链接至目标">¶</a></dt>
+<dd><p>这个信号在请求销毁时发送。它总会被调用，即使发生异常。在这种清况下，造
+成teardown的异常将会通过一个叫 <cite>exc</cite> 的关键字参数传递出来。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">在 0.9 版更改: </span>添加了 <cite>exc</cite> 参数</p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.appcontext_tearing_down">
+<code class="descclassname">flask.</code><code class="descname">appcontext_tearing_down</code><a class="headerlink" href="#flask.appcontext_tearing_down" title="永久链接至目标">¶</a></dt>
+<dd><p>这个信号在应用上下文销毁时发送。它总会被调用，即使发生异常。在这种清况
+下，造成teardown的异常将会通过一个叫 <cite>exc</cite> 的关键字参数传递出来。发送
+者是application对象。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.appcontext_pushed">
+<code class="descclassname">flask.</code><code class="descname">appcontext_pushed</code><a class="headerlink" href="#flask.appcontext_pushed" title="永久链接至目标">¶</a></dt>
+<dd><p>当应用上下文被压入栈后会发送这个信号。发送者是application对象</p>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.appcontext_popped">
+<code class="descclassname">flask.</code><code class="descname">appcontext_popped</code><a class="headerlink" href="#flask.appcontext_popped" title="永久链接至目标">¶</a></dt>
+<dd><p>当应用上下文出栈后会发送这个信号。发送者是application对象。这常常与
+<a class="reference internal" href="#flask.appcontext_tearing_down" title="flask.appcontext_tearing_down"><code class="xref py py-data docutils literal"><span class="pre">appcontext_tearing_down</span></code></a> 这个信号一致。</p>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="flask.message_flashed">
+<code class="descclassname">flask.</code><code class="descname">message_flashed</code><a class="headerlink" href="#flask.message_flashed" title="永久链接至目标">¶</a></dt>
+<dd><p>This signal is sent when the application is flashing a message.
+The messages is sent as <cite>message</cite> keyword argument and the
+当闪现一个消息时会发送这个信号。消息的内容将以 <cite>message</cite> 关键字参数
+发送，而消息的种类则是 <cite>category</cite> 关键字参数。</p>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="flask.signals.Namespace">
+<em class="property">class </em><code class="descclassname">flask.signals.</code><code class="descname">Namespace</code><a class="headerlink" href="#flask.signals.Namespace" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference external" href="http://discorporate.us/projects/Blinker/docs/1.1/api.html#blinker.base.Namespace" title="(在 Blinker v1.1)"><code class="xref py py-class docutils literal"><span class="pre">blinker.base.Namespace</span></code></a> 的别名，如果 blinker 可用的话。否则，
+是一个发送伪信号的伪造的类。这个类对想提供与 Flask 相同的备用系统的
+Flask扩展有用。</p>
+<dl class="method">
+<dt id="flask.signals.Namespace.signal">
+<code class="descname">signal</code><span class="sig-paren">(</span><em>name</em>, <em>doc=None</em><span class="sig-paren">)</span><a class="headerlink" href="#flask.signals.Namespace.signal" title="永久链接至目标">¶</a></dt>
+<dd><p>在此命名空间中创建一个新信号，如果 blinker 可用的话。否则返回一个
+带有不做任何事的发送方法，任何操作都会（包括连接）报错为
+<a class="reference external" href="http://docs.python.org/dev/library/exceptions.html#RuntimeError" title="(在 Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></code></a> 的伪信号。</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id18">
+<h2>基于类的视图<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.7 新版功能.</span></p>
+</div>
+</div>
+<div class="section" id="url">
+<span id="url-route-registrations"></span><h2>URL 路由注册<a class="headerlink" href="#url" title="永久链接至标题">¶</a></h2>
+<p>在路由系统中定义规则可以的方法可以概括为三种:</p>
+<ol class="arabic simple">
+<li>使用 <code class="xref py py-meth docutils literal"><span class="pre">flask.Flask.route()</span></code> 装饰器</li>
+<li>使用 <code class="xref py py-meth docutils literal"><span class="pre">flask.Flask.add_url_rule()</span></code> 函数</li>
+<li>直接访问暴露为 <code class="xref py py-attr docutils literal"><span class="pre">flask.Flask.url_map</span></code> 的底层的 Werkzeug 路由系统</li>
+</ol>
+<p>路由中的变量部分可以用尖括号指定（ <code class="docutils literal"><span class="pre">/user/&lt;username&gt;</span></code>）。默认情况下，URL
+中的变量部分接受任何不带斜线的字符串，而 <code class="docutils literal"><span class="pre">&lt;converter:name&gt;</span></code> 也可以指定不
+同的转换器。</p>
+<p>变量部分以关键字参数传递给视图函数。</p>
+<p>下面的转换器是可用的:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><cite>string</cite></td>
+<td>接受任何不带斜线的字符串（默认的转换器）</td>
+</tr>
+<tr class="row-even"><td><cite>int</cite></td>
+<td>接受整数</td>
+</tr>
+<tr class="row-odd"><td><cite>float</cite></td>
+<td>同 <cite>int</cite> ，但是接受浮点数</td>
+</tr>
+<tr class="row-even"><td><cite>path</cite></td>
+<td>和默认的相似，但也接受斜线</td>
+</tr>
+</tbody>
+</table>
+<p>这里是一些例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&lt;username&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_user</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/post/&lt;int:post_id&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_post</span><span class="p">(</span><span class="n">post_id</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>需要注意的一个重要细节是 Flask 处理结尾斜线的方式。你可以应用下面两个
+规则来保证 URL 的唯一:</p>
+<ol class="arabic simple">
+<li>如果规则以斜线结尾，当用户以不带斜线的形式请求，用户被自动重定向到
+带有结尾斜线的相同页面。</li>
+<li>如果规则结尾没有斜线，当用户以带斜线的形式请求，会抛出一个 404 not
+found 。</li>
+</ol>
+<p>这与 web 服务器处理静态文件的方式一致。这使得安全地使用相对链接地址成为
+可能。</p>
+<p>你可以为同一个函数定义多个规则。无论如何，他们也要唯一。也可以给定默认值。
+这里给出一个接受可选页面的 URL 定义:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;page&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/page/&lt;int:page&gt;&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">show_users</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>这指定了 <code class="docutils literal"><span class="pre">/users/</span></code> 为第一页的 URL ，<code class="docutils literal"><span class="pre">/users/page/N</span></code> 为第 <cite>N</cite> 页的 URL 。</p>
+<p>以下是 <code class="xref py py-meth docutils literal"><span class="pre">route()</span></code> 和 <code class="xref py py-meth docutils literal"><span class="pre">add_url_rule()</span></code>
+接受的参数。两者唯一的区别是，带有路由参数的视图函数用装饰器定义，而不是
+<cite>view_func</cite> 参数。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><cite>rule</cite></td>
+<td>URL 规则的字符串</td>
+</tr>
+<tr class="row-even"><td><cite>endpoint</cite></td>
+<td>注册的 URL 规则的末端。如果没有显式地规定，Flask 本身假设
+末端的名称是视图函数的名称，。</td>
+</tr>
+<tr class="row-odd"><td><cite>view_func</cite></td>
+<td>当请求呈递到给定的末端时调用的函数。如果没有提供，可以
+在用在 <code class="xref py py-attr docutils literal"><span class="pre">view_functions</span></code> 字典中以末端
+作为键名存储，来在之后设定函数。</td>
+</tr>
+<tr class="row-even"><td><cite>defaults</cite></td>
+<td>规则默认值的字典。上面的示例介绍了默认值如何工作。</td>
+</tr>
+<tr class="row-odd"><td><cite>subdomain</cite></td>
+<td>当使用子域名匹配的时候，为子域名设定规则。如果没有给定，假
+定为默认的子域名。</td>
+</tr>
+<tr class="row-even"><td><cite>**options</cite></td>
+<td>这些选项会被推送给底层的 <a class="reference external" href="http://werkzeug.pocoo.org/docs/routing/#werkzeug.routing.Rule" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">Rule</span></code></a>
+对象。一个 Werkzeug 的变化是 method 选项的处理。methods是
+这个规则被限定的方法列表（ <cite>GET</cite> ， <cite>POST</cite> 等等）。默认情
+况下，规则只监听 <cite>GET</cite> （也隐式地监听 <cite>HEAD</cite> ）。从 Flask
+0.6 开始，<cite>OPTIONS</cite> 也被隐式地加入，并且做标准的请求处理。
+它们需要作为关键字参数来给定。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="view-func-options">
+<span id="id19"></span><h2>视图函数选项<a class="headerlink" href="#view-func-options" title="永久链接至标题">¶</a></h2>
+<p>对内部使用，视图函数可以有一些属性，附加到视图函数通常没有控制权的自定义的
+行为。下面的可选属性覆盖 <code class="xref py py-meth docutils literal"><span class="pre">add_url_rule()</span></code> 的默认值或一般
+行为:</p>
+<ul class="simple">
+<li><cite>__name__</cite>: 函数的名称默认用于末端。如果显式地提供末端，这个值会使用。
+此外，它默认以蓝图的名称作为前缀，并且不能从函数本身自定义。</li>
+<li><cite>methods</cite>: 如果没有在添加 URL 规则时提供 methods 参数。 Flask 会在视
+图函数对象上寻找是否存在 <cite>methods</cite> 属性。如果存在，它会从上面拉取方法
+的信息。</li>
+<li><cite>provide_automatic_options</cite>: 如果设置了这个属性， Flask 会强制禁用或
+启用 HTTP <cite>OPTIONS</cite> 响应的自动实现。这对于对单个视图自定义 <cite>OPTIONS</cite>
+响应而使用装饰器的情况下是有用的。</li>
+<li><cite>required_methods</cite>: 如果这个属性被设置了， 当注册一个 URL 规则的时候，
+Flask 将总是会添加这些 methods 即使 methods 参数在 <code class="docutils literal"><span class="pre">route()</span></code> 调用
+的时候被显式的覆盖了。</li>
+</ul>
+<p>完整的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;OPTIONS&#39;</span><span class="p">:</span>
+        <span class="c"># custom options handling here</span>
+        <span class="o">...</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+<span class="n">index</span><span class="o">.</span><span class="n">provide_automatic_options</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">index</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;OPTIONS&#39;</span><span class="p">]</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">0.8 新版功能: </span>加入了 <cite>provide_automatic_options</cite> 功能。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="design.html" class="btn btn-neutral float-right" title="Flask 中的设计决策" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="becomingbig.html" class="btn btn-neutral" title="聚沙成塔" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+</html>

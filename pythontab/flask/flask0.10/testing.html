@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/testing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>测试 Flask 应用 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">测试 Flask 应用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">测试的大框架</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">第一个测试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">登陆和登出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">测试消息的添加</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">其他测试技巧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faking-resources">伪造资源和上下文</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">保存上下文</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sessions">访问和修改 Sessions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>测试 Flask 应用</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="flask">
+<span id="testing"></span><h1>测试 Flask 应用<a class="headerlink" href="#flask" title="永久链接至标题">¶</a></h1>
+<blockquote>
+<div><strong>没有经过测试的东西都是不完整的</strong></div></blockquote>
+<p>这一箴言的起源已经不可考了，尽管他不是完全正确的，但是仍然离真理
+不远。没有测试过的应用将会使得提高现有代码质量很困难，二不测试应用
+程序的开发者，会显得特别多疑。如果一个应用拥有自动化测试，那么您就
+可以安全的修改然后立刻知道是否有错误。</p>
+<p>Flask 提供了一种方法用于测试您的应用，那就是将 Werkzeug 测试
+<a class="reference external" href="http://werkzeug.pocoo.org/docs/test/#werkzeug.test.Client" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">Client</span></code></a> 暴露出来，并且为您操作这些内容
+的本地上下文变量。然后您就可以将自己最喜欢的测试解决方案应用于其上了。
+在这片文档中，我们将会使用Python自带的 <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#module-unittest" title="(在 Python v3.6)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a> 包。</p>
+<div class="section" id="id1">
+<h2>应用程序<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>首先，我们需要一个应用来测试，我们将会使用 <a class="reference internal" href="tutorial/index.html#tutorial"><span>教程</span></a> 这里的应用
+来演示。如果您还没有获取它，请从 <cite>the examples</cite> 这里查找源码。</p>
+</div>
+<div class="section" id="id3">
+<h2>测试的大框架<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>为了测试这个引用，我们添加了第二个模块(<cite>flaskr_tests.py</cite>)，
+并且创建了一个框架如下:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">flaskr</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="k">class</span> <span class="nc">FlaskrTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">,</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">init_db</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>在 <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest.TestCase.setUp" title="(在 Python v3.6)"><code class="xref py py-meth docutils literal"><span class="pre">setUp()</span></code></a> 方法的代码创建了一个新的测试
+客户端并且初始化了一个新的数据库。这个函数将会在每次独立的测试函数
+运行之前运行。要在测试之后删除这个数据库，我们在 <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#unittest.TestCase.tearDown" title="(在 Python v3.6)"><code class="xref py py-meth docutils literal"><span class="pre">tearDown()</span></code></a>
+函数当中关闭这个文件，并将它从文件系统中删除。同时，在初始化的时候
+<code class="docutils literal"><span class="pre">TESTING</span></code> 配置标志被激活，这将会使得处理请求时的错误捕捉失效，以便于
+您在进行对应用发出请求的测试时获得更好的错误反馈。</p>
+<p>这个测试客户端将会给我们一个通向应用的简单接口，我们可以激发
+对向应用发送请求的测试，并且此客户端也会帮我们记录 Cookie 的
+动态。</p>
+<p>因为 SQLite3 是基于文件系统的，我们可以很容易的使用临时文件模块来
+创建一个临时的数据库并初始化它，函数 <a class="reference external" href="http://docs.python.org/dev/library/tempfile.html#tempfile.mkstemp" title="(在 Python v3.6)"><code class="xref py py-func docutils literal"><span class="pre">mkstemp()</span></code></a>
+实际上完成了两件事情：它返回了一个底层的文件指针以及一个随机
+的文件名，后者我们用作数据库的名字。我们只需要将 <cite>db_fd</cite> 变量
+保存起来，就可以使用 <cite>os.close</cite> 方法来关闭这个文件。</p>
+<p>如果我们运行这套测试，我们应该会得到如下的输出:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python flaskr_tests.py
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+OK
+</pre></div>
+</div>
+<p>虽然现在还未进行任何实际的测试，我们已经可以知道我们的 flaskr
+程序没有语法错误了。否则，在 import 的时候就会抛出一个致死的
+错误了。</p>
+</div>
+<div class="section" id="id4">
+<h2>第一个测试<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>是进行第一个应用功能的测试的时候了。让我们检查当我们访问
+根路径(<code class="docutils literal"><span class="pre">/</span></code>)时应用程序是否正确地返回了了“No entries here so far”
+字样。为此，我们添加了一个新的测试函数到我们的类当中，
+如下面的代码所示:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">FlaskrTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">,</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;DATABASE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">flaskr</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
+        <span class="n">flaskr</span><span class="o">.</span><span class="n">init_db</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">db_fd</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">flaskr</span><span class="o">.</span><span class="n">DATABASE</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_empty_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;No entries here so far&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<p>注意到我们的测试函数以 <cite>test</cite> 开头，这允许 <a class="reference external" href="http://docs.python.org/dev/library/unittest.html#module-unittest" title="(在 Python v3.6)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a> 模块自动
+识别出哪些方法是一个测试方法，并且运行它。</p>
+<p>通过使用 <cite>self.app.get</cite> 我们可以发送一个 HTTP <cite>GET</cite> 请求给应用的
+某个给定路径。返回值将会是一个 <code class="xref py py-class docutils literal"><span class="pre">response_class</span></code>
+对象。我们可以使用 <a class="reference external" href="http://werkzeug.pocoo.org/docs/wrappers/#werkzeug.wrappers.BaseResponse.data" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-attr docutils literal"><span class="pre">data</span></code></a> 属性
+来检查程序的返回值(以字符串类型)。在这里，我们检查 <code class="docutils literal"><span class="pre">'No</span> <span class="pre">entries</span> <span class="pre">here</span> <span class="pre">so</span> <span class="pre">far'</span></code>
+是不是输出内容的一部分。</p>
+<p>再次运行，您应该看到一个测试成功通过了:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python flaskr_tests.py
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+OK
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>登陆和登出<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>我们应用的大部分功能只允许具有管理员资格的用户访问。所以我们需要
+一种方法来帮助我们的测试客户端登陆和登出。为此，我们向登陆和登出
+页面发送一些请求，这些请求都携带了表单数据（用户名和密码），因为
+登陆和登出页面都会重定向，我们将客户端设置为 <cite>follow_redirects</cite> 。</p>
+<p>将如下两个方法加入到您的 <cite>FlaskrTestCase</cite> 类:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+        <span class="n">password</span><span class="o">=</span><span class="n">password</span>
+    <span class="p">),</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/logout&#39;</span><span class="p">,</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>现在我们可以轻松的测试登陆和登出是正常工作还是因认证失败而出错，
+添加新的测试函数到类中:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test_login_logout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;You were logged in&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="s">&#39;You were logged out&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;adminx&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;Invalid username&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;defaultx&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;Invalid password&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>测试消息的添加<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>我们同时应该测试消息的添加功能是否正常，添加一个新的
+测试方法如下:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">test_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">&#39;/add&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s">&#39;&lt;Hello&gt;&#39;</span><span class="p">,</span>
+        <span class="n">text</span><span class="o">=</span><span class="s">&#39;&lt;strong&gt;HTML&lt;/strong&gt; allowed here&#39;</span>
+    <span class="p">),</span> <span class="n">follow_redirects</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&#39;No entries here so far&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">assert</span> <span class="s">&#39;&amp;lt;Hello&amp;gt;&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">assert</span> <span class="s">&#39;&lt;strong&gt;HTML&lt;/strong&gt; allowed here&#39;</span> <span class="ow">in</span> <span class="n">rv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
+<p>这里我们测试计划的行为是否能够正常工作，即在正文中可以出现 HTML
+标签，而在标题中不允许。</p>
+<p>运行这个测试，我们应该得到三个通过的测试:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python flaskr_tests.py
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.332s
+
+OK
+</pre></div>
+</div>
+<p>关于请求的头信息和状态值等更复杂的测试，请参考
+<a class="reference external" href="http://github.com/mitsuhiko/flask/tree/master/examples/minitwit/">MiniTwit Example</a> ，在这个例子的源代码里包含
+一套更长的测试。</p>
+</div>
+<div class="section" id="id7">
+<h2>其他测试技巧<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>除了如上文演示的使用测试客户端完成测试的方法，也有一个
+<code class="xref py py-meth docutils literal"><span class="pre">test_request_context()</span></code> 方法可以
+配合 <cite>with</cite> 语句用于激活一个临时的请求上下文。通过
+它，您可以访问 <a class="reference internal" href="api.html#flask.request" title="flask.request"><code class="xref py py-class docutils literal"><span class="pre">request</span></code></a> 、<a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-class docutils literal"><span class="pre">g</span></code></a>
+和 <a class="reference internal" href="api.html#flask.session" title="flask.session"><code class="xref py py-class docutils literal"><span class="pre">session</span></code></a> 类的对象，就像在视图中一样。
+这里有一个完整的例子示范了这种用法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Peter&#39;</span>
+</pre></div>
+</div>
+<p>所有其他的和上下文绑定的对象都可以使用同样的方法访问。</p>
+<p>如果您希望测试应用在不同配置的情况下的表现，这里似乎没有一个
+很好的方法，考虑使用应用的工厂函数(参考 <a class="reference internal" href="patterns/appfactories.html#app-factories"><span>应用程序的工厂函数</span></a>)</p>
+<p>注意，尽管你在使用一个测试用的请求环境，函数
+<code class="xref py py-meth docutils literal"><span class="pre">before_request()</span></code> 以及
+<code class="xref py py-meth docutils literal"><span class="pre">after_request()</span></code> 都不会自动运行。
+然而，<code class="xref py py-meth docutils literal"><span class="pre">teardown_request()</span></code> 函数在
+测试请求的上下文离开 <cite>with</cite> 块的时候会执行。如果您
+希望 <code class="xref py py-meth docutils literal"><span class="pre">before_request()</span></code> 函数仍然执行。
+您需要手动调用 <code class="xref py py-meth docutils literal"><span class="pre">preprocess_request()</span></code> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">preprocess_request</span><span class="p">()</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>这对于打开数据库连接或者其他类似的操作来说，很可能
+是必须的，这视您应用的设计方式而定。</p>
+<p>如果您希望调用 <code class="xref py py-meth docutils literal"><span class="pre">after_request()</span></code> 函数，
+您需要使用 <code class="xref py py-meth docutils literal"><span class="pre">process_response()</span></code> 方法。
+这个方法需要您传入一个 response 对象:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="s">&#39;/?name=Peter&#39;</span><span class="p">):</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;...&#39;</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">process_response</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>这通常不是很有效，因为这时您可以直接转向使用
+测试客户端。</p>
+</div>
+<div class="section" id="faking-resources">
+<span id="id8"></span><h2>伪造资源和上下文<a class="headerlink" href="#faking-resources" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+<p>在应用上下文或 <a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-attr docutils literal"><span class="pre">flask.g</span></code></a> 对象上存储用户认证信息和数据库连接
+非常常见。一般的模式是在第一次使用对象时，把对象放在应用上下文或
+<a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-attr docutils literal"><span class="pre">flask.g</span></code></a> 上面，而在请求销毁时移除对象。试想一下例如下面的获
+取当前用户的代码:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user</span><span class="p">():</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">fetch_current_user_from_database</span><span class="p">()</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="k">return</span> <span class="n">user</span>
+</pre></div>
+</div>
+<p>对于测试，这样易于从外部覆盖这个用户，而不用修改代码。连接
+<a class="reference internal" href="api.html#flask.appcontext_pushed" title="flask.appcontext_pushed"><code class="xref py py-data docutils literal"><span class="pre">flask.appcontext_pushed</span></code></a> 信号可以很容易地完成这个任务:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">appcontext_pushed</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">user_set</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="k">with</span> <span class="n">appcontext_pushed</span><span class="o">.</span><span class="n">connected_to</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+        <span class="k">yield</span>
+</pre></div>
+</div>
+<p>并且之后使用它:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">json</span><span class="p">,</span> <span class="n">jsonify</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/users/me&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">users_me</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">user_set</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">my_user</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/users/me&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="n">my_user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>保存上下文<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.4 新版功能.</span></p>
+</div>
+<p>有时，激发一个通常的请求，但是将当前的上下文
+保存更长的时间，以便于附加的内省发生是很有用的。
+在 Flask 0.4 中，通过 <code class="xref py py-meth docutils literal"><span class="pre">test_client()</span></code>
+函数和 <cite>with</cite> 块的使用可以实现:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/?tequila=42&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s">&#39;tequila&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;42&#39;</span>
+</pre></div>
+</div>
+<p>如果您仅仅使用 <code class="xref py py-meth docutils literal"><span class="pre">test_client()</span></code> 方法，而
+不使用 <cite>with</cite> 代码块， <cite>assert</cite> 断言会失败，因为 <cite>request</cite>
+不再可访问(因为您试图在非真正请求中时候访问它)。</p>
+</div>
+<div class="section" id="sessions">
+<h2>访问和修改 Sessions<a class="headerlink" href="#sessions" title="永久链接至标题">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified">0.8 新版功能.</span></p>
+</div>
+<p>有时，在测试客户端里访问和修改 Sesstions 可能会非常有用。
+通常有两种方法实现这种需求。如果您仅仅希望确保一个 Session
+拥有某个特定的键，且此键的值是某个特定的值，那么您可以只
+保存起上下文，并且访问 <a class="reference internal" href="api.html#flask.session" title="flask.session"><code class="xref py py-data docutils literal"><span class="pre">flask.session</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flask</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span>
+</pre></div>
+</div>
+<p>但是这样做并不能使您修改 Session 或在请求发出之前访问 Session。
+从 Flask 0.8 开始，我们提供一个叫做 “Session 事务” 的东西用于
+模拟适当的调用，从而在测试客户端的上下文中打开一个 Session，并
+用于修改。在事务的结尾，Session 将被恢复为原来的样子。这些都
+独立于 Session 的后端使用:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">c</span><span class="o">.</span><span class="n">session_transaction</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="p">[</span><span class="s">&#39;a_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;a value&#39;</span>
+
+    <span class="c"># once this is reached the session was stored</span>
+</pre></div>
+</div>
+<p>注意到，在此时，您必须使用这个 <code class="docutils literal"><span class="pre">sess</span></code> 对象而不是调用
+<a class="reference internal" href="api.html#flask.session" title="flask.session"><code class="xref py py-data docutils literal"><span class="pre">flask.session</span></code></a> 代理，而这个对象本身提供了同样的接口。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="errorhandling.html" class="btn btn-neutral float-right" title="记录应用错误" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="templating.html" class="btn btn-neutral" title="模板" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/testing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+</html>

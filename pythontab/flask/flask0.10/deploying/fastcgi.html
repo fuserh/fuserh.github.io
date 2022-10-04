@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/deploying/fastcgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FastCGI &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">部署选择</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mod_wsgi.html">mod_wsgi (Apache)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi-standalone.html">独立 WSGI 容器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uwsgi.html">uWSGI</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FastCGI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fcgi">创建一个 <cite>.fcgi</cite> 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lighttpd">配置 lighttpd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nginx">配置 nginx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">运行 FastCGI 进程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">调试</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cgi.html">CGI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">部署选择</a> &raquo;</li>
+      
+    <li>FastCGI</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fastcgi">
+<span id="deploying-fastcgi"></span><h1>FastCGI<a class="headerlink" href="#fastcgi" title="永久链接至标题">¶</a></h1>
+<p>FastCGI 是在像 <a class="reference external" href="http://nginx.org/">nginx</a> 、 <a class="reference external" href="http://www.lighttpd.net/">lighttpd</a> 和 <a class="reference external" href="http://www.cherokee-project.com/">cherokee</a> 服务器上的一个部署选择。
+其它选择见 <a class="reference internal" href="uwsgi.html#deploying-uwsgi"><span>uWSGI</span></a> 和 <a class="reference internal" href="wsgi-standalone.html#deploying-wsgi-standalone"><span>独立 WSGI 容器</span></a> 章节。
+在它们上的任何一个运行你的 WSGI 应用首先需要一个 FastCGI 服务器。最流行的一个
+是 <a class="reference external" href="http://trac.saddi.com/flup">flup</a> ，我们会在本指导中使用它。确保你已经安装好它来跟随下面的说明。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">注意</p>
+<p class="last">请提前确保你在应用文件中的任何 <code class="docutils literal"><span class="pre">app.run()</span></code> 调用在 <code class="docutils literal"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></code> 块中或是移到一个独立的文件。这是因为它总会启动一个本地
+的 WSGI 服务器，并且我们在部署应用到 uWSGI 时不需要它。</p>
+</div>
+<div class="section" id="fcgi">
+<h2>创建一个 <cite>.fcgi</cite> 文件<a class="headerlink" href="#fcgi" title="永久链接至标题">¶</a></h2>
+<p>首先你需要创建一个 FastCGI 服务器文件。让我们把它叫做
+<cite>yourapplication.fcgi</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="kn">from</span> <span class="nn">flup.server.fcgi</span> <span class="kn">import</span> <span class="n">WSGIServer</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">WSGIServer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这已经可以为 Apache 工作，而 nginx 和老版本的 lighttpd 需要传递一个
+显式的 socket 来与 FastCGI 通信。为此，你需要传递 socket 的路径到
+<code class="xref py py-class docutils literal"><span class="pre">WSGIServer</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">WSGIServer</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">bindAddress</span><span class="o">=</span><span class="s">&#39;/path/to/fcgi.sock&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>这个路径一定与你在服务器配置中定义的路径相同。</p>
+<p>把 <cite>yourapplication.fcgi</cite> 文件保存到你能找到的地方。保存在
+<cite>/var/www/yourapplication</cite> 或类似的地方是有道理的。</p>
+<p>确保这个文件有执行权限，这样服务器才能执行它:</p>
+<div class="highlight-text"><div class="highlight"><pre># chmod +x /var/www/yourapplication/yourapplication.fcgi
+</pre></div>
+</div>
+</div>
+<div class="section" id="lighttpd">
+<h2>配置 lighttpd<a class="headerlink" href="#lighttpd" title="永久链接至标题">¶</a></h2>
+<p>一个给 lighttpd 的基本的 FastCGI 配置看起来是这样:</p>
+<div class="highlight-python"><div class="highlight"><pre>fastcgi.server = (&quot;/yourapplication.fcgi&quot; =&gt;
+    ((
+        &quot;socket&quot; =&gt; &quot;/tmp/yourapplication-fcgi.sock&quot;,
+        &quot;bin-path&quot; =&gt; &quot;/var/www/yourapplication/yourapplication.fcgi&quot;,
+        &quot;check-local&quot; =&gt; &quot;disable&quot;,
+        &quot;max-procs&quot; =&gt; 1
+    ))
+)
+
+alias.url = (
+    &quot;/static/&quot; =&gt; &quot;/path/to/your/static&quot;
+)
+
+url.rewrite-once = (
+    &quot;^(/static.*)$&quot; =&gt; &quot;$1&quot;,
+    &quot;^(/.*)$&quot; =&gt; &quot;/yourapplication.fcgi$1&quot;
+</pre></div>
+</div>
+<p>记得启用 FastCGI ，别名和重写模块。这份配置把应用绑定到
+<cite>/yourapplication</cite> 。如果想要应用运行在 URL 根路径，你需要用
+<code class="xref py py-class docutils literal"><span class="pre">LighttpdCGIRootFix</span></code> 中间件来处理
+一个 lighttpd 的 bug 。</p>
+<p>确保只在应用挂载到 URL 根路径时才应用它。同样，更多信息请翻阅 Lighty
+的文档关于 <a class="reference external" href="http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI">FastCGI and
+Python</a>
+的部分（注意显示传递一个 socket 到 run() 不再是必须的）。</p>
+</div>
+<div class="section" id="nginx">
+<h2>配置 nginx<a class="headerlink" href="#nginx" title="永久链接至标题">¶</a></h2>
+<p>在 nginx 上安装 FastCGI 应用有一点不同，因为默认没有 FastCGI 参数被转
+发。</p>
+<p>一个给 nginx 的基本的 FastCGI 配置看起来是这样:</p>
+<div class="highlight-python"><div class="highlight"><pre>location = /yourapplication { rewrite ^ /yourapplication/ last; }
+location /yourapplication { try_files $uri @yourapplication; }
+location @yourapplication {
+    include fastcgi_params;
+    fastcgi_split_path_info ^(/yourapplication)(.*)$;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+    fastcgi_pass unix:/tmp/yourapplication-fcgi.sock;
+}
+</pre></div>
+</div>
+<p>这份配置把应用绑定到 <cite>/yourapplication</cite> 。如果你想要绑定到 URL 跟了路径
+会更简单，因为你不需要指出如何获取 <cite>PATH_INFO</cite> 和 <cite>SCRIPT_NAME</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre>location / { try_files $uri @yourapplication; }
+location @yourapplication {
+    include fastcgi_params;
+    fastcgi_param PATH_INFO $fastcgi_script_name;
+    fastcgi_param SCRIPT_NAME &quot;&quot;;
+    fastcgi_pass unix:/tmp/yourapplication-fcgi.sock;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>运行 FastCGI 进程<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>既然 Nginx 和其它服务器并不加载 FastCGI 应用，你需要手动这么做。
+<a class="reference external" href="http://supervisord.org/configuration.html#fcgi-program-x-section-settings">Supervisor 可以管理 FastCGI 进程。</a>
+你可以寻找其它 FastCGI 进程管理器或写一个启动时运行 <cite>.fcgi</cite> 文件的脚本，
+例如使用一个 SysV <code class="docutils literal"><span class="pre">init.d</span></code> 脚本。对于临时的解决方案，你总是可以在 GNU
+screen 中运行 <code class="docutils literal"><span class="pre">.fcgi</span></code> 。更多细节见 <code class="docutils literal"><span class="pre">man</span> <span class="pre">screen</span></code> ，注意这是一个手动
+的解决方案，并且不会在系统重启后保留:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ screen
+$ /var/www/yourapplication/yourapplication.fcgi
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>调试<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>FastCGI 在大多数 web 服务器上的部署，对于调试趋于复杂。服务器日志最经常
+告诉发生的事就是成行的“未预期的标头结尾”。为了调试应用，唯一可以让你了解
+什么东西破碎的方案就是切换到正确的用户并手动执行应用。</p>
+<p>这个例子假设你的应用叫做 <cite>application.fcgi</cite> 并且你的 web 服务器用户是
+<cite>www-data</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ su www-data
+$ cd /var/www/yourapplication
+$ python application.fcgi
+Traceback (most recent call last):
+  File &quot;yourapplication.fcgi&quot;, line 4, in &lt;module&gt;
+ImportError: No module named yourapplication
+</pre></div>
+</div>
+<p>在这种情况下，错误看起来是“yourapplication”不在 python 路径下。常见的
+问题是:</p>
+<ul class="simple">
+<li>使用了相对路径。不要依赖于当前工作目录</li>
+<li>代码依赖于不是从 web 服务器设置的环境变量</li>
+<li>使用了不同的 python 解释器</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cgi.html" class="btn btn-neutral float-right" title="CGI" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="uwsgi.html" class="btn btn-neutral" title="uWSGI" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/deploying/fastcgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

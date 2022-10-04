@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>大型应用 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Flask 代码模式</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">大型应用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">简单的包</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-modules">与蓝图一起工作</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html">应用程序的工厂函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html">应用调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html">使用 URL 处理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html">部署和分发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html">使用 Fabric 部署</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html">在 Flask 中使用 SQLite 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html">在 Flask 中使用 SQLAlchemy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html">上传文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">缓存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html">视图装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html">使用 WTForms 进行表单验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html">模板继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html">消息闪现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html">用 jQuery 实现 Ajax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html">自定义错误页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html">延迟加载视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html">在 Flask 中使用 MongoKit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="favicon.html">添加 Favicon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html">数据流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html">延迟请求回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methodoverrides.html">添加 HTTP Method Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requestchecksum.html">请求内容校验码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html">基于 Celery 的后台任务</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Flask 代码模式</a> &raquo;</li>
+      
+    <li>大型应用</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="larger-applications">
+<span id="id1"></span><h1>大型应用<a class="headerlink" href="#larger-applications" title="永久链接至标题">¶</a></h1>
+<p>对于比较大型的应用，更好的做法是使用包管理代码，而不是模块来管理代码。
+这非常简单，设想一个如下结构的应用:</p>
+<div class="highlight-python"><div class="highlight"><pre>/yourapplication
+    /yourapplication.py
+    /static
+        /style.css
+    /templates
+        layout.html
+        index.html
+        login.html
+        ...
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>简单的包<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>将一个项目改为一个更大的包，仅仅创建一个新的 <cite>yourapplication</cite> 文件夹在
+已存的文件夹下面，然后将所有的的文件都移动到它下面。之后将 <cite>yourapplication.py</cite>
+重命名为 <cite>__init__.py</cite> （确保先删除了其中所有的 <cite>.pyc</cite> 文件，否则可能导致
+错误的结果）</p>
+<p>您最后得到的东西应该像下面这样:</p>
+<div class="highlight-python"><div class="highlight"><pre>/yourapplication
+    /yourapplication
+        /__init__.py
+        /static
+            /style.css
+        /templates
+            layout.html
+            index.html
+            login.html
+            ...
+</pre></div>
+</div>
+<p>如何在此种方式下运行您的应用？原来的 <code class="docutils literal"><span class="pre">python</span> <span class="pre">yourapplication/__init__.py</span></code>
+不能再工作了。这是由于 Python 不希望在包中的模块成为初始运行的文件。但这
+不是一个大问题，仅仅添加一个名叫 <cite>runserver.py</cite> 的新文件，把这个文件放在
+<cite>yourapplication</cite> 文件夹里，并添加如下功能:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>然后，我们又能对应用做什么呢？现在我们可以重新构造我们的应用，将其
+改造为多个模块。你唯一需要记住的就是下面的速记备忘表:</p>
+<ol class="arabic simple">
+<li><cite>Flask</cite> 程序对象的创建必须在 <cite>__init__.py</cite> 文件里完成，
+这样我们就可以安全的导入每个模块，而 <cite>__name__</cite> 变量将
+会被分配给正确的包。</li>
+<li>所有（上面有 <code class="xref py py-meth docutils literal"><span class="pre">route()</span></code> 装饰器的那些）视图函数必须
+导入到 <cite>__init__.py</cite> 文件。此时，请通过模块而不是对象本身作为路径
+导入这些视图函数。<strong>必须在应用对象创建之后</strong> 导入视图模块。</li>
+</ol>
+<p>这里是 <cite>__init__.py</cite> 的一个例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">yourapplication.views</span>
+</pre></div>
+</div>
+<p>而 <cite>views.py</cite> 应该看起来像这样:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+</pre></div>
+</div>
+<p>您最终应该得到的程序结构应该是这样:</p>
+<div class="highlight-python"><div class="highlight"><pre>/yourapplication
+    /runserver.py
+    /yourapplication
+        /__init__.py
+        /views.py
+        /static
+            /style.css
+        /templates
+            layout.html
+            index.html
+            login.html
+            ...
+</pre></div>
+</div>
+<div class="admonition- admonition">
+<p class="first admonition-title">循环导入</p>
+<p>每个 Python 程序员都会讨厌他们，而我们反而还添加了几个进去:
+循环导入(在两个模块相互依赖对方的时候，就会发生循环导入)。在这里
+<cite>views.py</cite> 依赖于 <cite>__init__.py</cite>。通常这被认为是个不好的主意，但是
+在这里实际上不会造成问题。之所以如此，是因为我们实际上没有在
+<cite>__init__.py</cite> 里使用这些视图，而仅仅是保证模块被导入了。并且，我们是
+在文件的结尾这么做的。</p>
+<p class="last">这种做法仍然有些问题，但是如果您想要使用修饰器，那么没有
+其他更好的方法了。检查 <a class="reference internal" href="../becomingbig.html#becomingbig"><span>聚沙成塔</span></a> 这一章来寻找解决
+问题的些许灵感吧。</p>
+</div>
+</div>
+<div class="section" id="working-with-modules">
+<span id="id3"></span><h2>与蓝图一起工作<a class="headerlink" href="#working-with-modules" title="永久链接至标题">¶</a></h2>
+<p>如果您有规模较大的应用，建议您将他们分拆成小的组，让每个组
+接口于蓝图提供的辅助功能。关于这一主题进一步的介绍请参考
+<a class="reference internal" href="../blueprints.html#blueprints"><span>用蓝图实现模块化的应用</span></a> 这一章节的文档</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appfactories.html" class="btn btn-neutral float-right" title="应用程序的工厂函数" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Flask 代码模式" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

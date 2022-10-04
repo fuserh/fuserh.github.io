@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/appcontext.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>应用上下文 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">应用上下文</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">应用上下文的作用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">创建应用上下文</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">应用上下文局部变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">上下文用法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>应用上下文</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="app-context">
+<span id="id1"></span><h1>应用上下文<a class="headerlink" href="#app-context" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.9 新版功能.</span></p>
+</div>
+<p>Flask 背后的设计理念之一就是，代码在执行时会处于两种不同的“状态”（states）。
+当 <code class="xref py py-class docutils literal"><span class="pre">Flask</span></code> 对象被实例化后在模块层次上应用便开始隐式地处于应用配置状
+态。一直到第一个请求还是到达这种状态才隐式地结束。当应用处于这个状态的时候
+，你可以认为下面的假设是成立的：</p>
+<ul class="simple">
+<li>程序员可以安全地修改应用对象</li>
+<li>目前还没有处理任何请求</li>
+<li>你必须得有一个指向应用对象的引用来修改它。不会有某个神奇的代理变量指向
+你刚创建的或者正在修改的应用对象的</li>
+</ul>
+<p>相反，到了第二个状态，在处理请求时，有一些其它的规则:</p>
+<ul class="simple">
+<li>当一个请求激活时，上下文的本地对象（ <a class="reference internal" href="api.html#flask.request" title="flask.request"><code class="xref py py-data docutils literal"><span class="pre">flask.request</span></code></a> 和其它对象等）
+指向当前的请求</li>
+<li>你可以在任何时间里使用任何代码与这些对象通信</li>
+</ul>
+<p>这里有一个第三种情况，有一点点差异。有时，你正在用类似请求处理时方式来
+与应用交互，即使并没有活动的请求。想象一下你用交互式 Python shell 与应用
+交互的情况，或是一个命令行应用的情况。</p>
+<p><a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a> 上下文本地变量就是应用上下文驱动的。</p>
+<div class="section" id="id2">
+<h2>应用上下文的作用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>应用上下问存在的主要原因是，在过去，请求上下文被附加了一堆函数，但是又没
+有什么好的解决方案。因为 Flask 设计的支柱之一是你可以在一个 Python 进程中
+拥有多个应用。</p>
+<p>那么代码如何找到“正确的”应用？在过去，我们推荐显式地到处传递应用，但是这
+会让我们在使用不是以这种理念设计的库时遇到问题。</p>
+<p>解决上述问题的常用方法是使用后面将会提到的 <a class="reference internal" href="api.html#flask.current_app" title="flask.current_app"><code class="xref py py-data docutils literal"><span class="pre">current_app</span></code></a> 代
+理对象，它被绑定到当前请求的应用的引用。既然无论如何在没有请求时创建一个
+这样的请求上下文是一个没有必要的昂贵操作，应用上下文就被引入了。</p>
+</div>
+<div class="section" id="id3">
+<h2>创建应用上下文<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>有两种方式来创建应用上下文。第一种是隐式的：无论何时当一个请求上下文被压栈时，
+如果有必要的话一个应用上下文会被一起创建。由于这个原因，你可以忽略应用
+上下文的存在，除非你需要它。</p>
+<p>第二种是显式地调用 <code class="xref py py-meth docutils literal"><span class="pre">app_context()</span></code> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">current_app</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">app_context</span><span class="p">():</span>
+    <span class="c"># within this block, current_app points to app.</span>
+    <span class="k">print</span> <span class="n">current_app</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>在配置了 <code class="docutils literal"><span class="pre">SERVER_NAME</span></code> 时，应用上下文也被用于 <code class="xref py py-func docutils literal"><span class="pre">url_for()</span></code> 函
+数。这允许你在没有请求时生成 URL 。</p>
+</div>
+<div class="section" id="id4">
+<h2>应用上下文局部变量<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>应用上下文会在必要时被创建和销毁。它不会在线程间移动，并且也不会在不同的请求
+之间共享。正因为如此，它是一个存储数据库连接信息或是别的东西的最佳位置。内部
+的栈对象叫做 <a class="reference internal" href="api.html#flask._app_ctx_stack" title="flask._app_ctx_stack"><code class="xref py py-data docutils literal"><span class="pre">flask._app_ctx_stack</span></code></a> 。扩展可以在最顶层自由地存储额外信
+息，想象一下它们用一个充分独特的名字在那里存储信息，而不是在 <a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">flask.g</span></code></a>
+对象里， <a class="reference internal" href="api.html#flask.g" title="flask.g"><code class="xref py py-data docutils literal"><span class="pre">flask.g</span></code></a> 是留给用户的代码用的。</p>
+<p>更多详情见 <a class="reference internal" href="extensiondev.html#extension-dev"><span>Flask 扩展开发</span></a> 。</p>
+</div>
+<div class="section" id="id5">
+<h2>上下文用法<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>上下文的一个典型应用场景就是用来缓存一些我们需要在发生请求之前或者要使用的
+资源。举个例子，比如数据库连接。当我们在应用上下文中来存储东西的时候你
+得选择一个唯一的名字，这是因为应用上下文为 Flask 应用和扩展所共享。</p>
+<p>最常见的应用就是把资源的管理分成如下两个部分：</p>
+<ol class="arabic simple">
+<li>一个缓存在上下文中的隐式资源</li>
+<li>当上下文被销毁时重新分配基础资源</li>
+</ol>
+<p>通常来讲，这将会有一个 <code class="docutils literal"><span class="pre">get_X()</span></code> 函数来创建资源 <code class="docutils literal"><span class="pre">X</span></code> ，如果它还不存在的话。
+存在的话就直接返回它。另外还会有一个 <code class="docutils literal"><span class="pre">teardown_X()</span></code> 的回调函数用于销毁资源
+<code class="docutils literal"><span class="pre">X</span></code> 。</p>
+<p>如下是我们刚刚提到的连接数据库的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="k">def</span> <span class="nf">get_db</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">_database</span> <span class="o">=</span> <span class="n">connect_to_database</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">db</span>
+
+<span class="nd">@app.teardown_appcontext</span>
+<span class="k">def</span> <span class="nf">teardown_db</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_database&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>当 <code class="docutils literal"><span class="pre">get_db()</span></code> 这个函数第一次被调用的时候数据库连接已经被建立了。
+为了使得看起来更隐式一点我们可以使用 <a class="reference external" href="http://werkzeug.pocoo.org/docs/local/#werkzeug.local.LocalProxy" title="(在 Werkzeug v0.12-dev)"><code class="xref py py-class docutils literal"><span class="pre">LocalProxy</span></code></a> 这
+个类：</p>
+<blockquote>
+<div>from werkzeug.local import LocalProxy
+db = LocalProxy(get_db)</div></blockquote>
+<p>这样的话用户就可以直接通过访问 <code class="docutils literal"><span class="pre">db</span></code> 来获取数据句柄了， <code class="docutils literal"><span class="pre">db</span></code> 已经在内部完
+成了对 <code class="docutils literal"><span class="pre">get_db()</span></code> 的调用。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reqcontext.html" class="btn btn-neutral float-right" title="请求上下文" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="views.html" class="btn btn-neutral" title="即插视图" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/appcontext.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:43 GMT -->
+</html>

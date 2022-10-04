@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/unicode.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Flask 中的 Unicode &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1"><a class="reference internal" href="patterns/index.html">Flask 代码模式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">安全注意事项</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Flask 中的 Unicode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">自动转换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">金科玉律</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">自行编解码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">配置编辑器</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+    <li>Flask 中的 Unicode</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="flask-unicode">
+<h1>Flask 中的 Unicode<a class="headerlink" href="#flask-unicode" title="永久链接至标题">¶</a></h1>
+<p>Flask 与 Jinja2 、 Werkzeug 一样，文本方面完全基于 Unicode ，大多数 web 相关的
+Python 库同样这样处理文本。如果你还不知道 Unicode 是什么，可能需要阅读
+<a class="reference external" href="http://www.joelonsoftware.com/articles/Unicode.html">The Absolute Minimum Every Software Developer Absolutely,
+Positively Must Know About Unicode and Character Sets</a> 。
+这些文档对基本知识做了一些封装，保证你处理 Unicode 相关的事情有愉快的经历。</p>
+<div class="section" id="id1">
+<h2>自动转换<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>为了提供基本无痛的 Unicode 支持，Flask做了这些假设：</p>
+<ul class="simple">
+<li>你网站上文本编码是 UTF-8</li>
+<li>你在内部对文本始终只使用 Unicode ，除非是只有 ASCII 字符的字面量字符串</li>
+<li>只要协议会话需要传送字节，都离不开编码和解码过程</li>
+</ul>
+<p>所以，这对你来说有什么意义？</p>
+<p>HTTP 是基于字节的，不仅是说协议，用于定位服务器文档的系统也是这样（即 URI
+或 URL ）。然而，通常在 HTTP 上传送的 HTML 支持很多种字符集，并且需要在 HTTP
+header 中注明。为了避免不必要的复杂性， Flask 假设你发送的都是 UTF-8
+编码的 Unicode，Flask 会为你完成编码工作，并设置适当的 header。</p>
+<p>如果你使用 SQLAlchemy 或类似的 ORM 系统与数据库会话，道理也是同样的：一些数据库
+已经使用传输 Unicode 的协议，即使没有，SQLALchemy 或其它 ORM 也会顾及到。</p>
+</div>
+<div class="section" id="id2">
+<h2>金科玉律<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>经验法则：如果你不需要处理二进制数据，请一律使用 Unicode 。在 Python 2.x 中，使用
+Unicode 意味着什么？</p>
+<ul class="simple">
+<li>使用 ASCII charpoints （基本是数字、非变音或非奇特的拉丁字母），你可以使用常规的
+字符串常量（ <code class="docutils literal"><span class="pre">'Hello</span> <span class="pre">World'</span></code> ）</li>
+<li>如果你的字符串里有 ASCII 之外的东西，需要把这个字符串标记为 Unicode 字符串，
+方法是加上一个小写 <cite>u</cite> 的前缀（比如 <code class="docutils literal"><span class="pre">u'Hänsel</span> <span class="pre">und</span> <span class="pre">Gretel'</span></code> ）</li>
+<li>如果你在 Python 文件中使用了非 Unicode 字符，你需要告诉 Python 你的文
+件使用了何种编码。我再次建议为此使用 UTF-8 。你可以在你 Python 源文件
+的第一行或第二行写入 <code class="docutils literal"><span class="pre">#</span> <span class="pre">-*-</span> <span class="pre">coding:</span> <span class="pre">utf-8</span> <span class="pre">-*-</span></code> 来告知解释器你的编码
+类型。</li>
+<li>Jinja 被配置为从 UTF-8 解码模板文件，所以确保你的编辑器也保存文件为 UTF-8 编码。</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>自行编解码<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>如果你的工作环境是一个不真正基于 Unicode 的文件系统之类的话，你需要确保使用 Unicode 接口妥善地解码。比如，当你想要在文件系统中加载一个文件，并嵌入到 Jinja2 模板时，
+你需要按照文件的编码来解码。这里有一个老问题就是文本文件不指定有效的编码，
+所以限定你在文本文件中使用 UTF-8 也是在帮自己的忙。</p>
+<p>无论如何，以 Unicode 加载这样文件，你可以使用内置的 <code class="xref py py-meth docutils literal"><span class="pre">str.decode()</span></code> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>从 Unicode 转换成指定的字符集，你可以使用 <code class="xref py py-meth docutils literal"><span class="pre">unicode.encode()</span></code> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">contents</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">charset</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>配置编辑器<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>现在的大多数编辑器默认存储为 UTF-8 ，但是如果你的编辑器没有配置为这样，你
+需要更改它。这里是设置你编辑器存储为 UTF-8 的通用做法:</p>
+<ul>
+<li><p class="first">Vim: 在你的 <code class="docutils literal"><span class="pre">.vimrc</span></code> 文件中加入 <code class="docutils literal"><span class="pre">set</span> <span class="pre">enc=utf-8</span></code></p>
+</li>
+<li><p class="first">Emacs: 使用 encoding cookie，或者把这段文字加入到你的 <code class="docutils literal"><span class="pre">.emacs</span></code> 配置文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>(prefer-coding-system &#39;utf-8)
+(setq default-buffer-file-coding-system &#39;utf-8)
+</pre></div>
+</div>
+</li>
+<li><p class="first">Notepad++:</p>
+<ol class="arabic simple">
+<li>打开 <em>设置 -&gt; 首选项 ...</em></li>
+<li>选择“新建”选项卡</li>
+<li>选择“ UTF-8 无 BOM ”作为编码</li>
+</ol>
+<p>同样也建议使用 Unix 的换行格式，可以在相同的面板中选择，但不是必须的。</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="extensiondev.html" class="btn btn-neutral float-right" title="Flask 扩展开发" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="security.html" class="btn btn-neutral" title="安全注意事项" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/unicode.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:45 GMT -->
+</html>

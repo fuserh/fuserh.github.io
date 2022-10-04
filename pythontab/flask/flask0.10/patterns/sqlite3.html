@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/sqlite3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>在 Flask 中使用 SQLite 3 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Flask 代码模式</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="packages.html">大型应用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html">应用程序的工厂函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html">应用调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html">使用 URL 处理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html">部署和分发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabric.html">使用 Fabric 部署</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">在 Flask 中使用 SQLite 3</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">按需连接</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#easy-querying">简化查询</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">初始化数据库模型</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html">在 Flask 中使用 SQLAlchemy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html">上传文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">缓存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html">视图装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html">使用 WTForms 进行表单验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html">模板继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html">消息闪现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html">用 jQuery 实现 Ajax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html">自定义错误页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html">延迟加载视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html">在 Flask 中使用 MongoKit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="favicon.html">添加 Favicon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html">数据流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html">延迟请求回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methodoverrides.html">添加 HTTP Method Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requestchecksum.html">请求内容校验码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html">基于 Celery 的后台任务</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Flask 代码模式</a> &raquo;</li>
+      
+    <li>在 Flask 中使用 SQLite 3</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="flask-sqlite-3">
+<span id="sqlite3"></span><h1>在 Flask 中使用 SQLite 3<a class="headerlink" href="#flask-sqlite-3" title="永久链接至标题">¶</a></h1>
+<p>在 Flask 中，在请求开始的时候用 <code class="xref py py-meth docutils literal"><span class="pre">before_request()</span></code> 装饰器实现
+打开数据库连接的代码，然后在请求结束的时候用 <code class="xref py py-meth docutils literal"><span class="pre">before_request()</span></code>
+装饰器关闭数据库连接。在这个过程中需要配合 <a class="reference internal" href="../api.html#flask.g" title="flask.g"><code class="xref py py-class docutils literal"><span class="pre">g</span></code></a> 对象。</p>
+<p>于是，在 Flask 里一个使用 SQLite 3 的简单例子就是下面这样:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">g</span>
+
+<span class="n">DATABASE</span> <span class="o">=</span> <span class="s">&#39;/path/to/database.db&#39;</span>
+
+<span class="k">def</span> <span class="nf">connect_db</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DATABASE</span><span class="p">)</span>
+
+<span class="nd">@app.before_request</span>
+<span class="k">def</span> <span class="nf">before_request</span><span class="p">():</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">connect_db</span><span class="p">()</span>
+
+<span class="nd">@app.teardown_request</span>
+<span class="k">def</span> <span class="nf">teardown_request</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;db&#39;</span><span class="p">):</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">请记住，teardown request 在请求结束时总会运行，即使 before-request 处理器
+运行失败或者从未运行过。我们需要确保数据库连接在关闭的时候在那里。</p>
+</div>
+<div class="section" id="id1">
+<h2>按需连接<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>上述方法的缺陷在于，它只能用于 Flask 会执行 before-request 处理器的场合下
+有效，如果您想要在一个脚本或者 Python 的交互式终端中访问数据库。那么您必须
+做一些类似下面的代码的事情:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">():</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">preprocess_request</span><span class="p">()</span>
+    <span class="c"># now you can use the g.db object</span>
+</pre></div>
+</div>
+<p>为了激发连接代码的执行，使用这种方式的话，您将不能离开对请求上下文的依赖。
+但是您使用以下方法可以使应用程序在必要时才连接:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_connection</span><span class="p">():</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;_db&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">_db</span> <span class="o">=</span> <span class="n">connect_db</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">db</span>
+</pre></div>
+</div>
+<p>缺点就是，您必须使用 <code class="docutils literal"><span class="pre">db</span> <span class="pre">=</span> <span class="pre">get_connection()</span></code> 而不是仅仅直接使用 <code class="docutils literal"><span class="pre">g.db</span></code>
+来访问数据库连接。</p>
+</div>
+<div class="section" id="easy-querying">
+<span id="id2"></span><h2>简化查询<a class="headerlink" href="#easy-querying" title="永久链接至标题">¶</a></h2>
+<p>现在在每个请求处理函数里，您都可以访问 <cite>g.db</cite> 来获得当前打开的数据库连接。
+此时，用一个辅助函数简化 SQLite 的使用是相当有用的:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">query_db</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">one</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">((</span><span class="n">cur</span><span class="o">.</span><span class="n">description</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+               <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">rv</span> <span class="k">else</span> <span class="bp">None</span><span class="p">)</span> <span class="k">if</span> <span class="n">one</span> <span class="k">else</span> <span class="n">rv</span>
+</pre></div>
+</div>
+<p>相比起直接使用原始的数据指针和连接对象。这个随手即得的小函数让操作数据库的操作更为轻松。
+像下面这样使用它:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">query_db</span><span class="p">(</span><span class="s">&#39;select * from users&#39;</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="s">&#39;has the id&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user_id&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>如果您只希望得到一个单独的结果:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">user</span> <span class="o">=</span> <span class="n">query_db</span><span class="p">(</span><span class="s">&#39;select * from users where username = ?&#39;</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">the_username</span><span class="p">],</span> <span class="n">one</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;No such user&#39;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">the_username</span><span class="p">,</span> <span class="s">&#39;has the id&#39;</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user_id&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>将变量传入 SQL 语句时，使用在语句之前使用一个问号，然后将参数以链表的形式穿进去。
+永远不要直接将他们添加到 SQL 语句中以字符串形式传入，这样做将会允许恶意用户
+以 <a class="reference external" href="http://en.wikipedia.org/wiki/SQL_injection">SQL 注入</a> 的方式攻击您的应用。</p>
+</div>
+<div class="section" id="id3">
+<h2>初始化数据库模型<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>关系数据库需要一个模型来定义储存数据的模式，所以应用程序通常携带一个
+<cite>schema.sql</cite> 文件用于创建数据库。提供一个特定的函数来创建数据库是个
+不错的主意，以下的函数就能为您做到这件事:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">closing</span>
+
+<span class="k">def</span> <span class="nf">init_db</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">connect_db</span><span class="p">())</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">open_resource</span><span class="p">(</span><span class="s">&#39;schema.sql&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>然后您就可以在 Python 的交互式终端中创建一个这样的数据库:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">init_db</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">init_db</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sqlalchemy.html" class="btn btn-neutral float-right" title="在 Flask 中使用 SQLAlchemy" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fabric.html" class="btn btn-neutral" title="使用 Fabric 部署" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/sqlite3.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>

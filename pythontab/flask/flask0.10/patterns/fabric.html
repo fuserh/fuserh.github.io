@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/fabric.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>使用 Fabric 部署 &mdash; Flask 中文手册 0.10 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Flask 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/flask/flask0.10/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../foreword.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_foreword.html">给有经验程序员的前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">快速入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../templating.html">模板</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing.html">测试 Flask 应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html">记录应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../errorhandling.html#id9">调试应用错误</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">配置处理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signals.html">信号</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../views.html">即插视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../appcontext.html">应用上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reqcontext.html">请求上下文</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints.html">用蓝图实现模块化的应用</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensions.html">Flask 扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shell.html">与 Shell 共舞</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Flask 代码模式</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="packages.html">大型应用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appfactories.html">应用程序的工厂函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="appdispatch.html">应用调度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlprocessors.html">使用 URL 处理器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distribute.html">部署和分发</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">使用 Fabric 部署</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fabfile">创建第一个 Fabfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">运行 Fabfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wsgi">WSGI 文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">配置文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">第一次部署</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">下一步操作</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sqlite3.html">在 Flask 中使用 SQLite 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html">在 Flask 中使用 SQLAlchemy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fileuploads.html">上传文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">缓存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viewdecorators.html">视图装饰器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wtforms.html">使用 WTForms 进行表单验证</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templateinheritance.html">模板继承</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing.html">消息闪现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jquery.html">用 jQuery 实现 Ajax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errorpages.html">自定义错误页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lazyloading.html">延迟加载视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongokit.html">在 Flask 中使用 MongoKit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="favicon.html">添加 Favicon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="streaming.html">数据流</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deferredcallbacks.html">延迟请求回调</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methodoverrides.html">添加 HTTP Method Overrides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requestchecksum.html">请求内容校验码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="celery.html">基于 Celery 的后台任务</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../deploying/index.html">部署选择</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../becomingbig.html">聚沙成塔</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../design.html">Flask 中的设计决策</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../htmlfaq.html">HTML/XHTML 常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security.html">安全注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../unicode.html">Flask 中的 Unicode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extensiondev.html">Flask 扩展开发</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../styleguide.html">Pocoo 风格指引</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../python3.html">Python 3 支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../upgrading.html">升级到最新版本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Flask Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">许可证</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">术语表</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Flask 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Flask 中文手册 0.10 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Flask 代码模式</a> &raquo;</li>
+      
+    <li>使用 Fabric 部署</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fabric">
+<span id="fabric-deployment"></span><h1>使用 Fabric 部署<a class="headerlink" href="#fabric" title="永久链接至标题">¶</a></h1>
+<p><a class="reference external" href="http://fabfile.org/">Fabric</a> 是一个 Python 下类似于 Makefiles 的工具，但是能够在远程服务器上
+执行命令。如果您有一个良好配置过的 Python 软件包 (<a class="reference internal" href="packages.html#larger-applications"><span>大型应用</span></a>) 且
+对“配置”概念的理解良好，那么在外部服务器上部署 Flask 应用将会非常容易。</p>
+<p>开始之前，请先检查如下列表中的事项是否都已经满足了:</p>
+<ul class="simple">
+<li>在本地已经安装了 Fabric 1.0 。即这个教程完成时， Fabric 的最新版本。</li>
+<li>应用程序已经被封装为包的形式，而且有一个有效的 <cite>setup.py</cite> 文件
+(参考 <a class="reference internal" href="distribute.html#distribute-deployment"><span>部署和分发</span></a>)。</li>
+<li>在下文中的例子里，我们使用 <cite>mod_wsgi</cite> 作为远程服务器使用的服务端程序。
+您当然也可以使用您喜欢的服务端程序，但是考虑到 Apache 和 <cite>mod_wsgi</cite> 的
+组合非常简单易用且容易安装配置，并且在无 root 权限的情况下，存在一个比较
+简单的方法来重启服务器。</li>
+</ul>
+<div class="section" id="fabfile">
+<h2>创建第一个 Fabfile<a class="headerlink" href="#fabfile" title="永久链接至标题">¶</a></h2>
+<p>Fabfile 用于指定 Fabric 执行的命令，它通常被命名为 <cite>fabfile.py</cite> 并使用 <cite>fab</cite>
+命令运行。文件中所有的函数将被当做 <cite>fab</cite> 的子命令显示出来，他们可以在一个或
+多个主机上运行。这些主机要么在 fabfile 当中定义，要么在命令输入时指定。在本文中
+我们将他们定义在 fabfile 里。</p>
+<p>这是第一个基础的例子，能够将现有源代码上传到指定服务器并将它们安装进如
+一个已经存在的虚拟环境中:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">fabric.api</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c"># 远程服务器登陆使用的用户名</span>
+<span class="n">env</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="s">&#39;appuser&#39;</span>
+<span class="c"># 需要进行操作的服务器地址</span>
+<span class="n">env</span><span class="o">.</span><span class="n">hosts</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;server1.example.com&#39;</span><span class="p">,</span> <span class="s">&#39;server2.example.com&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">pack</span><span class="p">():</span>
+    <span class="c"># 以 tar 归档的方式创建一个新的代码分发</span>
+    <span class="n">local</span><span class="p">(</span><span class="s">&#39;python setup.py sdist --formats=gztar&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deploy</span><span class="p">():</span>
+    <span class="c"># 之处发布产品的名称和版本</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">local</span><span class="p">(</span><span class="s">&#39;python setup.py --fullname&#39;</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c"># 将代码归档上传到服务器当中的临时文件夹内</span>
+    <span class="n">put</span><span class="p">(</span><span class="s">&#39;dist/</span><span class="si">%s</span><span class="s">.tar.gz&#39;</span> <span class="o">%</span> <span class="n">dist</span><span class="p">,</span> <span class="s">&#39;/tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+    <span class="c"># 创建一个文件夹，进入这个文件夹，然后将我们的归档解压到那里</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;mkdir /tmp/yourapplication&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">cd</span><span class="p">(</span><span class="s">&#39;/tmp/yourapplication&#39;</span><span class="p">):</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;tar xzf /tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+        <span class="c"># 使用我们虚拟环境下的 Python 解释器安装我们的包</span>
+        <span class="n">run</span><span class="p">(</span><span class="s">&#39;/var/www/yourapplication/env/bin/python setup.py install&#39;</span><span class="p">)</span>
+    <span class="c"># 现在我们的代码已经部署成功了，可以删除这个文件夹了</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;rm -rf /tmp/yourapplication /tmp/yourapplication.tar.gz&#39;</span><span class="p">)</span>
+    <span class="c"># 最终生成 .wsgi 文件，以便于 mod_wsgi 重新加载应用程序</span>
+    <span class="n">run</span><span class="p">(</span><span class="s">&#39;touch /var/www/yourapplication.wsgi&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>上面的代码例子注释很清晰，应该很容易明白，下面是 fabric 常用命令的一个归纳:</p>
+<ul class="simple">
+<li><cite>run</cite> - 在远程服务器上执行所有命令</li>
+<li><cite>local</cite> - 在本地执行所有命令</li>
+<li><cite>put</cite> - 将指定文件上传到指定服务器</li>
+<li><cite>cd</cite> - 改变远程服务器当上的当前操作目录，此命令必须与 <cite>with</cite> 声明一起使用</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>运行 Fabfile<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>如何执行 fabfile 呢？您应该使用 <cite>fab</cite> 命令。若要发布当前版本的代码到远程
+服务器上，您只需执行如下命令:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ fab pack deploy
+</pre></div>
+</div>
+<p>然而这需要您的服务器已经创建过 <code class="docutils literal"><span class="pre">/var/www/yourapplication</span></code> 文件夹
+而且 <code class="docutils literal"><span class="pre">/var/www/yourapplication/env</span></code> 是一个可用的虚拟环境。而且，
+我们还没有在服务器上创建配置文件或者 <cite>.wsgi</cite> 文件。因此，我们怎么样
+把一个新的服务器转换为可以使用基础设备呢。</p>
+<p>这视我们想要配置的服务器数量的不同，实现起来有所差别。如果我们只有一个
+远程应用服务器(大部分应用都是都属于此类)，那么 fabfile 里添加一个专门
+负责此类的命令有些小题大做。但是显然我们可以这么做。在这里，您可以会
+运行命令 <cite>setup</cite> 或者 <cite>bootstrap</cite> 。然后将服务器的地址详细地在命令行
+当中指定:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ fab -H newserver.example.com bootstrap
+</pre></div>
+</div>
+<p>初始化一个新的服务器，您大概需要执行如下几个步骤:</p>
+<ol class="arabic">
+<li><p class="first">在 <code class="docutils literal"><span class="pre">/var/www</span></code> 目录下创建目录结构:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ mkdir /var/www/yourapplication
+$ cd /var/www/yourapplication
+$ virtualenv --distribute env
+</pre></div>
+</div>
+</li>
+<li><p class="first">上传一个新的 <cite>application.wsgi</cite> 文件以及为应用程序准备的配置
+文件(例如: <cite>application.cfg</cite>)等到服务器上</p>
+</li>
+<li><p class="first">为 <cite>yourapplication</cite> 创建一个新的 Apache 配置，并激活它。请确保
+激活了对 <cite>.wsgi</cite> 改变的监视功能，这样在我们创建或改变这个文件时
+Apache 可以自动重新加载应用 (详细内容请参考 <a class="reference internal" href="../deploying/mod_wsgi.html#mod-wsgi-deployment"><span>mod_wsgi (Apache)</span></a>)</p>
+</li>
+</ol>
+<p>现在的问题是， <cite>application.wsgi</cite> 和 <cite>application.cfg</cite> 文件
+从何而来。</p>
+</div>
+<div class="section" id="wsgi">
+<h2>WSGI 文件<a class="headerlink" href="#wsgi" title="永久链接至标题">¶</a></h2>
+<p>WSGI 文件应导入这个应用并且设定一个环境变量，这个环境变量指定了应用程序应
+到哪里寻找配置文件。下面是一个完全完成上述功能的短例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;YOURAPPLICATION_CONFIG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;/var/www/yourapplication/application.cfg&#39;</span>
+<span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">app</span>
+</pre></div>
+</div>
+<p>应用程序本身则应该向下面这样，通过查询环境变量来查找配置，以此初始化自己:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="s">&#39;yourapplication.default_config&#39;</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">from_envvar</span><span class="p">(</span><span class="s">&#39;YOURAPPLICATION_CONFIG&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这种方法在本文档的 <a class="reference internal" href="../config.html#config"><span>配置处理</span></a> 这节中进行了详细介绍。</p>
+</div>
+<div class="section" id="id2">
+<h2>配置文件<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>正如上文所属，应用程序将会通过查找 <cite>YOURAPPLICATION_CONFIG</cite> 环境变量以
+找到正确的配置文件。因此我们必须将配置文件放在应用程序可以找到的地方。
+配置文件有在不同电脑上表现出不同效果的特质，所以您不应该以普通的方式
+对它进行版本控制。</p>
+<p>一个流行的做法是将不同服务器的配置文件保存在不同的版本控制仓库里，然后
+在不同的服务器中分别抽取出来。然后建立到从配置应该在的地点
+(如: <code class="docutils literal"><span class="pre">/var/www/yourapplication</span></code>)到这个文件实际位置的符号链接。</p>
+<p>我们预计只有一个或两个服务器需要部署，因此我们采用另一种方法，也就是
+提前手动将配置文件上传到需要的未知。</p>
+</div>
+<div class="section" id="id3">
+<h2>第一次部署<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>现在我们可以开始进行第一次部署了。我们已经初始化了服务器以使它拥有正确的
+虚拟环境和已经激活的 Apache 配置文件。现在我们可以把应用打包然后部署了:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ fab pack deploy
+</pre></div>
+</div>
+<p>Fabric 现在就会连接到所有服务器，然后运行在 fabfile 文件中所指定的命令。
+最初他会执行打包工作，为我们创建代码归档，然后他部署和上传代码到所有的
+服务器，并在那里安装他们。归功于 <cite>setup.py</cite> ，所有引用依赖的包和库都将
+自动被下载和安装到我们的虚拟环境中。</p>
+</div>
+<div class="section" id="id4">
+<h2>下一步操作<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>从现在开始，我们可以做的事情变得如此之多，以至于部署代码实际上可以
+看做一种乐趣:</p>
+<ul class="simple">
+<li>创建一个 <cite>bootstrap</cite> 命令用于初始化新的服务器，它将初始化一个新的虚拟环境
+安装以及适当配置 Apache 等。</li>
+<li>将配置文件放置到一个独立的版本控制仓库里，然后将活动的配置符号连接到
+它应该在的地方。</li>
+<li>您应该将您的应用程序也放置到一个版本控制仓库中，然后在服务器中提取
+最新的版本并安装，您也可以很容易的回溯到以前的版本。</li>
+<li>为测试提供函数接口，这样您就可以将测试代码部署到服务器上并在服务器端
+执行测试套件。</li>
+</ul>
+<p>使用 Fabric 是相当有趣，键入 <code class="docutils literal"><span class="pre">fab</span> <span class="pre">deploy</span></code> 并看到您的应用自动
+部署到一个或多个服务器上，您会有“简直像是魔术”这样的感觉。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sqlite3.html" class="btn btn-neutral float-right" title="在 Flask 中使用 SQLite 3" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="distribute.html" class="btn btn-neutral" title="部署和分发" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, Armin Ronacher.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.10',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/flask/flask0.10/patterns/fabric.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:46 GMT -->
+</html>
