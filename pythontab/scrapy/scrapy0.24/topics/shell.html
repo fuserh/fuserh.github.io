@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/shell.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scrapy终端(Scrapy shell) &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Scrapy终端(Scrapy shell)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">启动终端</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">使用终端</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#shortcut">可用的快捷命令(shortcut)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scrapy">可用的Scrapy对象</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#shell-session">终端会话(shell session)样例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spidershellresponse">在spider中启动shell来查看response</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Scrapy终端(Scrapy shell)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="scrapy-scrapy-shell">
+<span id="topics-shell"></span><h1>Scrapy终端(Scrapy shell)<a class="headerlink" href="#scrapy-scrapy-shell" title="永久链接至标题">¶</a></h1>
+<p>Scrapy终端是一个交互终端，供您在未启动spider的情况下尝试及调试您的爬取代码。
+其本意是用来测试提取数据的代码，不过您可以将其作为正常的Python终端，在上面测试任何的Python代码。</p>
+<p>该终端是用来测试XPath或CSS表达式，查看他们的工作方式及从爬取的网页中提取的数据。
+在编写您的spider时，该终端提供了交互性测试您的表达式代码的功能，免去了每次修改后运行spider的麻烦。</p>
+<p>一旦熟悉了Scrapy终端后，您会发现其在开发和调试spider时发挥的巨大作用。</p>
+<p>如果您安装了 <a class="reference external" href="http://ipython.org/">IPython</a> ，Scrapy终端将使用 <a class="reference external" href="http://ipython.org/">IPython</a> (替代标准Python终端)。
+<a class="reference external" href="http://ipython.org/">IPython</a> 终端与其他相比更为强大，提供智能的自动补全，高亮输出，及其他特性。</p>
+<p>我们强烈推荐您安装 <a class="reference external" href="http://ipython.org/">IPython</a> ，特别是如果您使用Unix系统(<a class="reference external" href="http://ipython.org/">IPython</a> 在Unix下工作的很好)。
+详情请参考 <a class="reference external" href="http://ipython.org/install.html">IPython installation guide</a> 。</p>
+<div class="section" id="id1">
+<h2>启动终端<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>您可以使用 <strong class="command">shell</strong> 来启动Scrapy终端:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy shell &lt;url&gt;
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">&lt;url&gt;</span></code> 是您要爬取的网页的地址。</p>
+</div>
+<div class="section" id="id2">
+<h2>使用终端<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>Scrapy终端仅仅是一个普通的Python终端(或 <a class="reference external" href="http://ipython.org/">IPython</a> )。其提供了一些额外的快捷方式。</p>
+<div class="section" id="shortcut">
+<h3>可用的快捷命令(shortcut)<a class="headerlink" href="#shortcut" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">shelp()</span></code> - 打印可用对象及快捷命令的帮助列表</li>
+<li><code class="docutils literal"><span class="pre">fetch(request_or_url)</span></code> - 根据给定的请求(request)或URL获取一个新的response，并更新相关的对象</li>
+<li><code class="docutils literal"><span class="pre">view(response)</span></code> - 在本机的浏览器打开给定的response。
+其会在response的body中添加一个 <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base">&lt;base&gt; tag</a> ，使得外部链接(例如图片及css)能正确显示。
+注意，该操作会在本地创建一个临时文件，且该文件不会被自动删除。</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="scrapy">
+<h3>可用的Scrapy对象<a class="headerlink" href="#scrapy" title="永久链接至标题">¶</a></h3>
+<p>Scrapy终端根据下载的页面会自动创建一些方便使用的对象，例如
+<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象及
+<a class="reference internal" href="selectors.html#scrapy.selector.Selector" title="scrapy.selector.Selector"><code class="xref py py-class docutils literal"><span class="pre">Selector</span></code></a> 对象(对HTML及XML内容)。</p>
+<p>这些对象有:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">crawler</span></code> - 当前 <a class="reference internal" href="api.html#scrapy.crawler.Crawler" title="scrapy.crawler.Crawler"><code class="xref py py-class docutils literal"><span class="pre">Crawler</span></code></a> 对象.</li>
+<li><code class="docutils literal"><span class="pre">spider</span></code> - 处理URL的spider。
+对当前URL没有处理的Spider时则为一个 <a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象。</li>
+<li><code class="docutils literal"><span class="pre">request</span></code> - 最近获取到的页面的 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象。
+您可以使用 <a class="reference internal" href="request-response.html#scrapy.http.Request.replace" title="scrapy.http.Request.replace"><code class="xref py py-meth docutils literal"><span class="pre">replace()</span></code></a> 修改该request。或者
+使用 <code class="docutils literal"><span class="pre">fetch</span></code> 快捷方式来获取新的request。</li>
+<li><code class="docutils literal"><span class="pre">response</span></code> - 包含最近获取到的页面的 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象。</li>
+<li><code class="docutils literal"><span class="pre">sel</span></code> - 根据最近获取到的response构建的 <a class="reference internal" href="selectors.html#scrapy.selector.Selector" title="scrapy.selector.Selector"><code class="xref py py-class docutils literal"><span class="pre">Selector</span></code></a> 对象。</li>
+<li><code class="docutils literal"><span class="pre">settings</span></code> - 当前的 <a class="reference internal" href="settings.html#topics-settings"><span>Scrapy settings</span></a></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="shell-session">
+<h2>终端会话(shell session)样例<a class="headerlink" href="#shell-session" title="永久链接至标题">¶</a></h2>
+<p>下面给出一个典型的终端会话的例子。
+在该例子中，我们首先爬取了 <a class="reference external" href="http://scarpy.org/">http://scarpy.org</a> 的页面，而后接着爬取
+<a class="reference external" href="http://slashdot.org/">http://slashdot.org</a> 的页面。
+最后，我们修改了(Slashdot)的请求，将请求设置为POST并重新获取，
+得到HTTP 405(不允许的方法)错误。
+之后通过Ctrl-D(Unix)或Ctrl-Z(Windows)关闭会话。</p>
+<p>需要注意的是，由于爬取的页面不是静态页，内容会随着时间而修改，
+因此例子中提取到的数据可能与您尝试的结果不同。
+该例子的唯一目的是让您熟悉Scrapy终端。</p>
+<p>首先，我们启动终端:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy shell &#39;http://scrapy.org&#39; --nolog
+</pre></div>
+</div>
+<p>接着该终端(使用Scrapy下载器(downloader))获取URL内容并打印可用的对象及快捷命令(注意到以 <code class="docutils literal"><span class="pre">[s]</span></code> 开头的行):</p>
+<div class="highlight-python"><div class="highlight"><pre>[s] Available Scrapy objects:
+[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x1e16b50&gt;
+[s]   item       {}
+[s]   request    &lt;GET http://scrapy.org&gt;
+[s]   response   &lt;200 http://scrapy.org&gt;
+[s]   sel        &lt;Selector xpath=None data=u&#39;&lt;html&gt;\n  &lt;head&gt;\n    &lt;meta charset=&quot;utf-8&#39;&gt;
+[s]   settings   &lt;scrapy.settings.Settings object at 0x2bfd650&gt;
+[s]   spider     &lt;Spider &#39;default&#39; at 0x20c6f50&gt;
+[s] Useful shortcuts:
+[s]   shelp()           Shell help (print this help)
+[s]   fetch(req_or_url) Fetch request (or URL) and update local objects
+[s]   view(response)    View response in a browser
+
+&gt;&gt;&gt;
+</pre></div>
+</div>
+<p>之后，您就可以操作这些对象了:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sel</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&quot;//h2/text()&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">u&#39;Welcome to Scrapy&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fetch</span><span class="p">(</span><span class="s">&quot;http://slashdot.org&quot;</span><span class="p">)</span>
+<span class="go">[s] Available Scrapy objects:</span>
+<span class="go">[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x1a13b50&gt;</span>
+<span class="go">[s]   item       {}</span>
+<span class="go">[s]   request    &lt;GET http://slashdot.org&gt;</span>
+<span class="go">[s]   response   &lt;200 http://slashdot.org&gt;</span>
+<span class="go">[s]   sel        &lt;Selector xpath=None data=u&#39;&lt;html lang=&quot;en&quot;&gt;\n&lt;head&gt;\n\n\n\n\n&lt;script id=&quot;&#39;&gt;</span>
+<span class="go">[s]   settings   &lt;scrapy.settings.Settings object at 0x2bfd650&gt;</span>
+<span class="go">[s]   spider     &lt;Spider &#39;default&#39; at 0x20c6f50&gt;</span>
+<span class="go">[s] Useful shortcuts:</span>
+<span class="go">[s]   shelp()           Shell help (print this help)</span>
+<span class="go">[s]   fetch(req_or_url) Fetch request (or URL) and update local objects</span>
+<span class="go">[s]   view(response)    View response in a browser</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sel</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//title/text()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()</span>
+<span class="go">[u&#39;Slashdot: News for nerds, stuff that matters&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">request</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fetch</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="go">[s] Available Scrapy objects:</span>
+<span class="go">[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x1e16b50&gt;</span>
+<span class="gp">...</span>
+
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spidershellresponse">
+<span id="topics-shell-inspect-response"></span><h2>在spider中启动shell来查看response<a class="headerlink" href="#spidershellresponse" title="永久链接至标题">¶</a></h2>
+<p>有时您想在spider的某个位置中查看被处理的response，
+以确认您期望的response到达特定位置。</p>
+<p>这可以通过 <code class="docutils literal"><span class="pre">scrapy.shell.inspect_response</span></code> 函数来实现。</p>
+<p>以下是如何在spider中调用该函数的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scrapy</span>
+
+<span class="k">class</span> <span class="nc">MySpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;myspider&quot;</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">&quot;http://example.com&quot;</span><span class="p">,</span>
+        <span class="s">&quot;http://example.org&quot;</span><span class="p">,</span>
+        <span class="s">&quot;http://example.net&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="c"># We want to inspect one specific response.</span>
+        <span class="k">if</span> <span class="s">&quot;.org&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">scrapy.shell</span> <span class="kn">import</span> <span class="n">inspect_response</span>
+            <span class="n">inspect_response</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="c"># Rest of parsing code.</span>
+</pre></div>
+</div>
+<p>当运行spider时，您将得到类似下列的输出:</p>
+<div class="highlight-python"><div class="highlight"><pre>2014-01-23 17:48:31-0400 [myspider] DEBUG: Crawled (200) &lt;GET http://example.com&gt; (referer: None)
+2014-01-23 17:48:31-0400 [myspider] DEBUG: Crawled (200) &lt;GET http://example.org&gt; (referer: None)
+[s] Available Scrapy objects:
+[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x1e16b50&gt;
+...
+
+&gt;&gt;&gt; response.url
+&#39;http://example.org&#39;
+</pre></div>
+</div>
+<p>接着测试提取代码:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sel</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//h1[@class=&quot;fn&quot;]&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>呃，看来是没有。您可以在浏览器里查看response的结果，判断是否是您期望的结果:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">view</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>最后您可以点击Ctrl-D(Windows下Ctrl-Z)来退出终端，恢复爬取:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="o">^</span><span class="n">D</span>
+<span class="go">2014-01-23 17:50:03-0400 [myspider] DEBUG: Crawled (200) &lt;GET http://example.net&gt; (referer: None)</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>注意: 由于该终端屏蔽了Scrapy引擎，您在这个终端中不能使用 <code class="docutils literal"><span class="pre">fetch</span></code> 快捷命令(shortcut)。
+当您离开终端时，spider会从其停下的地方恢复爬取，正如上面显示的那样。</p>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="item-pipeline.html" class="btn btn-neutral float-right" title="Item Pipeline" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="loaders.html" class="btn btn-neutral" title="Item Loaders" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/shell.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

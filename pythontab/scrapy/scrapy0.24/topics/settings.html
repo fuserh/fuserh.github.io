@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Settings &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Settings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#designating-the-settings">指定设定(Designating the settings)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#populating-the-settings">获取设定值(Populating the settings)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#command-line-options">1. 命令行选项(Command line options)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#project-settings-module">2. 项目设定模块(Project settings module)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-settings-per-command">3. 命令默认设定(Default settings per-command)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-global-settings">4. 默认全局设定(Default global settings)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-access-settings">如何访问设定(How to access settings)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">设定名字的命名规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topics-settings-ref">内置设定参考手册</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#aws-access-key-id">AWS_ACCESS_KEY_ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aws-secret-access-key">AWS_SECRET_ACCESS_KEY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bot-name">BOT_NAME</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concurrent-items">CONCURRENT_ITEMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concurrent-requests">CONCURRENT_REQUESTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concurrent-requests-per-domain">CONCURRENT_REQUESTS_PER_DOMAIN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concurrent-requests-per-ip">CONCURRENT_REQUESTS_PER_IP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-item-class">DEFAULT_ITEM_CLASS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-request-headers">DEFAULT_REQUEST_HEADERS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#depth-limit">DEPTH_LIMIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#depth-priority">DEPTH_PRIORITY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#depth-stats">DEPTH_STATS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#depth-stats-verbose">DEPTH_STATS_VERBOSE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dnscache-enabled">DNSCACHE_ENABLED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#downloader">DOWNLOADER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#downloader-middlewares">DOWNLOADER_MIDDLEWARES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#downloader-middlewares-base">DOWNLOADER_MIDDLEWARES_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#downloader-stats">DOWNLOADER_STATS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-delay">DOWNLOAD_DELAY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-handlers">DOWNLOAD_HANDLERS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-handlers-base">DOWNLOAD_HANDLERS_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#download-timeout">DOWNLOAD_TIMEOUT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dupefilter-class">DUPEFILTER_CLASS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dupefilter-debug">DUPEFILTER_DEBUG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#editor">EDITOR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensions">EXTENSIONS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensions-base">EXTENSIONS_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#item-pipelines">ITEM_PIPELINES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#item-pipelines-base">ITEM_PIPELINES_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-enabled">LOG_ENABLED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-encoding">LOG_ENCODING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-file">LOG_FILE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-level">LOG_LEVEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#log-stdout">LOG_STDOUT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memdebug-enabled">MEMDEBUG_ENABLED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memdebug-notify">MEMDEBUG_NOTIFY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memusage-enabled">MEMUSAGE_ENABLED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memusage-limit-mb">MEMUSAGE_LIMIT_MB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memusage-notify-mail">MEMUSAGE_NOTIFY_MAIL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memusage-report">MEMUSAGE_REPORT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memusage-warning-mb">MEMUSAGE_WARNING_MB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#newspider-module">NEWSPIDER_MODULE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#randomize-download-delay">RANDOMIZE_DOWNLOAD_DELAY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redirect-max-times">REDIRECT_MAX_TIMES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redirect-max-metarefresh-delay">REDIRECT_MAX_METAREFRESH_DELAY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redirect-priority-adjust">REDIRECT_PRIORITY_ADJUST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#robotstxt-obey">ROBOTSTXT_OBEY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scheduler">SCHEDULER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-contracts">SPIDER_CONTRACTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-contracts-base">SPIDER_CONTRACTS_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-manager-class">SPIDER_MANAGER_CLASS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-middlewares">SPIDER_MIDDLEWARES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-middlewares-base">SPIDER_MIDDLEWARES_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-modules">SPIDER_MODULES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stats-class">STATS_CLASS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stats-dump">STATS_DUMP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#statsmailer-rcpts">STATSMAILER_RCPTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#telnetconsole-enabled">TELNETCONSOLE_ENABLED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#telnetconsole-port">TELNETCONSOLE_PORT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#templates-dir">TEMPLATES_DIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urllength-limit">URLLENGTH_LIMIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-agent">USER_AGENT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Settings</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="settings">
+<span id="topics-settings"></span><h1>Settings<a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h1>
+<p>Scrapy设定(settings)提供了定制Scrapy组件的方法。您可以控制包括核心(core)，插件(extension)，pipeline及spider组件。</p>
+<p>设定为代码提供了提取以key-value映射的配置值的的全局命名空间(namespace)。
+设定可以通过下面介绍的多种机制进行设置。</p>
+<p>设定(settings)同时也是选择当前激活的Scrapy项目的方法(如果您有多个的话)。</p>
+<p>内置设定列表请参考 <a class="reference internal" href="#topics-settings-ref"><span>内置设定参考手册</span></a> 。</p>
+<div class="section" id="designating-the-settings">
+<h2>指定设定(Designating the settings)<a class="headerlink" href="#designating-the-settings" title="永久链接至标题">¶</a></h2>
+<p>当您使用Scrapy时，您需要声明您所使用的设定。这可以通过使用环境变量:
+<code class="docutils literal"><span class="pre">SCRAPY_SETTINGS_MODULE</span></code> 来完成。</p>
+<p><code class="docutils literal"><span class="pre">SCRAPY_SETTINGS_MODULE</span></code> 必须以Python路径语法编写, 如 <code class="docutils literal"><span class="pre">myproject.settings</span></code> 。
+注意，设定模块应该在 Python <a class="reference external" href="http://docs.python.org/2/tutorial/modules.html#the-module-search-path">import search path</a> 中。</p>
+</div>
+<div class="section" id="populating-the-settings">
+<h2>获取设定值(Populating the settings)<a class="headerlink" href="#populating-the-settings" title="永久链接至标题">¶</a></h2>
+<p>设定可以通过多种方式设置，每个方式具有不同的优先级。
+下面以优先级降序的方式给出方式列表:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>命令行选项(Command line Options)(最高优先级)</li>
+<li>每个spider的设定</li>
+<li>项目设定模块(Project settings module)</li>
+<li>命令默认设定模块(Default settings per-command)</li>
+<li>全局默认设定(Default global settings) (最低优先级)</li>
+</ol>
+</div></blockquote>
+<p>这些设定(settings)由scrapy内部很好的进行了处理，不过您仍可以使用API调用来手动处理。
+详情请参考 <a class="reference internal" href="api.html#topics-api-settings"><span>设置(Settings) API</span></a>.</p>
+<p>这些机制将在下面详细介绍。</p>
+<div class="section" id="command-line-options">
+<h3>1. 命令行选项(Command line options)<a class="headerlink" href="#command-line-options" title="永久链接至标题">¶</a></h3>
+<p>命令行传入的参数具有最高的优先级。
+您可以使用command line 选项 <code class="docutils literal"><span class="pre">-s</span></code> (或 <code class="docutils literal"><span class="pre">--set</span></code>) 来覆盖一个(或更多)选项。</p>
+<p>样例:</p>
+<div class="highlight-sh"><div class="highlight"><pre>scrapy crawl myspider -s <span class="nv">LOG_FILE</span><span class="o">=</span>scrapy.log
+</pre></div>
+</div>
+</div>
+<div class="section" id="project-settings-module">
+<h3>2. 项目设定模块(Project settings module)<a class="headerlink" href="#project-settings-module" title="永久链接至标题">¶</a></h3>
+<p>项目设定模块是您Scrapy项目的标准配置文件。
+其是获取大多数设定的方法。例如:: <code class="docutils literal"><span class="pre">myproject.settings</span></code> 。</p>
+</div>
+<div class="section" id="default-settings-per-command">
+<h3>3. 命令默认设定(Default settings per-command)<a class="headerlink" href="#default-settings-per-command" title="永久链接至标题">¶</a></h3>
+<p>每个 <a class="reference internal" href="commands.html"><em>Scrapy tool</em></a> 命令拥有其默认设定，并覆盖了全局默认的设定。
+这些设定在命令的类的 <code class="docutils literal"><span class="pre">default_settings</span></code> 属性中指定。</p>
+</div>
+<div class="section" id="default-global-settings">
+<h3>4. 默认全局设定(Default global settings)<a class="headerlink" href="#default-global-settings" title="永久链接至标题">¶</a></h3>
+<p>全局默认设定存储在 <code class="docutils literal"><span class="pre">scrapy.settings.default_settings</span></code> 模块，
+并在 <a class="reference internal" href="#topics-settings-ref"><span>内置设定参考手册</span></a> 部分有所记录。</p>
+</div>
+</div>
+<div class="section" id="how-to-access-settings">
+<h2>如何访问设定(How to access settings)<a class="headerlink" href="#how-to-access-settings" title="永久链接至标题">¶</a></h2>
+<p>设定可以通过Crawler的 <a class="reference internal" href="api.html#scrapy.crawler.Crawler.settings" title="scrapy.crawler.Crawler.settings"><code class="xref py py-attr docutils literal"><span class="pre">scrapy.crawler.Crawler.settings</span></code></a>
+属性进行访问。其由插件及中间件的 <code class="docutils literal"><span class="pre">from_crawler</span></code> 方法所传入:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyExtension</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_crawler</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">crawler</span><span class="p">):</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">crawler</span><span class="o">.</span><span class="n">settings</span>
+        <span class="k">if</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;LOG_ENABLED&#39;</span><span class="p">]:</span>
+            <span class="k">print</span> <span class="s">&quot;log is enabled!&quot;</span>
+</pre></div>
+</div>
+<p>另外，设定可以以字典方式进行访问。不过为了避免类型错误，
+通常更希望返回需要的格式。
+这可以通过 <a class="reference internal" href="api.html#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> API
+提供的方法来实现。</p>
+</div>
+<div class="section" id="id1">
+<h2>设定名字的命名规则<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>设定的名字以要配置的组件作为前缀。
+例如，一个robots.txt插件的合适设定应该为
+<code class="docutils literal"><span class="pre">ROBOTSTXT_ENABLED</span></code>, <code class="docutils literal"><span class="pre">ROBOTSTXT_OBEY</span></code>, <code class="docutils literal"><span class="pre">ROBOTSTXT_CACHEDIR</span></code> 等等。</p>
+</div>
+<div class="section" id="topics-settings-ref">
+<span id="id2"></span><h2>内置设定参考手册<a class="headerlink" href="#topics-settings-ref" title="永久链接至标题">¶</a></h2>
+<p>这里以字母序给出了所有可用的Scrapy设定及其默认值和应用范围。</p>
+<p>如果给出可用范围，并绑定了特定的组件，则说明了该设定使用的地方。
+这种情况下将给出该组件的模块，通常来说是插件、中间件或pipeline。
+同时也意味着为了使设定生效，该组件必须被启用。</p>
+<div class="section" id="aws-access-key-id">
+<h3>AWS_ACCESS_KEY_ID<a class="headerlink" href="#aws-access-key-id" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>连接 <a class="reference external" href="http://aws.amazon.com/">Amazon Web services</a> 的AWS access key。
+<a class="reference internal" href="feed-exports.html#topics-feed-storage-s3"><span>S3 feed storage backend</span></a> 中使用.</p>
+</div>
+<div class="section" id="aws-secret-access-key">
+<h3>AWS_SECRET_ACCESS_KEY<a class="headerlink" href="#aws-secret-access-key" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>连接 <a class="reference external" href="http://aws.amazon.com/">Amazon Web services</a>  的AWS secret key。
+<a class="reference internal" href="feed-exports.html#topics-feed-storage-s3"><span>S3 feed storage backend</span></a> 中使用。</p>
+</div>
+<div class="section" id="bot-name">
+<h3>BOT_NAME<a class="headerlink" href="#bot-name" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapybot'</span></code></p>
+<p>Scrapy项目实现的bot的名字(也为项目名称)。
+这将用来构造默认 User-Agent，同时也用来log。</p>
+<p>当您使用 <strong class="command">startproject</strong> 命令创建项目时其也被自动赋值。</p>
+</div>
+<div class="section" id="concurrent-items">
+<h3>CONCURRENT_ITEMS<a class="headerlink" href="#concurrent-items" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">100</span></code></p>
+<p>Item Processor(即 <a class="reference internal" href="item-pipeline.html#topics-item-pipeline"><span>Item Pipeline</span></a>)
+同时处理(每个response的)item的最大值。</p>
+</div>
+<div class="section" id="concurrent-requests">
+<h3>CONCURRENT_REQUESTS<a class="headerlink" href="#concurrent-requests" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">16</span></code></p>
+<p>Scrapy downloader 并发请求(concurrent requests)的最大值。</p>
+</div>
+<div class="section" id="concurrent-requests-per-domain">
+<h3>CONCURRENT_REQUESTS_PER_DOMAIN<a class="headerlink" href="#concurrent-requests-per-domain" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">8</span></code></p>
+<p>对单个网站进行并发请求的最大值。</p>
+</div>
+<div class="section" id="concurrent-requests-per-ip">
+<h3>CONCURRENT_REQUESTS_PER_IP<a class="headerlink" href="#concurrent-requests-per-ip" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>对单个IP进行并发请求的最大值。如果非0，则忽略
+<a href="#id3"><span class="problematic" id="id4">:setting:`CONCURRENT_REQUESTS_PER_DOMAIN`</span></a>  设定， 使用该设定。
+也就是说，并发限制将针对IP，而不是网站。</p>
+<p>该设定也影响 <a href="#id5"><span class="problematic" id="id6">:setting:`DOWNLOAD_DELAY`</span></a>:
+如果 <a href="#id7"><span class="problematic" id="id8">:setting:`CONCURRENT_REQUESTS_PER_IP`</span></a> 非0，下载延迟应用在IP而不是网站上。</p>
+</div>
+<div class="section" id="default-item-class">
+<h3>DEFAULT_ITEM_CLASS<a class="headerlink" href="#default-item-class" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.item.Item'</span></code></p>
+<p><a class="reference internal" href="shell.html#topics-shell"><span>the Scrapy shell</span></a> 中实例化item使用的默认类。</p>
+</div>
+<div class="section" id="default-request-headers">
+<h3>DEFAULT_REQUEST_HEADERS<a class="headerlink" href="#default-request-headers" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;Accept&#39;</span><span class="p">:</span> <span class="s">&#39;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#39;</span><span class="p">,</span>
+    <span class="s">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="s">&#39;en&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Scrapy HTTP Request使用的默认header。由
+<a class="reference internal" href="downloader-middleware.html#scrapy.contrib.downloadermiddleware.defaultheaders.DefaultHeadersMiddleware" title="scrapy.contrib.downloadermiddleware.defaultheaders.DefaultHeadersMiddleware"><code class="xref py py-class docutils literal"><span class="pre">DefaultHeadersMiddleware</span></code></a>
+产生。</p>
+</div>
+<div class="section" id="depth-limit">
+<h3>DEPTH_LIMIT<a class="headerlink" href="#depth-limit" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>爬取网站最大允许的深度(depth)值。如果为0，则没有限制。</p>
+</div>
+<div class="section" id="depth-priority">
+<h3>DEPTH_PRIORITY<a class="headerlink" href="#depth-priority" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>整数值。用于根据深度调整request优先级。</p>
+<p>如果为0，则不根据深度进行优先级调整。</p>
+</div>
+<div class="section" id="depth-stats">
+<h3>DEPTH_STATS<a class="headerlink" href="#depth-stats" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否收集最大深度数据。</p>
+</div>
+<div class="section" id="depth-stats-verbose">
+<h3>DEPTH_STATS_VERBOSE<a class="headerlink" href="#depth-stats-verbose" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>是否收集详细的深度数据。如果启用，每个深度的请求数将会被收集在数据中。</p>
+</div>
+<div class="section" id="dnscache-enabled">
+<h3>DNSCACHE_ENABLED<a class="headerlink" href="#dnscache-enabled" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否启用DNS内存缓存(DNS in-memory cache)。</p>
+</div>
+<div class="section" id="downloader">
+<h3>DOWNLOADER<a class="headerlink" href="#downloader" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.core.downloader.Downloader'</span></code></p>
+<p>用于crawl的downloader.</p>
+</div>
+<div class="section" id="downloader-middlewares">
+<h3>DOWNLOADER_MIDDLEWARES<a class="headerlink" href="#downloader-middlewares" title="永久链接至标题">¶</a></h3>
+<p>默认:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用的下载中间件及其顺序的字典。
+更多内容请查看 <a class="reference internal" href="downloader-middleware.html#topics-downloader-middleware-setting"><span>激活下载器中间件</span></a> 。</p>
+</div>
+<div class="section" id="downloader-middlewares-base">
+<h3>DOWNLOADER_MIDDLEWARES_BASE<a class="headerlink" href="#downloader-middlewares-base" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.httpauth.HttpAuthMiddleware&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.downloadtimeout.DownloadTimeoutMiddleware&#39;</span><span class="p">:</span> <span class="mi">350</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware&#39;</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.retry.RetryMiddleware&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.defaultheaders.DefaultHeadersMiddleware&#39;</span><span class="p">:</span> <span class="mi">550</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.redirect.MetaRefreshMiddleware&#39;</span><span class="p">:</span> <span class="mi">580</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.httpcompression.HttpCompressionMiddleware&#39;</span><span class="p">:</span> <span class="mi">590</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware&#39;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.cookies.CookiesMiddleware&#39;</span><span class="p">:</span> <span class="mi">700</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware&#39;</span><span class="p">:</span> <span class="mi">750</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.chunked.ChunkedTransferMiddleware&#39;</span><span class="p">:</span> <span class="mi">830</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.stats.DownloaderStats&#39;</span><span class="p">:</span> <span class="mi">850</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware&#39;</span><span class="p">:</span> <span class="mi">900</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>包含Scrapy默认启用的下载中间件的字典。
+永远不要在项目中修改该设定，而是修改
+<a href="#id9"><span class="problematic" id="id10">:setting:`DOWNLOADER_MIDDLEWARES`</span></a> 。更多内容请参考
+<a class="reference internal" href="downloader-middleware.html#topics-downloader-middleware-setting"><span>激活下载器中间件</span></a>.</p>
+</div>
+<div class="section" id="downloader-stats">
+<h3>DOWNLOADER_STATS<a class="headerlink" href="#downloader-stats" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否收集下载器数据。</p>
+</div>
+<div class="section" id="download-delay">
+<h3>DOWNLOAD_DELAY<a class="headerlink" href="#download-delay" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>下载器在下载同一个网站下一个页面前需要等待的时间。该选项可以用来限制爬取速度，
+减轻服务器压力。同时也支持小数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DOWNLOAD_DELAY</span> <span class="o">=</span> <span class="mf">0.25</span>    <span class="c"># 250 ms of delay</span>
+</pre></div>
+</div>
+<p>该设定影响(默认启用的) <a href="#id11"><span class="problematic" id="id12">:setting:`RANDOMIZE_DOWNLOAD_DELAY`</span></a> 设定。
+默认情况下，Scrapy在两个请求间不等待一个固定的值，
+而是使用0.5到1.5之间的一个随机值 * <a href="#id13"><span class="problematic" id="id14">:setting:`DOWNLOAD_DELAY`</span></a> 的结果作为等待间隔。</p>
+<p>当 <a href="#id15"><span class="problematic" id="id16">:setting:`CONCURRENT_REQUESTS_PER_IP`</span></a> 非0时，延迟针对的是每个ip而不是网站。</p>
+<p>另外您可以通过spider的 <code class="docutils literal"><span class="pre">download_delay</span></code> 属性为每个spider设置该设定。</p>
+</div>
+<div class="section" id="download-handlers">
+<h3>DOWNLOAD_HANDLERS<a class="headerlink" href="#download-handlers" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用的下载处理器(request downloader handler)的字典。
+例子请查看 <cite>DOWNLOAD_HANDLERS_BASE</cite> 。</p>
+</div>
+<div class="section" id="download-handlers-base">
+<h3>DOWNLOAD_HANDLERS_BASE<a class="headerlink" href="#download-handlers-base" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.core.downloader.handlers.file.FileDownloadHandler&#39;</span><span class="p">,</span>
+    <span class="s">&#39;http&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.core.downloader.handlers.http.HttpDownloadHandler&#39;</span><span class="p">,</span>
+    <span class="s">&#39;https&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.core.downloader.handlers.http.HttpDownloadHandler&#39;</span><span class="p">,</span>
+    <span class="s">&#39;s3&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.core.downloader.handlers.s3.S3DownloadHandler&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>保存项目中默认启用的下载处理器(request downloader handler)的字典。
+永远不要在项目中修改该设定，而是修改
+<a href="#id17"><span class="problematic" id="id18">:setting:`DOWNLOADER_HANDLERS`</span></a> 。</p>
+<p>如果需要关闭上面的下载处理器，您必须在项目中的
+<a href="#id19"><span class="problematic" id="id20">:setting:`DOWNLOAD_HANDLERS`</span></a> 设定中设置该处理器，并为其赋值为 <cite>None</cite> 。
+例如，关闭文件下载处理器:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DOWNLOAD_HANDLERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="download-timeout">
+<h3>DOWNLOAD_TIMEOUT<a class="headerlink" href="#download-timeout" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">180</span></code></p>
+<p>下载器超时时间(单位: 秒)。</p>
+</div>
+<div class="section" id="dupefilter-class">
+<h3>DUPEFILTER_CLASS<a class="headerlink" href="#dupefilter-class" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.dupefilter.RFPDupeFilter'</span></code></p>
+<p>用于检测过滤重复请求的类。</p>
+<p>默认的 (<code class="docutils literal"><span class="pre">RFPDupeFilter</span></code>) 过滤器基于
+<code class="docutils literal"><span class="pre">scrapy.utils.request.request_fingerprint</span></code> 函数生成的请求fingerprint(指纹)。
+如果您需要修改检测的方式，您可以继承 <code class="docutils literal"><span class="pre">RFPDupeFilter</span></code>
+并覆盖其 <code class="docutils literal"><span class="pre">request_fingerprint</span></code> 方法。
+该方法接收 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象并返回其fingerprint(一个字符串)。</p>
+</div>
+<div class="section" id="dupefilter-debug">
+<h3>DUPEFILTER_DEBUG<a class="headerlink" href="#dupefilter-debug" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>默认情况下， <code class="docutils literal"><span class="pre">RFPDupeFilter</span></code> 只记录第一次重复的请求。
+设置 <a href="#id21"><span class="problematic" id="id22">:setting:`DUPEFILTER_DEBUG`</span></a> 为 <code class="docutils literal"><span class="pre">True</span></code> 将会使其记录所有重复的requests。</p>
+</div>
+<div class="section" id="editor">
+<h3>EDITOR<a class="headerlink" href="#editor" title="永久链接至标题">¶</a></h3>
+<p>默认: <cite>depends on the environment</cite></p>
+<p>执行 <strong class="command">edit</strong> 命令编辑spider时使用的编辑器。
+其默认为 <code class="docutils literal"><span class="pre">EDITOR</span></code> 环境变量。如果该变量未设置，其默认为 <code class="docutils literal"><span class="pre">vi</span></code> (Unix系统) 或者 IDLE编辑器(Windows)。</p>
+</div>
+<div class="section" id="extensions">
+<h3>EXTENSIONS<a class="headerlink" href="#extensions" title="永久链接至标题">¶</a></h3>
+<p>默认:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用的插件及其顺序的字典。</p>
+</div>
+<div class="section" id="extensions-base">
+<h3>EXTENSIONS_BASE<a class="headerlink" href="#extensions-base" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;scrapy.contrib.corestats.CoreStats&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.telnet.TelnetConsole&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.memusage.MemoryUsage&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.memdebug.MemoryDebugger&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.closespider.CloseSpider&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.feedexport.FeedExporter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.logstats.LogStats&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.spiderstate.SpiderState&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.throttle.AutoThrottle&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>可用的插件列表。需要注意，有些插件需要通过设定来启用。默认情况下，
+该设定包含所有稳定(stable)的内置插件。</p>
+<p>更多内容请参考 <a class="reference internal" href="extensions.html#topics-extensions"><span>extensions用户手册</span></a> 及
+<a class="reference internal" href="extensions.html#topics-extensions-ref"><span>所有可用的插件</span></a> 。</p>
+</div>
+<div class="section" id="item-pipelines">
+<h3>ITEM_PIPELINES<a class="headerlink" href="#item-pipelines" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用的pipeline及其顺序的字典。该字典默认为空，值(value)任意。
+不过值(value)习惯设定在0-1000范围内。</p>
+<p>为了兼容性，<a href="#id23"><span class="problematic" id="id24">:setting:`ITEM_PIPELINES`</span></a> 支持列表，不过已经被废弃了。</p>
+<p>样例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ITEM_PIPELINES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;mybot.pipelines.validate.ValidateMyItem&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+    <span class="s">&#39;mybot.pipelines.validate.StoreMyItem&#39;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="item-pipelines-base">
+<h3>ITEM_PIPELINES_BASE<a class="headerlink" href="#item-pipelines-base" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中默认启用的pipeline的字典。
+永远不要在项目中修改该设定，而是修改
+<a href="#id25"><span class="problematic" id="id26">:setting:`ITEM_PIPELINES`</span></a> 。</p>
+</div>
+<div class="section" id="log-enabled">
+<h3>LOG_ENABLED<a class="headerlink" href="#log-enabled" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否启用logging。</p>
+</div>
+<div class="section" id="log-encoding">
+<h3>LOG_ENCODING<a class="headerlink" href="#log-encoding" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'utf-8'</span></code></p>
+<p>logging使用的编码。</p>
+</div>
+<div class="section" id="log-file">
+<h3>LOG_FILE<a class="headerlink" href="#log-file" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>logging输出的文件名。如果为None，则使用标准错误输出(standard error)。</p>
+</div>
+<div class="section" id="log-level">
+<h3>LOG_LEVEL<a class="headerlink" href="#log-level" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'DEBUG'</span></code></p>
+<p>log的最低级别。可选的级别有: CRITICAL、
+ERROR、WARNING、INFO、DEBUG。更多内容请查看 <a class="reference internal" href="logging.html#topics-logging"><span>Logging</span></a> 。</p>
+</div>
+<div class="section" id="log-stdout">
+<h3>LOG_STDOUT<a class="headerlink" href="#log-stdout" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>如果为 <code class="docutils literal"><span class="pre">True</span></code> ，进程所有的标准输出(及错误)将会被重定向到log中。例如，
+执行 <code class="docutils literal"><span class="pre">print</span> <span class="pre">'hello'</span></code> ，其将会在Scrapy log中显示。</p>
+</div>
+<div class="section" id="memdebug-enabled">
+<h3>MEMDEBUG_ENABLED<a class="headerlink" href="#memdebug-enabled" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>是否启用内存调试(memory debugging)。</p>
+</div>
+<div class="section" id="memdebug-notify">
+<h3>MEMDEBUG_NOTIFY<a class="headerlink" href="#memdebug-notify" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>如果该设置不为空，当启用内存调试时将会发送一份内存报告到指定的地址；否则该报告将写到log中。</p>
+<p>样例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEMDEBUG_NOTIFY</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;user@example.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="memusage-enabled">
+<h3>MEMUSAGE_ENABLED<a class="headerlink" href="#memusage-enabled" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.memusage</span></code></p>
+<p>是否启用内存使用插件。当Scrapy进程占用的内存超出限制时，该插件将会关闭Scrapy进程，
+同时发送email进行通知。</p>
+<p>See <a class="reference internal" href="extensions.html#topics-extensions-ref-memusage"><span>内存使用扩展(Memory usage extension)</span></a>.</p>
+</div>
+<div class="section" id="memusage-limit-mb">
+<h3>MEMUSAGE_LIMIT_MB<a class="headerlink" href="#memusage-limit-mb" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.memusage</span></code></p>
+<p>在关闭Scrapy之前所允许的最大内存数(单位: MB)(如果 MEMUSAGE_ENABLED为True)。
+如果为0，将不做限制。</p>
+<p>See <a class="reference internal" href="extensions.html#topics-extensions-ref-memusage"><span>内存使用扩展(Memory usage extension)</span></a>.</p>
+</div>
+<div class="section" id="memusage-notify-mail">
+<h3>MEMUSAGE_NOTIFY_MAIL<a class="headerlink" href="#memusage-notify-mail" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.memusage</span></code></p>
+<p>达到内存限制时通知的email列表。</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEMUSAGE_NOTIFY_MAIL</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;user@example.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="extensions.html#topics-extensions-ref-memusage"><span>内存使用扩展(Memory usage extension)</span></a>.</p>
+</div>
+<div class="section" id="memusage-report">
+<h3>MEMUSAGE_REPORT<a class="headerlink" href="#memusage-report" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.memusage</span></code></p>
+<p>每个spider被关闭时是否发送内存使用报告。</p>
+<p>查看 <a class="reference internal" href="extensions.html#topics-extensions-ref-memusage"><span>内存使用扩展(Memory usage extension)</span></a>.</p>
+</div>
+<div class="section" id="memusage-warning-mb">
+<h3>MEMUSAGE_WARNING_MB<a class="headerlink" href="#memusage-warning-mb" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.memusage</span></code></p>
+<p>在发送警告email前所允许的最大内存数(单位: MB)(如果 MEMUSAGE_ENABLED为True)。
+如果为0，将不发送警告。</p>
+</div>
+<div class="section" id="newspider-module">
+<h3>NEWSPIDER_MODULE<a class="headerlink" href="#newspider-module" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">''</span></code></p>
+<p>使用 <strong class="command">genspider</strong> 命令创建新spider的模块。</p>
+<p>样例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">NEWSPIDER_MODULE</span> <span class="o">=</span> <span class="s">&#39;mybot.spiders_dev&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="randomize-download-delay">
+<h3>RANDOMIZE_DOWNLOAD_DELAY<a class="headerlink" href="#randomize-download-delay" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>如果启用，当从相同的网站获取数据时，Scrapy将会等待一个随机的值
+(0.5到1.5之间的一个随机值 * <a href="#id27"><span class="problematic" id="id28">:setting:`DOWNLOAD_DELAY`</span></a>)。</p>
+<p>该随机值降低了crawler被检测到(接着被block)的机会。某些网站会分析请求，
+查找请求之间时间的相似性。</p>
+<p>随机的策略与 <a class="reference external" href="http://www.gnu.org/software/wget/manual/wget.html">wget</a> <code class="docutils literal"><span class="pre">--random-wait</span></code> 选项的策略相同。</p>
+<p>若 <a href="#id29"><span class="problematic" id="id30">:setting:`DOWNLOAD_DELAY`</span></a> 为0(默认值)，该选项将不起作用。</p>
+</div>
+<div class="section" id="redirect-max-times">
+<h3>REDIRECT_MAX_TIMES<a class="headerlink" href="#redirect-max-times" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">20</span></code></p>
+<p>定义request允许重定向的最大次数。超过该限制后该request直接返回获取到的结果。
+对某些任务我们使用Firefox默认值。</p>
+</div>
+<div class="section" id="redirect-max-metarefresh-delay">
+<h3>REDIRECT_MAX_METAREFRESH_DELAY<a class="headerlink" href="#redirect-max-metarefresh-delay" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">100</span></code></p>
+<p>有些网站使用 meta-refresh 重定向到session超时页面，
+因此我们限制自动重定向到最大延迟(秒)。
+=&gt;有点不肯定:</p>
+</div>
+<div class="section" id="redirect-priority-adjust">
+<h3>REDIRECT_PRIORITY_ADJUST<a class="headerlink" href="#redirect-priority-adjust" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">+2</span></code></p>
+<p>修改重定向请求相对于原始请求的优先级。
+负数意味着更多优先级。</p>
+</div>
+<div class="section" id="robotstxt-obey">
+<h3>ROBOTSTXT_OBEY<a class="headerlink" href="#robotstxt-obey" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">scrapy.contrib.downloadermiddleware.robotstxt</span></code></p>
+<p>如果启用，Scrapy将会尊重 robots.txt策略。更多内容请查看
+<a class="reference internal" href="downloader-middleware.html#topics-dlmw-robots"><span>RobotsTxtMiddleware</span></a> 。</p>
+</div>
+<div class="section" id="scheduler">
+<h3>SCHEDULER<a class="headerlink" href="#scheduler" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.core.scheduler.Scheduler'</span></code></p>
+<p>用于爬取的调度器。</p>
+</div>
+<div class="section" id="spider-contracts">
+<h3>SPIDER_CONTRACTS<a class="headerlink" href="#spider-contracts" title="永久链接至标题">¶</a></h3>
+<p>默认:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用用于测试spider的scrapy contract及其顺序的字典。
+更多内容请参考 <a class="reference internal" href="contracts.html#topics-contracts"><span>Spiders Contracts</span></a> 。</p>
+</div>
+<div class="section" id="spider-contracts-base">
+<h3>SPIDER_CONTRACTS_BASE<a class="headerlink" href="#spider-contracts-base" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;scrapy.contracts.default.UrlContract&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contracts.default.ReturnsContract&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contracts.default.ScrapesContract&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>保存项目中默认启用的scrapy contract的字典。
+永远不要在项目中修改该设定，而是修改
+<a href="#id31"><span class="problematic" id="id32">:setting:`SPIDER_CONTRACTS`</span></a> 。更多内容请参考
+<a class="reference internal" href="contracts.html#topics-contracts"><span>Spiders Contracts</span></a> 。</p>
+</div>
+<div class="section" id="spider-manager-class">
+<h3>SPIDER_MANAGER_CLASS<a class="headerlink" href="#spider-manager-class" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.spidermanager.SpiderManager'</span></code></p>
+<p>用于管理spider的类。该类必须实现 <a class="reference internal" href="api.html#topics-api-spidermanager"><span>SpiderManager API</span></a></p>
+</div>
+<div class="section" id="spider-middlewares">
+<h3>SPIDER_MIDDLEWARES<a class="headerlink" href="#spider-middlewares" title="永久链接至标题">¶</a></h3>
+<p>默认:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>保存项目中启用的下载中间件及其顺序的字典。
+更多内容请参考 <a class="reference internal" href="spider-middleware.html#topics-spider-middleware-setting"><span>激活spider中间件</span></a> 。</p>
+</div>
+<div class="section" id="spider-middlewares-base">
+<h3>SPIDER_MIDDLEWARES_BASE<a class="headerlink" href="#spider-middlewares-base" title="永久链接至标题">¶</a></h3>
+<p>默认:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;scrapy.contrib.spidermiddleware.httperror.HttpErrorMiddleware&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.spidermiddleware.offsite.OffsiteMiddleware&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.spidermiddleware.referer.RefererMiddleware&#39;</span><span class="p">:</span> <span class="mi">700</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.spidermiddleware.urllength.UrlLengthMiddleware&#39;</span><span class="p">:</span> <span class="mi">800</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.spidermiddleware.depth.DepthMiddleware&#39;</span><span class="p">:</span> <span class="mi">900</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>保存项目中默认启用的spider中间件的字典。
+永远不要在项目中修改该设定，而是修改
+<a href="#id33"><span class="problematic" id="id34">:setting:`SPIDER_MIDDLEWARES`</span></a> 。更多内容请参考
+<a class="reference internal" href="spider-middleware.html#topics-spider-middleware-setting"><span>激活spider中间件</span></a>.</p>
+</div>
+<div class="section" id="spider-modules">
+<h3>SPIDER_MODULES<a class="headerlink" href="#spider-modules" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>Scrapy搜索spider的模块列表。</p>
+<p>样例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SPIDER_MODULES</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;mybot.spiders_prod&#39;</span><span class="p">,</span> <span class="s">&#39;mybot.spiders_dev&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stats-class">
+<h3>STATS_CLASS<a class="headerlink" href="#stats-class" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.statscol.MemoryStatsCollector'</span></code></p>
+<p>收集数据的类。该类必须实现
+<a class="reference internal" href="api.html#topics-api-stats"><span>状态收集器(Stats Collector) API</span></a>.</p>
+</div>
+<div class="section" id="stats-dump">
+<h3>STATS_DUMP<a class="headerlink" href="#stats-dump" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>当spider结束时dump <a class="reference internal" href="stats.html#topics-stats"><span>Scrapy状态数据</span></a> (到Scrapy log中)。</p>
+<p>更多内容请查看 <a class="reference internal" href="stats.html#topics-stats"><span>数据收集(Stats Collection)</span></a> 。</p>
+</div>
+<div class="section" id="statsmailer-rcpts">
+<h3>STATSMAILER_RCPTS<a class="headerlink" href="#statsmailer-rcpts" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">[]</span></code> (空list)</p>
+<p>spider完成爬取后发送Scrapy数据。更多内容请查看
+<code class="xref py py-class docutils literal"><span class="pre">StatsMailer</span></code> 。</p>
+</div>
+<div class="section" id="telnetconsole-enabled">
+<h3>TELNETCONSOLE_ENABLED<a class="headerlink" href="#telnetconsole-enabled" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>表明 <a class="reference internal" href="telnetconsole.html#topics-telnetconsole"><span>telnet 终端</span></a> (及其插件)是否启用的布尔值。</p>
+</div>
+<div class="section" id="telnetconsole-port">
+<h3>TELNETCONSOLE_PORT<a class="headerlink" href="#telnetconsole-port" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">[6023,</span> <span class="pre">6073]</span></code></p>
+<p>telnet终端使用的端口范围。如果设置为 <code class="docutils literal"><span class="pre">None</span></code> 或 <code class="docutils literal"><span class="pre">0</span></code> ，
+则使用动态分配的端口。更多内容请查看
+<a class="reference internal" href="telnetconsole.html#topics-telnetconsole"><span>Telnet终端(Telnet Console)</span></a> 。</p>
+</div>
+<div class="section" id="templates-dir">
+<h3>TEMPLATES_DIR<a class="headerlink" href="#templates-dir" title="永久链接至标题">¶</a></h3>
+<p>默认:  scrapy模块内部的 <code class="docutils literal"><span class="pre">templates</span></code></p>
+<p>使用 <strong class="command">startproject</strong> 命令创建项目时查找模板的目录。</p>
+</div>
+<div class="section" id="urllength-limit">
+<h3>URLLENGTH_LIMIT<a class="headerlink" href="#urllength-limit" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">2083</span></code></p>
+<p>Scope: <code class="docutils literal"><span class="pre">contrib.spidermiddleware.urllength</span></code></p>
+<p>爬取URL的最大长度。更多关于该设定的默认值信息请查看:
+<a class="reference external" href="http://www.boutell.com/newfaq/misc/urllength.html">http://www.boutell.com/newfaq/misc/urllength.html</a></p>
+</div>
+<div class="section" id="user-agent">
+<h3>USER_AGENT<a class="headerlink" href="#user-agent" title="永久链接至标题">¶</a></h3>
+<p>默认: <code class="docutils literal"><span class="pre">&quot;Scrapy/VERSION</span> <span class="pre">(+http://scrapy.org)&quot;</span></code></p>
+<p>爬取的默认User-Agent，除非被覆盖。</p>
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="signals.html" class="btn btn-neutral float-right" title="信号(Signals)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="request-response.html" class="btn btn-neutral" title="Requests and Responses" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

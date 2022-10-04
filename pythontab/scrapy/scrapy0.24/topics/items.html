@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/items.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Items &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Items</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#item">声明Item</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#item-item-fields">Item字段(Item Fields)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">与Item配合</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">创建item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">获取字段的值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">设置字段的值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">获取所有获取到的值</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">其他任务</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">扩展Item</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Item对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#field">字段(Field)对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Items</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="module-scrapy.item">
+<span id="items"></span><span id="topics-items"></span><h1>Items<a class="headerlink" href="#module-scrapy.item" title="永久链接至标题">¶</a></h1>
+<p>爬取的主要目标就是从非结构性的数据源提取结构性数据，例如网页。
+Scrapy提供 <a class="reference internal" href="#scrapy.item.Item" title="scrapy.item.Item"><code class="xref py py-class docutils literal"><span class="pre">Item</span></code></a> 类来满足这样的需求。</p>
+<p><a class="reference internal" href="#scrapy.item.Item" title="scrapy.item.Item"><code class="xref py py-class docutils literal"><span class="pre">Item</span></code></a> 对象是种简单的容器，保存了爬取到得数据。
+其提供了 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict">类似于词典(dictionary-like)</a> 的API以及用于声明可用字段的简单语法。</p>
+<div class="section" id="item">
+<span id="topics-items-declaring"></span><h2>声明Item<a class="headerlink" href="#item" title="永久链接至标题">¶</a></h2>
+<p>Item使用简单的class定义语法以及 <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象来声明。例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scrapy</span>
+
+<span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">stock</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">last_updated</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">serializer</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">熟悉 <a class="reference external" href="http://www.djangoproject.com/">Django</a> 的朋友一定会注意到Scrapy Item定义方式与 <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/db/models/">Django Models</a> 很类似, 不过没有那么多不同的字段类型(Field type)，更为简单。</p>
+</div>
+</div>
+<div class="section" id="item-item-fields">
+<span id="topics-items-fields"></span><h2>Item字段(Item Fields)<a class="headerlink" href="#item-item-fields" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象指明了每个字段的元数据(metadata)。例如下面例子中 <code class="docutils literal"><span class="pre">last_updated</span></code> 中指明了该字段的序列化函数。</p>
+<p>您可以为每个字段指明任何类型的元数据。
+<a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象对接受的值没有任何限制。也正是因为这个原因，文档也无法提供所有可用的元数据的键(key)参考列表。
+<a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象中保存的每个键可以由多个组件使用，并且只有这些组件知道这个键的存在。您可以根据自己的需求，定义使用其他的 <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 键。
+设置 <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象的主要目的就是在一个地方定义好所有的元数据。
+一般来说，那些依赖某个字段的组件肯定使用了特定的键(key)。您必须查看组件相关的文档，查看其用了哪些元数据键(metadata key)。</p>
+<p>需要注意的是，用来声明item的 <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象并没有被赋值为class的属性。
+不过您可以通过 <a class="reference internal" href="#scrapy.item.Item.fields" title="scrapy.item.Item.fields"><code class="xref py py-attr docutils literal"><span class="pre">Item.fields</span></code></a> 属性进行访问。</p>
+<p>以上就是所有您需要知道的如何声明item的内容了。</p>
+</div>
+<div class="section" id="id1">
+<h2>与Item配合<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>接下来以 <a class="reference internal" href="#topics-items-declaring"><span>下边声明</span></a> 的 <code class="docutils literal"><span class="pre">Product</span></code> item来演示一些item的操作。您会发现API和 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict">dict API</a> 非常相似。</p>
+<div class="section" id="id2">
+<h3>创建item<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Desktop PC&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">product</span>
+<span class="go">Product(name=&#39;Desktop PC&#39;, price=1000)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>获取字段的值<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+<span class="go">Desktop PC</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+<span class="go">Desktop PC</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;price&#39;</span><span class="p">]</span>
+<span class="go">1000</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;last_updated&#39;</span><span class="p">]</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;last_updated&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;last_updated&#39;</span><span class="p">,</span> <span class="s">&#39;not set&#39;</span><span class="p">)</span>
+<span class="go">not set</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;lala&#39;</span><span class="p">]</span> <span class="c"># getting unknown field</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;lala&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;lala&#39;</span><span class="p">,</span> <span class="s">&#39;unknown field&#39;</span><span class="p">)</span>
+<span class="go">&#39;unknown field&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">product</span>  <span class="c"># is name field populated?</span>
+<span class="go">True</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;last_updated&#39;</span> <span class="ow">in</span> <span class="n">product</span>  <span class="c"># is last_updated populated?</span>
+<span class="go">False</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;last_updated&#39;</span> <span class="ow">in</span> <span class="n">product</span><span class="o">.</span><span class="n">fields</span>  <span class="c"># is last_updated a declared field?</span>
+<span class="go">True</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;lala&#39;</span> <span class="ow">in</span> <span class="n">product</span><span class="o">.</span><span class="n">fields</span>  <span class="c"># is lala a declared field?</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>设置字段的值<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;last_updated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;today&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;last_updated&#39;</span><span class="p">]</span>
+<span class="go">today</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="p">[</span><span class="s">&#39;lala&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;test&#39;</span> <span class="c"># setting unknown field</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;Product does not support field: lala&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>获取所有获取到的值<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>您可以使用 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict">dict API</a> 来获取所有的值:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">[&#39;price&#39;, &#39;name&#39;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="go">[(&#39;price&#39;, 1000), (&#39;name&#39;, &#39;Desktop PC&#39;)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>其他任务<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>复制item:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product2</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">product2</span>
+<span class="go">Product(name=&#39;Desktop PC&#39;, price=1000)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product3</span> <span class="o">=</span> <span class="n">product2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">product3</span>
+<span class="go">Product(name=&#39;Desktop PC&#39;, price=1000)</span>
+</pre></div>
+</div>
+<p>根据item创建字典(dict):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">dict</span><span class="p">(</span><span class="n">product</span><span class="p">)</span> <span class="c"># create a dict from all populated values</span>
+<span class="go">{&#39;price&#39;: 1000, &#39;name&#39;: &#39;Desktop PC&#39;}</span>
+</pre></div>
+</div>
+<p>根据字典(dict)创建item:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Product</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Laptop PC&#39;</span><span class="p">,</span> <span class="s">&#39;price&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">})</span>
+<span class="go">Product(price=1500, name=&#39;Laptop PC&#39;)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Product</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Laptop PC&#39;</span><span class="p">,</span> <span class="s">&#39;lala&#39;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">})</span> <span class="c"># warning: unknown field in dict</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">KeyError</span>: <span class="n">&#39;Product does not support field: lala&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>扩展Item<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>您可以通过继承原始的Item来扩展item(添加更多的字段或者修改某些字段的元数据)。</p>
+<p>例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DiscountedProduct</span><span class="p">(</span><span class="n">Product</span><span class="p">):</span>
+    <span class="n">discount_percent</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">serializer</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">discount_expiration_date</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>您也可以通过使用原字段的元数据,添加新的值或修改原来的值来扩展字段的元数据:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SpecificProduct</span><span class="p">(</span><span class="n">Product</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">Product</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">serializer</span><span class="o">=</span><span class="n">my_serializer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这段代码在保留所有原来的元数据值的情况下添加(或者覆盖)了 <code class="docutils literal"><span class="pre">name</span></code> 字段的 <code class="docutils literal"><span class="pre">serializer</span></code> 。</p>
+</div>
+<div class="section" id="id8">
+<h2>Item对象<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.item.Item">
+<em class="property">class </em><code class="descclassname">scrapy.item.</code><code class="descname">Item</code><span class="sig-paren">(</span><span class="optional">[</span><em>arg</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.item.Item" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个根据给定的参数可选初始化的item。</p>
+<p>Item复制了标准的 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict">dict API</a> 。包括初始化函数也相同。Item唯一额外添加的属性是:</p>
+<dl class="attribute">
+<dt id="scrapy.item.Item.fields">
+<code class="descname">fields</code><a class="headerlink" href="#scrapy.item.Item.fields" title="永久链接至目标">¶</a></dt>
+<dd><p>一个包含了item所有声明的字段的字典，而不仅仅是获取到的字段。该字典的key是字段(field)的名字，值是 <a class="reference internal" href="#topics-items-declaring"><span>Item声明</span></a> 中使用到的 <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象。</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="field">
+<h2>字段(Field)对象<a class="headerlink" href="#field" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.item.Field">
+<em class="property">class </em><code class="descclassname">scrapy.item.</code><code class="descname">Field</code><span class="sig-paren">(</span><span class="optional">[</span><em>arg</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.item.Field" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 仅仅是内置的 <a class="reference external" href="http://docs.python.org/library/stdtypes.html#dict">dict</a> 类的一个别名，并没有提供额外的方法或者属性。换句话说， <a class="reference internal" href="#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 对象完完全全就是Python字典(dict)。被用来基于类属性(class attribute)的方法来支持 <a class="reference internal" href="#topics-items-declaring"><span>item声明语法</span></a> 。</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spiders.html" class="btn btn-neutral float-right" title="Spiders" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="commands.html" class="btn btn-neutral" title="命令行工具(Command line tools)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/items.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/contracts.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spiders Contracts &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spiders Contracts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#contracts">自定义Contracts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Spiders Contracts</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="spiders-contracts">
+<span id="topics-contracts"></span><h1>Spiders Contracts<a class="headerlink" href="#spiders-contracts" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.15 新版功能.</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">这是一个新引入(Scrapy 0.15)的特性，在后续的功能/API更新中可能有所改变，查看
+<a class="reference internal" href="../news.html#news"><span>release notes</span></a> 来了解更新。</p>
+</div>
+<p>测试spider是一件挺烦人的事情，尤其是只能编写单元测试(unit test)没有其他办法时，就更恼人了。
+Scrapy通过合同(contract)的方式来提供了测试spider的集成方法。</p>
+<p>您可以硬编码(hardcode)一个样例(sample)url，
+设置多个条件来测试回调函数处理repsponse的结果，来测试spider的回调函数。
+每个contract包含在文档字符串(docstring)里，以 <code class="docutils literal"><span class="pre">&#64;</span></code> 开头。
+查看下面的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function parses a sample response. Some contracts are mingled</span>
+<span class="sd">    with this docstring.</span>
+
+<span class="sd">    @url http://www.amazon.com/s?field-keywords=selfish+gene</span>
+<span class="sd">    @returns items 1 16</span>
+<span class="sd">    @returns requests 0 0</span>
+<span class="sd">    @scrapes Title Author Year Price</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>该回调函数使用了三个内置的contract来测试:</p>
+<span class="target" id="module-scrapy.contracts.default"></span><dl class="class">
+<dt id="scrapy.contracts.default.UrlContract">
+<em class="property">class </em><code class="descclassname">scrapy.contracts.default.</code><code class="descname">UrlContract</code><a class="headerlink" href="#scrapy.contracts.default.UrlContract" title="永久链接至目标">¶</a></dt>
+<dd><p>该constract(<code class="docutils literal"><span class="pre">&#64;url</span></code>)设置了用于检查spider的其他constract状态的样例url。
+该contract是必须的，所有缺失该contract的回调函数在测试时将会被忽略:</p>
+<div class="highlight-python"><div class="highlight"><pre>@url url
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="scrapy.contracts.default.ReturnsContract">
+<em class="property">class </em><code class="descclassname">scrapy.contracts.default.</code><code class="descname">ReturnsContract</code><a class="headerlink" href="#scrapy.contracts.default.ReturnsContract" title="永久链接至目标">¶</a></dt>
+<dd><p>该contract(<code class="docutils literal"><span class="pre">&#64;returns</span></code>)设置spider返回的items和requests的上界和下界。
+上界是可选的:</p>
+<div class="highlight-python"><div class="highlight"><pre>@returns item(s)|request(s) [min [max]]
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="scrapy.contracts.default.ScrapesContract">
+<em class="property">class </em><code class="descclassname">scrapy.contracts.default.</code><code class="descname">ScrapesContract</code><a class="headerlink" href="#scrapy.contracts.default.ScrapesContract" title="永久链接至目标">¶</a></dt>
+<dd><p>该contract(<code class="docutils literal"><span class="pre">&#64;scrapes</span></code>)检查回调函数返回的所有item是否有特定的fields:</p>
+<div class="highlight-python"><div class="highlight"><pre>@scrapes field_1 field_2 ...
+</pre></div>
+</div>
+</dd></dl>
+
+<p>使用 <strong class="command">check</strong> 命令来运行contract检查。</p>
+<div class="section" id="contracts">
+<h2>自定义Contracts<a class="headerlink" href="#contracts" title="永久链接至标题">¶</a></h2>
+<p>如果您想要比内置scrapy contract更为强大的功能，可以在您的项目里创建并设置您自己的
+contract，并使用 <a href="#id1"><span class="problematic" id="id2">:setting:`SPIDER_CONTRACTS`</span></a> 设置来加载:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SPIDER_CONTRACTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;myproject.contracts.ResponseCheck&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s">&#39;myproject.contracts.ItemValidate&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>每个contract必须继承 <a class="reference internal" href="#scrapy.contracts.Contract" title="scrapy.contracts.Contract"><code class="xref py py-class docutils literal"><span class="pre">scrapy.contracts.Contract</span></code></a> 并覆盖下列三个方法:</p>
+<span class="target" id="module-scrapy.contracts"></span><dl class="class">
+<dt id="scrapy.contracts.Contract">
+<em class="property">class </em><code class="descclassname">scrapy.contracts.</code><code class="descname">Contract</code><span class="sig-paren">(</span><em>method</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contracts.Contract" title="永久链接至目标">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>method</strong> (<em>function</em>) &#8211; contract所关联的回调函数</li>
+<li><strong>args</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; 传入docstring的(以空格区分的)argument列表(list)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="scrapy.contracts.Contract.adjust_request_args">
+<code class="descname">adjust_request_args</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contracts.Contract.adjust_request_args" title="永久链接至目标">¶</a></dt>
+<dd><p>接收一个 <code class="docutils literal"><span class="pre">字典(dict)</span></code> 作为参数。该参数包含了所有 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象
+参数的默认值。该方法必须返回相同或修改过的字典。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contracts.Contract.pre_process">
+<code class="descname">pre_process</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contracts.Contract.pre_process" title="永久链接至目标">¶</a></dt>
+<dd><p>该函数在sample request接收到response后，传送给回调函数前被调用，运行测试。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contracts.Contract.post_process">
+<code class="descname">post_process</code><span class="sig-paren">(</span><em>output</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contracts.Contract.post_process" title="永久链接至目标">¶</a></dt>
+<dd><p>该函数处理回调函数的输出。迭代器(Iterators)在传输给该函数前会被列表化(listified)。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>该样例contract在response接收时检查了是否有自定义header。
+在失败时Raise <code class="xref py py-class docutils literal"><span class="pre">scrapy.exceptions.ContractFaild</span></code> 来展现错误:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scrapy.contracts</span> <span class="kn">import</span> <span class="n">Contract</span>
+<span class="kn">from</span> <span class="nn">scrapy.exceptions</span> <span class="kn">import</span> <span class="n">ContractFail</span>
+
+<span class="k">class</span> <span class="nc">HasHeaderContract</span><span class="p">(</span><span class="n">Contract</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Demo contract which checks the presence of a custom header</span>
+<span class="sd">        @has_header X-CustomHeader</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;has_header&#39;</span>
+
+    <span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">header</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ContractFail</span><span class="p">(</span><span class="s">&#39;X-CustomHeader not present&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="practices.html" class="btn btn-neutral float-right" title="实践经验(Common Practices)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="debug.html" class="btn btn-neutral" title="调试(Debugging)Spiders" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/contracts.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

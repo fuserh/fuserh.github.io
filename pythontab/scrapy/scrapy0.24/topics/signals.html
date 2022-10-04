@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/signals.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>信号(Signals) &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">信号(Signals)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#deferred-signal-handlers">延迟的信号处理器(Deferred signal handlers)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scrapy.signals">内置信号参考手册(Built-in signals reference)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#engine-started">engine_started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#engine-stopped">engine_stopped</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#item-scraped">item_scraped</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#item-dropped">item_dropped</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-closed">spider_closed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-opened">spider_opened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-idle">spider_idle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider-error">spider_error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-scheduled">request_scheduled</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response-received">response_received</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#response-downloaded">response_downloaded</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>信号(Signals)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="signals">
+<span id="topics-signals"></span><h1>信号(Signals)<a class="headerlink" href="#signals" title="永久链接至标题">¶</a></h1>
+<p>Scrapy使用信号来通知事情发生。您可以在您的Scrapy项目中捕捉一些信号(使用
+<a class="reference internal" href="extensions.html#topics-extensions"><span>extension</span></a>)来完成额外的工作或添加额外的功能，扩展Scrapy。</p>
+<p>虽然信号提供了一些参数，不过处理函数不用接收所有的参数 -
+信号分发机制(singal dispatching mechanism)仅仅提供处理器(handler)接受的参数。</p>
+<p>您可以通过
+<a class="reference internal" href="api.html#topics-api-signals"><span>信号(Signals) API</span></a> 来连接(或发送您自己的)信号。</p>
+<div class="section" id="deferred-signal-handlers">
+<h2>延迟的信号处理器(Deferred signal handlers)<a class="headerlink" href="#deferred-signal-handlers" title="永久链接至标题">¶</a></h2>
+<p>有些信号支持从处理器返回 <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer.html">Twisted deferreds</a> ，参考下边的
+<a class="reference internal" href="#topics-signals-ref"><span>内置信号参考手册(Built-in signals reference)</span></a> 来了解哪些支持。</p>
+</div>
+<div class="section" id="module-scrapy.signals">
+<span id="built-in-signals-reference"></span><span id="topics-signals-ref"></span><h2>内置信号参考手册(Built-in signals reference)<a class="headerlink" href="#module-scrapy.signals" title="永久链接至标题">¶</a></h2>
+<p>以下给出Scrapy内置信号的列表及其意义。</p>
+<div class="section" id="engine-started">
+<h3>engine_started<a class="headerlink" href="#engine-started" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.engine_started">
+<code class="descclassname">scrapy.signals.</code><code class="descname">engine_started</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.engine_started" title="永久链接至目标">¶</a></dt>
+<dd><p>当Scrapy引擎启动爬取时发送该信号。</p>
+<p>该信号支持返回deferreds。</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">该信号可能会在信号 <a href="#id1"><span class="problematic" id="id2">:signal:`spider_opened`</span></a> 之后被发送，取决于spider的启动方式。
+所以不要 <strong>依赖</strong> 该信号会比 <a href="#id3"><span class="problematic" id="id4">:signal:`spider-opened`</span></a> 更早被发送。</p>
+</div>
+</div>
+<div class="section" id="engine-stopped">
+<h3>engine_stopped<a class="headerlink" href="#engine-stopped" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.engine_stopped">
+<code class="descclassname">scrapy.signals.</code><code class="descname">engine_stopped</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.engine_stopped" title="永久链接至目标">¶</a></dt>
+<dd><p>当Scrapy引擎停止时发送该信号(例如，爬取结束)。</p>
+<p>该信号支持返回deferreds。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="item-scraped">
+<h3>item_scraped<a class="headerlink" href="#item-scraped" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.item_scraped">
+<code class="descclassname">scrapy.signals.</code><code class="descname">item_scraped</code><span class="sig-paren">(</span><em>item</em>, <em>response</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.item_scraped" title="永久链接至目标">¶</a></dt>
+<dd><p>当item被爬取，并通过所有
+<a class="reference internal" href="item-pipeline.html#topics-item-pipeline"><span>Item Pipeline</span></a> 后(没有被丢弃(dropped)，发送该信号。</p>
+<p>该信号支持返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item</strong> (<a class="reference internal" href="items.html#scrapy.item.Item" title="scrapy.item.Item"><code class="xref py py-class docutils literal"><span class="pre">Item</span></code></a> 对象) &#8211; 爬取到的item</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 爬取item的spider</li>
+<li><strong>response</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象) &#8211; 提取item的response</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="item-dropped">
+<h3>item_dropped<a class="headerlink" href="#item-dropped" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.item_dropped">
+<code class="descclassname">scrapy.signals.</code><code class="descname">item_dropped</code><span class="sig-paren">(</span><em>item</em>, <em>exception</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.item_dropped" title="永久链接至目标">¶</a></dt>
+<dd><p>当item通过 <a class="reference internal" href="item-pipeline.html#topics-item-pipeline"><span>Item Pipeline</span></a> ，有些pipeline抛出
+<a class="reference internal" href="exceptions.html#scrapy.exceptions.DropItem" title="scrapy.exceptions.DropItem"><code class="xref py py-exc docutils literal"><span class="pre">DropItem</span></code></a> 异常，丢弃item时，该信号被发送。</p>
+<p>该信号支持返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item</strong> (<a class="reference internal" href="items.html#scrapy.item.Item" title="scrapy.item.Item"><code class="xref py py-class docutils literal"><span class="pre">Item</span></code></a> 对象) &#8211; <a class="reference internal" href="item-pipeline.html#topics-item-pipeline"><span>Item Pipeline</span></a> 丢弃的item</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 爬取item的spider</li>
+<li><strong>exception</strong> (<a class="reference internal" href="exceptions.html#scrapy.exceptions.DropItem" title="scrapy.exceptions.DropItem"><code class="xref py py-exc docutils literal"><span class="pre">DropItem</span></code></a> 异常) &#8211; 导致item被丢弃的异常(必须是
+<a class="reference internal" href="exceptions.html#scrapy.exceptions.DropItem" title="scrapy.exceptions.DropItem"><code class="xref py py-exc docutils literal"><span class="pre">DropItem</span></code></a> 的子类)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="spider-closed">
+<h3>spider_closed<a class="headerlink" href="#spider-closed" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.spider_closed">
+<code class="descclassname">scrapy.signals.</code><code class="descname">spider_closed</code><span class="sig-paren">(</span><em>spider</em>, <em>reason</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.spider_closed" title="永久链接至目标">¶</a></dt>
+<dd><p>当某个spider被关闭时，该信号被发送。该信号可以用来释放每个spider在
+<a href="#id5"><span class="problematic" id="id6">:signal:`spider_opened`</span></a> 时占用的资源。</p>
+<p>该信号支持返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 关闭的spider</li>
+<li><strong>reason</strong> (<em>str</em>) &#8211; 描述spider被关闭的原因的字符串。如果spider是由于完成爬取而被关闭，则其为
+<code class="docutils literal"><span class="pre">'finished'</span></code> 。否则，如果spider是被引擎的 <code class="docutils literal"><span class="pre">close_spider</span></code> 方法所关闭，则其为调用该方法时传入的
+<code class="docutils literal"><span class="pre">reason</span></code> 参数(默认为 <code class="docutils literal"><span class="pre">'cancelled'</span></code>)。如果引擎被关闭(例如，
+输入Ctrl-C)，则其为 <code class="docutils literal"><span class="pre">'shutdown'</span></code> 。</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="spider-opened">
+<h3>spider_opened<a class="headerlink" href="#spider-opened" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.spider_opened">
+<code class="descclassname">scrapy.signals.</code><code class="descname">spider_opened</code><span class="sig-paren">(</span><em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.spider_opened" title="永久链接至目标">¶</a></dt>
+<dd><p>当spider开始爬取时发送该信号。该信号一般用来分配spider的资源，不过其也能做任何事。</p>
+<p>该信号支持返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 开启的spider</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="spider-idle">
+<h3>spider_idle<a class="headerlink" href="#spider-idle" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.spider_idle">
+<code class="descclassname">scrapy.signals.</code><code class="descname">spider_idle</code><span class="sig-paren">(</span><em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.spider_idle" title="永久链接至目标">¶</a></dt>
+<dd><p>当spider进入空闲(idle)状态时该信号被发送。空闲意味着:</p>
+<blockquote>
+<div><ul class="simple">
+<li>requests正在等待被下载</li>
+<li>requests被调度</li>
+<li>items正在item pipeline中被处理</li>
+</ul>
+</div></blockquote>
+<p>当该信号的所有处理器(handler)被调用后，如果spider仍然保持空闲状态，
+引擎将会关闭该spider。当spider被关闭后， <a href="#id7"><span class="problematic" id="id8">:signal:`spider_closed`</span></a> 信号将被发送。</p>
+<p>您可以，比如，在 <a href="#id9"><span class="problematic" id="id10">:signal:`spider_idle`</span></a> 处理器中调度某些请求来避免spider被关闭。</p>
+<p>该信号 <strong>不支持</strong> 返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 空闲的spider</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="spider-error">
+<h3>spider_error<a class="headerlink" href="#spider-error" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.spider_error">
+<code class="descclassname">scrapy.signals.</code><code class="descname">spider_error</code><span class="sig-paren">(</span><em>failure</em>, <em>response</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.spider_error" title="永久链接至目标">¶</a></dt>
+<dd><p>当spider的回调函数产生错误时(例如，抛出异常)，该信号被发送。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>failure</strong> (<a class="reference external" href="http://twistedmatrix.com/documents/current/api/twisted.python.failure.Failure.html">Failure</a> 对象) &#8211; 以Twisted <a class="reference external" href="http://twistedmatrix.com/documents/current/api/twisted.python.failure.Failure.html">Failure</a> 对象抛出的异常</li>
+<li><strong>response</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象) &#8211; 当异常被抛出时被处理的response</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 抛出异常的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="request-scheduled">
+<h3>request_scheduled<a class="headerlink" href="#request-scheduled" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.request_scheduled">
+<code class="descclassname">scrapy.signals.</code><code class="descname">request_scheduled</code><span class="sig-paren">(</span><em>request</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.request_scheduled" title="永久链接至目标">¶</a></dt>
+<dd><p>当引擎调度一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象用于下载时，该信号被发送。</p>
+<p>该信号 <strong>不支持</strong> 返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; 到达调度器的request</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 产生该request的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="response-received">
+<h3>response_received<a class="headerlink" href="#response-received" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.response_received">
+<code class="descclassname">scrapy.signals.</code><code class="descname">response_received</code><span class="sig-paren">(</span><em>response</em>, <em>request</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.response_received" title="永久链接至目标">¶</a></dt>
+<dd><p>当引擎从downloader获取到一个新的 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 时发送该信号。</p>
+<p>该信号 <strong>不支持</strong> 返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象) &#8211; 接收到的response</li>
+<li><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; 生成response的request</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; response所对应的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="response-downloaded">
+<h3>response_downloaded<a class="headerlink" href="#response-downloaded" title="永久链接至标题">¶</a></h3>
+<dl class="function">
+<dt id="scrapy.signals.response_downloaded">
+<code class="descclassname">scrapy.signals.</code><code class="descname">response_downloaded</code><span class="sig-paren">(</span><em>response</em>, <em>request</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signals.response_downloaded" title="永久链接至目标">¶</a></dt>
+<dd><p>当一个 <code class="docutils literal"><span class="pre">HTTPResponse</span></code> 被下载时，由downloader发送该信号。</p>
+<p>该信号 <strong>不支持</strong> 返回deferreds。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象) &#8211; 下载的response</li>
+<li><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; 生成response的request</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; response所对应的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="exceptions.html" class="btn btn-neutral float-right" title="异常(Exceptions)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="settings.html" class="btn btn-neutral" title="Settings" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/signals.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/exporters.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Item Exporters &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Item Exporters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#item-exporter">使用 Item Exporter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#field-serializer">1. 在 field 类中声明一个 serializer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overriding-serialize-field">2. 覆盖(overriding) serialize_field() 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#topics-exporters-reference">Item Exporters 参考资料</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#baseitemexporter">BaseItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xmlitemexporter">XmlItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csvitemexporter">CsvItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pickleitemexporter">PickleItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pprintitemexporter">PprintItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jsonitemexporter">JsonItemExporter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jsonlinesitemexporter">JsonLinesItemExporter</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Item Exporters</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="module-scrapy.contrib.exporter">
+<span id="item-exporters"></span><span id="topics-exporters"></span><h1>Item Exporters<a class="headerlink" href="#module-scrapy.contrib.exporter" title="永久链接至标题">¶</a></h1>
+<p>当你抓取了你要的数据(Items)，你就会想要将他们持久化或导出它们，并应用在其他的程序。这是整个抓取过程的目的。</p>
+<p>为此，Scrapy提供了Item Exporters 来创建不同的输出格式，如XML，CSV或JSON。</p>
+<div class="section" id="item-exporter">
+<h2>使用 Item Exporter<a class="headerlink" href="#item-exporter" title="永久链接至标题">¶</a></h2>
+<p>如果你很忙，只想使用 Item Exporter 输出数据，请查看 <a class="reference internal" href="feed-exports.html#topics-feed-exports"><span>Feed exports</span></a>. 相反，如果你想知道Item Exporter 是如何工作的，或需要更多的自定义功能（不包括默认的 exports），请继续阅读下文。</p>
+<p>为了使用 Item Exporter，你必须对 Item Exporter 及其参数 (args) 实例化。每个 Item Exporter 需要不同的参数，详细请查看 <a class="reference internal" href="#topics-exporters-reference"><span>Item Exporters 参考资料</span></a> 。在实例化了 exporter 之后，你必须：</p>
+<ol class="arabic simple">
+<li>调用方法 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.start_exporting" title="scrapy.contrib.exporter.BaseItemExporter.start_exporting"><code class="xref py py-meth docutils literal"><span class="pre">start_exporting()</span></code></a> 以标识 exporting 过程的开始。</li>
+<li>对要导出的每个项目调用 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.export_item" title="scrapy.contrib.exporter.BaseItemExporter.export_item"><code class="xref py py-meth docutils literal"><span class="pre">export_item()</span></code></a> 方法。</li>
+<li>最后调用 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.finish_exporting" title="scrapy.contrib.exporter.BaseItemExporter.finish_exporting"><code class="xref py py-meth docutils literal"><span class="pre">finish_exporting()</span></code></a> 表示 exporting 过程的结束</li>
+</ol>
+<p>这里，你可以看到一个 <a class="reference internal" href="item-pipeline.html"><em>Item Pipeline</em></a> ，它使用 Item Exporter 导出 items 到不同的文件，每个 spider 一个:</p>
+<div class="highlight-python"><div class="highlight"><pre>from scrapy import signals
+from scrapy.contrib.exporter import XmlItemExporter
+
+class XmlExportPipeline(object):
+
+    def __init__(self):
+        self.files = {}
+
+     @classmethod
+     def from_crawler(cls, crawler):
+         pipeline = cls()
+         crawler.signals.connect(pipeline.spider_opened, signals.spider_opened)
+         crawler.signals.connect(pipeline.spider_closed, signals.spider_closed)
+         return pipeline
+
+    def spider_opened(self, spider):
+        file = open(&#39;%s_products.xml&#39; % spider.name, &#39;w+b&#39;)
+        self.files[spider] = file
+        self.exporter = XmlItemExporter(file)
+        self.exporter.start_exporting()
+
+    def spider_closed(self, spider):
+        self.exporter.finish_exporting()
+        file = self.files.pop(spider)
+        file.close()
+
+    def process_item(self, item, spider):
+        self.exporter.export_item(item)
+        return item
+</pre></div>
+</div>
+<p id="topics-exporters-field-serialization">序列化 item fields</p>
+<hr class="docutils" />
+<p>B默认情况下，该字段值将不变的传递到序列化库，如何对其进行序列化的决定被委托给每一个特定的序列化库。</p>
+<p>但是，你可以自定义每个字段值如何序列化在它被传递到序列化库中之前。</p>
+<p>有两种方法可以自定义一个字段如何被序列化，请看下文。</p>
+<div class="section" id="field-serializer">
+<span id="topics-exporters-serializers"></span><h3>1. 在 field 类中声明一个 serializer<a class="headerlink" href="#field-serializer" title="永久链接至标题">¶</a></h3>
+<p>您可以在 <a class="reference internal" href="items.html#topics-items-fields"><span>field metadata</span></a> 声明一个 serializer。该 serializer 必须可调用，并返回它的序列化形式。</p>
+<p>实例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scrapy</span>
+
+<span class="k">def</span> <span class="nf">serialize_price</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;$ </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Item</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">serializer</span><span class="o">=</span><span class="n">serialize_price</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="overriding-serialize-field">
+<h3>2. 覆盖(overriding) serialize_field() 方法<a class="headerlink" href="#overriding-serialize-field" title="永久链接至标题">¶</a></h3>
+<p>你可以覆盖 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.serialize_field" title="scrapy.contrib.exporter.BaseItemExporter.serialize_field"><code class="xref py py-meth docutils literal"><span class="pre">serialize_field()</span></code></a> 方法来自定义如何输出你的数据。</p>
+<p>在你的自定义代码后确保你调用父类的 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.serialize_field" title="scrapy.contrib.exporter.BaseItemExporter.serialize_field"><code class="xref py py-meth docutils literal"><span class="pre">serialize_field()</span></code></a> 方法。</p>
+<p>实例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scrapy.contrib.exporter</span> <span class="kn">import</span> <span class="n">XmlItemExporter</span>
+
+<span class="k">class</span> <span class="nc">ProductXmlExporter</span><span class="p">(</span><span class="n">XmlItemExporter</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">serialize_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s">&#39;price&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;$ </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">serialize_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="topics-exporters-reference">
+<span id="id1"></span><h2>Item Exporters 参考资料<a class="headerlink" href="#topics-exporters-reference" title="永久链接至标题">¶</a></h2>
+<p>下面是一些Scrapy内置的 Item Exporters类. 其中一些包括了实例, 假设你要输出以下2个Items:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Item</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Color TV&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="s">&#39;1200&#39;</span><span class="p">)</span>
+<span class="n">Item</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;DVD player&#39;</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="s">&#39;200&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="baseitemexporter">
+<h3>BaseItemExporter<a class="headerlink" href="#baseitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.BaseItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">BaseItemExporter</code><span class="sig-paren">(</span><em>fields_to_export=None</em>, <em>export_empty_fields=False</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>这是一个对所有 Item Exporters 的(抽象)父类。它对所有(具体) Item Exporters 提供基本属性，如定义export什么fields, 是否export空fields, 或是否进行编码。</p>
+<p>你可以在构造器中设置它们不同的属性值: <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.fields_to_export" title="scrapy.contrib.exporter.BaseItemExporter.fields_to_export"><code class="xref py py-attr docutils literal"><span class="pre">fields_to_export</span></code></a> ,
+<a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.export_empty_fields" title="scrapy.contrib.exporter.BaseItemExporter.export_empty_fields"><code class="xref py py-attr docutils literal"><span class="pre">export_empty_fields</span></code></a>, <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.encoding" title="scrapy.contrib.exporter.BaseItemExporter.encoding"><code class="xref py py-attr docutils literal"><span class="pre">encoding</span></code></a>.</p>
+<dl class="method">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.export_item">
+<code class="descname">export_item</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.export_item" title="永久链接至目标">¶</a></dt>
+<dd><p>输出给定item. 此方法必须在子类中实现.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.serialize_field">
+<code class="descname">serialize_field</code><span class="sig-paren">(</span><em>field</em>, <em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.serialize_field" title="永久链接至目标">¶</a></dt>
+<dd><p>返回给定field的序列化值. 你可以覆盖此方法来控制序列化或输出指定的field.</p>
+<p>默认情况下, 此方法寻找一个 serializer <a class="reference internal" href="#topics-exporters-serializers"><span>在 item
+field 中声明</span></a> 并返回它的值. 如果没有发现   serializer, 则值不会改变，除非你使用 <code class="docutils literal"><span class="pre">unicode</span></code> 值并编码到
+<code class="docutils literal"><span class="pre">str</span></code>， 编码可以在 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.encoding" title="scrapy.contrib.exporter.BaseItemExporter.encoding"><code class="xref py py-attr docutils literal"><span class="pre">encoding</span></code></a> 属性中声明.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>field</strong> (<a class="reference internal" href="items.html#scrapy.item.Field" title="scrapy.item.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> object) &#8211; the field being serialized</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; the name of the field being serialized</li>
+<li><strong>value</strong> &#8211; the value being serialized</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.start_exporting">
+<code class="descname">start_exporting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.start_exporting" title="永久链接至目标">¶</a></dt>
+<dd><p>表示exporting过程的开始. 一些exporters用于产生需要的头元素(例如
+<a class="reference internal" href="#scrapy.contrib.exporter.XmlItemExporter" title="scrapy.contrib.exporter.XmlItemExporter"><code class="xref py py-class docutils literal"><span class="pre">XmlItemExporter</span></code></a>). 在实现exporting item前必须调用此方法.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.finish_exporting">
+<code class="descname">finish_exporting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.finish_exporting" title="永久链接至目标">¶</a></dt>
+<dd><p>表示exporting过程的结束. 一些exporters用于产生需要的尾元素 (例如
+<a class="reference internal" href="#scrapy.contrib.exporter.XmlItemExporter" title="scrapy.contrib.exporter.XmlItemExporter"><code class="xref py py-class docutils literal"><span class="pre">XmlItemExporter</span></code></a>). 在完成exporting item后必须调用此方法.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.fields_to_export">
+<code class="descname">fields_to_export</code><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.fields_to_export" title="永久链接至目标">¶</a></dt>
+<dd><p>列出export什么fields值, None表示export所有fields. 默认值为None.</p>
+<p>一些 exporters (例如 <a class="reference internal" href="#scrapy.contrib.exporter.CsvItemExporter" title="scrapy.contrib.exporter.CsvItemExporter"><code class="xref py py-class docutils literal"><span class="pre">CsvItemExporter</span></code></a>) 按照定义在属性中fields的次序依次输出.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.export_empty_fields">
+<code class="descname">export_empty_fields</code><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.export_empty_fields" title="永久链接至目标">¶</a></dt>
+<dd><p>是否在输出数据中包含为空的item fields.
+默认值是 <code class="docutils literal"><span class="pre">False</span></code>. 一些 exporters (例如 <a class="reference internal" href="#scrapy.contrib.exporter.CsvItemExporter" title="scrapy.contrib.exporter.CsvItemExporter"><code class="xref py py-class docutils literal"><span class="pre">CsvItemExporter</span></code></a>)
+会忽略此属性并输出所有fields.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.contrib.exporter.BaseItemExporter.encoding">
+<code class="descname">encoding</code><a class="headerlink" href="#scrapy.contrib.exporter.BaseItemExporter.encoding" title="永久链接至目标">¶</a></dt>
+<dd><p>Encoding 属性将用于编码 unicode 值. (仅用于序列化字符串).其他值类型将不变的传递到指定的序列化库.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="xmlitemexporter">
+<h3>XmlItemExporter<a class="headerlink" href="#xmlitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.XmlItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">XmlItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>item_element='item'</em>, <em>root_element='items'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.XmlItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>以XML格式 exports Items 到指定的文件类.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; 文件类.</li>
+<li><strong>root_element</strong> (<em>str</em>) &#8211; XML 根元素名.</li>
+<li><strong>item_element</strong> (<em>str</em>) &#8211; XML item 的元素名.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器.</p>
+<p>一个典型的 exporter 实例:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;items&gt;
+  &lt;item&gt;
+    &lt;name&gt;Color TV&lt;/name&gt;
+    &lt;price&gt;1200&lt;/price&gt;
+ &lt;/item&gt;
+  &lt;item&gt;
+    &lt;name&gt;DVD player&lt;/name&gt;
+    &lt;price&gt;200&lt;/price&gt;
+ &lt;/item&gt;
+&lt;/items&gt;
+</pre></div>
+</div>
+<p>除了覆盖 <code class="xref py py-meth docutils literal"><span class="pre">serialize_field()</span></code> 方法, 多个值的 fields 会转化每个值到 <code class="docutils literal"><span class="pre">&lt;value&gt;</span></code> 元素.</p>
+<p>例如, item:</p>
+<div class="highlight-none"><div class="highlight"><pre>Item(name=[&#39;John&#39;, &#39;Doe&#39;], age=&#39;23&#39;)
+</pre></div>
+</div>
+<p>将被转化为:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;items&gt;
+  &lt;item&gt;
+    &lt;name&gt;
+      &lt;value&gt;John&lt;/value&gt;
+      &lt;value&gt;Doe&lt;/value&gt;
+    &lt;/name&gt;
+    &lt;age&gt;23&lt;/age&gt;
+  &lt;/item&gt;
+&lt;/items&gt;
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="csvitemexporter">
+<h3>CsvItemExporter<a class="headerlink" href="#csvitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.CsvItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">CsvItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>include_headers_line=True</em>, <em>join_multivalued='</em>, <em>'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.CsvItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>输出 csv 文件格式. 如果添加 <code class="xref py py-attr docutils literal"><span class="pre">fields_to_export</span></code> 属性, 它会按顺序定义CSV的列名. <code class="xref py py-attr docutils literal"><span class="pre">export_empty_fields</span></code> 属性在此没有作用.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; 文件类.</li>
+<li><strong>include_headers_line</strong> (<em>str</em>) &#8211; 启用后 exporter 会输出第一行为列名, 列名从 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter.fields_to_export" title="scrapy.contrib.exporter.BaseItemExporter.fields_to_export"><code class="xref py py-attr docutils literal"><span class="pre">BaseItemExporter.fields_to_export</span></code></a> 或第一个 item fields 获取.</li>
+<li><strong>join_multivalued</strong> &#8211; char 将用于连接多个值的fields.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>此构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器 , 其余的将传给 <a class="reference external" href="http://docs.python.org/library/csv.html#csv.writer">csv.writer</a> 构造器, 以此来定制 exporter.</p>
+<p>一个典型的 exporter 实例:</p>
+<div class="highlight-none"><div class="highlight"><pre>product,price
+Color TV,1200
+DVD player,200
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="pickleitemexporter">
+<h3>PickleItemExporter<a class="headerlink" href="#pickleitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.PickleItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">PickleItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>protocol=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.PickleItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>输出 pickle 文件格式.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> &#8211; 文件类.</li>
+<li><strong>protocol</strong> (<em>int</em>) &#8211; pickle 协议.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>更多信息请看 <a class="reference external" href="http://docs.python.org/library/pickle.html">pickle module documentation</a>.</p>
+<p>此构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器.</p>
+<p>Pickle 不是可读的格式，这里不提供实例.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pprintitemexporter">
+<h3>PprintItemExporter<a class="headerlink" href="#pprintitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.PprintItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">PprintItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.PprintItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>输出整齐打印的文件格式.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>file</strong> &#8211; 文件类.</td>
+</tr>
+</tbody>
+</table>
+<p>此构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器.</p>
+<p>一个典型的 exporter 实例:</p>
+<div class="highlight-none"><div class="highlight"><pre>{&#39;name&#39;: &#39;Color TV&#39;, &#39;price&#39;: &#39;1200&#39;}
+{&#39;name&#39;: &#39;DVD player&#39;, &#39;price&#39;: &#39;200&#39;}
+</pre></div>
+</div>
+<p>此格式会根据行的长短进行调整.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="jsonitemexporter">
+<h3>JsonItemExporter<a class="headerlink" href="#jsonitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.JsonItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">JsonItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.JsonItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>输出 JSON 文件格式, 所有对象将写进一个对象的列表. 此构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器, 其余的将传给 <a class="reference external" href="http://docs.python.org/library/json.html#json.JSONEncoder">JSONEncoder</a> 构造器, 以此来定制 exporter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>file</strong> &#8211; 文件类.</td>
+</tr>
+</tbody>
+</table>
+<p>一个典型的 exporter 实例:</p>
+<div class="highlight-none"><div class="highlight"><pre>[{&quot;name&quot;: &quot;Color TV&quot;, &quot;price&quot;: &quot;1200&quot;},
+{&quot;name&quot;: &quot;DVD player&quot;, &quot;price&quot;: &quot;200&quot;}]
+</pre></div>
+</div>
+<div class="admonition warning" id="json-with-large-data">
+<p class="first admonition-title">警告</p>
+<p class="last">JSON 是一个简单而有弹性的格式, 但对大量数据的扩展性不是很好，因为这里会将整个对象放入内存. 如果你要JSON既强大又简单,可以考虑 <a class="reference internal" href="#scrapy.contrib.exporter.JsonLinesItemExporter" title="scrapy.contrib.exporter.JsonLinesItemExporter"><code class="xref py py-class docutils literal"><span class="pre">JsonLinesItemExporter</span></code></a> , 或把输出对象分为多个块.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="jsonlinesitemexporter">
+<h3>JsonLinesItemExporter<a class="headerlink" href="#jsonlinesitemexporter" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.exporter.JsonLinesItemExporter">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.exporter.</code><code class="descname">JsonLinesItemExporter</code><span class="sig-paren">(</span><em>file</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.exporter.JsonLinesItemExporter" title="永久链接至目标">¶</a></dt>
+<dd><p>输出 JSON 文件格式, 每行写一个 JSON-encoded 项. 此构造器额外的关键字参数将传给 <a class="reference internal" href="#scrapy.contrib.exporter.BaseItemExporter" title="scrapy.contrib.exporter.BaseItemExporter"><code class="xref py py-class docutils literal"><span class="pre">BaseItemExporter</span></code></a> 构造器, 其余的将传给 <a class="reference external" href="http://docs.python.org/library/json.html#json.JSONEncoder">JSONEncoder</a> 构造器, 以此来定制 exporter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>file</strong> &#8211; 文件类.</td>
+</tr>
+</tbody>
+</table>
+<p>一个典型的 exporter 实例:</p>
+<div class="highlight-none"><div class="highlight"><pre>{&quot;name&quot;: &quot;Color TV&quot;, &quot;price&quot;: &quot;1200&quot;}
+{&quot;name&quot;: &quot;DVD player&quot;, &quot;price&quot;: &quot;200&quot;}
+</pre></div>
+</div>
+<p>这个类能很好的处理大量数据.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../news.html" class="btn btn-neutral float-right" title="Release notes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exceptions.html" class="btn btn-neutral" title="异常(Exceptions)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/exporters.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

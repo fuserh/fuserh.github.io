@@ -1,0 +1,875 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>核心API &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">核心API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#crawler-api">Crawler API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scrapy.settings">设置(Settings) API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scrapy.spidermanager">SpiderManager API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-scrapy.signalmanager">信号(Signals) API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stats-collector-api">状态收集器(Stats Collector) API</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>核心API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="api">
+<span id="topics-api"></span><h1>核心API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.15 新版功能.</span></p>
+</div>
+<p>该节文档讲述Scrapy核心API，目标用户是开发Scrapy扩展(extensions)和中间件(middlewares)的开发人员。</p>
+<div class="section" id="crawler-api">
+<span id="topics-api-crawler"></span><h2>Crawler API<a class="headerlink" href="#crawler-api" title="永久链接至标题">¶</a></h2>
+<p>Scrapy API的主要入口是 <a class="reference internal" href="#scrapy.crawler.Crawler" title="scrapy.crawler.Crawler"><code class="xref py py-class docutils literal"><span class="pre">Crawler</span></code></a> 的实例对象，
+通过类方法 <code class="docutils literal"><span class="pre">from_crawler</span></code> 将它传递给扩展(extensions)。
+该对象提供对所有Scrapy核心组件的访问，
+也是扩展访问Scrapy核心组件和挂载功能到Scrapy的唯一途径。</p>
+<span class="target" id="module-scrapy.crawler"></span><p>Extension Manager负责加载和跟踪已经安装的扩展，
+它通过 <a href="#id1"><span class="problematic" id="id2">:setting:`EXTENSIONS`</span></a> 配置，包含一个所有可用扩展的字典，
+字典的顺序跟你在 <a class="reference internal" href="downloader-middleware.html#topics-downloader-middleware-setting"><span>configure the downloader middlewares</span></a> 配置的顺序一致。</p>
+<dl class="class">
+<dt id="scrapy.crawler.Crawler">
+<em class="property">class </em><code class="descclassname">scrapy.crawler.</code><code class="descname">Crawler</code><span class="sig-paren">(</span><em>spidercls</em>, <em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.crawler.Crawler" title="永久链接至目标">¶</a></dt>
+<dd><p>Crawler必须使用
+<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">scrapy.spider.Spider</span></code></a> 子类及
+<a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">scrapy.settings.Settings</span></code></a> 的对象进行实例化</p>
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.settings">
+<code class="descname">settings</code><a class="headerlink" href="#scrapy.crawler.Crawler.settings" title="永久链接至目标">¶</a></dt>
+<dd><p>crawler的配置管理器。</p>
+<p>扩展(extensions)和中间件(middlewares)使用它用来访问Scrapy的配置。</p>
+<p>关于Scrapy配置的介绍参考这里 <a class="reference internal" href="settings.html#topics-settings"><span>Settings</span></a>。</p>
+<p>API参考 <a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a>。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.signals">
+<code class="descname">signals</code><a class="headerlink" href="#scrapy.crawler.Crawler.signals" title="永久链接至目标">¶</a></dt>
+<dd><p>crawler的信号管理器。</p>
+<p>扩展和中间件使用它将自己的功能挂载到Scrapy。</p>
+<p>关于信号的介绍参考 <a class="reference internal" href="signals.html#topics-signals"><span>信号(Signals)</span></a>。</p>
+<p>API参考 <a class="reference internal" href="#scrapy.signalmanager.SignalManager" title="scrapy.signalmanager.SignalManager"><code class="xref py py-class docutils literal"><span class="pre">SignalManager</span></code></a>。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.stats">
+<code class="descname">stats</code><a class="headerlink" href="#scrapy.crawler.Crawler.stats" title="永久链接至目标">¶</a></dt>
+<dd><p>crawler的统计信息收集器。</p>
+<p>扩展和中间件使用它记录操作的统计信息，或者访问由其他扩展收集的统计信息。</p>
+<p>关于统计信息收集器的介绍参考 <a class="reference internal" href="stats.html#topics-stats"><span>数据收集(Stats Collection)</span></a>。</p>
+<p>API参考类 <a class="reference internal" href="#scrapy.statscol.StatsCollector" title="scrapy.statscol.StatsCollector"><code class="xref py py-class docutils literal"><span class="pre">StatsCollector</span></code></a> class。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.extensions">
+<code class="descname">extensions</code><a class="headerlink" href="#scrapy.crawler.Crawler.extensions" title="永久链接至目标">¶</a></dt>
+<dd><p>扩展管理器，跟踪所有开启的扩展。</p>
+<p>大多数扩展不需要访问该属性。</p>
+<p>关于扩展和可用扩展列表器的介绍参考 <a class="reference internal" href="extensions.html#topics-extensions"><span>扩展(Extensions)</span></a>。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.engine">
+<code class="descname">engine</code><a class="headerlink" href="#scrapy.crawler.Crawler.engine" title="永久链接至目标">¶</a></dt>
+<dd><p>执行引擎，协调crawler的核心逻辑，包括调度，下载和spider。</p>
+<p>某些扩展可能需要访问Scrapy的引擎属性，以修改检查(modify inspect)或修改下载器和调度器的行为，
+这是该API的高级使用，但还不稳定。</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.Crawler.spider">
+<code class="descname">spider</code><a class="headerlink" href="#scrapy.crawler.Crawler.spider" title="永久链接至目标">¶</a></dt>
+<dt>
+<code class="descname">正在爬取的spider。该spider类的实例由创建crawler时所提供，</code></dt>
+<dt>
+<code class="descname">在调用 :meth:`crawl` 方法是所创建。</code></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="scrapy.crawler.Crawler.crawl">
+<code class="descname">crawl</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.crawler.Crawler.crawl" title="永久链接至目标">¶</a></dt>
+<dd><p>根据给定的
+<cite>args</cite> , <cite>kwargs</cite> 的参数来初始化spider类，启动执行引擎，启动crawler。</p>
+<p>返回一个延迟deferred对象，当爬取结束时触发它。</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="scrapy.crawler.CrawlerRunner">
+<em class="property">class </em><code class="descclassname">scrapy.crawler.</code><code class="descname">CrawlerRunner</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.crawler.CrawlerRunner" title="永久链接至目标">¶</a></dt>
+<dd><p>This is a convenient helper class that creates, configures and runs
+crawlers inside an already setup Twisted <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/reactor-basics.html">reactor</a>.</p>
+<p>The CrawlerRunner object must be instantiated with a
+<a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> object.</p>
+<p>This class shouldn&#8217;t be needed (since Scrapy is responsible of using it
+accordingly) unless writing scripts that manually handle the crawling
+process. See <a class="reference internal" href="practices.html#run-from-script"><span>在脚本中运行Scrapy</span></a> for an example.</p>
+<dl class="attribute">
+<dt id="scrapy.crawler.CrawlerRunner.crawlers">
+<code class="descname">crawlers</code><a class="headerlink" href="#scrapy.crawler.CrawlerRunner.crawlers" title="永久链接至目标">¶</a></dt>
+<dd><p>Set of <a class="reference internal" href="#scrapy.crawler.Crawler" title="scrapy.crawler.Crawler"><code class="xref py py-class docutils literal"><span class="pre">crawlers</span></code></a> created by the
+<a class="reference internal" href="#scrapy.crawler.CrawlerRunner.crawl" title="scrapy.crawler.CrawlerRunner.crawl"><code class="xref py py-meth docutils literal"><span class="pre">crawl()</span></code></a> method.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.crawler.CrawlerRunner.crawl_deferreds">
+<code class="descname">crawl_deferreds</code><a class="headerlink" href="#scrapy.crawler.CrawlerRunner.crawl_deferreds" title="永久链接至目标">¶</a></dt>
+<dd><p>Set of the <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer.html">deferreds</a> return by the <a class="reference internal" href="#scrapy.crawler.CrawlerRunner.crawl" title="scrapy.crawler.CrawlerRunner.crawl"><code class="xref py py-meth docutils literal"><span class="pre">crawl()</span></code></a> method. This
+collection it&#8217;s useful for keeping track of current crawling state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.crawler.CrawlerRunner.crawl">
+<code class="descname">crawl</code><span class="sig-paren">(</span><em>spidercls</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.crawler.CrawlerRunner.crawl" title="永久链接至目标">¶</a></dt>
+<dd><p>This method sets up the crawling of the given <cite>spidercls</cite> with the
+provided arguments.</p>
+<p>It takes care of loading the spider class while configuring and starting
+a crawler for it.</p>
+<p>Returns a deferred that is fired when the crawl is finished.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>spidercls</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> subclass or str) &#8211; spider class or spider&#8217;s name inside the project</li>
+<li><strong>args</strong> (<a class="reference internal" href="#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; arguments to initializate the spider</li>
+<li><strong>kwargs</strong> (<em>dict</em>) &#8211; keyword arguments to initializate the spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.crawler.CrawlerRunner.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.crawler.CrawlerRunner.stop" title="永久链接至目标">¶</a></dt>
+<dd><p>Stops simultaneously all the crawling jobs taking place.</p>
+<p>Returns a deferred that is fired when they all have ended.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.settings">
+<span id="settings-api"></span><span id="topics-api-settings"></span><h2>设置(Settings) API<a class="headerlink" href="#module-scrapy.settings" title="永久链接至标题">¶</a></h2>
+<dl class="attribute">
+<dt id="scrapy.settings.SETTINGS_PRIORITIES">
+<code class="descclassname">scrapy.settings.</code><code class="descname">SETTINGS_PRIORITIES</code><a class="headerlink" href="#scrapy.settings.SETTINGS_PRIORITIES" title="永久链接至目标">¶</a></dt>
+<dd><p>Dictionary that sets the key name and priority level of the default
+settings priorities used in Scrapy.</p>
+<p>Each item defines a settings entry point, giving it a code name for
+identification and an integer priority. Greater priorities take more
+precedence over lesser ones when setting and retrieving values in the
+<a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> class.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SETTINGS_PRIORITIES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;command&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s">&#39;project&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s">&#39;spider&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s">&#39;cmdline&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a detailed explanation on each settings sources, see:
+<a class="reference internal" href="settings.html#topics-settings"><span>Settings</span></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="scrapy.settings.Settings">
+<em class="property">class </em><code class="descclassname">scrapy.settings.</code><code class="descname">Settings</code><span class="sig-paren">(</span><em>values={}</em>, <em>priority='project'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings" title="永久链接至目标">¶</a></dt>
+<dd><p>This object stores Scrapy settings for the configuration of internal
+components, and can be used for any further customization.</p>
+<p>After instantiation of this class, the new object will have the global
+default settings described on <a class="reference internal" href="settings.html#topics-settings-ref"><span>内置设定参考手册</span></a> already
+populated.</p>
+<p>Additional values can be passed on initialization with the <code class="docutils literal"><span class="pre">values</span></code>
+argument, and they would take the <code class="docutils literal"><span class="pre">priority</span></code> level.  If the latter
+argument is a string, the priority name will be looked up in
+<a class="reference internal" href="#scrapy.settings.SETTINGS_PRIORITIES" title="scrapy.settings.SETTINGS_PRIORITIES"><code class="xref py py-attr docutils literal"><span class="pre">SETTINGS_PRIORITIES</span></code></a>. Otherwise, a expecific
+integer should be provided.</p>
+<p>Once the object is created, new settings can be loaded or updated with the
+<a class="reference internal" href="#scrapy.settings.Settings.set" title="scrapy.settings.Settings.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> method, and can be accessed with the
+square bracket notation of dictionaries, or with the
+<a class="reference internal" href="#scrapy.settings.Settings.get" title="scrapy.settings.Settings.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> method of the instance and its value
+conversion variants.  When requesting a stored key, the value with the
+highest priority will be retrieved.</p>
+<dl class="method">
+<dt id="scrapy.settings.Settings.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>priority='project'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.set" title="永久链接至目标">¶</a></dt>
+<dd><p>Store a key/value attribute with a given priority.
+Settings should be populated <em>before</em> configuring the Crawler object
+(through the <code class="xref py py-meth docutils literal"><span class="pre">configure()</span></code> method),
+otherwise they won&#8217;t have any effect.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>string</em>) &#8211; the setting name</li>
+<li><strong>value</strong> (<em>any</em>) &#8211; the value to associate with the setting</li>
+<li><strong>priority</strong> (<em>string or int</em>) &#8211; the priority of the setting. Should be a key of
+<a class="reference internal" href="#scrapy.settings.SETTINGS_PRIORITIES" title="scrapy.settings.SETTINGS_PRIORITIES"><code class="xref py py-attr docutils literal"><span class="pre">SETTINGS_PRIORITIES</span></code></a> or an integer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.setdict">
+<code class="descname">setdict</code><span class="sig-paren">(</span><em>values</em>, <em>priority='project'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.setdict" title="永久链接至目标">¶</a></dt>
+<dd><p>Store key/value pairs with a given priority.</p>
+<p>This is a helper function that calls
+<a class="reference internal" href="#scrapy.settings.Settings.set" title="scrapy.settings.Settings.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> for every item of <code class="docutils literal"><span class="pre">values</span></code>
+with the provided <code class="docutils literal"><span class="pre">priority</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>values</strong> (<em>dict</em>) &#8211; the settings names and values</li>
+<li><strong>priority</strong> (<em>string or int</em>) &#8211; the priority of the settings. Should be a key of
+<a class="reference internal" href="#scrapy.settings.SETTINGS_PRIORITIES" title="scrapy.settings.SETTINGS_PRIORITIES"><code class="xref py py-attr docutils literal"><span class="pre">SETTINGS_PRIORITIES</span></code></a> or an integer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.setmodule">
+<code class="descname">setmodule</code><span class="sig-paren">(</span><em>module</em>, <em>priority='project'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.setmodule" title="永久链接至目标">¶</a></dt>
+<dd><p>Store settings from a module with a given priority.</p>
+<p>This is a helper function that calls
+<a class="reference internal" href="#scrapy.settings.Settings.set" title="scrapy.settings.Settings.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> for every globally declared
+uppercase variable of <code class="docutils literal"><span class="pre">module</span></code> with the provided <code class="docutils literal"><span class="pre">priority</span></code>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>module</strong> (<em>module object or string</em>) &#8211; the module or the path of the module</li>
+<li><strong>priority</strong> (<em>string or int</em>) &#8211; the priority of the settings. Should be a key of
+<a class="reference internal" href="#scrapy.settings.SETTINGS_PRIORITIES" title="scrapy.settings.SETTINGS_PRIORITIES"><code class="xref py py-attr docutils literal"><span class="pre">SETTINGS_PRIORITIES</span></code></a> or an integer</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.get" title="永久链接至目标">¶</a></dt>
+<dd><p>获取某项配置的值，且不修改其原有的值。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>字符串</em>) &#8211; 配置名</li>
+<li><strong>default</strong> (<em>任何</em>) &#8211; 如果没有该项配置时返回的缺省值</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.getbool">
+<code class="descname">getbool</code><span class="sig-paren">(</span><em>name</em>, <em>default=False</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.getbool" title="永久链接至目标">¶</a></dt>
+<dd><p>return <code class="docutils literal"><span class="pre">False</span></code>
+将某项配置的值以布尔值形式返回。比如，<code class="docutils literal"><span class="pre">1</span></code> 和 <code class="docutils literal"><span class="pre">'1'</span></code>，<code class="docutils literal"><span class="pre">True</span></code> 都返回``True``，
+而 <code class="docutils literal"><span class="pre">0</span></code>，<code class="docutils literal"><span class="pre">'0'</span></code>，<code class="docutils literal"><span class="pre">False</span></code> 和 <code class="docutils literal"><span class="pre">None</span></code> 返回 <code class="docutils literal"><span class="pre">False</span></code>。</p>
+<p>比如，通过环境变量计算将某项配置设置为 <code class="docutils literal"><span class="pre">'0'</span></code>，通过该方法获取得到 <code class="docutils literal"><span class="pre">False</span></code>。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>字符串</em>) &#8211; 配置名</li>
+<li><strong>default</strong> (<em>任何</em>) &#8211; 如果该配置项未设置，返回的缺省值</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.getint">
+<code class="descname">getint</code><span class="sig-paren">(</span><em>name</em>, <em>default=0</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.getint" title="永久链接至目标">¶</a></dt>
+<dd><p>将某项配置的值以整数形式返回</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>字符串</em>) &#8211; 配置名</li>
+<li><strong>default</strong> (<em>任何</em>) &#8211; 如果该配置项未设置，返回的缺省值</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.getfloat">
+<code class="descname">getfloat</code><span class="sig-paren">(</span><em>name</em>, <em>default=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.getfloat" title="永久链接至目标">¶</a></dt>
+<dd><p>将某项配置的值以浮点数形式返回</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>字符串</em>) &#8211; 配置名</li>
+<li><strong>default</strong> (<em>任何</em>) &#8211; 如果该配置项未设置，返回的缺省值</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.getlist">
+<code class="descname">getlist</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.getlist" title="永久链接至目标">¶</a></dt>
+<dd><p>将某项配置的值以列表形式返回。如果配置值本来就是list则将返回其拷贝。
+如果是字符串，则返回被 &#8221;,&#8221; 分割后的列表。</p>
+<p>比如，某项值通过环境变量的计算被设置为 <code class="docutils literal"><span class="pre">'one,two'</span></code> ，该方法返回[&#8216;one&#8217;, &#8216;two&#8217;]。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>字符串</em>) &#8211; 配置名</li>
+<li><strong>default</strong> (<em>任何类型</em>) &#8211; 如果该配置项未设置，返回的缺省值</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.getdict">
+<code class="descname">getdict</code><span class="sig-paren">(</span><em>name</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.getdict" title="永久链接至目标">¶</a></dt>
+<dd><p>Get a setting value as a dictionary. If the setting original type is a
+dictionary, a copy of it will be returned. If it&#8217;s a string it will
+evaluated as a json dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>string</em>) &#8211; the setting name</li>
+<li><strong>default</strong> (<em>any</em>) &#8211; the value to return if no setting is found</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.copy" title="永久链接至目标">¶</a></dt>
+<dd><p>Make a deep copy of current settings.</p>
+<p>This method returns a new instance of the <a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> class,
+populated with the same values and their priorities.</p>
+<p>Modifications to the new object won&#8217;t be reflected on the original
+settings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.freeze">
+<code class="descname">freeze</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.freeze" title="永久链接至目标">¶</a></dt>
+<dd><p>Disable further changes to the current settings.</p>
+<p>After calling this method, the present state of the settings will become
+immutable. Trying to change values through the <a class="reference internal" href="#scrapy.settings.Settings.set" title="scrapy.settings.Settings.set"><code class="xref py py-meth docutils literal"><span class="pre">set()</span></code></a> method and
+its variants won&#8217;t be possible and will be alerted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.settings.Settings.frozencopy">
+<code class="descname">frozencopy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.settings.Settings.frozencopy" title="永久链接至目标">¶</a></dt>
+<dd><p>Return an immutable copy of the current settings.</p>
+<p>Alias for a <a class="reference internal" href="#scrapy.settings.Settings.freeze" title="scrapy.settings.Settings.freeze"><code class="xref py py-meth docutils literal"><span class="pre">freeze()</span></code></a> call in the object returned by <a class="reference internal" href="#scrapy.settings.Settings.copy" title="scrapy.settings.Settings.copy"><code class="xref py py-meth docutils literal"><span class="pre">copy()</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.spidermanager">
+<span id="spidermanager-api"></span><span id="topics-api-spidermanager"></span><h2>SpiderManager API<a class="headerlink" href="#module-scrapy.spidermanager" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.spidermanager.SpiderManager">
+<em class="property">class </em><code class="descclassname">scrapy.spidermanager.</code><code class="descname">SpiderManager</code><a class="headerlink" href="#scrapy.spidermanager.SpiderManager" title="永久链接至目标">¶</a></dt>
+<dd><p>This class is in charge of retrieving and handling the spider classes
+defined across the project.</p>
+<p>Custom spider managers can be employed by specifying their path in the
+<a href="#id3"><span class="problematic" id="id4">:setting:`SPIDER_MANAGER_CLASS`</span></a> project setting. They must fully implement
+the <code class="xref py py-class docutils literal"><span class="pre">scrapy.interfaces.ISpiderManager</span></code> interface to guarantee an
+errorless execution.</p>
+<dl class="method">
+<dt id="scrapy.spidermanager.SpiderManager.from_settings">
+<code class="descname">from_settings</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.spidermanager.SpiderManager.from_settings" title="永久链接至目标">¶</a></dt>
+<dd><p>This class method is used by Scrapy to create an instance of the class.
+It&#8217;s called with the current project settings, and it loads the spiders
+found in the modules of the <a href="#id5"><span class="problematic" id="id6">:setting:`SPIDER_MODULES`</span></a> setting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>settings</strong> (<a class="reference internal" href="#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">Settings</span></code></a> instance) &#8211; project settings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.spidermanager.SpiderManager.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>spider_name</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.spidermanager.SpiderManager.load" title="永久链接至目标">¶</a></dt>
+<dd><p>Get the Spider class with the given name. It&#8217;ll look into the previously
+loaded spiders for a spider class with name <cite>spider_name</cite> and will raise
+a KeyError if not found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>spider_name</strong> (<em>str</em>) &#8211; spider class name</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.spidermanager.SpiderManager.list">
+<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.spidermanager.SpiderManager.list" title="永久链接至目标">¶</a></dt>
+<dd><p>Get the names of the available spiders in the project.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.spidermanager.SpiderManager.find_by_request">
+<code class="descname">find_by_request</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.spidermanager.SpiderManager.find_by_request" title="永久链接至目标">¶</a></dt>
+<dd><p>List the spiders&#8217; names that can handle the given request. Will try to
+match the request&#8217;s url against the domains of the spiders.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> instance) &#8211; queried request</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.signalmanager">
+<span id="signals-api"></span><span id="topics-api-signals"></span><h2>信号(Signals) API<a class="headerlink" href="#module-scrapy.signalmanager" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.signalmanager.SignalManager">
+<em class="property">class </em><code class="descclassname">scrapy.signalmanager.</code><code class="descname">SignalManager</code><a class="headerlink" href="#scrapy.signalmanager.SignalManager" title="永久链接至目标">¶</a></dt>
+<dd><dl class="method">
+<dt id="scrapy.signalmanager.SignalManager.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>receiver</em>, <em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signalmanager.SignalManager.connect" title="永久链接至目标">¶</a></dt>
+<dd><p>链接一个接收器函数(receiver function) 到一个信号(signal)。</p>
+<p>signal可以是任何对象，虽然Scrapy提供了一些预先定义好的信号，
+参考文档 <a class="reference internal" href="signals.html#topics-signals"><span>信号(Signals)</span></a>。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>receiver</strong> (<em>可调用对象</em>) &#8211; 被链接到的函数</li>
+<li><strong>signal</strong> (<em>对象</em>) &#8211; 链接的信号</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.signalmanager.SignalManager.send_catch_log">
+<code class="descname">send_catch_log</code><span class="sig-paren">(</span><em>signal</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signalmanager.SignalManager.send_catch_log" title="永久链接至目标">¶</a></dt>
+<dd><p>发送一个信号，捕获异常并记录日志。</p>
+<p>关键字参数会传递给信号处理者(signal handlers)(通过方法 <a class="reference internal" href="#scrapy.signalmanager.SignalManager.connect" title="scrapy.signalmanager.SignalManager.connect"><code class="xref py py-meth docutils literal"><span class="pre">connect()</span></code></a> 关联)。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.signalmanager.SignalManager.send_catch_log_deferred">
+<code class="descname">send_catch_log_deferred</code><span class="sig-paren">(</span><em>signal</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signalmanager.SignalManager.send_catch_log_deferred" title="永久链接至目标">¶</a></dt>
+<dd><p>跟 <a class="reference internal" href="#scrapy.signalmanager.SignalManager.send_catch_log" title="scrapy.signalmanager.SignalManager.send_catch_log"><code class="xref py py-meth docutils literal"><span class="pre">send_catch_log()</span></code></a> 相似但支持返回 <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer.html">deferreds</a> 形式的信号处理器。</p>
+<p>返回一个 <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer.html">deferred</a> ，当所有的信号处理器的延迟被触发时调用。
+发送一个信号，处理异常并记录日志。</p>
+<p>关键字参数会传递给信号处理者(signal handlers)(通过方法 <a class="reference internal" href="#scrapy.signalmanager.SignalManager.connect" title="scrapy.signalmanager.SignalManager.connect"><code class="xref py py-meth docutils literal"><span class="pre">connect()</span></code></a> 关联)。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.signalmanager.SignalManager.disconnect">
+<code class="descname">disconnect</code><span class="sig-paren">(</span><em>receiver</em>, <em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signalmanager.SignalManager.disconnect" title="永久链接至目标">¶</a></dt>
+<dd><p>解除一个接收器函数和一个信号的关联。这跟方法 <a class="reference internal" href="#scrapy.signalmanager.SignalManager.connect" title="scrapy.signalmanager.SignalManager.connect"><code class="xref py py-meth docutils literal"><span class="pre">connect()</span></code></a> 有相反的作用，
+参数也相同。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.signalmanager.SignalManager.disconnect_all">
+<code class="descname">disconnect_all</code><span class="sig-paren">(</span><em>signal</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.signalmanager.SignalManager.disconnect_all" title="永久链接至目标">¶</a></dt>
+<dd><p>取消给定信号绑定的所有接收器。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>signal</strong> (<em>object</em>) &#8211; 要取消绑定的信号</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="stats-collector-api">
+<span id="topics-api-stats"></span><h2>状态收集器(Stats Collector) API<a class="headerlink" href="#stats-collector-api" title="永久链接至标题">¶</a></h2>
+<p>模块 <cite>scrapy.statscol</cite> 下有好几种状态收集器，
+它们都实现了状态收集器API对应的类 <code class="xref py py-class docutils literal"><span class="pre">Statscollector</span></code> (即它们都继承至该类)。</p>
+<span class="target" id="module-scrapy.statscol"></span><dl class="class">
+<dt id="scrapy.statscol.StatsCollector">
+<em class="property">class </em><code class="descclassname">scrapy.statscol.</code><code class="descname">StatsCollector</code><a class="headerlink" href="#scrapy.statscol.StatsCollector" title="永久链接至目标">¶</a></dt>
+<dd><dl class="method">
+<dt id="scrapy.statscol.StatsCollector.get_value">
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>key</em>, <em>default=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.get_value" title="永久链接至目标">¶</a></dt>
+<dd><p>返回指定key的统计值，如果key不存在则返回缺省值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.get_stats">
+<code class="descname">get_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.get_stats" title="永久链接至目标">¶</a></dt>
+<dd><p>以dict形式返回当前spider的所有统计值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.set_value">
+<code class="descname">set_value</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.set_value" title="永久链接至目标">¶</a></dt>
+<dd><p>设置key所指定的统计值为value。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.set_stats">
+<code class="descname">set_stats</code><span class="sig-paren">(</span><em>stats</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.set_stats" title="永久链接至目标">¶</a></dt>
+<dd><p>使用dict形式的 <code class="docutils literal"><span class="pre">stats</span></code> 参数覆盖当前的统计值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.inc_value">
+<code class="descname">inc_value</code><span class="sig-paren">(</span><em>key</em>, <em>count=1</em>, <em>start=0</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.inc_value" title="永久链接至目标">¶</a></dt>
+<dd><p>增加key所对应的统计值，增长值由count指定。
+如果key未设置，则使用start的值设置为初始值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.max_value">
+<code class="descname">max_value</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.max_value" title="永久链接至目标">¶</a></dt>
+<dd><p>如果key所对应的当前value小于参数所指定的value，则设置value。
+如果没有key所对应的value，设置value。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.min_value">
+<code class="descname">min_value</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.min_value" title="永久链接至目标">¶</a></dt>
+<dd><p>如果key所对应的当前value大于参数所指定的value，则设置value。
+如果没有key所对应的value，设置value。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.clear_stats">
+<code class="descname">clear_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.clear_stats" title="永久链接至目标">¶</a></dt>
+<dd><p>清除所有统计信息。</p>
+</dd></dl>
+
+<p>以下方法不是统计收集api的一部分，但实现自定义的统计收集器时会使用到：</p>
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.open_spider">
+<code class="descname">open_spider</code><span class="sig-paren">(</span><em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.open_spider" title="永久链接至目标">¶</a></dt>
+<dd><p>打开指定spider进行统计信息收集。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.statscol.StatsCollector.close_spider">
+<code class="descname">close_spider</code><span class="sig-paren">(</span><em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.statscol.StatsCollector.close_spider" title="永久链接至目标">¶</a></dt>
+<dd><p>关闭指定spider。调用后，不能访问和收集统计信息。</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="request-response.html" class="btn btn-neutral float-right" title="Requests and Responses" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="extensions.html" class="btn btn-neutral" title="扩展(Extensions)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

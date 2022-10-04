@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/request-response.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Requests and Responses &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Requests and Responses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#request">Request对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#passing-additional-data-to-callback-functions">Passing additional data to callback functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#request-meta-special-keys">Request.meta special keys</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bindaddress">bindaddress</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#request-subclasses">Request subclasses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#formrequest-objects">FormRequest objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#request-usage-examples">Request usage examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-formrequest-to-send-data-via-http-post">Using FormRequest to send data via HTTP POST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#formrequest-from-response">使用FormRequest.from_response()方法模拟用户登录</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#response-objects">Response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#response-subclasses">Response subclasses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#textresponse-objects">TextResponse objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#htmlresponse-objects">HtmlResponse objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xmlresponse-objects">XmlResponse objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Requests and Responses</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="module-scrapy.http">
+<span id="requests-and-responses"></span><span id="topics-request-response"></span><h1>Requests and Responses<a class="headerlink" href="#module-scrapy.http" title="永久链接至标题">¶</a></h1>
+<p>Scrapy使用 <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 和 <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象爬取web站点。</p>
+<p>一般来说，<a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象在spiders中被生成并且最终传递到
+下载器(Downloader)，下载器对其进行处理并返回一个 <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象，
+<a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象还会返回到生成request的spider中。</p>
+<p>所有 <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> and <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 的子类都会实现一些在基类中非必要的
+功能。它们会在 <a class="reference internal" href="#topics-request-response-ref-request-subclasses"><span>Request subclasses</span></a> 和
+<a class="reference internal" href="#topics-request-response-ref-response-subclasses"><span>Response subclasses</span></a> 两部分进行详细的说明。</p>
+<div class="section" id="request">
+<h2>Request对象<a class="headerlink" href="#request" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.http.Request">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">Request</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>callback</em>, <em>method='GET'</em>, <em>headers</em>, <em>body</em>, <em>cookies</em>, <em>meta</em>, <em>encoding='utf-8'</em>, <em>priority=0</em>, <em>dont_filter=False</em>, <em>errback</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Request" title="永久链接至目标">¶</a></dt>
+<dd><p>一个 <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象代表一个HTTP请求，一般来讲，
+HTTP请求是由Spider产生并被Downloader处理进而生成一个 <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a>。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> (<em>string</em>) &#8211; 请求的URL</li>
+<li><strong>callback</strong> (<em>callable</em>) &#8211; the function that will be called with the response of this
+request (once its downloaded) as its first parameter. For more information
+see <a class="reference internal" href="#topics-request-response-ref-request-callback-arguments"><span>Passing additional data to callback functions</span></a> below.
+If a Request doesn&#8217;t specify a callback, the spider&#8217;s
+<a class="reference internal" href="spiders.html#scrapy.spider.Spider.parse" title="scrapy.spider.Spider.parse"><code class="xref py py-meth docutils literal"><span class="pre">parse()</span></code></a> method will be used.
+Note that if exceptions are raised during processing, errback is called instead.</li>
+<li><strong>method</strong> (<em>string</em>) &#8211; 此请求的HTTP方法。默认是 <code class="docutils literal"><span class="pre">'GET'</span></code>。</li>
+<li><strong>meta</strong> (<em>dict</em>) &#8211; <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> 属性的初始值。 一旦此参数被设置，
+通过参数传递的字典将会被浅拷贝。</li>
+<li><strong>body</strong> (<em>str or unicode</em>) &#8211; request体。如果传进的参数是 <code class="docutils literal"><span class="pre">unicode</span></code> 类型，将会被编码为
+<code class="docutils literal"><span class="pre">str</span></code> 类型。如果 <code class="docutils literal"><span class="pre">body</span></code> 参数没有给定，那么将会存储一个空的string类型，不管
+这个参数是什么类型的，最终存储的都会是 <code class="docutils literal"><span class="pre">str</span></code> 类型(永远不会是 <code class="docutils literal"><span class="pre">unicode</span></code> 或是 <code class="docutils literal"><span class="pre">None</span></code>)。</li>
+<li><strong>headers</strong> (<em>dict</em>) &#8211; 请求头。字典值的类型可以是strings
+(for single valued headers) 或是 lists (for multi-valued headers)。如果传进的值是
+<code class="docutils literal"><span class="pre">None</span></code> ，那么HTTP头将不会被发送。</li>
+<li><strong>cookies</strong> (<em>dict or list</em>) &#8211; <p>请求的cookies。可以被设置成如下两种形式。</p>
+<ol class="arabic">
+<li>Using a dict:<div class="highlight-python"><div class="highlight"><pre><span class="n">request_with_cookies</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.example.com&quot;</span><span class="p">,</span>
+                               <span class="n">cookies</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;currency&#39;</span><span class="p">:</span> <span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="s">&#39;country&#39;</span><span class="p">:</span> <span class="s">&#39;UY&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li>Using a list of dicts:<div class="highlight-python"><div class="highlight"><pre><span class="n">request_with_cookies</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.example.com&quot;</span><span class="p">,</span>
+                               <span class="n">cookies</span><span class="o">=</span><span class="p">[{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;currency&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="s">&#39;USD&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;domain&#39;</span><span class="p">:</span> <span class="s">&#39;example.com&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;path&#39;</span><span class="p">:</span> <span class="s">&#39;/currency&#39;</span><span class="p">}])</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The latter form allows for customizing the <code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">path</span></code>
+attributes of the cookie. This is only useful if the cookies are saved
+for later requests.</p>
+<p>When some site returns cookies (in a response) those are stored in the
+cookies for that domain and will be sent again in future requests. That&#8217;s
+the typical behaviour of any regular web browser. However, if, for some
+reason, you want to avoid merging with existing cookies you can instruct
+Scrapy to do so by setting the <code class="docutils literal"><span class="pre">dont_merge_cookies</span></code> key to True in the
+<a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a>.</p>
+<p>Example of request without merging cookies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">request_with_cookies</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.example.com&quot;</span><span class="p">,</span>
+                               <span class="n">cookies</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;currency&#39;</span><span class="p">:</span> <span class="s">&#39;USD&#39;</span><span class="p">,</span> <span class="s">&#39;country&#39;</span><span class="p">:</span> <span class="s">&#39;UY&#39;</span><span class="p">},</span>
+                               <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;dont_merge_cookies&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>For more info see <a class="reference internal" href="downloader-middleware.html#cookies-mw"><span>CookiesMiddleware</span></a>.</p>
+</li>
+<li><strong>encoding</strong> (<em>string</em>) &#8211; the encoding of this request (defaults to <code class="docutils literal"><span class="pre">'utf-8'</span></code>).
+This encoding will be used to percent-encode the URL and to convert the
+body to <code class="docutils literal"><span class="pre">str</span></code> (if given as <code class="docutils literal"><span class="pre">unicode</span></code>).</li>
+<li><strong>priority</strong> (<em>int</em>) &#8211; the priority of this request (defaults to <code class="docutils literal"><span class="pre">0</span></code>).
+The priority is used by the scheduler to define the order used to process
+requests.  Requests with a higher priority value will execute earlier.
+Negative values are allowed in order to indicate relatively low-priority.</li>
+<li><strong>dont_filter</strong> (<em>boolean</em>) &#8211; indicates that this request should not be filtered by
+the scheduler. This is used when you want to perform an identical
+request multiple times, to ignore the duplicates filter. Use it with
+care, or you will get into crawling loops. Default to <code class="docutils literal"><span class="pre">False</span></code>.</li>
+<li><strong>errback</strong> (<em>callable</em>) &#8211; a function that will be called if any exception was
+raised while processing the request. This includes pages that failed
+with 404 HTTP errors and such. It receives a <a class="reference external" href="http://twistedmatrix.com/documents/current/api/twisted.python.failure.Failure.html">Twisted Failure</a> instance
+as first parameter.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="scrapy.http.Request.url">
+<code class="descname">url</code><a class="headerlink" href="#scrapy.http.Request.url" title="永久链接至目标">¶</a></dt>
+<dd><p>A string containing the URL of this request. Keep in mind that this
+attribute contains the escaped URL, so it can differ from the URL passed in
+the constructor.</p>
+<p>This attribute is read-only. To change the URL of a Request use
+<a class="reference internal" href="#scrapy.http.Request.replace" title="scrapy.http.Request.replace"><code class="xref py py-meth docutils literal"><span class="pre">replace()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Request.method">
+<code class="descname">method</code><a class="headerlink" href="#scrapy.http.Request.method" title="永久链接至目标">¶</a></dt>
+<dd><p>A string representing the HTTP method in the request. This is guaranteed to
+be uppercase. Example: <code class="docutils literal"><span class="pre">&quot;GET&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;POST&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;PUT&quot;</span></code>, etc</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Request.headers">
+<code class="descname">headers</code><a class="headerlink" href="#scrapy.http.Request.headers" title="永久链接至目标">¶</a></dt>
+<dd><p>A dictionary-like object which contains the request headers.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Request.body">
+<code class="descname">body</code><a class="headerlink" href="#scrapy.http.Request.body" title="永久链接至目标">¶</a></dt>
+<dd><p>A str that contains the request body.</p>
+<p>This attribute is read-only. To change the body of a Request use
+<a class="reference internal" href="#scrapy.http.Request.replace" title="scrapy.http.Request.replace"><code class="xref py py-meth docutils literal"><span class="pre">replace()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Request.meta">
+<code class="descname">meta</code><a class="headerlink" href="#scrapy.http.Request.meta" title="永久链接至目标">¶</a></dt>
+<dd><p>A dict that contains arbitrary metadata for this request. This dict is
+empty for new Requests, and is usually  populated by different Scrapy
+components (extensions, middlewares, etc). So the data contained in this
+dict depends on the extensions you have enabled.</p>
+<p>See <a class="reference internal" href="#topics-request-meta"><span>Request.meta special keys</span></a> for a list of special meta keys
+recognized by Scrapy.</p>
+<p>This dict is <a class="reference external" href="http://docs.python.org/library/copy.html">shallow copied</a> when the request is cloned using the
+<code class="docutils literal"><span class="pre">copy()</span></code> or <code class="docutils literal"><span class="pre">replace()</span></code> methods, and can also be accessed, in your
+spider, from the <code class="docutils literal"><span class="pre">response.meta</span></code> attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.Request.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Request.copy" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a new Request which is a copy of this Request. See also:
+<a class="reference internal" href="#topics-request-response-ref-request-callback-arguments"><span>Passing additional data to callback functions</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.Request.replace">
+<code class="descname">replace</code><span class="sig-paren">(</span><span class="optional">[</span><em>url</em>, <em>method</em>, <em>headers</em>, <em>body</em>, <em>cookies</em>, <em>meta</em>, <em>encoding</em>, <em>dont_filter</em>, <em>callback</em>, <em>errback</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Request.replace" title="永久链接至目标">¶</a></dt>
+<dd><p>Return a Request object with the same members, except for those members
+given new values by whichever keyword arguments are specified. The
+attribute <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> is copied by default (unless a new value
+is given in the <code class="docutils literal"><span class="pre">meta</span></code> argument). See also
+<a class="reference internal" href="#topics-request-response-ref-request-callback-arguments"><span>Passing additional data to callback functions</span></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="passing-additional-data-to-callback-functions">
+<span id="topics-request-response-ref-request-callback-arguments"></span><h3>Passing additional data to callback functions<a class="headerlink" href="#passing-additional-data-to-callback-functions" title="永久链接至标题">¶</a></h3>
+<p>The callback of a request is a function that will be called when the response
+of that request is downloaded. The callback function will be called with the
+downloaded <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> object as its first argument.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">parse_page1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">&quot;http://www.example.com/some_page.html&quot;</span><span class="p">,</span>
+                          <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">parse_page2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="c"># this would log http://www.example.com/some_page.html</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Visited </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In some cases you may be interested in passing arguments to those callback
+functions so you can receive the arguments later, in the second callback. You
+can use the <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> attribute for that.</p>
+<p>Here&#8217;s an example of how to pass an item using this mechanism, to populate
+different fields from different pages:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">parse_page1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">MyItem</span><span class="p">()</span>
+    <span class="n">item</span><span class="p">[</span><span class="s">&#39;main_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">&quot;http://www.example.com/some_page.html&quot;</span><span class="p">,</span>
+                             <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page2</span><span class="p">)</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;item&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+    <span class="k">return</span> <span class="n">request</span>
+
+<span class="k">def</span> <span class="nf">parse_page2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;item&#39;</span><span class="p">]</span>
+    <span class="n">item</span><span class="p">[</span><span class="s">&#39;other_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">url</span>
+    <span class="k">return</span> <span class="n">item</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="request-meta-special-keys">
+<span id="topics-request-meta"></span><h2>Request.meta special keys<a class="headerlink" href="#request-meta-special-keys" title="永久链接至标题">¶</a></h2>
+<p>The <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> attribute can contain any arbitrary data, but there
+are some special keys recognized by Scrapy and its built-in extensions.</p>
+<p>Those are:</p>
+<ul class="simple">
+<li><a href="#id1"><span class="problematic" id="id2">:reqmeta:`dont_redirect`</span></a></li>
+<li><a href="#id3"><span class="problematic" id="id4">:reqmeta:`dont_retry`</span></a></li>
+<li><a href="#id5"><span class="problematic" id="id6">:reqmeta:`handle_httpstatus_list`</span></a></li>
+<li><code class="docutils literal"><span class="pre">dont_merge_cookies</span></code> (see <code class="docutils literal"><span class="pre">cookies</span></code> parameter of <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> constructor)</li>
+<li><a href="#id7"><span class="problematic" id="id8">:reqmeta:`cookiejar`</span></a></li>
+<li><a href="#id9"><span class="problematic" id="id10">:reqmeta:`redirect_urls`</span></a></li>
+<li><a href="#id11"><span class="problematic" id="id12">:reqmeta:`bindaddress`</span></a></li>
+</ul>
+<div class="section" id="bindaddress">
+<h3>bindaddress<a class="headerlink" href="#bindaddress" title="永久链接至标题">¶</a></h3>
+<p>The IP of the outgoing IP address to use for the performing the request.</p>
+</div>
+</div>
+<div class="section" id="request-subclasses">
+<span id="topics-request-response-ref-request-subclasses"></span><h2>Request subclasses<a class="headerlink" href="#request-subclasses" title="永久链接至标题">¶</a></h2>
+<p>Here is the list of built-in <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> subclasses. You can also subclass
+it to implement your own custom functionality.</p>
+<div class="section" id="formrequest-objects">
+<h3>FormRequest objects<a class="headerlink" href="#formrequest-objects" title="永久链接至标题">¶</a></h3>
+<p>The FormRequest class extends the base <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> with functionality for
+dealing with HTML forms. It uses <a class="reference external" href="http://lxml.de/lxmlhtml.html#forms">lxml.html forms</a>  to pre-populate form
+fields with form data from <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> objects.</p>
+<dl class="class">
+<dt id="scrapy.http.FormRequest">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">FormRequest</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>formdata</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.FormRequest" title="永久链接至目标">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#scrapy.http.FormRequest" title="scrapy.http.FormRequest"><code class="xref py py-class docutils literal"><span class="pre">FormRequest</span></code></a> class adds a new argument to the constructor. The
+remaining arguments are the same as for the <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> class and are
+not documented here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>formdata</strong> (<em>dict or iterable of tuples</em>) &#8211; is a dictionary (or iterable of (key, value) tuples)
+containing HTML Form data which will be url-encoded and assigned to the
+body of the request.</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference internal" href="#scrapy.http.FormRequest" title="scrapy.http.FormRequest"><code class="xref py py-class docutils literal"><span class="pre">FormRequest</span></code></a> objects support the following class method in
+addition to the standard <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> methods:</p>
+<dl class="classmethod">
+<dt id="scrapy.http.FormRequest.from_response">
+<em class="property">classmethod </em><code class="descname">from_response</code><span class="sig-paren">(</span><em>response</em><span class="optional">[</span>, <em>formname=None</em>, <em>formnumber=0</em>, <em>formdata=None</em>, <em>formxpath=None</em>, <em>clickdata=None</em>, <em>dont_click=False</em>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.FormRequest.from_response" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="#scrapy.http.FormRequest" title="scrapy.http.FormRequest"><code class="xref py py-class docutils literal"><span class="pre">FormRequest</span></code></a> object with its form field values
+pre-populated with those found in the HTML <code class="docutils literal"><span class="pre">&lt;form&gt;</span></code> element contained
+in the given response. For an example see
+<a class="reference internal" href="#topics-request-response-ref-request-userlogin"><span>使用FormRequest.from_response()方法模拟用户登录</span></a>.</p>
+<p>The policy is to automatically simulate a click, by default, on any form
+control that looks clickable, like a <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;submit&quot;&gt;</span></code>.  Even
+though this is quite convenient, and often the desired behaviour,
+sometimes it can cause problems which could be hard to debug. For
+example, when working with forms that are filled and/or submitted using
+javascript, the default <a class="reference internal" href="#scrapy.http.FormRequest.from_response" title="scrapy.http.FormRequest.from_response"><code class="xref py py-meth docutils literal"><span class="pre">from_response()</span></code></a> behaviour may not be the
+most appropriate. To disable this behaviour you can set the
+<code class="docutils literal"><span class="pre">dont_click</span></code> argument to <code class="docutils literal"><span class="pre">True</span></code>. Also, if you want to change the
+control clicked (instead of disabling it) you can also use the
+<code class="docutils literal"><span class="pre">clickdata</span></code> argument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> object) &#8211; the response containing a HTML form which will be used
+to pre-populate the form fields</li>
+<li><strong>formname</strong> (<em>string</em>) &#8211; if given, the form with name attribute set to this value will be used.</li>
+<li><strong>formxpath</strong> (<em>string</em>) &#8211; if given, the first form that matches the xpath will be used.</li>
+<li><strong>formnumber</strong> (<em>integer</em>) &#8211; the number of form to use, when the response contains
+multiple forms. The first one (and also the default) is <code class="docutils literal"><span class="pre">0</span></code>.</li>
+<li><strong>formdata</strong> (<em>dict</em>) &#8211; fields to override in the form data. If a field was
+already present in the response <code class="docutils literal"><span class="pre">&lt;form&gt;</span></code> element, its value is
+overridden by the one passed in this parameter.</li>
+<li><strong>clickdata</strong> (<em>dict</em>) &#8211; attributes to lookup the control clicked. If it&#8217;s not
+given, the form data will be submitted simulating a click on the
+first clickable element. In addition to html attributes, the control
+can be identified by its zero-based index relative to other
+submittable inputs inside the form, via the <code class="docutils literal"><span class="pre">nr</span></code> attribute.</li>
+<li><strong>dont_click</strong> (<em>boolean</em>) &#8211; If True, the form data will be submitted without
+clicking in any element.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The other parameters of this class method are passed directly to the
+<a class="reference internal" href="#scrapy.http.FormRequest" title="scrapy.http.FormRequest"><code class="xref py py-class docutils literal"><span class="pre">FormRequest</span></code></a> constructor.</p>
+<div class="versionadded">
+<p><span class="versionmodified">0.10.3 新版功能: </span>The <code class="docutils literal"><span class="pre">formname</span></code> parameter.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">0.17 新版功能: </span>The <code class="docutils literal"><span class="pre">formxpath</span></code> parameter.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="request-usage-examples">
+<h3>Request usage examples<a class="headerlink" href="#request-usage-examples" title="永久链接至标题">¶</a></h3>
+<div class="section" id="using-formrequest-to-send-data-via-http-post">
+<h4>Using FormRequest to send data via HTTP POST<a class="headerlink" href="#using-formrequest-to-send-data-via-http-post" title="永久链接至标题">¶</a></h4>
+<p>If you want to simulate a HTML Form POST in your spider and send a couple of
+key-value fields, you can return a <a class="reference internal" href="#scrapy.http.FormRequest" title="scrapy.http.FormRequest"><code class="xref py py-class docutils literal"><span class="pre">FormRequest</span></code></a> object (from your
+spider) like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">return</span> <span class="p">[</span><span class="n">FormRequest</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s">&quot;http://www.example.com/post/action&quot;</span><span class="p">,</span>
+                    <span class="n">formdata</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;John Doe&#39;</span><span class="p">,</span> <span class="s">&#39;age&#39;</span><span class="p">:</span> <span class="s">&#39;27&#39;</span><span class="p">},</span>
+                    <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">after_post</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="formrequest-from-response">
+<span id="topics-request-response-ref-request-userlogin"></span><h4>使用FormRequest.from_response()方法模拟用户登录<a class="headerlink" href="#formrequest-from-response" title="永久链接至标题">¶</a></h4>
+<p>通常网站通过 <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;hidden&quot;&gt;</span></code> 实现对某些表单字段（如数据或是登录界面中的认证令牌等）的预填充。
+使用Scrapy抓取网页时，如果想要预填充或重写像用户名、用户密码这些表单字段，
+可以使用 <a class="reference internal" href="#scrapy.http.FormRequest.from_response" title="scrapy.http.FormRequest.from_response"><code class="xref py py-meth docutils literal"><span class="pre">FormRequest.from_response()</span></code></a> 方法实现。下面是使用这种方法的爬虫例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">scrapy</span>
+
+<span class="k">class</span> <span class="nc">LoginSpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;example.com&#39;</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;http://www.example.com/users/login.php&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">FormRequest</span><span class="o">.</span><span class="n">from_response</span><span class="p">(</span>
+            <span class="n">response</span><span class="p">,</span>
+            <span class="n">formdata</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="s">&#39;john&#39;</span><span class="p">,</span> <span class="s">&#39;password&#39;</span><span class="p">:</span> <span class="s">&#39;secret&#39;</span><span class="p">},</span>
+            <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">after_login</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">after_login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="c"># check login succeed before going on</span>
+        <span class="k">if</span> <span class="s">&quot;authentication failed&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;Login failed&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">log</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c"># continue scraping with authenticated session...</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="response-objects">
+<h2>Response objects<a class="headerlink" href="#response-objects" title="永久链接至标题">¶</a></h2>
+<dl class="class">
+<dt id="scrapy.http.Response">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">Response</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>status=200</em>, <em>headers</em>, <em>body</em>, <em>flags</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Response" title="永久链接至目标">¶</a></dt>
+<dd><p>A <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> object represents an HTTP response, which is usually
+downloaded (by the Downloader) and fed to the Spiders for processing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> (<em>string</em>) &#8211; the URL of this response</li>
+<li><strong>headers</strong> (<em>dict</em>) &#8211; the headers of this response. The dict values can be strings
+(for single valued headers) or lists (for multi-valued headers).</li>
+<li><strong>status</strong> (<em>integer</em>) &#8211; the HTTP status of the response. Defaults to <code class="docutils literal"><span class="pre">200</span></code>.</li>
+<li><strong>body</strong> (<em>str</em>) &#8211; the response body. It must be str, not unicode, unless you&#8217;re
+using a encoding-aware <a class="reference internal" href="#topics-request-response-ref-response-subclasses"><span>Response subclass</span></a>, such as
+<a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a>.</li>
+<li><strong>meta</strong> (<em>dict</em>) &#8211; the initial values for the <a class="reference internal" href="#scrapy.http.Response.meta" title="scrapy.http.Response.meta"><code class="xref py py-attr docutils literal"><span class="pre">Response.meta</span></code></a> attribute. If
+given, the dict will be shallow copied.</li>
+<li><strong>flags</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; is a list containing the initial values for the
+<a class="reference internal" href="#scrapy.http.Response.flags" title="scrapy.http.Response.flags"><code class="xref py py-attr docutils literal"><span class="pre">Response.flags</span></code></a> attribute. If given, the list will be shallow
+copied.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="scrapy.http.Response.url">
+<code class="descname">url</code><a class="headerlink" href="#scrapy.http.Response.url" title="永久链接至目标">¶</a></dt>
+<dd><p>A string containing the URL of the response.</p>
+<p>This attribute is read-only. To change the URL of a Response use
+<a class="reference internal" href="#scrapy.http.Response.replace" title="scrapy.http.Response.replace"><code class="xref py py-meth docutils literal"><span class="pre">replace()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.status">
+<code class="descname">status</code><a class="headerlink" href="#scrapy.http.Response.status" title="永久链接至目标">¶</a></dt>
+<dd><p>An integer representing the HTTP status of the response. Example: <code class="docutils literal"><span class="pre">200</span></code>,
+<code class="docutils literal"><span class="pre">404</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.headers">
+<code class="descname">headers</code><a class="headerlink" href="#scrapy.http.Response.headers" title="永久链接至目标">¶</a></dt>
+<dd><p>A dictionary-like object which contains the response headers.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.body">
+<code class="descname">body</code><a class="headerlink" href="#scrapy.http.Response.body" title="永久链接至目标">¶</a></dt>
+<dd><p>A str containing the body of this Response. Keep in mind that Response.body
+is always a str. If you want the unicode version use
+<a class="reference internal" href="#scrapy.http.TextResponse.body_as_unicode" title="scrapy.http.TextResponse.body_as_unicode"><code class="xref py py-meth docutils literal"><span class="pre">TextResponse.body_as_unicode()</span></code></a> (only available in
+<a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> and subclasses).</p>
+<p>This attribute is read-only. To change the body of a Response use
+<a class="reference internal" href="#scrapy.http.Response.replace" title="scrapy.http.Response.replace"><code class="xref py py-meth docutils literal"><span class="pre">replace()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.request">
+<code class="descname">request</code><a class="headerlink" href="#scrapy.http.Response.request" title="永久链接至目标">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> object that generated this response. This attribute is
+assigned in the Scrapy engine, after the response and the request have passed
+through all <a class="reference internal" href="downloader-middleware.html#topics-downloader-middleware"><span>Downloader Middlewares</span></a>.
+In particular, this means that:</p>
+<ul class="simple">
+<li>HTTP redirections will cause the original request (to the URL before
+redirection) to be assigned to the redirected response (with the final
+URL after redirection).</li>
+<li>Response.request.url doesn&#8217;t always equal Response.url</li>
+<li>This attribute is only available in the spider code, and in the
+<a class="reference internal" href="spider-middleware.html#topics-spider-middleware"><span>Spider Middlewares</span></a>, but not in
+Downloader Middlewares (although you have the Request available there by
+other means) and handlers of the <a href="#id13"><span class="problematic" id="id14">:signal:`response_downloaded`</span></a> signal.</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.meta">
+<code class="descname">meta</code><a class="headerlink" href="#scrapy.http.Response.meta" title="永久链接至目标">¶</a></dt>
+<dd><p>A shortcut to the <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> attribute of the
+<a class="reference internal" href="#scrapy.http.Response.request" title="scrapy.http.Response.request"><code class="xref py py-attr docutils literal"><span class="pre">Response.request</span></code></a> object (ie. <code class="docutils literal"><span class="pre">self.request.meta</span></code>).</p>
+<p>Unlike the <a class="reference internal" href="#scrapy.http.Response.request" title="scrapy.http.Response.request"><code class="xref py py-attr docutils literal"><span class="pre">Response.request</span></code></a> attribute, the <a class="reference internal" href="#scrapy.http.Response.meta" title="scrapy.http.Response.meta"><code class="xref py py-attr docutils literal"><span class="pre">Response.meta</span></code></a>
+attribute is propagated along redirects and retries, so you will get
+the original <a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> sent from your spider.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last"><a class="reference internal" href="#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> attribute</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.Response.flags">
+<code class="descname">flags</code><a class="headerlink" href="#scrapy.http.Response.flags" title="永久链接至目标">¶</a></dt>
+<dd><p>A list that contains flags for this response. Flags are labels used for
+tagging Responses. For example: <cite>&#8216;cached&#8217;</cite>, <cite>&#8216;redirected</cite>&#8216;, etc. And
+they&#8217;re shown on the string representation of the Response (<cite>__str__</cite>
+method) which is used by the engine for logging.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.Response.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Response.copy" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns a new Response which is a copy of this Response.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.Response.replace">
+<code class="descname">replace</code><span class="sig-paren">(</span><span class="optional">[</span><em>url</em>, <em>status</em>, <em>headers</em>, <em>body</em>, <em>request</em>, <em>flags</em>, <em>cls</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.Response.replace" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns a Response object with the same members, except for those members
+given new values by whichever keyword arguments are specified. The
+attribute <a class="reference internal" href="#scrapy.http.Response.meta" title="scrapy.http.Response.meta"><code class="xref py py-attr docutils literal"><span class="pre">Response.meta</span></code></a> is copied by default.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="response-subclasses">
+<span id="topics-request-response-ref-response-subclasses"></span><h2>Response subclasses<a class="headerlink" href="#response-subclasses" title="永久链接至标题">¶</a></h2>
+<p>Here is the list of available built-in Response subclasses. You can also
+subclass the Response class to implement your own functionality.</p>
+<div class="section" id="textresponse-objects">
+<h3>TextResponse objects<a class="headerlink" href="#textresponse-objects" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.http.TextResponse">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">TextResponse</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>encoding</em><span class="optional">[</span>, <em>...</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.TextResponse" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> objects adds encoding capabilities to the base
+<a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> class, which is meant to be used only for binary data,
+such as images, sounds or any media file.</p>
+<p><a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> objects support a new constructor argument, in
+addition to the base <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> objects. The remaining functionality
+is the same as for the <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> class and is not documented here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>encoding</strong> (<em>string</em>) &#8211; is a string which contains the encoding to use for this
+response. If you create a <a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> object with a unicode
+body, it will be encoded using this encoding (remember the body attribute
+is always a string). If <code class="docutils literal"><span class="pre">encoding</span></code> is <code class="docutils literal"><span class="pre">None</span></code> (default value), the
+encoding will be looked up in the response headers and body instead.</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> objects support the following attributes in addition
+to the standard <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> ones:</p>
+<dl class="attribute">
+<dt id="scrapy.http.TextResponse.encoding">
+<code class="descname">encoding</code><a class="headerlink" href="#scrapy.http.TextResponse.encoding" title="永久链接至目标">¶</a></dt>
+<dd><p>A string with the encoding of this response. The encoding is resolved by
+trying the following mechanisms, in order:</p>
+<ol class="arabic simple">
+<li>the encoding passed in the constructor <cite>encoding</cite> argument</li>
+<li>the encoding declared in the Content-Type HTTP header. If this
+encoding is not valid (ie. unknown), it is ignored and the next
+resolution mechanism is tried.</li>
+<li>the encoding declared in the response body. The TextResponse class
+doesn&#8217;t provide any special functionality for this. However, the
+<a class="reference internal" href="#scrapy.http.HtmlResponse" title="scrapy.http.HtmlResponse"><code class="xref py py-class docutils literal"><span class="pre">HtmlResponse</span></code></a> and <a class="reference internal" href="#scrapy.http.XmlResponse" title="scrapy.http.XmlResponse"><code class="xref py py-class docutils literal"><span class="pre">XmlResponse</span></code></a> classes do.</li>
+<li>the encoding inferred by looking at the response body. This is the more
+fragile method but also the last one tried.</li>
+</ol>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="scrapy.http.TextResponse.selector">
+<code class="descname">selector</code><a class="headerlink" href="#scrapy.http.TextResponse.selector" title="永久链接至目标">¶</a></dt>
+<dd><p>A <a class="reference internal" href="selectors.html#scrapy.selector.Selector" title="scrapy.selector.Selector"><code class="xref py py-class docutils literal"><span class="pre">Selector</span></code></a> instance using the response as
+target. The selector is lazily instantiated on first access.</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> objects support the following methods in addition to
+the standard <a class="reference internal" href="#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> ones:</p>
+<dl class="method">
+<dt id="scrapy.http.TextResponse.body_as_unicode">
+<code class="descname">body_as_unicode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.TextResponse.body_as_unicode" title="永久链接至目标">¶</a></dt>
+<dd><p>Returns the body of the response as unicode. This is equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But <strong>not</strong> equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">unicode</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Since, in the latter case, you would be using you system default encoding
+(typically <cite>ascii</cite>) to convert the body to unicode, instead of the response
+encoding.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.TextResponse.xpath">
+<code class="descname">xpath</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.TextResponse.xpath" title="永久链接至目标">¶</a></dt>
+<dd><p>A shortcut to <code class="docutils literal"><span class="pre">TextResponse.selector.xpath(query)</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">response</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s">&#39;//p&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.http.TextResponse.css">
+<code class="descname">css</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.TextResponse.css" title="永久链接至目标">¶</a></dt>
+<dd><p>A shortcut to <code class="docutils literal"><span class="pre">TextResponse.selector.css(query)</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="htmlresponse-objects">
+<h3>HtmlResponse objects<a class="headerlink" href="#htmlresponse-objects" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.http.HtmlResponse">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">HtmlResponse</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.HtmlResponse" title="永久链接至目标">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#scrapy.http.HtmlResponse" title="scrapy.http.HtmlResponse"><code class="xref py py-class docutils literal"><span class="pre">HtmlResponse</span></code></a> class is a subclass of <a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a>
+which adds encoding auto-discovering support by looking into the HTML <a class="reference external" href="http://www.w3schools.com/TAGS/att_meta_http_equiv.asp">meta
+http-equiv</a> attribute.  See <a class="reference internal" href="#scrapy.http.TextResponse.encoding" title="scrapy.http.TextResponse.encoding"><code class="xref py py-attr docutils literal"><span class="pre">TextResponse.encoding</span></code></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="xmlresponse-objects">
+<h3>XmlResponse objects<a class="headerlink" href="#xmlresponse-objects" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.http.XmlResponse">
+<em class="property">class </em><code class="descclassname">scrapy.http.</code><code class="descname">XmlResponse</code><span class="sig-paren">(</span><em>url</em><span class="optional">[</span>, <em>...</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.http.XmlResponse" title="永久链接至目标">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#scrapy.http.XmlResponse" title="scrapy.http.XmlResponse"><code class="xref py py-class docutils literal"><span class="pre">XmlResponse</span></code></a> class is a subclass of <a class="reference internal" href="#scrapy.http.TextResponse" title="scrapy.http.TextResponse"><code class="xref py py-class docutils literal"><span class="pre">TextResponse</span></code></a> which
+adds encoding auto-discovering support by looking into the XML declaration
+line.  See <a class="reference internal" href="#scrapy.http.TextResponse.encoding" title="scrapy.http.TextResponse.encoding"><code class="xref py py-attr docutils literal"><span class="pre">TextResponse.encoding</span></code></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="settings.html" class="btn btn-neutral float-right" title="Settings" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="核心API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/request-response.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

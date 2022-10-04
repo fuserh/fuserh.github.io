@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/feed-exports.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Feed exports &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Feed exports</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serialization-formats">序列化方式(Serialization formats)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#json">JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#json-lines">JSON lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csv">CSV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xml">XML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pickle">Pickle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#marshal">Marshal</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#storages">存储(Storages)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uri">存储URI参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storage-backends">存储端(Storage backends)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#topics-feed-storage-fs">本地文件系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ftp">FTP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#s3">S3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#topics-feed-storage-stdout">标准输出</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#settings">设定(Settings)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#feed-uri">FEED_URI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-format">FEED_FORMAT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-store-empty">FEED_STORE_EMPTY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-storages">FEED_STORAGES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-storages-base">FEED_STORAGES_BASE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-exporters">FEED_EXPORTERS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feed-exporters-base">FEED_EXPORTERS_BASE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Feed exports</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="feed-exports">
+<span id="topics-feed-exports"></span><h1>Feed exports<a class="headerlink" href="#feed-exports" title="永久链接至标题">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+<p>实现爬虫时最经常提到的需求就是能合适的保存爬取到的数据，或者说，生成一个带有爬取数据的&#8221;输出文件&#8221;(通常叫做&#8221;输出feed&#8221;)，来供其他系统使用。</p>
+<p>Scrapy自带了Feed输出，并且支持多种序列化格式(serialization format)及存储方式(storage backends)。</p>
+<div class="section" id="serialization-formats">
+<span id="topics-feed-format"></span><h2>序列化方式(Serialization formats)<a class="headerlink" href="#serialization-formats" title="永久链接至标题">¶</a></h2>
+<p>feed输出使用到了
+<a class="reference internal" href="exporters.html#topics-exporters"><span>Item exporters</span></a> 。其自带支持的类型有:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#topics-feed-format-json"><span>JSON</span></a></li>
+<li><a class="reference internal" href="#topics-feed-format-jsonlines"><span>JSON lines</span></a></li>
+<li><a class="reference internal" href="#topics-feed-format-csv"><span>CSV</span></a></li>
+<li><a class="reference internal" href="#topics-feed-format-xml"><span>XML</span></a></li>
+</ul>
+</div></blockquote>
+<p>您也可以通过
+<a href="#id1"><span class="problematic" id="id2">:setting:`FEED_EXPORTERS`</span></a> 设置扩展支持的属性。</p>
+<div class="section" id="json">
+<span id="topics-feed-format-json"></span><h3>JSON<a class="headerlink" href="#json" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id3"><span class="problematic" id="id4">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">json</span></code></li>
+<li>使用的exporter: <a class="reference internal" href="exporters.html#scrapy.contrib.exporter.JsonItemExporter" title="scrapy.contrib.exporter.JsonItemExporter"><code class="xref py py-class docutils literal"><span class="pre">JsonItemExporter</span></code></a></li>
+<li>大数据量情况下使用JSON请参见 <a class="reference internal" href="exporters.html#json-with-large-data"><span>这个警告</span></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="json-lines">
+<span id="topics-feed-format-jsonlines"></span><h3>JSON lines<a class="headerlink" href="#json-lines" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id5"><span class="problematic" id="id6">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">jsonlines</span></code></li>
+<li>使用的exporter: <a class="reference internal" href="exporters.html#scrapy.contrib.exporter.JsonLinesItemExporter" title="scrapy.contrib.exporter.JsonLinesItemExporter"><code class="xref py py-class docutils literal"><span class="pre">JsonLinesItemExporter</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="csv">
+<span id="topics-feed-format-csv"></span><h3>CSV<a class="headerlink" href="#csv" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id7"><span class="problematic" id="id8">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">csv</span></code></li>
+<li>使用的exporter: <a class="reference internal" href="exporters.html#scrapy.contrib.exporter.CsvItemExporter" title="scrapy.contrib.exporter.CsvItemExporter"><code class="xref py py-class docutils literal"><span class="pre">CsvItemExporter</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="xml">
+<span id="topics-feed-format-xml"></span><h3>XML<a class="headerlink" href="#xml" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id9"><span class="problematic" id="id10">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">xml</span></code></li>
+<li>使用的exporter: <a class="reference internal" href="exporters.html#scrapy.contrib.exporter.XmlItemExporter" title="scrapy.contrib.exporter.XmlItemExporter"><code class="xref py py-class docutils literal"><span class="pre">XmlItemExporter</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pickle">
+<span id="topics-feed-format-pickle"></span><h3>Pickle<a class="headerlink" href="#pickle" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id11"><span class="problematic" id="id12">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">pickle</span></code></li>
+<li>使用的exporter: <a class="reference internal" href="exporters.html#scrapy.contrib.exporter.PickleItemExporter" title="scrapy.contrib.exporter.PickleItemExporter"><code class="xref py py-class docutils literal"><span class="pre">PickleItemExporter</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="marshal">
+<span id="topics-feed-format-marshal"></span><h3>Marshal<a class="headerlink" href="#marshal" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id13"><span class="problematic" id="id14">:setting:`FEED_FORMAT`</span></a>: <code class="docutils literal"><span class="pre">marshal</span></code></li>
+<li>使用的exporter: <code class="xref py py-class docutils literal"><span class="pre">MarshalItemExporter</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="storages">
+<span id="topics-feed-storage"></span><h2>存储(Storages)<a class="headerlink" href="#storages" title="永久链接至标题">¶</a></h2>
+<p>使用feed输出时您可以通过使用 <a class="reference external" href="http://en.wikipedia.org/wiki/Uniform_Resource_Identifier">URI</a>
+(通过 <a href="#id15"><span class="problematic" id="id16">:setting:`FEED_URI`</span></a> 设置) 来定义存储端。
+feed输出支持URI方式支持的多种存储后端类型。</p>
+<p>自带支持的存储后端有:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#topics-feed-storage-fs"><span>本地文件系统</span></a></li>
+<li><a class="reference internal" href="#topics-feed-storage-ftp"><span>FTP</span></a></li>
+<li><a class="reference internal" href="#topics-feed-storage-s3"><span>S3</span></a> (需要 <a class="reference external" href="http://code.google.com/p/boto/">boto</a>)</li>
+<li><a class="reference internal" href="#topics-feed-storage-stdout"><span>标准输出</span></a></li>
+</ul>
+</div></blockquote>
+<p>有些存储后端会因所需的外部库未安装而不可用。例如，S3只有在 <a class="reference external" href="http://code.google.com/p/boto/">boto</a> 库安装的情况下才可使用。</p>
+</div>
+<div class="section" id="uri">
+<span id="topics-feed-uri-params"></span><h2>存储URI参数<a class="headerlink" href="#uri" title="永久链接至标题">¶</a></h2>
+<p>存储URI也包含参数。当feed被创建时这些参数可以被覆盖:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">%(time)s</span></code> - 当feed被创建时被timestamp覆盖</li>
+<li><code class="docutils literal"><span class="pre">%(name)s</span></code> - 被spider的名字覆盖</li>
+</ul>
+</div></blockquote>
+<p>其他命名的参数会被spider同名的属性所覆盖。例如，
+当feed被创建时， <code class="docutils literal"><span class="pre">%(site_id)s</span></code> 将会被
+<code class="docutils literal"><span class="pre">spider.site_id</span></code> 属性所覆盖。</p>
+<p>下面用一些例子来说明:</p>
+<blockquote>
+<div><ul class="simple">
+<li>存储在FTP，每个spider一个目录:<ul>
+<li><code class="docutils literal"><span class="pre">ftp://user:password&#64;ftp.example.com/scraping/feeds/%(name)s/%(time)s.json</span></code></li>
+</ul>
+</li>
+<li>存储在S3，每一个spider一个目录:<ul>
+<li><code class="docutils literal"><span class="pre">s3://mybucket/scraping/feeds/%(name)s/%(time)s.json</span></code></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="storage-backends">
+<span id="topics-feed-storage-backends"></span><h2>存储端(Storage backends)<a class="headerlink" href="#storage-backends" title="永久链接至标题">¶</a></h2>
+<div class="section" id="topics-feed-storage-fs">
+<span id="id17"></span><h3>本地文件系统<a class="headerlink" href="#topics-feed-storage-fs" title="永久链接至标题">¶</a></h3>
+<p>将feed存储在本地系统。</p>
+<blockquote>
+<div><ul class="simple">
+<li>URI scheme: <code class="docutils literal"><span class="pre">file</span></code></li>
+<li>URI样例: <code class="docutils literal"><span class="pre">file:///tmp/export.csv</span></code></li>
+<li>需要的外部依赖库: none</li>
+</ul>
+</div></blockquote>
+<p>注意: (只有)存储在本地文件系统时，您可以指定一个绝对路径 <code class="docutils literal"><span class="pre">/tmp/export.csv</span></code> 并忽略协议(scheme)。不过这仅仅只能在Unix系统中工作。</p>
+</div>
+<div class="section" id="ftp">
+<span id="topics-feed-storage-ftp"></span><h3>FTP<a class="headerlink" href="#ftp" title="永久链接至标题">¶</a></h3>
+<p>将feed存储在FTP服务器。</p>
+<blockquote>
+<div><ul class="simple">
+<li>URI scheme: <code class="docutils literal"><span class="pre">ftp</span></code></li>
+<li>URI样例: <code class="docutils literal"><span class="pre">ftp://user:pass&#64;ftp.example.com/path/to/export.csv</span></code></li>
+<li>需要的外部依赖库: none</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="s3">
+<span id="topics-feed-storage-s3"></span><h3>S3<a class="headerlink" href="#s3" title="永久链接至标题">¶</a></h3>
+<p>将feed存储在 <a class="reference external" href="http://aws.amazon.com/s3/">Amazon S3</a> 。</p>
+<blockquote>
+<div><ul class="simple">
+<li>URI scheme: <code class="docutils literal"><span class="pre">s3</span></code></li>
+<li>URI样例:<ul>
+<li><code class="docutils literal"><span class="pre">s3://mybucket/path/to/export.csv</span></code></li>
+<li><code class="docutils literal"><span class="pre">s3://aws_key:aws_secret&#64;mybucket/path/to/export.csv</span></code></li>
+</ul>
+</li>
+<li>需要的外部依赖库: <a class="reference external" href="http://code.google.com/p/boto/">boto</a></li>
+</ul>
+</div></blockquote>
+<p>您可以通过在URI中传递user/pass来完成AWS认证，或者也可以通过下列的设置来完成:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id18"><span class="problematic" id="id19">:setting:`AWS_ACCESS_KEY_ID`</span></a></li>
+<li><a href="#id20"><span class="problematic" id="id21">:setting:`AWS_SECRET_ACCESS_KEY`</span></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="topics-feed-storage-stdout">
+<span id="id22"></span><h3>标准输出<a class="headerlink" href="#topics-feed-storage-stdout" title="永久链接至标题">¶</a></h3>
+<p>feed输出到Scrapy进程的标准输出。</p>
+<blockquote>
+<div><ul class="simple">
+<li>URI scheme: <code class="docutils literal"><span class="pre">stdout</span></code></li>
+<li>URI样例: <code class="docutils literal"><span class="pre">stdout:</span></code></li>
+<li>需要的外部依赖库: none</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="settings">
+<h2>设定(Settings)<a class="headerlink" href="#settings" title="永久链接至标题">¶</a></h2>
+<p>这些是配置feed输出的设定:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a href="#id23"><span class="problematic" id="id24">:setting:`FEED_URI`</span></a> (必须)</li>
+<li><a href="#id25"><span class="problematic" id="id26">:setting:`FEED_FORMAT`</span></a></li>
+<li><a href="#id27"><span class="problematic" id="id28">:setting:`FEED_STORAGES`</span></a></li>
+<li><a href="#id29"><span class="problematic" id="id30">:setting:`FEED_EXPORTERS`</span></a></li>
+<li><a href="#id31"><span class="problematic" id="id32">:setting:`FEED_STORE_EMPTY`</span></a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="feed-uri">
+<h3>FEED_URI<a class="headerlink" href="#feed-uri" title="永久链接至标题">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>输出feed的URI。支持的URI协议请参见
+<a class="reference internal" href="#topics-feed-storage-backends"><span>存储端(Storage backends)</span></a> 。</p>
+<p>为了启用feed输出，该设定是必须的。</p>
+</div>
+<div class="section" id="feed-format">
+<h3>FEED_FORMAT<a class="headerlink" href="#feed-format" title="永久链接至标题">¶</a></h3>
+<p>输出feed的序列化格式。可用的值请参见
+<a class="reference internal" href="#topics-feed-format"><span>序列化方式(Serialization formats)</span></a> 。</p>
+</div>
+<div class="section" id="feed-store-empty">
+<h3>FEED_STORE_EMPTY<a class="headerlink" href="#feed-store-empty" title="永久链接至标题">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>是否输出空feed(没有item的feed)。</p>
+</div>
+<div class="section" id="feed-storages">
+<h3>FEED_STORAGES<a class="headerlink" href="#feed-storages" title="永久链接至标题">¶</a></h3>
+<p>Default:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>包含项目支持的额外feed存储端的字典。
+字典的键(key)是URI协议(scheme)，值是存储类(storage class)的路径。</p>
+</div>
+<div class="section" id="feed-storages-base">
+<h3>FEED_STORAGES_BASE<a class="headerlink" href="#feed-storages-base" title="永久链接至标题">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.feedexport.FileFeedStorage&#39;</span><span class="p">,</span>
+    <span class="s">&#39;file&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.feedexport.FileFeedStorage&#39;</span><span class="p">,</span>
+    <span class="s">&#39;stdout&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.feedexport.StdoutFeedStorage&#39;</span><span class="p">,</span>
+    <span class="s">&#39;s3&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.feedexport.S3FeedStorage&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ftp&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.feedexport.FTPFeedStorage&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>包含Scrapy内置支持的feed存储端的字典。</p>
+</div>
+<div class="section" id="feed-exporters">
+<h3>FEED_EXPORTERS<a class="headerlink" href="#feed-exporters" title="永久链接至标题">¶</a></h3>
+<p>Default:: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>包含项目支持的额外输出器(exporter)的字典。
+该字典的键(key)是URI协议(scheme)，值是
+<a class="reference internal" href="exporters.html#topics-exporters"><span>Item输出器(exporter)</span></a> 类的路径。</p>
+</div>
+<div class="section" id="feed-exporters-base">
+<h3>FEED_EXPORTERS_BASE<a class="headerlink" href="#feed-exporters-base" title="永久链接至标题">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">FEED_EXPORTERS_BASE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;json&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.exporter.JsonItemExporter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;jsonlines&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.exporter.JsonLinesItemExporter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;csv&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.exporter.CsvItemExporter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;xml&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.exporter.XmlItemExporter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;marshal&#39;</span><span class="p">:</span> <span class="s">&#39;scrapy.contrib.exporter.MarshalItemExporter&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>包含Scrapy内置支持的feed输出器(exporter)的字典。</p>
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="link-extractors.html" class="btn btn-neutral float-right" title="Link Extractors" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="item-pipeline.html" class="btn btn-neutral" title="Item Pipeline" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/feed-exports.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

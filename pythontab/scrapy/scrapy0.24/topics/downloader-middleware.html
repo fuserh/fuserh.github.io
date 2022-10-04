@@ -1,0 +1,978 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/downloader-middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>下载器中间件(Downloader Middleware) &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">下载器中间件(Downloader Middleware)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#topics-downloader-middleware-setting">激活下载器中间件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">编写您自己的下载器中间件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#topics-downloader-middleware-ref">内置下载中间件参考手册</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.cookies">CookiesMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spidercookie-session">单spider多cookie session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cookies-enabled">COOKIES_ENABLED</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cookies-debug">COOKIES_DEBUG</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.defaultheaders">DefaultHeadersMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.downloadtimeout">DownloadTimeoutMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.httpauth">HttpAuthMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.httpcache">HttpCacheMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dummy">Dummy策略(默认值)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rfc2616">RFC2616策略</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#filesystem-storage-backend">Filesystem storage backend (默认值)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dbm-storage-backend">DBM storage backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#leveldb-storage-backend">LevelDB storage backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#httpcache">HTTPCache中间件设置</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.httpcompression">HttpCompressionMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#httpcompressionmiddleware-settings">HttpCompressionMiddleware Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.chunked">ChunkedTransferMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.httpproxy">HttpProxyMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.redirect">RedirectMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#redirectmiddleware-settings">RedirectMiddleware settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#metarefreshmiddleware">MetaRefreshMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metarefreshmiddleware-settings">MetaRefreshMiddleware settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.retry">RetryMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#retrymiddleware-settings">RetryMiddleware Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.robotstxt">RobotsTxtMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.stats">DownloaderStats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.useragent">UserAgentMiddleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.downloadermiddleware.ajaxcrawl">AjaxCrawlMiddleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id76">AjaxCrawlMiddleware设置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>下载器中间件(Downloader Middleware)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="downloader-middleware">
+<span id="topics-downloader-middleware"></span><h1>下载器中间件(Downloader Middleware)<a class="headerlink" href="#downloader-middleware" title="永久链接至标题">¶</a></h1>
+<p>下载器中间件是介于Scrapy的request/response处理的钩子框架。
+是用于全局修改Scrapy request和response的一个轻量、底层的系统。</p>
+<div class="section" id="topics-downloader-middleware-setting">
+<span id="id1"></span><h2>激活下载器中间件<a class="headerlink" href="#topics-downloader-middleware-setting" title="永久链接至标题">¶</a></h2>
+<p>要激活下载器中间件组件，将其加入到 <a href="#id2"><span class="problematic" id="id3">:setting:`DOWNLOADER_MIDDLEWARES`</span></a> 设置中。
+该设置是一个字典(dict)，键为中间件类的路径，值为其中间件的顺序(order)。</p>
+<p>这里是一个例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DOWNLOADER_MIDDLEWARES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;myproject.middlewares.CustomDownloaderMiddleware&#39;</span><span class="p">:</span> <span class="mi">543</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a href="#id4"><span class="problematic" id="id5">:setting:`DOWNLOADER_MIDDLEWARES`</span></a> 设置会与Scrapy定义的
+<a href="#id6"><span class="problematic" id="id7">:setting:`DOWNLOADER_MIDDLEWARES_BASE`</span></a> 设置合并(但不是覆盖)，
+而后根据顺序(order)进行排序，最后得到启用中间件的有序列表:
+第一个中间件是最靠近引擎的，最后一个中间件是最靠近下载器的。</p>
+<p>关于如何分配中间件的顺序请查看
+<a href="#id8"><span class="problematic" id="id9">:setting:`DOWNLOADER_MIDDLEWARES_BASE`</span></a> 设置，而后根据您想要放置中间件的位置选择一个值。
+由于每个中间件执行不同的动作，您的中间件可能会依赖于之前(或者之后)执行的中间件，因此顺序是很重要的。</p>
+<p>如果您想禁止内置的(在
+<a href="#id10"><span class="problematic" id="id11">:setting:`DOWNLOADER_MIDDLEWARES_BASE`</span></a> 中设置并默认启用的)中间件，
+您必须在项目的 <a href="#id12"><span class="problematic" id="id13">:setting:`DOWNLOADER_MIDDLEWARES`</span></a> 设置中定义该中间件，并将其值赋为 <cite>None</cite> 。
+例如，如果您想要关闭user-agent中间件:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DOWNLOADER_MIDDLEWARES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;myproject.middlewares.CustomDownloaderMiddleware&#39;</span><span class="p">:</span> <span class="mi">543</span><span class="p">,</span>
+    <span class="s">&#39;scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>最后，请注意，有些中间件需要通过特定的设置来启用。更多内容请查看相关中间件文档。</p>
+</div>
+<div class="section" id="id14">
+<h2>编写您自己的下载器中间件<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<p>编写下载器中间件十分简单。每个中间件组件是一个定义了以下一个或多个方法的Python类:</p>
+<span class="target" id="module-scrapy.contrib.downloadermiddleware"></span><dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.DownloaderMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.</code><code class="descname">DownloaderMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><dl class="method">
+<dt id="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request">
+<code class="descname">process_request</code><span class="sig-paren">(</span><em>request</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="永久链接至目标">¶</a></dt>
+<dd><p>当每个request通过下载中间件时，该方法被调用。</p>
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a> 必须返回其中之一: 返回 <code class="docutils literal"><span class="pre">None</span></code> 、返回一个
+<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象、返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a>
+对象或raise <a class="reference internal" href="exceptions.html#scrapy.exceptions.IgnoreRequest" title="scrapy.exceptions.IgnoreRequest"><code class="xref py py-exc docutils literal"><span class="pre">IgnoreRequest</span></code></a> 。</p>
+<p>如果其返回 <code class="docutils literal"><span class="pre">None</span></code> ，Scrapy将继续处理该request，执行其他的中间件的相应方法，直到合适的下载器处理函数(download handler)被调用，
+该request被执行(其response被下载)。</p>
+<p>如果其返回 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象，Scrapy将不会调用 <em>任何</em>
+其他的 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a> 或 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 方法，或相应地下载函数；
+其将返回该response。 已安装的中间件的 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response"><code class="xref py py-meth docutils literal"><span class="pre">process_response()</span></code></a> 方法则会在每个response返回时被调用。</p>
+<p>如果其返回 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象，Scrapy则停止调用
+process_request方法并重新调度返回的request。当新返回的request被执行后，
+相应地中间件链将会根据下载的response被调用。</p>
+<p>如果其raise一个 <a class="reference internal" href="exceptions.html#scrapy.exceptions.IgnoreRequest" title="scrapy.exceptions.IgnoreRequest"><code class="xref py py-exc docutils literal"><span class="pre">IgnoreRequest</span></code></a> 异常，则安装的下载中间件的
+<a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 方法会被调用。如果没有任何一个方法处理该异常，
+则request的errback(<code class="docutils literal"><span class="pre">Request.errback</span></code>)方法会被调用。如果没有代码处理抛出的异常，
+则该异常被忽略且不记录(不同于其他异常那样)。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; 处理的request</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; 该request对应的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response">
+<code class="descname">process_response</code><span class="sig-paren">(</span><em>request</em>, <em>response</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a> 必须返回以下之一: 返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象、
+返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象或raise一个 <a class="reference internal" href="exceptions.html#scrapy.exceptions.IgnoreRequest" title="scrapy.exceptions.IgnoreRequest"><code class="xref py py-exc docutils literal"><span class="pre">IgnoreRequest</span></code></a> 异常。</p>
+<p>如果其返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> (可以与传入的response相同，也可以是全新的对象)，
+该response会被在链中的其他中间件的 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response"><code class="xref py py-meth docutils literal"><span class="pre">process_response()</span></code></a> 方法处理。</p>
+<p>如果其返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象，则中间件链停止，
+返回的request会被重新调度下载。处理类似于 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a> 返回request所做的那样。</p>
+<p>如果其抛出一个 <a class="reference internal" href="exceptions.html#scrapy.exceptions.IgnoreRequest" title="scrapy.exceptions.IgnoreRequest"><code class="xref py py-exc docutils literal"><span class="pre">IgnoreRequest</span></code></a> 异常，则调用request的errback(<code class="docutils literal"><span class="pre">Request.errback</span></code>)。
+如果没有代码处理抛出的异常，则该异常被忽略且不记录(不同于其他异常那样)。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; response所对应的request</li>
+<li><strong>response</strong> (<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象) &#8211; 被处理的response</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; response所对应的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception">
+<code class="descname">process_exception</code><span class="sig-paren">(</span><em>request</em>, <em>exception</em>, <em>spider</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="永久链接至目标">¶</a></dt>
+<dd><p>当下载处理器(download handler)或 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a>
+(下载中间件)抛出异常(包括 <a class="reference internal" href="exceptions.html#scrapy.exceptions.IgnoreRequest" title="scrapy.exceptions.IgnoreRequest"><code class="xref py py-exc docutils literal"><span class="pre">IgnoreRequest</span></code></a> 异常)时，
+Scrapy调用 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 。</p>
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 应该返回以下之一: 返回 <code class="docutils literal"><span class="pre">None</span></code> 、
+一个 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象、或者一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象。</p>
+<p>如果其返回 <code class="docutils literal"><span class="pre">None</span></code> ，Scrapy将会继续处理该异常，接着调用已安装的其他中间件的
+<a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 方法，直到所有中间件都被调用完毕，则调用默认的异常处理。</p>
+<p>如果其返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象，则已安装的中间件链的
+<a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_response"><code class="xref py py-meth docutils literal"><span class="pre">process_response()</span></code></a> 方法被调用。Scrapy将不会调用任何其他中间件的
+<a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 方法。</p>
+<p>如果其返回一个 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象，
+则返回的request将会被重新调用下载。这将停止中间件的
+<a class="reference internal" href="#scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception" title="scrapy.contrib.downloadermiddleware.DownloaderMiddleware.process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> 方法执行，就如返回一个response的那样。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request</strong> (是 <a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象) &#8211; 产生异常的request</li>
+<li><strong>exception</strong> (<code class="docutils literal"><span class="pre">Exception</span></code> 对象) &#8211; 抛出的异常</li>
+<li><strong>spider</strong> (<a class="reference internal" href="spiders.html#scrapy.spider.Spider" title="scrapy.spider.Spider"><code class="xref py py-class docutils literal"><span class="pre">Spider</span></code></a> 对象) &#8211; request对应的spider</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="topics-downloader-middleware-ref">
+<span id="id15"></span><h2>内置下载中间件参考手册<a class="headerlink" href="#topics-downloader-middleware-ref" title="永久链接至标题">¶</a></h2>
+<p>本页面介绍了Scrapy自带的所有下载中间件。关于如何使用及编写您自己的中间件，请参考
+<a class="reference internal" href="#topics-downloader-middleware"><span>downloader middleware usage guide</span></a>.</p>
+<p>关于默认启用的中间件列表(及其顺序)请参考
+<a href="#id16"><span class="problematic" id="id17">:setting:`DOWNLOADER_MIDDLEWARES_BASE`</span></a> 设置。</p>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.cookies">
+<span id="cookiesmiddleware"></span><span id="cookies-mw"></span><h3>CookiesMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.cookies" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.cookies.CookiesMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.cookies.</code><code class="descname">CookiesMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.cookies.CookiesMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件使得爬取需要cookie(例如使用session)的网站成为了可能。
+其追踪了web server发送的cookie，并在之后的request中发送回去，
+就如浏览器所做的那样。</p>
+</dd></dl>
+
+<p>以下设置可以用来配置cookie中间件:</p>
+<ul class="simple">
+<li><a href="#id18"><span class="problematic" id="id19">:setting:`COOKIES_ENABLED`</span></a></li>
+<li><a href="#id20"><span class="problematic" id="id21">:setting:`COOKIES_DEBUG`</span></a></li>
+</ul>
+<div class="section" id="spidercookie-session">
+<h4>单spider多cookie session<a class="headerlink" href="#spidercookie-session" title="永久链接至标题">¶</a></h4>
+<div class="versionadded">
+<p><span class="versionmodified">0.15 新版功能.</span></p>
+</div>
+<p>Scrapy通过使用 <a href="#id22"><span class="problematic" id="id23">:reqmeta:`cookiejar`</span></a> Request meta key来支持单spider追踪多cookie session。
+默认情况下其使用一个cookie jar(session)，不过您可以传递一个标示符来使用多个。</p>
+<p>例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urls</span><span class="p">):</span>
+    <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">&quot;http://www.example.com&quot;</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;cookiejar&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">},</span>
+        <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>需要注意的是 <a href="#id24"><span class="problematic" id="id25">:reqmeta:`cookiejar`</span></a> meta key不是&#8221;黏性的(sticky)&#8221;。
+您需要在之后的request请求中接着传递。例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">parse_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="c"># do some processing</span>
+    <span class="k">return</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="s">&quot;http://www.example.com/otherpage&quot;</span><span class="p">,</span>
+        <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;cookiejar&#39;</span><span class="p">:</span> <span class="n">response</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;cookiejar&#39;</span><span class="p">]},</span>
+        <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_other_page</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cookies-enabled">
+<h4>COOKIES_ENABLED<a class="headerlink" href="#cookies-enabled" title="永久链接至标题">¶</a></h4>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否启用cookies middleware。如果关闭，cookies将不会发送给web server。</p>
+</div>
+<div class="section" id="cookies-debug">
+<h4>COOKIES_DEBUG<a class="headerlink" href="#cookies-debug" title="永久链接至标题">¶</a></h4>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>如果启用，Scrapy将记录所有在request(<code class="docutils literal"><span class="pre">Cookie</span></code>
+请求头)发送的cookies及response接收到的cookies(<code class="docutils literal"><span class="pre">Set-Cookie</span></code> 接收头)。</p>
+<p>下边是启用 <a href="#id26"><span class="problematic" id="id27">:setting:`COOKIES_DEBUG`</span></a> 的记录的样例:</p>
+<div class="highlight-python"><div class="highlight"><pre>2011-04-06 14:35:10-0300 [diningcity] INFO: Spider opened
+2011-04-06 14:35:10-0300 [diningcity] DEBUG: Sending cookies to: &lt;GET http://www.diningcity.com/netherlands/index.html&gt;
+        Cookie: clientlanguage_nl=en_EN
+2011-04-06 14:35:14-0300 [diningcity] DEBUG: Received cookies from: &lt;200 http://www.diningcity.com/netherlands/index.html&gt;
+        Set-Cookie: JSESSIONID=B~FA4DC0C496C8762AE4F1A620EAB34F38; Path=/
+        Set-Cookie: ip_isocode=US
+        Set-Cookie: clientlanguage_nl=en_EN; Expires=Thu, 07-Apr-2011 21:21:34 GMT; Path=/
+2011-04-06 14:49:50-0300 [diningcity] DEBUG: Crawled (200) &lt;GET http://www.diningcity.com/netherlands/index.html&gt; (referer: None)
+[...]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.defaultheaders">
+<span id="defaultheadersmiddleware"></span><h3>DefaultHeadersMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.defaultheaders" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.defaultheaders.DefaultHeadersMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.defaultheaders.</code><code class="descname">DefaultHeadersMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.defaultheaders.DefaultHeadersMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件设置
+<a href="#id28"><span class="problematic" id="id29">:setting:`DEFAULT_REQUEST_HEADERS`</span></a> 指定的默认request header。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.downloadtimeout">
+<span id="downloadtimeoutmiddleware"></span><h3>DownloadTimeoutMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.downloadtimeout" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.downloadtimeout.DownloadTimeoutMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.downloadtimeout.</code><code class="descname">DownloadTimeoutMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.downloadtimeout.DownloadTimeoutMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件设置
+<a href="#id30"><span class="problematic" id="id31">:setting:`DOWNLOAD_TIMEOUT`</span></a> 指定的request下载超时时间.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.httpauth">
+<span id="httpauthmiddleware"></span><h3>HttpAuthMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.httpauth" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.httpauth.HttpAuthMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.httpauth.</code><code class="descname">HttpAuthMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.httpauth.HttpAuthMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件完成某些使用 <a class="reference external" href="http://en.wikipedia.org/wiki/Basic_access_authentication">Basic access authentication</a> (或者叫HTTP认证)的spider生成的请求的认证过程。</p>
+<p>在spider中启用HTTP认证，请设置spider的 <code class="docutils literal"><span class="pre">http_user</span></code> 及 <code class="docutils literal"><span class="pre">http_pass</span></code> 属性。</p>
+<p>样例:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scrapy.contrib.spiders</span> <span class="kn">import</span> <span class="n">CrawlSpider</span>
+
+<span class="k">class</span> <span class="nc">SomeIntranetSiteSpider</span><span class="p">(</span><span class="n">CrawlSpider</span><span class="p">):</span>
+
+    <span class="n">http_user</span> <span class="o">=</span> <span class="s">&#39;someuser&#39;</span>
+    <span class="n">http_pass</span> <span class="o">=</span> <span class="s">&#39;somepass&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;intranet.example.com&#39;</span>
+
+    <span class="c"># .. rest of the spider code omitted ...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.httpcache">
+<span id="httpcachemiddleware"></span><h3>HttpCacheMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.httpcache" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.httpcache.</code><code class="descname">HttpCacheMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件为所有HTTP request及response提供了底层(low-level)缓存支持。
+其由cache存储后端及cache策略组成。</p>
+<p>Scrapy提供了两种HTTP缓存存储后端:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#httpcache-storage-fs"><span>Filesystem storage backend (默认值)</span></a></li>
+<li><a class="reference internal" href="#httpcache-storage-dbm"><span>DBM storage backend</span></a></li>
+</ul>
+</div></blockquote>
+<p>您可以使用 <a href="#id32"><span class="problematic" id="id33">:setting:`HTTPCACHE_STORAGE`</span></a> 设定来修改HTTP缓存存储后端。
+您也可以实现您自己的存储后端。</p>
+<p>Scrapy提供了两种了缓存策略:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#httpcache-policy-rfc2616"><span>RFC2616策略</span></a></li>
+<li><a class="reference internal" href="#httpcache-policy-dummy"><span>Dummy策略(默认值)</span></a></li>
+</ul>
+</div></blockquote>
+<p>您可以使用 <a href="#id34"><span class="problematic" id="id35">:setting:`HTTPCACHE_POLICY`</span></a> 设定来修改HTTP缓存存储后端。
+您也可以实现您自己的存储策略。</p>
+</dd></dl>
+
+<div class="section" id="dummy">
+<span id="httpcache-policy-dummy"></span><h4>Dummy策略(默认值)<a class="headerlink" href="#dummy" title="永久链接至标题">¶</a></h4>
+<p>该策略不考虑任何HTTP Cache-Control指令。每个request及其对应的response都被缓存。
+当相同的request发生时，其不发送任何数据，直接返回response。</p>
+<p>Dummpy策略对于测试spider十分有用。其能使spider运行更快(不需要每次等待下载完成)，
+同时在没有网络连接时也能测试。其目的是为了能够回放spider的运行过程， <em>使之与之前的运行过程一模一样</em> 。</p>
+<p>使用这个策略请设置:</p>
+<ul class="simple">
+<li><a href="#id36"><span class="problematic" id="id37">:setting:`HTTPCACHE_POLICY`</span></a> 为 <code class="docutils literal"><span class="pre">scrapy.contrib.httpcache.DummyPolicy</span></code></li>
+</ul>
+</div>
+<div class="section" id="rfc2616">
+<span id="httpcache-policy-rfc2616"></span><h4>RFC2616策略<a class="headerlink" href="#rfc2616" title="永久链接至标题">¶</a></h4>
+<p>该策略提供了符合RFC2616的HTTP缓存，例如符合HTTP Cache-Control，
+针对生产环境并且应用在持续性运行环境所设置。该策略能避免下载未修改的数据(来节省带宽，提高爬取速度)。</p>
+<p>实现了:</p>
+<ul class="simple">
+<li>当 <cite>no-store</cite> cache-control指令设置时不存储response/request。</li>
+<li>当 <cite>no-cache</cite> cache-control指定设置时不从cache中提取response，即使response为最新。</li>
+<li>根据 <cite>max-age</cite> cache-control指令中计算保存时间(freshness lifetime)。</li>
+<li>根据 <cite>Expires</cite> 指令来计算保存时间(freshness lifetime)。</li>
+<li>根据response包头的 <cite>Last-Modified</cite> 指令来计算保存时间(freshness lifetime)(Firefox使用的启发式算法)。</li>
+<li>根据response包头的 <cite>Age</cite> 计算当前年龄(current age)</li>
+<li>根据 <cite>Date</cite> 计算当前年龄(current age)</li>
+<li>根据response包头的 <cite>Last-Modified</cite> 验证老旧的response。</li>
+<li>根据response包头的 <cite>ETag</cite> 验证老旧的response。</li>
+<li>为接收到的response设置缺失的 <cite>Date</cite> 字段。</li>
+</ul>
+<p>目前仍然缺失:</p>
+<ul class="simple">
+<li><cite>Pragma: no-cache</cite> 支持 <a class="reference external" href="http://www.mnot.net/cache_docs/#PRAGMA">http://www.mnot.net/cache_docs/#PRAGMA</a></li>
+<li><cite>Vary</cite> 字段支持 <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.6">http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.6</a></li>
+<li>当update或delete之后失效相应的response <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.10">http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.10</a></li>
+<li>... 以及其他可能缺失的特性 ..</li>
+</ul>
+<p>使用这个策略，设置:</p>
+<ul class="simple">
+<li><a href="#id38"><span class="problematic" id="id39">:setting:`HTTPCACHE_POLICY`</span></a> 为 <code class="docutils literal"><span class="pre">scrapy.contrib.httpcache.RFC2616Policy</span></code></li>
+</ul>
+</div>
+<div class="section" id="filesystem-storage-backend">
+<span id="httpcache-storage-fs"></span><h4>Filesystem storage backend (默认值)<a class="headerlink" href="#filesystem-storage-backend" title="永久链接至标题">¶</a></h4>
+<p>文件系统存储后端可以用于HTTP缓存中间件。</p>
+<p>使用该存储端，设置:</p>
+<ul class="simple">
+<li><a href="#id40"><span class="problematic" id="id41">:setting:`HTTPCACHE_STORAGE`</span></a> 为 <code class="docutils literal"><span class="pre">scrapy.contrib.httpcache.FilesystemCacheStorage</span></code></li>
+</ul>
+<p>每个request/response组存储在不同的目录中，包含下列文件:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">request_body</span></code> - the plain request body</li>
+<li><code class="docutils literal"><span class="pre">request_headers</span></code> - the request headers (原始HTTP格式)</li>
+<li><code class="docutils literal"><span class="pre">response_body</span></code> - the plain response body</li>
+<li><code class="docutils literal"><span class="pre">response_headers</span></code> - the request headers (原始HTTP格式)</li>
+<li><code class="docutils literal"><span class="pre">meta</span></code> - 以Python <code class="docutils literal"><span class="pre">repr()</span></code> 格式(grep-friendly格式)存储的该缓存资源的一些元数据。</li>
+<li><code class="docutils literal"><span class="pre">pickled_meta</span></code> - 与 <code class="docutils literal"><span class="pre">meta</span></code> 相同的元数据，不过使用pickle来获得更高效的反序列化性能。</li>
+</ul>
+</div></blockquote>
+<p>目录的名称与request的指纹(参考
+<code class="docutils literal"><span class="pre">scrapy.utils.request.fingerprint</span></code>)有关，而二级目录是为了避免在同一文件夹下有太多文件
+(这在很多文件系统中是十分低效的)。目录的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre>/path/to/cache/dir/example.com/72/72811f648e718090f041317756c03adb0ada46c7
+</pre></div>
+</div>
+</div>
+<div class="section" id="dbm-storage-backend">
+<span id="httpcache-storage-dbm"></span><h4>DBM storage backend<a class="headerlink" href="#dbm-storage-backend" title="永久链接至标题">¶</a></h4>
+<div class="versionadded">
+<p><span class="versionmodified">0.13 新版功能.</span></p>
+</div>
+<p>同时也有 <a class="reference external" href="http://en.wikipedia.org/wiki/Dbm">DBM</a> 存储后端可以用于HTTP缓存中间件。</p>
+<p>默认情况下，其采用 <a class="reference external" href="http://docs.python.org/library/anydbm.html">anydbm</a> 模块，不过您也可以通过
+<a href="#id42"><span class="problematic" id="id43">:setting:`HTTPCACHE_DBM_MODULE`</span></a> 设置进行修改。</p>
+<p>使用该存储端，设置:</p>
+<ul class="simple">
+<li><a href="#id44"><span class="problematic" id="id45">:setting:`HTTPCACHE_STORAGE`</span></a> 为 <code class="docutils literal"><span class="pre">scrapy.contrib.httpcache.DbmCacheStorage</span></code></li>
+</ul>
+</div>
+<div class="section" id="leveldb-storage-backend">
+<span id="httpcache-storage-leveldb"></span><h4>LevelDB storage backend<a class="headerlink" href="#leveldb-storage-backend" title="永久链接至标题">¶</a></h4>
+<div class="versionadded">
+<p><span class="versionmodified">0.23 新版功能.</span></p>
+</div>
+<p>A <a class="reference external" href="http://code.google.com/p/leveldb/">LevelDB</a> storage backend is also available for the HTTP cache middleware.</p>
+<p>This backend is not recommended for development because only one process can
+access LevelDB databases at the same time, so you can&#8217;t run a crawl and open
+the scrapy shell in parallel for the same spider.</p>
+<p>In order to use this storage backend:</p>
+<ul class="simple">
+<li>set <a href="#id46"><span class="problematic" id="id47">:setting:`HTTPCACHE_STORAGE`</span></a> to <code class="docutils literal"><span class="pre">scrapy.contrib.httpcache.LeveldbCacheStorage</span></code></li>
+<li>install <a class="reference external" href="http://pypi.python.org/pypi/leveldb">LevelDB python bindings</a> like <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">leveldb</span></code></li>
+</ul>
+</div>
+<div class="section" id="httpcache">
+<h4>HTTPCache中间件设置<a class="headerlink" href="#httpcache" title="永久链接至标题">¶</a></h4>
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware" title="scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware"><code class="xref py py-class docutils literal"><span class="pre">HttpCacheMiddleware</span></code></a> 可以通过以下设置进行配置:</p>
+<div class="section" id="httpcache-enabled">
+<h5>HTTPCACHE_ENABLED<a class="headerlink" href="#httpcache-enabled" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.11 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>HTTP缓存是否开启。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">在 0.11 版更改: </span>在0.11版本前，是使用 <a href="#id48"><span class="problematic" id="id49">:setting:`HTTPCACHE_DIR`</span></a> 来开启缓存。</p>
+</div>
+</div>
+<div class="section" id="httpcache-expiration-secs">
+<h5>HTTPCACHE_EXPIRATION_SECS<a class="headerlink" href="#httpcache-expiration-secs" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>缓存的request的超时时间，单位秒。</p>
+<p>超过这个时间的缓存request将会被重新下载。如果为0，则缓存的request将永远不会超时。</p>
+<div class="versionchanged">
+<p><span class="versionmodified">在 0.11 版更改: </span>在0.11版本前，0的意义是缓存的request永远超时。</p>
+</div>
+</div>
+<div class="section" id="httpcache-dir">
+<h5>HTTPCACHE_DIR<a class="headerlink" href="#httpcache-dir" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">'httpcache'</span></code></p>
+<p>存储(底层的)HTTP缓存的目录。如果为空，则HTTP缓存将会被关闭。
+如果为相对目录，则相对于项目数据目录(project data dir)。更多内容请参考 <a class="reference internal" href="commands.html#topics-project-structure"><span>默认的Scrapy项目结构</span></a> 。</p>
+</div>
+<div class="section" id="httpcache-ignore-http-codes">
+<h5>HTTPCACHE_IGNORE_HTTP_CODES<a class="headerlink" href="#httpcache-ignore-http-codes" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">[]</span></code></p>
+<p>不缓存设置中的HTTP返回值(code)的request。</p>
+</div>
+<div class="section" id="httpcache-ignore-missing">
+<h5>HTTPCACHE_IGNORE_MISSING<a class="headerlink" href="#httpcache-ignore-missing" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>如果启用，在缓存中没找到的request将会被忽略，不下载。</p>
+</div>
+<div class="section" id="httpcache-ignore-schemes">
+<h5>HTTPCACHE_IGNORE_SCHEMES<a class="headerlink" href="#httpcache-ignore-schemes" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.10 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">['file']</span></code></p>
+<p>不缓存这些URI标准(scheme)的response。</p>
+</div>
+<div class="section" id="httpcache-storage">
+<h5>HTTPCACHE_STORAGE<a class="headerlink" href="#httpcache-storage" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.contrib.httpcache.FilesystemCacheStorage'</span></code></p>
+<p>实现缓存存储后端的类。</p>
+</div>
+<div class="section" id="httpcache-dbm-module">
+<h5>HTTPCACHE_DBM_MODULE<a class="headerlink" href="#httpcache-dbm-module" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.13 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">'anydbm'</span></code></p>
+<p>在 <a class="reference internal" href="#httpcache-storage-dbm"><span>DBM存储后端</span></a> 的数据库模块。
+该设定针对DBM后端。</p>
+</div>
+<div class="section" id="httpcache-policy">
+<h5>HTTPCACHE_POLICY<a class="headerlink" href="#httpcache-policy" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.18 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">'scrapy.contrib.httpcache.DummyPolicy'</span></code></p>
+<p>实现缓存策略的类。</p>
+</div>
+</div>
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.httpcompression">
+<span id="httpcompressionmiddleware"></span><h3>HttpCompressionMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.httpcompression" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.httpcompression.HttpCompressionMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.httpcompression.</code><code class="descname">HttpCompressionMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.httpcompression.HttpCompressionMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件提供了对压缩(gzip, deflate)数据的支持。</p>
+</dd></dl>
+
+<div class="section" id="httpcompressionmiddleware-settings">
+<h4>HttpCompressionMiddleware Settings<a class="headerlink" href="#httpcompressionmiddleware-settings" title="永久链接至标题">¶</a></h4>
+<div class="section" id="compression-enabled">
+<h5>COMPRESSION_ENABLED<a class="headerlink" href="#compression-enabled" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>Compression Middleware(压缩中间件)是否开启。</p>
+</div>
+</div>
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.chunked">
+<span id="chunkedtransfermiddleware"></span><h3>ChunkedTransferMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.chunked" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.chunked.ChunkedTransferMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.chunked.</code><code class="descname">ChunkedTransferMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.chunked.ChunkedTransferMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件添加了对 <a class="reference external" href="http://en.wikipedia.org/wiki/Chunked_transfer_encoding">chunked transfer encoding</a> 的支持。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.httpproxy">
+<span id="httpproxymiddleware"></span><h3>HttpProxyMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.httpproxy" title="永久链接至标题">¶</a></h3>
+<div class="versionadded">
+<p><span class="versionmodified">0.8 新版功能.</span></p>
+</div>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.httpproxy.</code><code class="descname">HttpProxyMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件提供了对request设置HTTP代理的支持。您可以通过在
+<a class="reference internal" href="request-response.html#scrapy.http.Request" title="scrapy.http.Request"><code class="xref py py-class docutils literal"><span class="pre">Request</span></code></a> 对象中设置 <code class="docutils literal"><span class="pre">proxy</span></code> 元数据来开启代理。</p>
+<p>类似于Python标准库模块 <a class="reference external" href="http://docs.python.org/library/urllib.html">urllib</a> 及 <a class="reference external" href="http://docs.python.org/library/urllib2.html">urllib2</a> ，其使用了下列环境变量:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">http_proxy</span></code></li>
+<li><code class="docutils literal"><span class="pre">https_proxy</span></code></li>
+<li><code class="docutils literal"><span class="pre">no_proxy</span></code></li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.redirect">
+<span id="redirectmiddleware"></span><h3>RedirectMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.redirect" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.redirect.</code><code class="descname">RedirectMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件根据response的状态处理重定向的request。</p>
+</dd></dl>
+
+<p>通过该中间件的(被重定向的)request的url可以通过
+<a class="reference internal" href="request-response.html#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> 的 <code class="docutils literal"><span class="pre">redirect_urls</span></code> 键找到。</p>
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware" title="scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware"><code class="xref py py-class docutils literal"><span class="pre">RedirectMiddleware</span></code></a> 可以通过下列设置进行配置(更多内容请参考设置文档):</p>
+<ul class="simple">
+<li><a href="#id50"><span class="problematic" id="id51">:setting:`REDIRECT_ENABLED`</span></a></li>
+<li><a href="#id52"><span class="problematic" id="id53">:setting:`REDIRECT_MAX_TIMES`</span></a></li>
+</ul>
+<p>如果 <a class="reference internal" href="request-response.html#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> 中
+<code class="docutils literal"><span class="pre">dont_redirect</span></code> 设置为True ，则该request将会被此中间件忽略。</p>
+<div class="section" id="redirectmiddleware-settings">
+<h4>RedirectMiddleware settings<a class="headerlink" href="#redirectmiddleware-settings" title="永久链接至标题">¶</a></h4>
+<div class="section" id="redirect-enabled">
+<h5>REDIRECT_ENABLED<a class="headerlink" href="#redirect-enabled" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.13 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>是否启用Redirect中间件。</p>
+</div>
+<div class="section" id="redirect-max-times">
+<h5>REDIRECT_MAX_TIMES<a class="headerlink" href="#redirect-max-times" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">20</span></code></p>
+<p>单个request被重定向的最大次数。</p>
+</div>
+</div>
+</div>
+<div class="section" id="metarefreshmiddleware">
+<h3>MetaRefreshMiddleware<a class="headerlink" href="#metarefreshmiddleware" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.redirect.MetaRefreshMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.redirect.</code><code class="descname">MetaRefreshMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.redirect.MetaRefreshMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件根据meta-refresh html标签处理request重定向。</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.redirect.MetaRefreshMiddleware" title="scrapy.contrib.downloadermiddleware.redirect.MetaRefreshMiddleware"><code class="xref py py-class docutils literal"><span class="pre">MetaRefreshMiddleware</span></code></a> 可以通过以下设定进行配置
+(更多内容请参考设置文档)。</p>
+<ul class="simple">
+<li><a href="#id54"><span class="problematic" id="id55">:setting:`METAREFRESH_ENABLED`</span></a></li>
+<li><a href="#id56"><span class="problematic" id="id57">:setting:`METAREFRESH_MAXDELAY`</span></a></li>
+</ul>
+<p>该中间件遵循 <a class="reference internal" href="#scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware" title="scrapy.contrib.downloadermiddleware.redirect.RedirectMiddleware"><code class="xref py py-class docutils literal"><span class="pre">RedirectMiddleware</span></code></a> 描述的
+<a href="#id58"><span class="problematic" id="id59">:setting:`REDIRECT_MAX_TIMES`</span></a> 设定，<a href="#id60"><span class="problematic" id="id61">:reqmeta:`dont_redirect`</span></a>
+及 <a href="#id62"><span class="problematic" id="id63">:reqmeta:`redirect_urls`</span></a> meta key。</p>
+<div class="section" id="metarefreshmiddleware-settings">
+<h4>MetaRefreshMiddleware settings<a class="headerlink" href="#metarefreshmiddleware-settings" title="永久链接至标题">¶</a></h4>
+<div class="section" id="metarefresh-enabled">
+<h5>METAREFRESH_ENABLED<a class="headerlink" href="#metarefresh-enabled" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.17 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>Meta Refresh中间件是否启用。</p>
+</div>
+<div class="section" id="redirect-max-metarefresh-delay">
+<h5>REDIRECT_MAX_METAREFRESH_DELAY<a class="headerlink" href="#redirect-max-metarefresh-delay" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">100</span></code></p>
+<p>跟进重定向的最大 meta-refresh 延迟(单位:秒)。</p>
+</div>
+</div>
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.retry">
+<span id="retrymiddleware"></span><h3>RetryMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.retry" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.retry.RetryMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.retry.</code><code class="descname">RetryMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.retry.RetryMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件将重试可能由于临时的问题，例如连接超时或者HTTP 500错误导致失败的页面。</p>
+</dd></dl>
+
+<p>爬取进程会收集失败的页面并在最后，spider爬取完所有正常(不失败)的页面后重新调度。
+一旦没有更多需要重试的失败页面，该中间件将会发送一个信号(retry_complete)，
+其他插件可以监听该信号。</p>
+<p><a class="reference internal" href="#scrapy.contrib.downloadermiddleware.retry.RetryMiddleware" title="scrapy.contrib.downloadermiddleware.retry.RetryMiddleware"><code class="xref py py-class docutils literal"><span class="pre">RetryMiddleware</span></code></a> 可以通过下列设定进行配置
+(更多内容请参考设置文档):</p>
+<ul class="simple">
+<li><a href="#id64"><span class="problematic" id="id65">:setting:`RETRY_ENABLED`</span></a></li>
+<li><a href="#id66"><span class="problematic" id="id67">:setting:`RETRY_TIMES`</span></a></li>
+<li><a href="#id68"><span class="problematic" id="id69">:setting:`RETRY_HTTP_CODES`</span></a></li>
+</ul>
+<p>关于HTTP错误的考虑:</p>
+<p>如果根据HTTP协议，您可能想要在设定 <a href="#id70"><span class="problematic" id="id71">:setting:`RETRY_HTTP_CODES`</span></a> 中移除400错误。
+该错误被默认包括是由于这个代码经常被用来指示服务器过载(overload)了。而在这种情况下，我们想进行重试。</p>
+<p>如果 <a class="reference internal" href="request-response.html#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">Request.meta</span></code></a> 中
+<code class="docutils literal"><span class="pre">dont_retry</span></code> 设为True，
+该request将会被本中间件忽略。</p>
+<div class="section" id="retrymiddleware-settings">
+<h4>RetryMiddleware Settings<a class="headerlink" href="#retrymiddleware-settings" title="永久链接至标题">¶</a></h4>
+<div class="section" id="retry-enabled">
+<h5>RETRY_ENABLED<a class="headerlink" href="#retry-enabled" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.13 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>Retry Middleware是否启用。</p>
+</div>
+<div class="section" id="retry-times">
+<h5>RETRY_TIMES<a class="headerlink" href="#retry-times" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">2</span></code></p>
+<p>包括第一次下载，最多的重试次数</p>
+</div>
+<div class="section" id="retry-http-codes">
+<h5>RETRY_HTTP_CODES<a class="headerlink" href="#retry-http-codes" title="永久链接至标题">¶</a></h5>
+<p>默认: <code class="docutils literal"><span class="pre">[500,</span> <span class="pre">502,</span> <span class="pre">503,</span> <span class="pre">504,</span> <span class="pre">400,</span> <span class="pre">408]</span></code></p>
+<p>重试的response 返回值(code)。其他错误(DNS查找问题、连接失败及其他)则一定会进行重试。</p>
+</div>
+</div>
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.robotstxt">
+<span id="robotstxtmiddleware"></span><span id="topics-dlmw-robots"></span><h3>RobotsTxtMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.robotstxt" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.robotstxt.</code><code class="descname">RobotsTxtMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.robotstxt.RobotsTxtMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>该中间件过滤所有robots.txt eclusion standard中禁止的request。</p>
+<p>确认该中间件及 <a href="#id72"><span class="problematic" id="id73">:setting:`ROBOTSTXT_OBEY`</span></a> 设置被启用以确保Scrapy尊重robots.txt。</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">记住, 如果您在一个网站中使用了多个并发请求，
+Scrapy仍然可能下载一些被禁止的页面。这是由于这些页面是在robots.txt被下载前被请求的。
+这是当前robots.txt中间件已知的限制，并将在未来进行修复。</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.stats">
+<span id="downloaderstats"></span><h3>DownloaderStats<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.stats" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.stats.DownloaderStats">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.stats.</code><code class="descname">DownloaderStats</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.stats.DownloaderStats" title="永久链接至目标">¶</a></dt>
+<dd><p>保存所有通过的request、response及exception的中间件。</p>
+<p>您必须启用 <a href="#id74"><span class="problematic" id="id75">:setting:`DOWNLOADER_STATS`</span></a> 来启用该中间件。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.useragent">
+<span id="useragentmiddleware"></span><h3>UserAgentMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.useragent" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.useragent.</code><code class="descname">UserAgentMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>用于覆盖spider的默认user agent的中间件。</p>
+<p>要使得spider能覆盖默认的user agent，其 <cite>user_agent</cite> 属性必须被设置。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scrapy.contrib.downloadermiddleware.ajaxcrawl">
+<span id="ajaxcrawlmiddleware"></span><span id="ajaxcrawl-middleware"></span><h3>AjaxCrawlMiddleware<a class="headerlink" href="#module-scrapy.contrib.downloadermiddleware.ajaxcrawl" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.downloadermiddleware.ajaxcrawl.</code><code class="descname">AjaxCrawlMiddleware</code><a class="headerlink" href="#scrapy.contrib.downloadermiddleware.ajaxcrawl.AjaxCrawlMiddleware" title="永久链接至目标">¶</a></dt>
+<dd><p>根据meta-fragment html标签查找 &#8216;AJAX可爬取&#8217; 页面的中间件。查看
+<a class="reference external" href="https://developers.google.com/webmasters/ajax-crawling/docs/getting-started">https://developers.google.com/webmasters/ajax-crawling/docs/getting-started</a>
+来获得更多内容。</p>
+<div class="admonition note">
+<p class="first admonition-title">注解</p>
+<p class="last">即使没有启用该中间件，Scrapy仍能查找类似于
+<code class="docutils literal"><span class="pre">'http://example.com/!#foo=bar'</span></code> 这样的&#8217;AJAX可爬取&#8217;页面。
+AjaxCrawlMiddleware是针对不具有 <code class="docutils literal"><span class="pre">'!#'</span></code> 的URL，通常发生在&#8217;index&#8217;或者&#8217;main&#8217;页面中。</p>
+</div>
+</dd></dl>
+
+<div class="section" id="id76">
+<h4>AjaxCrawlMiddleware设置<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h4>
+<div class="section" id="ajaxcrawl-enabled">
+<h5>AJAXCRAWL_ENABLED<a class="headerlink" href="#ajaxcrawl-enabled" title="永久链接至标题">¶</a></h5>
+<div class="versionadded">
+<p><span class="versionmodified">0.21 新版功能.</span></p>
+</div>
+<p>默认: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>AjaxCrawlMiddleware是否启用。您可能需要针对 <a class="reference internal" href="broad-crawls.html#topics-broad-crawls"><span>通用爬虫</span></a> 启用该中间件。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spider-middleware.html" class="btn btn-neutral float-right" title="Spider中间件(Middleware)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="architecture.html" class="btn btn-neutral" title="架构概览" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/downloader-middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:26 GMT -->
+</html>

@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/faq.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>常见问题(FAQ) &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/webservice.html">Web Service</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">常见问题(FAQ)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scrapybeautifulsouplxml">Scrapy相BeautifulSoup或lxml比较,如何呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapypython">Scrapy支持那些Python版本？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapypython-3">Scrapy支持Python 3么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapydjango-x">Scrapy是否从Django中&#8221;剽窃&#8221;了X呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapyhttp">Scrapy支持HTTP代理么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#item">如何爬取属性在不同页面的item呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapy-importerror-nomodule-named-win32api">Scrapy退出，ImportError: Nomodule named win32api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spider">我要如何在spider里模拟用户登录呢?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapy">Scrapy是以广度优先还是深度优先进行爬取的呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">我的Scrapy爬虫有内存泄露，怎么办?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">如何让Scrapy减少内存消耗?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spiderhttp">我能在spider中使用基本HTTP认证么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">为什么Scrapy下载了英文的页面，而不是我的本国语言？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">我能在哪里找到Scrapy项目的例子？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapy-spider">我能在不创建Scrapy项目的情况下运行一个爬虫(spider)么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filtered-offsite-request">我收到了 &#8220;Filtered offsite request&#8221; 消息。如何修复？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">发布Scrapy爬虫到生产环境的推荐方式？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#large-exports-json">我能对大数据(large exports)使用JSON么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#signal-handler-twisted">我能在信号处理器(signal handler)中返回(Twisted)引用么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reponse999">reponse返回的状态值999代表了什么?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spider-pdb-set-trace">我能在spider中调用 <code class="docutils literal"><span class="pre">pdb.set_trace()</span></code> 来调试么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#item-dump-json-csv-xml">将所有爬取到的item转存(dump)到JSON/CSV/XML文件的最简单的方法?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewstate">在某些表单中巨大神秘的 <code class="docutils literal"><span class="pre">__VIEWSTATE</span></code> 参数是什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xml-csv">分析大XML/CSV数据源的最好方法是?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapycookies">Scrapy自动管理cookies么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">如何才能看到Scrapy发出及接收到的Cookies呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id17">要怎么停止爬虫呢?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scrapy-bot-ban">如何避免我的Scrapy机器人(bot)被禁止(ban)呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spider-arguments-settings-spider">我应该使用spider参数(arguments)还是设置(settings)来配置spider呢？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xmlxpathitem">我爬取了一个XML文档但是XPath选择器不返回任何的item</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="topics/debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="topics/request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="topics/exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>常见问题(FAQ)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="faq">
+<span id="id1"></span><h1>常见问题(FAQ)<a class="headerlink" href="#faq" title="永久链接至标题">¶</a></h1>
+<div class="section" id="scrapybeautifulsouplxml">
+<h2>Scrapy相BeautifulSoup或lxml比较,如何呢？<a class="headerlink" href="#scrapybeautifulsouplxml" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> 及 <a class="reference external" href="http://lxml.de/">lxml</a> 是HTML和XML的分析库。Scrapy则是
+编写爬虫，爬取网页并获取数据的应用框架(application framework)。</p>
+<p>Scrapy提供了内置的机制来提取数据(叫做
+<a class="reference internal" href="topics/selectors.html#topics-selectors"><span>选择器(selectors)</span></a>)。
+但如果您觉得使用更为方便，也可以使用 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> (或 <a class="reference external" href="http://lxml.de/">lxml</a>)。
+总之，它们仅仅是分析库，可以在任何Python代码中被导入及使用。</p>
+<p>换句话说，拿Scrapy与 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">BeautifulSoup</a> (或 <a class="reference external" href="http://lxml.de/">lxml</a>) 比较就好像是拿
+<a class="reference external" href="http://jinja.pocoo.org/2/">jinja2</a> 与 <a class="reference external" href="http://www.djangoproject.com/">Django</a> 相比。</p>
+</div>
+<div class="section" id="scrapypython">
+<span id="faq-python-versions"></span><h2>Scrapy支持那些Python版本？<a class="headerlink" href="#scrapypython" title="永久链接至标题">¶</a></h2>
+<p>Scrapy仅仅支持Python 2.7。
+Python2.6的支持从Scrapy 0.20开始被废弃了。</p>
+</div>
+<div class="section" id="scrapypython-3">
+<h2>Scrapy支持Python 3么？<a class="headerlink" href="#scrapypython-3" title="永久链接至标题">¶</a></h2>
+<p>不。但是Python 3.3+的支持已经在计划中了。
+现在，Scrapy支持Python 2.7。</p>
+<div class="admonition seealso">
+<p class="first admonition-title">参见</p>
+<p class="last"><a class="reference internal" href="#faq-python-versions"><span>Scrapy支持那些Python版本？</span></a>.</p>
+</div>
+</div>
+<div class="section" id="scrapydjango-x">
+<h2>Scrapy是否从Django中&#8221;剽窃&#8221;了X呢？<a class="headerlink" href="#scrapydjango-x" title="永久链接至标题">¶</a></h2>
+<p>也许吧，不过我们不喜欢这个词。我们认为 <a class="reference external" href="http://www.djangoproject.com/">Django</a> 是一个很好的开源项目，同时也是
+一个很好的参考对象，所以我们把其作为Scrapy的启发对象。</p>
+<p>我们坚信，如果有些事情已经做得很好了，那就没必要再重复制造轮子。这个想法，作为
+开源项目及免费软件的基石之一，不仅仅针对软件，也包括文档，过程，政策等等。
+所以，与其自行解决每个问题，我们选择从其他已经很好地解决问题的项目中复制想法(copy idea)
+，并把注意力放在真正需要解决的问题上。</p>
+<p>如果Scrapy能启发其他的项目，我们将为此而自豪。欢迎来抄(steal)我们！</p>
+</div>
+<div class="section" id="scrapyhttp">
+<h2>Scrapy支持HTTP代理么？<a class="headerlink" href="#scrapyhttp" title="永久链接至标题">¶</a></h2>
+<p>是的。(从Scrapy 0.8开始)通过HTTP代理下载中间件对HTTP代理提供了支持。参考
+<a class="reference internal" href="topics/downloader-middleware.html#scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware" title="scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware"><code class="xref py py-class docutils literal"><span class="pre">HttpProxyMiddleware</span></code></a>.</p>
+</div>
+<div class="section" id="item">
+<h2>如何爬取属性在不同页面的item呢？<a class="headerlink" href="#item" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference internal" href="topics/request-response.html#topics-request-response-ref-request-callback-arguments"><span>Passing additional data to callback functions</span></a>.</p>
+</div>
+<div class="section" id="scrapy-importerror-nomodule-named-win32api">
+<h2>Scrapy退出，ImportError: Nomodule named win32api<a class="headerlink" href="#scrapy-importerror-nomodule-named-win32api" title="永久链接至标题">¶</a></h2>
+<p><a class="reference external" href="http://twistedmatrix.com/trac/ticket/3707">这是个Twisted bug</a> ，您需要安装 <a class="reference external" href="http://sourceforge.net/projects/pywin32/">pywin32</a> 。</p>
+</div>
+<div class="section" id="spider">
+<h2>我要如何在spider里模拟用户登录呢?<a class="headerlink" href="#spider" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference internal" href="topics/request-response.html#topics-request-response-ref-request-userlogin"><span>使用FormRequest.from_response()方法模拟用户登录</span></a>.</p>
+</div>
+<div class="section" id="scrapy">
+<h2>Scrapy是以广度优先还是深度优先进行爬取的呢？<a class="headerlink" href="#scrapy" title="永久链接至标题">¶</a></h2>
+<p>默认情况下，Scrapy使用 <a class="reference external" href="http://en.wikipedia.org/wiki/LIFO">LIFO</a> 队列来存储等待的请求。简单的说，就是
+<a class="reference external" href="http://en.wikipedia.org/wiki/Depth-first_search">深度优先顺序</a> 。深度优先对大多数情况下是更方便的。如果您想以
+<a class="reference external" href="http://en.wikipedia.org/wiki/Breadth-first_search">广度优先顺序</a> 进行爬取，你可以设置以下的设定:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEPTH_PRIORITY</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">SCHEDULER_DISK_QUEUE</span> <span class="o">=</span> <span class="s">&#39;scrapy.squeue.PickleFifoDiskQueue&#39;</span>
+<span class="n">SCHEDULER_MEMORY_QUEUE</span> <span class="o">=</span> <span class="s">&#39;scrapy.squeue.FifoMemoryQueue&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>我的Scrapy爬虫有内存泄露，怎么办?<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference internal" href="topics/leaks.html#topics-leaks"><span>调试内存溢出</span></a>.</p>
+<p>另外，Python自己也有内存泄露，在
+<a class="reference internal" href="topics/leaks.html#topics-leaks-without-leaks"><span>Leaks without leaks</span></a> 有所描述。</p>
+</div>
+<div class="section" id="id4">
+<h2>如何让Scrapy减少内存消耗?<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>参考上一个问题</p>
+</div>
+<div class="section" id="spiderhttp">
+<h2>我能在spider中使用基本HTTP认证么？<a class="headerlink" href="#spiderhttp" title="永久链接至标题">¶</a></h2>
+<p>可以。参考 <a class="reference internal" href="topics/downloader-middleware.html#scrapy.contrib.downloadermiddleware.httpauth.HttpAuthMiddleware" title="scrapy.contrib.downloadermiddleware.httpauth.HttpAuthMiddleware"><code class="xref py py-class docutils literal"><span class="pre">HttpAuthMiddleware</span></code></a>.</p>
+</div>
+<div class="section" id="id5">
+<h2>为什么Scrapy下载了英文的页面，而不是我的本国语言？<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>尝试通过覆盖 <a href="#id6"><span class="problematic" id="id7">:setting:`DEFAULT_REQUEST_HEADERS`</span></a> 设置来修改默认的 <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4">Accept-Language</a> 请求头。</p>
+</div>
+<div class="section" id="id8">
+<h2>我能在哪里找到Scrapy项目的例子？<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference internal" href="intro/examples.html#intro-examples"><span>例子</span></a>.</p>
+</div>
+<div class="section" id="scrapy-spider">
+<h2>我能在不创建Scrapy项目的情况下运行一个爬虫(spider)么？<a class="headerlink" href="#scrapy-spider" title="永久链接至标题">¶</a></h2>
+<p>是的。您可以使用 <strong class="command">runspider</strong> 命令。例如，如果您有个
+spider写在 <code class="docutils literal"><span class="pre">my_spider.py</span></code> 文件中，您可以运行:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy runspider my_spider.py
+</pre></div>
+</div>
+<p>详情请参考 <strong class="command">runspider</strong> 命令。</p>
+</div>
+<div class="section" id="filtered-offsite-request">
+<h2>我收到了 &#8220;Filtered offsite request&#8221; 消息。如何修复？<a class="headerlink" href="#filtered-offsite-request" title="永久链接至标题">¶</a></h2>
+<p>这些消息(以 <code class="docutils literal"><span class="pre">DEBUG</span></code> 所记录)并不意味着有问题，所以你可以不修复它们。</p>
+<p>这些消息由Offsite Spider中间件(Middleware)所抛出。
+该(默认启用的)中间件筛选出了不属于当前spider的站点请求。</p>
+<p>更多详情请参见:
+<a class="reference internal" href="topics/spider-middleware.html#scrapy.contrib.spidermiddleware.offsite.OffsiteMiddleware" title="scrapy.contrib.spidermiddleware.offsite.OffsiteMiddleware"><code class="xref py py-class docutils literal"><span class="pre">OffsiteMiddleware</span></code></a>.</p>
+</div>
+<div class="section" id="id9">
+<h2>发布Scrapy爬虫到生产环境的推荐方式？<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>参见 <a class="reference internal" href="topics/scrapyd.html#topics-scrapyd"><span>Scrapyd</span></a>.</p>
+</div>
+<div class="section" id="large-exports-json">
+<h2>我能对大数据(large exports)使用JSON么？<a class="headerlink" href="#large-exports-json" title="永久链接至标题">¶</a></h2>
+<p>这取决于您的输出有多大。参考
+<a class="reference internal" href="topics/exporters.html#scrapy.contrib.exporter.JsonItemExporter" title="scrapy.contrib.exporter.JsonItemExporter"><code class="xref py py-class docutils literal"><span class="pre">JsonItemExporter</span></code></a> 文档中的
+<a class="reference internal" href="topics/exporters.html#json-with-large-data"><span>这个警告</span></a></p>
+</div>
+<div class="section" id="signal-handler-twisted">
+<h2>我能在信号处理器(signal handler)中返回(Twisted)引用么？<a class="headerlink" href="#signal-handler-twisted" title="永久链接至标题">¶</a></h2>
+<p>有些信号支持从处理器中返回引用，有些不行。参考
+<a class="reference internal" href="topics/signals.html#topics-signals-ref"><span>内置信号参考手册(Built-in signals reference)</span></a> 来了解详情。</p>
+</div>
+<div class="section" id="reponse999">
+<h2>reponse返回的状态值999代表了什么?<a class="headerlink" href="#reponse999" title="永久链接至标题">¶</a></h2>
+<p>999是雅虎用来控制请求量所定义的返回值。
+试着减慢爬取速度，将spider的下载延迟改为 <code class="docutils literal"><span class="pre">2</span></code> 或更高:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MySpider</span><span class="p">(</span><span class="n">CrawlSpider</span><span class="p">):</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;myspider&#39;</span>
+
+    <span class="n">download_delay</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c"># [ ... rest of the spider code ... ]</span>
+</pre></div>
+</div>
+<p>或在 <a href="#id10"><span class="problematic" id="id11">:setting:`DOWNLOAD_DELAY`</span></a> 中设置项目的全局下载延迟。</p>
+</div>
+<div class="section" id="spider-pdb-set-trace">
+<h2>我能在spider中调用 <code class="docutils literal"><span class="pre">pdb.set_trace()</span></code> 来调试么？<a class="headerlink" href="#spider-pdb-set-trace" title="永久链接至标题">¶</a></h2>
+<p>可以，但你也可以使用Scrapy终端。这能让你快速分析(甚至修改)
+spider处理返回的返回(response)。通常来说，比老旧的 <code class="docutils literal"><span class="pre">pdb.set_trace()</span></code> 有用多了。</p>
+<p>更多详情请参考 <a class="reference internal" href="topics/shell.html#topics-shell-inspect-response"><span>在spider中启动shell来查看response</span></a>.</p>
+</div>
+<div class="section" id="item-dump-json-csv-xml">
+<h2>将所有爬取到的item转存(dump)到JSON/CSV/XML文件的最简单的方法?<a class="headerlink" href="#item-dump-json-csv-xml" title="永久链接至标题">¶</a></h2>
+<p>dump到JSON文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy crawl myspider -o items.json
+</pre></div>
+</div>
+<p>dump到CSV文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy crawl myspider -o items.csv
+</pre></div>
+</div>
+<p>dump到XML文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>scrapy crawl myspider -o items.xml
+</pre></div>
+</div>
+<p>更多详情请参考 <a class="reference internal" href="topics/feed-exports.html#topics-feed-exports"><span>Feed exports</span></a></p>
+</div>
+<div class="section" id="viewstate">
+<h2>在某些表单中巨大神秘的 <code class="docutils literal"><span class="pre">__VIEWSTATE</span></code> 参数是什么？<a class="headerlink" href="#viewstate" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">__VIEWSTATE</span></code> 参数存在于ASP.NET/VB.NET建立的站点中。关于这个参数的作用请参考
+<a class="reference external" href="http://search.cpan.org/~ecarroll/HTML-TreeBuilderX-ASP_NET-0.09/lib/HTML/TreeBuilderX/ASP_NET.pm">这篇文章</a> 。这里有一个爬取这种站点的
+<a class="reference external" href="http://github.com/AmbientLighter/rpn-fas/blob/master/fas/spiders/rnp.py">样例爬虫</a> 。</p>
+</div>
+<div class="section" id="xml-csv">
+<h2>分析大XML/CSV数据源的最好方法是?<a class="headerlink" href="#xml-csv" title="永久链接至标题">¶</a></h2>
+<p>使用XPath选择器来分析大数据源可能会有问题。选择器需要在内存中对数据建立完整的
+DOM树，这过程速度很慢且消耗大量内存。</p>
+<p>为了避免一次性读取整个数据源，您可以使用
+<code class="docutils literal"><span class="pre">scrapy.utils.iterators</span></code> 中的 <code class="docutils literal"><span class="pre">xmliter</span></code> 及 <code class="docutils literal"><span class="pre">csviter</span></code> 方法。
+实际上，这也是feed spider(参考 <a class="reference internal" href="topics/spiders.html#topics-spiders"><span>Spiders</span></a>)中的处理方法。</p>
+</div>
+<div class="section" id="scrapycookies">
+<h2>Scrapy自动管理cookies么？<a class="headerlink" href="#scrapycookies" title="永久链接至标题">¶</a></h2>
+<p>是的，Scrapy接收并保持服务器返回来的cookies，在之后的请求会发送回去，就像正常的网页浏览器做的那样。</p>
+<p>更多详情请参考 <a class="reference internal" href="topics/request-response.html#topics-request-response"><span>Requests and Responses</span></a> 及 <a class="reference internal" href="topics/downloader-middleware.html#cookies-mw"><span>CookiesMiddleware</span></a> 。</p>
+</div>
+<div class="section" id="id14">
+<h2>如何才能看到Scrapy发出及接收到的Cookies呢？<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<p>启用 <a href="#id15"><span class="problematic" id="id16">:setting:`COOKIES_DEBUG`</span></a> 选项。</p>
+</div>
+<div class="section" id="id17">
+<h2>要怎么停止爬虫呢?<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<p>在回调函数中raise <a class="reference internal" href="topics/exceptions.html#scrapy.exceptions.CloseSpider" title="scrapy.exceptions.CloseSpider"><code class="xref py py-exc docutils literal"><span class="pre">CloseSpider</span></code></a> 异常。
+更多详情请参见: <a class="reference internal" href="topics/exceptions.html#scrapy.exceptions.CloseSpider" title="scrapy.exceptions.CloseSpider"><code class="xref py py-exc docutils literal"><span class="pre">CloseSpider</span></code></a> 。</p>
+</div>
+<div class="section" id="scrapy-bot-ban">
+<h2>如何避免我的Scrapy机器人(bot)被禁止(ban)呢？<a class="headerlink" href="#scrapy-bot-ban" title="永久链接至标题">¶</a></h2>
+<p>参考 <a class="reference internal" href="topics/practices.html#bans"><span>避免被禁止(ban)</span></a>.</p>
+</div>
+<div class="section" id="spider-arguments-settings-spider">
+<h2>我应该使用spider参数(arguments)还是设置(settings)来配置spider呢？<a class="headerlink" href="#spider-arguments-settings-spider" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="topics/spiders.html#spiderargs"><span>spider参数</span></a> 及 <a class="reference internal" href="topics/settings.html#topics-settings"><span>设置(settings)</span></a> 都可以用来配置您的spider。
+没有什么强制的规则来限定要使用哪个，但设置(settings)更适合那些一旦设置就不怎么会修改的参数，
+而spider参数则意味着修改更为频繁，在每次spider运行都有修改，甚至是spider运行所必须的元素
+(例如，设置spider的起始url)。</p>
+<p>这里以例子来说明这个问题。假设您有一个spider需要登录某个网站来
+爬取数据，并且仅仅想爬取特定网站的特定部分(每次都不一定相同)。
+在这个情况下，认证的信息将写在设置中，而爬取的特定部分的url将是spider参数。</p>
+</div>
+<div class="section" id="xmlxpathitem">
+<h2>我爬取了一个XML文档但是XPath选择器不返回任何的item<a class="headerlink" href="#xmlxpathitem" title="永久链接至标题">¶</a></h2>
+<p>也许您需要移除命名空间(namespace)。参见 <a class="reference internal" href="topics/selectors.html#removing-namespaces"><span>移除命名空间</span></a>.</p>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="topics/debug.html" class="btn btn-neutral float-right" title="调试(Debugging)Spiders" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="topics/webservice.html" class="btn btn-neutral" title="Web Service" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/faq.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>发送email &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">发送email</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">简单例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mailsender">MailSender类参考手册</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mail">Mail设置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mail-from">MAIL_FROM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-host">MAIL_HOST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-port">MAIL_PORT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-user">MAIL_USER</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-pass">MAIL_PASS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-tls">MAIL_TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mail-ssl">MAIL_SSL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>发送email</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="module-scrapy.mail">
+<span id="email"></span><span id="topics-email"></span><h1>发送email<a class="headerlink" href="#module-scrapy.mail" title="永久链接至标题">¶</a></h1>
+<p>虽然Python通过 <a class="reference external" href="http://docs.python.org/library/smtplib.html">smtplib</a> 库使得发送email变得很简单，Scrapy仍然提供了自己的实现。
+该功能十分易用，同时由于采用了 <a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer-intro.html">Twisted非阻塞式(non-blocking)IO</a> ，其避免了对爬虫的非阻塞式IO的影响。
+另外，其也提供了简单的API来发送附件。
+通过一些 <a class="reference internal" href="#topics-email-settings"><span>settings</span></a> 设置，您可以很简单的进行配置。</p>
+<div class="section" id="id1">
+<h2>简单例子<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>有两种方法可以创建邮件发送器(mail sender)。
+您可以通过标准构造器(constructor)创建:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scrapy.mail</span> <span class="kn">import</span> <span class="n">MailSender</span>
+<span class="n">mailer</span> <span class="o">=</span> <span class="n">MailSender</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>或者您可以传递一个Scrapy设置对象，其会参考
+<a class="reference internal" href="#topics-email-settings"><span>settings</span></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mailer</span> <span class="o">=</span> <span class="n">MailSender</span><span class="o">.</span><span class="n">from_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这是如何来发送邮件了(不包括附件):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">mailer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;someone@example.com&quot;</span><span class="p">],</span> <span class="n">subject</span><span class="o">=</span><span class="s">&quot;Some subject&quot;</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="s">&quot;Some body&quot;</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;another@example.com&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mailsender">
+<h2>MailSender类参考手册<a class="headerlink" href="#mailsender" title="永久链接至标题">¶</a></h2>
+<p>在Scrapy中发送email推荐使用MailSender。其同框架中其他的部分一样，使用了
+<a class="reference external" href="http://twistedmatrix.com/documents/current/core/howto/defer-intro.html">Twisted非阻塞式(non-blocking)IO</a> 。</p>
+<dl class="class">
+<dt id="scrapy.mail.MailSender">
+<em class="property">class </em><code class="descclassname">scrapy.mail.</code><code class="descname">MailSender</code><span class="sig-paren">(</span><em>smtphost=None</em>, <em>mailfrom=None</em>, <em>smtpuser=None</em>, <em>smtppass=None</em>, <em>smtpport=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.mail.MailSender" title="永久链接至目标">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>smtphost</strong> (<em>str</em>) &#8211; 发送email的SMTP主机(host)。如果忽略，则使用 <a href="#id2"><span class="problematic" id="id3">:setting:`MAIL_HOST`</span></a> 。</li>
+<li><strong>mailfrom</strong> (<em>str</em>) &#8211; 用于发送email的地址(address)(填入 <code class="docutils literal"><span class="pre">From:</span></code>) 。
+如果忽略，则使用 <a href="#id4"><span class="problematic" id="id5">:setting:`MAIL_FROM`</span></a> 。</li>
+<li><strong>smtpuser</strong> &#8211; SMTP用户。如果忽略,则使用 <a href="#id6"><span class="problematic" id="id7">:setting:`MAIL_USER`</span></a> 。
+如果未给定，则将不会进行SMTP认证(authentication)。</li>
+<li><strong>smtppass</strong> (<em>str</em>) &#8211; SMTP认证的密码</li>
+<li><strong>smtpport</strong> (<em>boolean</em>) &#8211; SMTP连接的短裤</li>
+<li><strong>smtptls</strong> &#8211; 强制使用STARTTLS</li>
+<li><strong>smtpssl</strong> &#8211; 强制使用SSL连接</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="scrapy.mail.MailSender.from_settings">
+<em class="property">classmethod </em><code class="descname">from_settings</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.mail.MailSender.from_settings" title="永久链接至目标">¶</a></dt>
+<dd><p>使用Scrapy设置对象来初始化对象。其会参考
+<a class="reference internal" href="#topics-email-settings"><span>这些Scrapy设置</span></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>settings</strong> (<a class="reference internal" href="api.html#scrapy.settings.Settings" title="scrapy.settings.Settings"><code class="xref py py-class docutils literal"><span class="pre">scrapy.settings.Settings</span></code></a> object) &#8211; the e-mail recipients</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="scrapy.mail.MailSender.send">
+<code class="descname">send</code><span class="sig-paren">(</span><em>to</em>, <em>subject</em>, <em>body</em>, <em>cc=None</em>, <em>attachs=()</em>, <em>mimetype='text/plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.mail.MailSender.send" title="永久链接至目标">¶</a></dt>
+<dd><p>发送email到给定的接收者。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>to</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; email接收者</li>
+<li><strong>subject</strong> (<em>str</em>) &#8211; email内容</li>
+<li><strong>cc</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; 抄送的人</li>
+<li><strong>body</strong> (<em>str</em>) &#8211; email的内容</li>
+<li><strong>attachs</strong> (<em>iterable</em>) &#8211; 可迭代的元组 <code class="docutils literal"><span class="pre">(attach_name,</span> <span class="pre">mimetype,</span> <span class="pre">file_object)</span></code>。
+<code class="docutils literal"><span class="pre">attach_name</span></code> 是一个在email的附件中显示的名字的字符串，
+<code class="docutils literal"><span class="pre">mimetype</span></code> 是附件的mime类型，
+<code class="docutils literal"><span class="pre">file_object</span></code> 是包含附件内容的可读的文件对象。</li>
+<li><strong>mimetype</strong> (<em>str</em>) &#8211; email的mime类型</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="mail">
+<span id="topics-email-settings"></span><h2>Mail设置<a class="headerlink" href="#mail" title="永久链接至标题">¶</a></h2>
+<p>这些设置定义了
+<a class="reference internal" href="#scrapy.mail.MailSender" title="scrapy.mail.MailSender"><code class="xref py py-class docutils literal"><span class="pre">MailSender</span></code></a> 构造器的默认值。其使得在您不编写任何一行代码的情况下，为您的项目配置实现email通知的功能。</p>
+<div class="section" id="mail-from">
+<h3>MAIL_FROM<a class="headerlink" href="#mail-from" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">'scrapy&#64;localhost'</span></code></p>
+<p>用于发送email的地址(address)(填入 <code class="docutils literal"><span class="pre">From:</span></code>) 。</p>
+</div>
+<div class="section" id="mail-host">
+<h3>MAIL_HOST<a class="headerlink" href="#mail-host" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">'localhost'</span></code></p>
+<p>发送email的SMTP主机(host)。</p>
+</div>
+<div class="section" id="mail-port">
+<h3>MAIL_PORT<a class="headerlink" href="#mail-port" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">25</span></code></p>
+<p>发用邮件的SMTP端口。</p>
+</div>
+<div class="section" id="mail-user">
+<h3>MAIL_USER<a class="headerlink" href="#mail-user" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>SMTP用户。如果未给定，则将不会进行SMTP认证(authentication)。</p>
+</div>
+<div class="section" id="mail-pass">
+<h3>MAIL_PASS<a class="headerlink" href="#mail-pass" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>用于SMTP认证，与 <a href="#id8"><span class="problematic" id="id9">:setting:`MAIL_USER`</span></a> 配套的密码。</p>
+</div>
+<div class="section" id="mail-tls">
+<h3>MAIL_TLS<a class="headerlink" href="#mail-tls" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>强制使用STARTTLS。STARTTLS能使得在已经存在的不安全连接上，通过使用SSL/TLS来实现安全连接。</p>
+</div>
+<div class="section" id="mail-ssl">
+<h3>MAIL_SSL<a class="headerlink" href="#mail-ssl" title="永久链接至标题">¶</a></h3>
+<p>默认值: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>强制使用SSL加密连接。</p>
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="telnetconsole.html" class="btn btn-neutral float-right" title="Telnet终端(Telnet Console)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="stats.html" class="btn btn-neutral" title="数据收集(Stats Collection)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

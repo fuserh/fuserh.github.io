@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/link-extractors.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Link Extractors &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Link Extractors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-scrapy.contrib.linkextractors">内置Link Extractor 参考</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-scrapy.contrib.linkextractors.lxmlhtml">LxmlLinkExtractor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="leaks.html">调试内存溢出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>Link Extractors</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="link-extractors">
+<span id="topics-link-extractors"></span><h1>Link Extractors<a class="headerlink" href="#link-extractors" title="永久链接至标题">¶</a></h1>
+<p>Link Extractors 是用于从网页(<a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">scrapy.http.Response</span></code></a> )中抽取会被follow的链接的对象。</p>
+<p>Scrapy默认提供2种可用的 Link Extractor, 但你通过实现一个简单的接口创建自己定制的Link Extractor来满足需求｡
+Scrapy 提供了 <code class="docutils literal"><span class="pre">scrapy.contrib.linkextractors</span> <span class="pre">import</span> <span class="pre">LinkExtractor</span></code> ，
+不过您也可以通过实现一个简单的接口来创建您自己的Link Extractor，满足需求。</p>
+<p>每个LinkExtractor有唯一的公共方法是 <code class="docutils literal"><span class="pre">extract_links</span></code> ，其接收 一个 <a class="reference internal" href="request-response.html#scrapy.http.Response" title="scrapy.http.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> 对象，
+并返回 <code class="xref py py-class docutils literal"><span class="pre">scrapy.link.Link</span></code> 对象｡
+Link Extractors只实例化一次，其 <code class="docutils literal"><span class="pre">extract_links</span></code> 方法会根据不同的response被调用多次来提取链接｡</p>
+<p>Link Extractors在 <a class="reference internal" href="spiders.html#scrapy.contrib.spiders.CrawlSpider" title="scrapy.contrib.spiders.CrawlSpider"><code class="xref py py-class docutils literal"><span class="pre">CrawlSpider</span></code></a> 类(在Scrapy可用)中使用, 通过一套规则,但你也可以用它在你的Spider中,即使你不是从 <a class="reference internal" href="spiders.html#scrapy.contrib.spiders.CrawlSpider" title="scrapy.contrib.spiders.CrawlSpider"><code class="xref py py-class docutils literal"><span class="pre">CrawlSpider</span></code></a> 继承的子类, 因为它的目的很简单: 提取链接｡</p>
+<div class="section" id="module-scrapy.contrib.linkextractors">
+<span id="link-extractor"></span><span id="topics-link-extractors-ref"></span><h2>内置Link Extractor 参考<a class="headerlink" href="#module-scrapy.contrib.linkextractors" title="永久链接至标题">¶</a></h2>
+<p>Scrapy 自带的Link Extractors类在 <a class="reference internal" href="#module-scrapy.contrib.linkextractors" title="scrapy.contrib.linkextractors: Link extractors classes"><code class="xref py py-mod docutils literal"><span class="pre">scrapy.contrib.linkextractors</span></code></a> 模块提供｡</p>
+<p>默认的link extractor 是 <code class="docutils literal"><span class="pre">LinkExtractor</span></code> ，其实就是
+<a class="reference internal" href="#scrapy.contrib.linkextractors.lxmlhtml.LxmlLinkExtractor" title="scrapy.contrib.linkextractors.lxmlhtml.LxmlLinkExtractor"><code class="xref py py-class docutils literal"><span class="pre">LxmlLinkExtractor</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scrapy.contrib.linkextractors</span> <span class="kn">import</span> <span class="n">LinkExtractor</span>
+</pre></div>
+</div>
+<p>在以前版本的Scrapy版本中提供了其他的link extractor，不过都已经被废弃了。</p>
+<div class="section" id="module-scrapy.contrib.linkextractors.lxmlhtml">
+<span id="lxmllinkextractor"></span><h3>LxmlLinkExtractor<a class="headerlink" href="#module-scrapy.contrib.linkextractors.lxmlhtml" title="永久链接至标题">¶</a></h3>
+<dl class="class">
+<dt id="scrapy.contrib.linkextractors.lxmlhtml.LxmlLinkExtractor">
+<em class="property">class </em><code class="descclassname">scrapy.contrib.linkextractors.lxmlhtml.</code><code class="descname">LxmlLinkExtractor</code><span class="sig-paren">(</span><em>allow=()</em>, <em>deny=()</em>, <em>allow_domains=()</em>, <em>deny_domains=()</em>, <em>deny_extensions=None</em>, <em>restrict_xpaths=()</em>, <em>tags=('a'</em>, <em>'area')</em>, <em>attrs=('href'</em>, <em>)</em>, <em>canonicalize=True</em>, <em>unique=True</em>, <em>process_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.contrib.linkextractors.lxmlhtml.LxmlLinkExtractor" title="永久链接至目标">¶</a></dt>
+<dd><p>LxmlLinkExtractor is the recommended link extractor with handy filtering
+options. It is implemented using lxml&#8217;s robust HTMLParser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><ul class="first last simple">
+<li><strong>allow</strong> (<em>a regular expression (or list of)</em>) &#8211; a single regular expression (or list of regular expressions)
+that the (absolute) urls must match in order to be extracted. If not
+given (or empty), it will match all links.</li>
+<li><strong>deny</strong> (<em>a regular expression (or list of)</em>) &#8211; a single regular expression (or list of regular expressions)
+that the (absolute) urls must match in order to be excluded (ie. not
+extracted). It has precedence over the <code class="docutils literal"><span class="pre">allow</span></code> parameter. If not
+given (or empty) it won&#8217;t exclude any links.</li>
+<li><strong>allow_domains</strong> (<em>str or list</em>) &#8211; a single value or a list of string containing
+domains which will be considered for extracting the links</li>
+<li><strong>deny_domains</strong> (<em>str or list</em>) &#8211; a single value or a list of strings containing
+domains which won&#8217;t be considered for extracting the links</li>
+<li><strong>deny_extensions</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; a single value or list of strings containing
+extensions that should be ignored when extracting links.
+If not given, it will default to the
+<code class="docutils literal"><span class="pre">IGNORED_EXTENSIONS</span></code> list defined in the <a class="reference external" href="https://github.com/scrapy/scrapy/blob/master/scrapy/linkextractor.py">scrapy.linkextractor</a>
+module.</li>
+<li><strong>restrict_xpaths</strong> (<em>str or list</em>) &#8211; is a XPath (or list of XPath&#8217;s) which defines
+regions inside the response where links should be extracted from.
+If given, only the text selected by those XPath will be scanned for
+links. See examples below.</li>
+<li><strong>tags</strong> (<em>str or list</em>) &#8211; a tag or a list of tags to consider when extracting links.
+Defaults to <code class="docutils literal"><span class="pre">('a',</span> <span class="pre">'area')</span></code>.</li>
+<li><strong>attrs</strong> (<a class="reference internal" href="api.html#scrapy.spidermanager.SpiderManager.list" title="scrapy.spidermanager.SpiderManager.list"><em>list</em></a>) &#8211; an attribute or list of attributes which should be considered when looking
+for links to extract (only for those tags specified in the <code class="docutils literal"><span class="pre">tags</span></code>
+parameter). Defaults to <code class="docutils literal"><span class="pre">('href',)</span></code></li>
+<li><strong>canonicalize</strong> (<em>boolean</em>) &#8211; canonicalize each extracted url (using
+scrapy.utils.url.canonicalize_url). Defaults to <code class="docutils literal"><span class="pre">True</span></code>.</li>
+<li><strong>unique</strong> (<em>boolean</em>) &#8211; whether duplicate filtering should be applied to extracted
+links.</li>
+<li><strong>process_value</strong> (<em>callable</em>) &#8211; <p>它接收来自扫描标签和属性提取每个值, 可以修改该值, 并返回一个新的, 或返回 <code class="docutils literal"><span class="pre">None</span></code> 完全忽略链接的功能｡如果没有给出,  <code class="docutils literal"><span class="pre">process_value</span></code> 默认是 <code class="docutils literal"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">x</span></code>｡</p>
+<p>例如,从这段代码中提取链接:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;javascript:goToPage(&#39;../other/page.html&#39;); return false&quot;</span><span class="nt">&gt;</span>Link text<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>你可以使用下面的这个 <code class="docutils literal"><span class="pre">process_value</span></code> 函数:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">process_value</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;javascript:goToPage\(&#39;(.*?)&#39;&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="logging.html" class="btn btn-neutral float-right" title="Logging" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="feed-exports.html" class="btn btn-neutral" title="Feed exports" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/link-extractors.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:21 GMT -->
+</html>

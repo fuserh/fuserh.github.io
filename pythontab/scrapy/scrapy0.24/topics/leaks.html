@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/leaks.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>调试内存溢出 &mdash; Scrapy 中文手册 0.25 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Scrapy 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.25
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/scrapy/scrapy0.24/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/overview.html">初窥Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/install.html">安装指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/tutorial.html">Scrapy入门教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/examples.html">例子</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">命令行工具(Command line tools)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="items.html">Items</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spiders.html">Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="selectors.html">选择器(Selectors)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loaders.html">Item Loaders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Scrapy终端(Scrapy shell)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="item-pipeline.html">Item Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feed-exports.html">Feed exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="link-extractors.html">Link Extractors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stats.html">数据收集(Stats Collection)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="email.html">发送email</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telnetconsole.html">Telnet终端(Telnet Console)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webservice.html">Web Service</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">常见问题(FAQ)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">调试(Debugging)Spiders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contracts.html">Spiders Contracts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="practices.html">实践经验(Common Practices)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="broad-crawls.html">通用爬虫(Broad Crawls)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firefox.html">借助Firefox来爬取</a></li>
+<li class="toctree-l1"><a class="reference internal" href="firebug.html">使用Firebug进行爬取</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">调试内存溢出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">内存泄露的常见原因</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#trackref">使用 <code class="docutils literal"><span class="pre">trackref</span></code> 调试内存泄露</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">哪些对象被追踪了?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">真实例子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spider">很多spider?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scrapy-utils-trackref">scrapy.utils.trackref模块</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#guppy">使用Guppy调试内存泄露</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#leaks-without-leaks">Leaks without leaks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="images.html">下载项目图片</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ubuntu.html">Ubuntu 软件包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapyd.html">Scrapyd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autothrottle.html">自动限速(AutoThrottle)扩展</a></li>
+<li class="toctree-l1"><a class="reference internal" href="benchmarking.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jobs.html">Jobs: 暂停，恢复爬虫</a></li>
+<li class="toctree-l1"><a class="reference internal" href="djangoitem.html">DjangoItem</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">架构概览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="downloader-middleware.html">下载器中间件(Downloader Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spider-middleware.html">Spider中间件(Middleware)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions.html">扩展(Extensions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">核心API</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="request-response.html">Requests and Responses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="signals.html">信号(Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exceptions.html">异常(Exceptions)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exporters.html">Item Exporters</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../news.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to Scrapy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versioning.html">Versioning and API Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experimental/index.html">试验阶段特性</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Scrapy 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Scrapy 中文手册 0.25 文档</a> &raquo;</li>
+      
+    <li>调试内存溢出</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+  <div class="section" id="topics-leaks">
+<span id="id1"></span><h1>调试内存溢出<a class="headerlink" href="#topics-leaks" title="永久链接至标题">¶</a></h1>
+<p>在Scrapy中，类似Requests, Response及Items的对象具有有限的生命周期:
+他们被创建，使用，最后被销毁。</p>
+<p>这些对象中，Request的生命周期应该是最长的，其会在调度队列(Scheduler queue)中一直等待，直到被处理。
+更多内容请参考 <a class="reference internal" href="architecture.html#topics-architecture"><span>架构概览</span></a> 。</p>
+<p>由于这些Scrapy对象拥有很长的生命，因此将这些对象存储在内存而没有正确释放的危险总是存在。
+而这导致了所谓的&#8221;内存泄露&#8221;。</p>
+<p>为了帮助调试内存泄露，Scrapy提供了跟踪对象引用的机制，叫做 <a class="reference internal" href="#topics-leaks-trackrefs"><span>trackref</span></a> ，
+或者您也可以使用第三方提供的更先进内存调试库 <a class="reference internal" href="#topics-leaks-guppy"><span>Guppy</span></a>
+(更多内容请查看下面)。而这都必须在 <a class="reference internal" href="telnetconsole.html#topics-telnetconsole"><span>Telnet终端</span></a> 中使用。</p>
+<div class="section" id="id2">
+<h2>内存泄露的常见原因<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>内存泄露经常是由于Scrapy开发者在Requests中(有意或无意)传递对象的引用(例如，使用
+<a class="reference internal" href="request-response.html#scrapy.http.Request.meta" title="scrapy.http.Request.meta"><code class="xref py py-attr docutils literal"><span class="pre">meta</span></code></a> 属性或request回调函数)，使得该对象的生命周期与
+Request的生命周期所绑定。这是目前为止最常见的内存泄露的原因，
+同时对新手来说也是一个比较难调试的问题。</p>
+<p>在大项目中，spider是由不同的人所编写的。而这其中有的spider可能是有&#8221;泄露的&#8221;，
+当所有的爬虫同时运行时，这些影响了其他(写好)的爬虫，最终，影响了整个爬取进程。</p>
+<p>与此同时，在不限制框架的功能的同时避免造成这些造成泄露的原因是十分困难的。因此，
+我们决定不限制这些功能而是提供调试这些泄露的实用工具。这些工具回答了一个问题:
+<em>哪个spider在泄露</em> 。</p>
+<p>内存泄露可能存在与一个您编写的中间件，管道(pipeline) 或扩展，在代码中您没有正确释放
+(之前分配的)资源。例如，您在 <a href="#id3"><span class="problematic" id="id4">:signal:`spider_opened`</span></a> 中分配资源但在
+<a href="#id5"><span class="problematic" id="id6">:signal:`spider_closed`</span></a> 中没有释放它们。</p>
+</div>
+<div class="section" id="trackref">
+<span id="topics-leaks-trackrefs"></span><h2>使用 <code class="docutils literal"><span class="pre">trackref</span></code> 调试内存泄露<a class="headerlink" href="#trackref" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">trackref</span></code> 是Scrapy提供用于调试大部分内存泄露情况的模块。
+简单来说，其追踪了所有活动(live)的Request, Request, Item及Selector对象的引用。</p>
+<p>您可以进入telnet终端并通过 <code class="docutils literal"><span class="pre">prefs()</span></code> 功能来检查多少(上面所提到的)活跃(alive)对象。
+<code class="docutils literal"><span class="pre">pref()</span></code> 是 <a class="reference internal" href="#scrapy.utils.trackref.print_live_refs" title="scrapy.utils.trackref.print_live_refs"><code class="xref py py-func docutils literal"><span class="pre">print_live_refs()</span></code></a> 功能的引用:</p>
+<div class="highlight-python"><div class="highlight"><pre>telnet localhost 6023
+
+&gt;&gt;&gt; prefs()
+Live References
+
+ExampleSpider                       1   oldest: 15s ago
+HtmlResponse                       10   oldest: 1s ago
+Selector                            2   oldest: 0s ago
+FormRequest                       878   oldest: 7s ago
+</pre></div>
+</div>
+<p>正如所见，报告也展现了每个类中最老的对象的时间(age)。</p>
+<p>如果您有内存泄露，那您能找到哪个spider正在泄露的机会是查看最老的request或response。
+您可以使用 <a class="reference internal" href="#scrapy.utils.trackref.get_oldest" title="scrapy.utils.trackref.get_oldest"><code class="xref py py-func docutils literal"><span class="pre">get_oldest()</span></code></a> 方法来获取每个类中最老的对象，
+正如此所示(在终端中)(原文档没有样例)。</p>
+<div class="section" id="id7">
+<h3>哪些对象被追踪了?<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">trackref</span></code> 追踪的对象包括以下类(及其子类)的对象:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">scrapy.http.Request</span></code></li>
+<li><code class="docutils literal"><span class="pre">scrapy.http.Response</span></code></li>
+<li><code class="docutils literal"><span class="pre">scrapy.item.Item</span></code></li>
+<li><code class="docutils literal"><span class="pre">scrapy.selector.Selector</span></code></li>
+<li><code class="docutils literal"><span class="pre">scrapy.spider.Spider</span></code></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>真实例子<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>让我们来看一个假设的具有内存泄露的准确例子。</p>
+<p>假如我们有些spider的代码中有一行类似于这样的代码:</p>
+<div class="highlight-python"><div class="highlight"><pre>return Request(&quot;http://www.somenastyspider.com/product.php?pid=%d&quot; % product_id,
+    callback=self.parse, meta={referer: response}&quot;)
+</pre></div>
+</div>
+<p>代码中在request中传递了一个response的引用，使得reponse的生命周期与request所绑定，
+进而造成了内存泄露。</p>
+<p>让我们来看看如何使用 <code class="docutils literal"><span class="pre">trackref</span></code> 工具来发现哪一个是有问题的spider(当然是在不知道任何的前提的情况下)。</p>
+<p>当crawler运行了一小阵子后，我们发现内存占用增长了很多。
+这时候我们进入telnet终端，查看活跃(live)的引用:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">prefs</span><span class="p">()</span>
+<span class="go">Live References</span>
+
+<span class="go">SomenastySpider                     1   oldest: 15s ago</span>
+<span class="go">HtmlResponse                     3890   oldest: 265s ago</span>
+<span class="go">Selector                            2   oldest: 0s ago</span>
+<span class="go">Request                          3878   oldest: 250s ago</span>
+</pre></div>
+</div>
+<p>上面具有非常多的活跃(且运行时间很长)的response，而其比Request的时间还要长的现象肯定是有问题的。
+因此，查看最老的response:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scrapy.utils.trackref</span> <span class="kn">import</span> <span class="n">get_oldest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">get_oldest</span><span class="p">(</span><span class="s">&#39;HtmlResponse&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">url</span>
+<span class="go">&#39;http://www.somenastyspider.com/product.php?pid=123&#39;</span>
+</pre></div>
+</div>
+<p>就这样，通过查看最老的response的URL，我们发现其属于 <code class="docutils literal"><span class="pre">somenastyspider.com</span></code> spider。
+现在我们可以查看该spider的代码并发现导致泄露的那行代码(在request中传递response的引用)。</p>
+<p>如果您想要遍历所有而不是最老的对象，您可以使用 <code class="xref py py-func docutils literal"><span class="pre">iter_all()</span></code> 方法:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scrapy.utils.trackref</span> <span class="kn">import</span> <span class="n">iter_all</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">url</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">iter_all</span><span class="p">(</span><span class="s">&#39;HtmlResponse&#39;</span><span class="p">)]</span>
+<span class="go">[&#39;http://www.somenastyspider.com/product.php?pid=123&#39;,</span>
+<span class="go"> &#39;http://www.somenastyspider.com/product.php?pid=584&#39;,</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spider">
+<h3>很多spider?<a class="headerlink" href="#spider" title="永久链接至标题">¶</a></h3>
+<p>如果您的项目有很多的spider，<code class="docutils literal"><span class="pre">prefs()</span></code> 的输出会变得很难阅读。针对于此，
+该方法具有 <code class="docutils literal"><span class="pre">ignore</span></code> 参数，用于忽略特定的类(及其子类)。例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scrapy.spider</span> <span class="kn">import</span> <span class="n">Spider</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefs</span><span class="p">(</span><span class="n">ignore</span><span class="o">=</span><span class="n">Spider</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>将不会展现任何spider的活跃引用。</p>
+<span class="target" id="module-scrapy.utils.trackref"></span></div>
+<div class="section" id="scrapy-utils-trackref">
+<h3>scrapy.utils.trackref模块<a class="headerlink" href="#scrapy-utils-trackref" title="永久链接至标题">¶</a></h3>
+<p>以下是 <a class="reference internal" href="#module-scrapy.utils.trackref" title="scrapy.utils.trackref: Track references of live objects"><code class="xref py py-mod docutils literal"><span class="pre">trackref</span></code></a> 模块中可用的方法。</p>
+<dl class="class">
+<dt id="scrapy.utils.trackref.object_ref">
+<em class="property">class </em><code class="descclassname">scrapy.utils.trackref.</code><code class="descname">object_ref</code><a class="headerlink" href="#scrapy.utils.trackref.object_ref" title="永久链接至目标">¶</a></dt>
+<dd><p>如果您想通过 <code class="docutils literal"><span class="pre">trackref</span></code> 模块追踪活跃的实例，继承该类(而不是对象)。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scrapy.utils.trackref.print_live_refs">
+<code class="descclassname">scrapy.utils.trackref.</code><code class="descname">print_live_refs</code><span class="sig-paren">(</span><em>class_name</em>, <em>ignore=NoneType</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.utils.trackref.print_live_refs" title="永久链接至目标">¶</a></dt>
+<dd><p>打印活跃引用的报告，以类名分类。</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">参数:</th><td class="field-body"><strong>ignore</strong> (<em>类或者类的元组</em>) &#8211; 如果给定，所有指定类(或者类的元组)的对象将会被忽略。</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="scrapy.utils.trackref.get_oldest">
+<code class="descclassname">scrapy.utils.trackref.</code><code class="descname">get_oldest</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.utils.trackref.get_oldest" title="永久链接至目标">¶</a></dt>
+<dd><p>返回给定类名的最老活跃(alive)对象，如果没有则返回 <code class="docutils literal"><span class="pre">None</span></code> 。首先使用
+<a class="reference internal" href="#scrapy.utils.trackref.print_live_refs" title="scrapy.utils.trackref.print_live_refs"><code class="xref py py-func docutils literal"><span class="pre">print_live_refs()</span></code></a> 来获取每个类所跟踪的所有活跃(live)对象的列表。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="scrapy.utils.trackref.iter_all">
+<code class="descclassname">scrapy.utils.trackref.</code><code class="descname">iter_all</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="headerlink" href="#scrapy.utils.trackref.iter_all" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个能给定类名的所有活跃对象的迭代器，如果没有则返回 <code class="docutils literal"><span class="pre">None</span></code> 。首先使用
+<a class="reference internal" href="#scrapy.utils.trackref.print_live_refs" title="scrapy.utils.trackref.print_live_refs"><code class="xref py py-func docutils literal"><span class="pre">print_live_refs()</span></code></a> 来获取每个类所跟踪的所有活跃(live)对象的列表。</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="guppy">
+<span id="topics-leaks-guppy"></span><h2>使用Guppy调试内存泄露<a class="headerlink" href="#guppy" title="永久链接至标题">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">trackref</span></code> 提供了追踪内存泄露非常方便的机制，其仅仅追踪了比较可能导致内存泄露的对象
+(Requests, Response, Items及Selectors)。然而，内存泄露也有可能来自其他(更为隐蔽的)对象。
+如果是因为这个原因，通过 <code class="docutils literal"><span class="pre">trackref</span></code> 则无法找到泄露点，您仍然有其他工具: <a class="reference external" href="http://pypi.python.org/pypi/guppy">Guppy library</a> 。</p>
+<p>如果使用 <code class="docutils literal"><span class="pre">setuptools</span></code> , 您可以通过下列命令安装Guppy:</p>
+<div class="highlight-python"><div class="highlight"><pre>easy_install guppy
+</pre></div>
+</div>
+<p>telnet终端也提供了快捷方式(<code class="docutils literal"><span class="pre">hpy</span></code>)来访问Guppy堆对象(heap objects)。
+下面给出了查看堆中所有可用的Python对象的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">hpy</span><span class="o">.</span><span class="n">heap</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">bytype</span>
+<span class="go">Partition of a set of 297033 objects. Total size = 52587824 bytes.</span>
+<span class="go"> Index  Count   %     Size   % Cumulative  % Type</span>
+<span class="go">     0  22307   8 16423880  31  16423880  31 dict</span>
+<span class="go">     1 122285  41 12441544  24  28865424  55 str</span>
+<span class="go">     2  68346  23  5966696  11  34832120  66 tuple</span>
+<span class="go">     3    227   0  5836528  11  40668648  77 unicode</span>
+<span class="go">     4   2461   1  2222272   4  42890920  82 type</span>
+<span class="go">     5  16870   6  2024400   4  44915320  85 function</span>
+<span class="go">     6  13949   5  1673880   3  46589200  89 types.CodeType</span>
+<span class="go">     7  13422   5  1653104   3  48242304  92 list</span>
+<span class="go">     8   3735   1  1173680   2  49415984  94 _sre.SRE_Pattern</span>
+<span class="go">     9   1209   0   456936   1  49872920  95 scrapy.http.headers.Headers</span>
+<span class="go">&lt;1676 more rows. Type e.g. &#39;_.more&#39; to view.&gt;</span>
+</pre></div>
+</div>
+<p>您可以看到大部分的空间被字典所使用。接着，如果您想要查看哪些属性引用了这些字典，
+您可以:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">bytype</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">byvia</span>
+<span class="go">Partition of a set of 22307 objects. Total size = 16423880 bytes.</span>
+<span class="go"> Index  Count   %     Size   % Cumulative  % Referred Via:</span>
+<span class="go">     0  10982  49  9416336  57   9416336  57 &#39;.__dict__&#39;</span>
+<span class="go">     1   1820   8  2681504  16  12097840  74 &#39;.__dict__&#39;, &#39;.func_globals&#39;</span>
+<span class="go">     2   3097  14  1122904   7  13220744  80</span>
+<span class="go">     3    990   4   277200   2  13497944  82 &quot;[&#39;cookies&#39;]&quot;</span>
+<span class="go">     4    987   4   276360   2  13774304  84 &quot;[&#39;cache&#39;]&quot;</span>
+<span class="go">     5    985   4   275800   2  14050104  86 &quot;[&#39;meta&#39;]&quot;</span>
+<span class="go">     6    897   4   251160   2  14301264  87 &#39;[2]&#39;</span>
+<span class="go">     7      1   0   196888   1  14498152  88 &quot;[&#39;moduleDict&#39;]&quot;, &quot;[&#39;modules&#39;]&quot;</span>
+<span class="go">     8    672   3   188160   1  14686312  89 &quot;[&#39;cb_kwargs&#39;]&quot;</span>
+<span class="go">     9     27   0   155016   1  14841328  90 &#39;[1]&#39;</span>
+<span class="go">&lt;333 more rows. Type e.g. &#39;_.more&#39; to view.&gt;</span>
+</pre></div>
+</div>
+<p>如上所示，Guppy模块十分强大，不过也需要一些关于Python内部的知识。关于Guppy的更多内容请参考
+<a class="reference external" href="http://guppy-pe.sourceforge.net/">Guppy documentation</a>.</p>
+</div>
+<div class="section" id="leaks-without-leaks">
+<span id="topics-leaks-without-leaks"></span><h2>Leaks without leaks<a class="headerlink" href="#leaks-without-leaks" title="永久链接至标题">¶</a></h2>
+<p>有时候，您可能会注意到Scrapy进程的内存占用只在增长，从不下降。不幸的是，
+有时候这并不是Scrapy或者您的项目在泄露内存。这是由于一个已知(但不有名)的Python问题。
+Python在某些情况下可能不会返回已经释放的内存到操作系统。关于这个问题的更多内容请看:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://evanjones.ca/python-memory.html">Python Memory Management</a></li>
+<li><a class="reference external" href="http://evanjones.ca/python-memory-part2.html">Python Memory Management Part 2</a></li>
+<li><a class="reference external" href="http://evanjones.ca/python-memory-part3.html">Python Memory Management Part 3</a></li>
+</ul>
+<p>改进方案由Evan Jones提出，在 <a class="reference external" href="http://evanjones.ca/memoryallocator/">这篇文章</a> 中详细介绍，在Python 2.5中合并。
+不过这仅仅减小了这个问题，并没有完全修复。引用这片文章:</p>
+<blockquote>
+<div><em>不幸的是，这个patch仅仅会释放没有在其内部分配对象的区域(arena)。这意味着
+碎片化是一个大问题。某个应用可以拥有很多空闲内存，分布在所有的区域(arena)中，
+但是没法释放任何一个。这个问题存在于所有内存分配器中。解决这个问题的唯一办法是
+转化到一个更为紧凑(compact)的垃圾回收器，其能在内存中移动对象。
+这需要对Python解析器做一个显著的修改。</em></div></blockquote>
+<p>这个问题将会在未来Scrapy发布版本中得到解决。我们打算转化到一个新的进程模型，
+并在可回收的子进程池中运行spider。</p>
+</div>
+</div>
+
+
+    
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="images.html" class="btn btn-neutral float-right" title="下载项目图片" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="firebug.html" class="btn btn-neutral" title="使用Firebug进行爬取" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 Scrapy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.25',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+     
+    
+
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/scrapy/scrapy0.24/topics/leaks.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:51:24 GMT -->
+</html>
