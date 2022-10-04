@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/appendix_b.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>附录B 常用API &mdash; Nginx开发从入门到精通</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Nginx开发从入门到精通
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/nginx/nginx-book/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="module_development.html">上篇：nginx模块开发篇</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">下篇：nginx原理解析篇</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_a.html">附录A 编码风格 (100%)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">附录B 常用API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#b-1">B.1 字符串操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-2">B.2 读取请求体</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-3">B.3 操作请求头</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-4">B.4 取参数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-5-uri">B.5 URI处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-6-buffer">B.6 buffer操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-7">B.7 变量操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-8">B.8 日志输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-9">B.9 配置解析接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-10">B.10 文件操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b-11">B.11 锁操作</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_c.html">附录C 模块编译，调试与测试</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Nginx开发从入门到精通</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Nginx开发从入门到精通</a> &raquo;</li>
+      
+    <li>附录B 常用API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="b-api">
+<h1>附录B 常用API<a class="headerlink" href="#b-api" title="永久链接至标题">¶</a></h1>
+<div class="section" id="b-1">
+<h2>B.1 字符串操作<a class="headerlink" href="#b-1" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-2">
+<h2>B.2 读取请求体<a class="headerlink" href="#b-2" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-3">
+<h2>B.3 操作请求头<a class="headerlink" href="#b-3" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-4">
+<h2>B.4 取参数<a class="headerlink" href="#b-4" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-5-uri">
+<h2>B.5 URI处理<a class="headerlink" href="#b-5-uri" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-6-buffer">
+<h2>B.6 buffer操作<a class="headerlink" href="#b-6-buffer" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-7">
+<h2>B.7 变量操作<a class="headerlink" href="#b-7" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-8">
+<h2>B.8 日志输出<a class="headerlink" href="#b-8" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-9">
+<h2>B.9 配置解析接口<a class="headerlink" href="#b-9" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-10">
+<h2>B.10 文件操作<a class="headerlink" href="#b-10" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="b-11">
+<h2>B.11 锁操作<a class="headerlink" href="#b-11" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appendix_c.html" class="btn btn-neutral float-right" title="附录C 模块编译，调试与测试" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="appendix_a.html" class="btn btn-neutral" title="附录A 编码风格 (100%)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 taobao.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/booktools.html"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/appendix_b.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:49 GMT -->
+</html>

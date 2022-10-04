@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/module_development.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>上篇：nginx模块开发篇 &mdash; Nginx开发从入门到精通</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Nginx开发从入门到精通
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/nginx/nginx-book/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">上篇：nginx模块开发篇</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_01.html">背景介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html">nginx平台初探(100%)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html">handler模块(100%)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_04.html">过滤模块 (90%)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_05.html">upstream模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_06.html">其他模块 (40%)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_07.html">模块开发高级篇(30%)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">下篇：nginx原理解析篇</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_a.html">附录A 编码风格 (100%)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_b.html">附录B 常用API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_c.html">附录C 模块编译，调试与测试</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Nginx开发从入门到精通</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Nginx开发从入门到精通</a> &raquo;</li>
+      
+    <li>上篇：nginx模块开发篇</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nginx">
+<h1>上篇：nginx模块开发篇<a class="headerlink" href="#nginx" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapter_01.html">背景介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_01.html#nginx">nginx历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_01.html#id2">使用简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_01.html#id3">nginx特点介绍</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_02.html">nginx平台初探(100%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id1">初探nginx架构(100%)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id2">nginx基础概念(100%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#connection">connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#request">request</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id3">基本数据结构(99%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-str-t-100">ngx_str_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-pool-t-100">ngx_pool_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-array-t-100">ngx_array_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-hash-t-100">ngx_hash_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-hash-wildcard-t-100">ngx_hash_wildcard_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-hash-combined-t-100">ngx_hash_combined_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-hash-keys-arrays-t-100">ngx_hash_keys_arrays_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-chain-t-100">ngx_chain_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-buf-t-99">ngx_buf_t(99%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-list-t-100">ngx_list_t(100%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#ngx-queue-t-100">ngx_queue_t(100%)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id6">nginx的配置系统(100%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#id7">指令概述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#id8">指令参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#id9">指令上下文</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#nginx">nginx的模块化体系结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id10">模块概述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#id11">模块的分类</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_02.html#id12">nginx的请求处理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_02.html#id13">请求的处理流程</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_03.html">handler模块(100%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#handler">handler模块简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id1">模块的基本结构</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id2">模块配置结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id3">模块配置指令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id4">模块上下文结构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id5">模块的定义</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id6">handler模块的基本结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id7">handler模块的挂载</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id8">按处理阶段挂载</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id9">按需挂载</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id10">handler的编写步骤</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#hello-handler">示例: hello handler 模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id11">handler模块的编译和使用</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#config">config文件的编写</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id12">编译</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#id13">使用</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_03.html#id14">更多handler模块示例分析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#http-access-module">http access module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#http-static-module">http static module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_03.html#http-log-module">http log module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_04.html">过滤模块 (90%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_04.html#id2">过滤模块简介 (90%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id3">执行时间和内容 (90%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id4">执行顺序 (90%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id5">模块编译 (90%)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_04.html#id6">过滤模块的分析 (90%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id7">相关结构体 (90%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id8">响应头过滤函数 (90%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_04.html#id9">响应体过滤函数 (90%)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_05.html">upstream模块</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_05.html#upstream-100">upstream模块 (100%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id1">upstream模块接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#memcached">memcached模块分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id4">本节回顾</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_05.html#id5">负载均衡模块 (100%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id6">配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id7">指令</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id8">钩子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id9">初始化配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id10">初始化请求</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#peer-getpeer-free">peer.get和peer.free回调函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_05.html#id11">本节回顾</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_06.html">其他模块 (40%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_06.html#core-40">core模块 (40%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#nginx-40">Nginx的启动模块 (40%)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_06.html#event-40">event模块 (40%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#id2">event的类型和功能 (40%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#accept-40">accept锁 (40%)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#id3">定时器 (40%)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_06.html#mail">mail模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#id4">mail模块的实现</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_06.html#id5">mail模块的功能</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapter_07.html">模块开发高级篇(30%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter_07.html#id2">变量(80%)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_07.html#id3">综述</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_07.html#id4">创建变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_07.html#id5">使用变量</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_07.html#upstream">upstream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapter_07.html#subrequestupstream">使用subrequest访问upstream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapter_07.html#id6">超越upstream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapter_07.html#lua">使用lua模块</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chapter_01.html" class="btn btn-neutral float-right" title="背景介绍" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index-2.html" class="btn btn-neutral" title="Nginx开发从入门到精通" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 taobao.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/booktools.html"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/module_development.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:49 GMT -->
+</html>

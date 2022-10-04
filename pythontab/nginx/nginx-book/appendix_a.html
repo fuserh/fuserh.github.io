@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/appendix_a.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>附录A 编码风格 (100%) &mdash; Nginx开发从入门到精通</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index-2.html" class="icon icon-home"> Nginx开发从入门到精通
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/nginx/nginx-book/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="module_development.html">上篇：nginx模块开发篇</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_analysis.html">下篇：nginx原理解析篇</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">附录A 编码风格 (100%)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nginx-100">Nginx代码风格图示 (100%)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_b.html">附录B 常用API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix_c.html">附录C 模块编译，调试与测试</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index-2.html">Nginx开发从入门到精通</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index-2.html"> &mdash; Nginx开发从入门到精通</a> &raquo;</li>
+      
+    <li>附录A 编码风格 (100%)</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="a-100">
+<h1>附录A 编码风格 (100%)<a class="headerlink" href="#a-100" title="永久链接至标题">¶</a></h1>
+<div class="section" id="nginx-100">
+<h2>Nginx代码风格图示 (100%)<a class="headerlink" href="#nginx-100" title="永久链接至标题">¶</a></h2>
+<p>一、基本原则</p>
+<blockquote>
+<div><p>K&amp;R编码风格（偏BSD子类）。</p>
+<p>每行不能超过80列。</p>
+<p>不用TAB对齐，用空格。</p>
+<p>默认对齐单元是4个空格。</p>
+<p>除宏定义外，字母均为小写，单词间用下划线_间隔。</p>
+<p>使用C方式的注释，不得使用//形式注释。</p>
+<p>中缀运算符的前后须空一格，如3 + 2以及a &gt; 3。</p>
+<p>逗号后须空一格，如foo(a, b, c);</p>
+</div></blockquote>
+<p>二、风格图示</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-1.JPG" src="http://tengine.taobao.org/book/_images/code-style-1.JPG" />
+<p>1、      if/while/for/switch语句的左花括号和关键字在同一行上，和括号之间空一个空格。</p>
+<p>2、      else关键字和两个花括号在同一行上。</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-2.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-2.JPG" src="http://tengine.taobao.org/book/_images/code-style-2.JPG" style="width: 550px;" /></a>
+<p>3、      文件开始的注释空一行。</p>
+<p>4、      较为完整的代码块间的距离为空两行。如函数声明、函数定义之间等。</p>
+<p>5、      函数声明或定义若一行显示不下，则函数原型空4个空格。</p>
+<p>6、      结构体数组的花括号和内容之间空一个空格。</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-3.JPG" src="http://tengine.taobao.org/book/_images/code-style-3.JPG" />
+<p>7、      结构体数组的左花括号放在同一行上。</p>
+<p>8、      较大的结构体数组元素最开始空一行。</p>
+<p>9、      元素内容上下对齐。</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-4.JPG" src="http://tengine.taobao.org/book/_images/code-style-4.JPG" />
+<p>10、注释上下对齐。</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-5.JPG" src="http://tengine.taobao.org/book/_images/code-style-5.JPG" />
+<p>11、函数调用折行时，参数上下对齐。</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-6.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-6.JPG" src="http://tengine.taobao.org/book/_images/code-style-6.JPG" style="width: 550px;" /></a>
+<p>12、函数定义时，类型单独一行。</p>
+<p>13、变量声明的类型上下排列按照从短到长的顺序。注意，最下面的变量的类型和名称间的空格为2-3个。一般情况下为2个，这是Nginx中最小的变量声明中类型和名称的距离。</p>
+<p>14、变量名称上下对齐——字母对齐，不包括指针的*号。</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-7.JPG" src="http://tengine.taobao.org/book/_images/code-style-7.JPG" />
+<p>15、结构体内变量上下对齐（字母，不包括指针的的*号）。</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-8.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-8.JPG" src="http://tengine.taobao.org/book/_images/code-style-8.JPG" style="width: 550px;" /></a>
+<p>16、单行注释格式为/* something */</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-9.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-9.JPG" src="http://tengine.taobao.org/book/_images/code-style-9.JPG" style="width: 550px;" /></a>
+<p>17、多行注释的格式为：</p>
+<div class="code c highlight-python"><div class="highlight"><pre>/*
+ * something
+ */
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-10.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-10.JPG" src="http://tengine.taobao.org/book/_images/code-style-10.JPG" style="width: 550px;" /></a>
+<p>18、函数定义的左花括号独占一行。</p>
+<p>19、switch语句中，switch和case关键字上下对齐。</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-11.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-11.JPG" src="http://tengine.taobao.org/book/_images/code-style-11.JPG" style="width: 550px;" /></a>
+<p>20、当条件表达式过长需要折行时，关系运算符须位于下一行的行首，并与上一行的条件表达式的第一个字符对齐，同时右花括号须位于单独的一行，并与if/while等关键字对齐。</p>
+<a class="reference internal image-reference" href="http://tengine.taobao.org/book/_images/code-style-12.JPG"><img alt="http://tengine.taobao.org/book/_images/code-style-12.JPG" src="http://tengine.taobao.org/book/_images/code-style-12.JPG" style="width: 550px;" /></a>
+<p>21、 else语句之前须空出一行。</p>
+<img alt="http://tengine.taobao.org/book/_images/code-style-13.JPG" src="http://tengine.taobao.org/book/_images/code-style-13.JPG" />
+<p>22、在函数中，相同类型的变量声明放在一行上。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="appendix_b.html" class="btn btn-neutral float-right" title="附录B 常用API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chapter_14.html" class="btn btn-neutral" title="nginx的script处理" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 taobao.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/booktools.html"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/nginx/nginx-book/appendix_a.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:49 GMT -->
+</html>
