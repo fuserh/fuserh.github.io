@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/howto/auth-remote-user.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Authentication using REMOTE_USER &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">&#8220;How-to&#8221; guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Authentication using <code class="docutils literal"><span class="pre">REMOTE_USER</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remoteuserbackend"><code class="docutils literal"><span class="pre">RemoteUserBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#attributes">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom-management-commands.html">Writing custom django-admin commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom-model-fields.html">Writing custom model fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom-template-tags.html">Custom template tags and filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom-file-storage.html">Writing a custom storage system</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/index.html">Deploying Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-reporting.html">Error reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial-data.html">Providing initial data for models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jython.html">Running Django on Jython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="legacy-databases.html">Integrating Django with a legacy database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outputting-csv.html">Outputting CSV with Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="outputting-pdf.html">Outputting PDFs with Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static-files.html">Managing static files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">&#8220;How-to&#8221; guides</a> &raquo;</li>
+      
+    <li>Authentication using <code class="docutils literal"><span class="pre">REMOTE_USER</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="authentication-using-remote-user">
+<h1>Authentication using <code class="docutils literal"><span class="pre">REMOTE_USER</span></code><a class="headerlink" href="#authentication-using-remote-user" title="Permalink to this headline">¶</a></h1>
+<p>This document describes how to make use of external authentication sources
+(where the Web server sets the <code class="docutils literal"><span class="pre">REMOTE_USER</span></code> environment variable) in your
+Django applications.  This type of authentication solution is typically seen on
+intranet sites, with single sign-on solutions such as IIS and Integrated
+Windows Authentication or Apache and <a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/mod_authnz_ldap.html">mod_authnz_ldap</a>, <a class="reference external" href="http://www.jasig.org/cas">CAS</a>, <a class="reference external" href="http://weblogin.org/">Cosign</a>,
+<a class="reference external" href="http://www.stanford.edu/services/webauth/">WebAuth</a>, <a class="reference external" href="http://sourceforge.net/projects/mod-auth-sspi">mod_auth_sspi</a>, etc.</p>
+<p>When the Web server takes care of authentication it typically sets the
+<code class="docutils literal"><span class="pre">REMOTE_USER</span></code> environment variable for use in the underlying application.  In
+Django, <code class="docutils literal"><span class="pre">REMOTE_USER</span></code> is made available in the <a class="reference internal" href="../ref/request-response.html#django.http.HttpRequest.META" title="django.http.HttpRequest.META"><code class="xref py py-attr docutils literal"><span class="pre">request.META</span></code></a> attribute.  Django can be configured to make
+use of the <code class="docutils literal"><span class="pre">REMOTE_USER</span></code> value using the <code class="docutils literal"><span class="pre">RemoteUserMiddleware</span></code> and
+<code class="docutils literal"><span class="pre">RemoteUserBackend</span></code> classes found in <a class="reference internal" href="../topics/auth/index.html#module-django.contrib.auth" title="django.contrib.auth: Django's authentication framework."><code class="xref py py-mod docutils literal"><span class="pre">django.contrib.auth</span></code></a>.</p>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.contrib.auth.backends.django.contrib.auth.middleware.RemoteUserMiddleware">
+<em class="property">class </em><code class="descclassname">django.contrib.auth.middleware.</code><code class="descname">RemoteUserMiddleware</code><a class="headerlink" href="#django.contrib.auth.backends.django.contrib.auth.middleware.RemoteUserMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>First, you must add the
+<a class="reference internal" href="#django.contrib.auth.backends.django.contrib.auth.middleware.RemoteUserMiddleware" title="django.contrib.auth.backends.django.contrib.auth.middleware.RemoteUserMiddleware"><code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.middleware.RemoteUserMiddleware</span></code></a> to the
+<a class="reference internal" href="../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> setting <strong>after</strong> the
+<a class="reference internal" href="../ref/middleware.html#django.contrib.auth.middleware.AuthenticationMiddleware" title="django.contrib.auth.middleware.AuthenticationMiddleware"><code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.middleware.AuthenticationMiddleware</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>MIDDLEWARE_CLASSES = (
+    ...
+    &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+    &#39;django.contrib.auth.middleware.RemoteUserMiddleware&#39;,
+    ...
+    )
+</pre></div>
+</div>
+<p>Next, you must replace the <a class="reference internal" href="../ref/contrib/auth.html#django.contrib.auth.backends.ModelBackend" title="django.contrib.auth.backends.ModelBackend"><code class="xref py py-class docutils literal"><span class="pre">ModelBackend</span></code></a>
+with <code class="docutils literal"><span class="pre">RemoteUserBackend</span></code> in the <a class="reference internal" href="../ref/settings.html#std:setting-AUTHENTICATION_BACKENDS"><code class="xref std std-setting docutils literal"><span class="pre">AUTHENTICATION_BACKENDS</span></code></a> setting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AUTHENTICATION_BACKENDS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.contrib.auth.backends.RemoteUserBackend&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>With this setup, <code class="docutils literal"><span class="pre">RemoteUserMiddleware</span></code> will detect the username in
+<code class="docutils literal"><span class="pre">request.META['REMOTE_USER']</span></code> and will authenticate and auto-login that user
+using the <code class="docutils literal"><span class="pre">RemoteUserBackend</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since the <code class="docutils literal"><span class="pre">RemoteUserBackend</span></code> inherits from <code class="docutils literal"><span class="pre">ModelBackend</span></code>, you will
+still have all of the same permissions checking that is implemented in
+<code class="docutils literal"><span class="pre">ModelBackend</span></code>.</p>
+</div>
+<p>If your authentication mechanism uses a custom HTTP header and not
+<code class="docutils literal"><span class="pre">REMOTE_USER</span></code>, you can subclass <code class="docutils literal"><span class="pre">RemoteUserMiddleware</span></code> and set the
+<code class="docutils literal"><span class="pre">header</span></code> attribute to the desired <code class="docutils literal"><span class="pre">request.META</span></code> key.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.middleware</span> <span class="kn">import</span> <span class="n">RemoteUserMiddleware</span>
+
+<span class="k">class</span> <span class="nc">CustomHeaderMiddleware</span><span class="p">(</span><span class="n">RemoteUserMiddleware</span><span class="p">):</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s">&#39;HTTP_AUTHUSER&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remoteuserbackend">
+<h2><code class="docutils literal"><span class="pre">RemoteUserBackend</span></code><a class="headerlink" href="#remoteuserbackend" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.contrib.auth.backends.django.contrib.auth.backends.RemoteUserBackend">
+<em class="property">class </em><code class="descclassname">django.contrib.auth.backends.</code><code class="descname">RemoteUserBackend</code><a class="headerlink" href="#django.contrib.auth.backends.django.contrib.auth.backends.RemoteUserBackend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>If you need more control, you can create your own authentication backend
+that inherits from <code class="docutils literal"><span class="pre">RemoteUserBackend</span></code> and overrides certain parts:</p>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="django.contrib.auth.backends.RemoteUserBackend.create_unknown_user">
+<code class="descclassname">RemoteUserBackend.</code><code class="descname">create_unknown_user</code><a class="headerlink" href="#django.contrib.auth.backends.RemoteUserBackend.create_unknown_user" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">True</span></code> or <code class="docutils literal"><span class="pre">False</span></code>.  Determines whether or not a
+<a class="reference internal" href="../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> object is created if not already
+in the database.  Defaults to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="django.contrib.auth.backends.RemoteUserBackend.clean_username">
+<code class="descclassname">RemoteUserBackend.</code><code class="descname">clean_username</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.backends.RemoteUserBackend.clean_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs any cleaning on the <code class="docutils literal"><span class="pre">username</span></code> (e.g. stripping LDAP DN
+information) prior to using it to get or create a
+<a class="reference internal" href="../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> object.  Returns the cleaned
+username.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.contrib.auth.backends.RemoteUserBackend.configure_user">
+<code class="descclassname">RemoteUserBackend.</code><code class="descname">configure_user</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.backends.RemoteUserBackend.configure_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configures a newly created user.  This method is called immediately after a
+new user is created, and can be used to perform custom setup actions, such
+as setting the user&#8217;s groups based on attributes in an LDAP directory.
+Returns the user object.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="custom-management-commands.html" class="btn btn-neutral float-right" title="Writing custom django-admin commands" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="“How-to” guides" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/howto/auth-remote-user.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

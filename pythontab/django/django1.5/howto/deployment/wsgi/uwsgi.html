@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/howto/deployment/wsgi/uwsgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>How to use Django with uWSGI &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">&#8220;How-to&#8221; guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../auth-remote-user.html">Authentication using <code class="docutils literal"><span class="pre">REMOTE_USER</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom-management-commands.html">Writing custom django-admin commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom-model-fields.html">Writing custom model fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom-template-tags.html">Custom template tags and filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom-file-storage.html">Writing a custom storage system</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Deploying Django</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">How to deploy with WSGI</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="modwsgi.html">How to use Django with Apache and mod_wsgi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="apache-auth.html">Authenticating against Django&#8217;s user database from Apache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gunicorn.html">How to use Django with Gunicorn</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">How to use Django with uWSGI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#the-application-object">The <code class="docutils literal"><span class="pre">application</span></code> object</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../fastcgi.html">How to use Django with FastCGI, SCGI, or AJP</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../error-reporting.html">Error reporting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../initial-data.html">Providing initial data for models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../jython.html">Running Django on Jython</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../legacy-databases.html">Integrating Django with a legacy database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../outputting-csv.html">Outputting CSV with Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../outputting-pdf.html">Outputting PDFs with Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../static-files.html">Managing static files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">&#8220;How-to&#8221; guides</a> &raquo;</li>
+      
+          <li><a href="../index.html">Deploying Django</a> &raquo;</li>
+      
+          <li><a href="index.html">How to deploy with WSGI</a> &raquo;</li>
+      
+    <li>How to use Django with uWSGI</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="how-to-use-django-with-uwsgi">
+<h1>How to use Django with uWSGI<a class="headerlink" href="#how-to-use-django-with-uwsgi" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://projects.unbit.it/uwsgi/">uWSGI</a> is a fast, self-healing and developer/sysadmin-friendly application
+container server coded in pure C.</p>
+<div class="section" id="prerequisite-uwsgi">
+<h2>Prerequisite: uWSGI<a class="headerlink" href="#prerequisite-uwsgi" title="Permalink to this headline">¶</a></h2>
+<p>The uWSGI wiki describes several <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/Install">installation procedures</a>. Using pip, the
+Python package manager, you can install any uWSGI version with a single
+command. For example:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Install current stable version.</span>
+<span class="nv">$ </span>sudo pip install uwsgi
+
+<span class="c"># Or install LTS (long term support).</span>
+<span class="nv">$ </span>sudo pip install http://projects.unbit.it/downloads/uwsgi-lts.tar.gz
+</pre></div>
+</div>
+<div class="section" id="uwsgi-model">
+<h3>uWSGI model<a class="headerlink" href="#uwsgi-model" title="Permalink to this headline">¶</a></h3>
+<p>uWSGI operates on a client-server model. Your Web server (e.g., nginx, Apache)
+communicates with a django-uwsgi &#8220;worker&#8221; process to serve dynamic content.
+See uWSGI&#8217;s <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/Background">background documentation</a> for more detail.</p>
+</div>
+<div class="section" id="configuring-and-starting-the-uwsgi-server-for-django">
+<h3>Configuring and starting the uWSGI server for Django<a class="headerlink" href="#configuring-and-starting-the-uwsgi-server-for-django" title="Permalink to this headline">¶</a></h3>
+<p>uWSGI supports multiple ways to configure the process. See uWSGI&#8217;s
+<a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/Doc">configuration documentation</a> and <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/Example">examples</a></p>
+<p>Here&#8217;s an example command to start a uWSGI server:</p>
+<div class="highlight-bash"><div class="highlight"><pre>uwsgi --chdir<span class="o">=</span>/path/to/your/project <span class="se">\</span>
+    --module<span class="o">=</span>mysite.wsgi:application <span class="se">\</span>
+    --env <span class="nv">DJANGO_SETTINGS_MODULE</span><span class="o">=</span>mysite.settings <span class="se">\</span>
+    --master --pidfile<span class="o">=</span>/tmp/project-master.pid <span class="se">\</span>
+    --socket<span class="o">=</span>127.0.0.1:49152 <span class="se">\ </span>     <span class="c"># can also be a file</span>
+    --processes<span class="o">=</span><span class="m">5</span> <span class="se">\ </span>                <span class="c"># number of worker processes</span>
+    --uid<span class="o">=</span><span class="m">1000</span> --gid<span class="o">=</span><span class="m">2000</span> <span class="se">\ </span>        <span class="c"># if root, uwsgi can drop privileges</span>
+    --harakiri<span class="o">=</span><span class="m">20</span> <span class="se">\ </span>                <span class="c"># respawn processes taking more than 20 seconds</span>
+    --limit-as<span class="o">=</span><span class="m">128</span> <span class="se">\ </span>               <span class="c"># limit the project to 128 MB</span>
+    --max-requests<span class="o">=</span><span class="m">5000</span> <span class="se">\ </span>          <span class="c"># respawn processes after serving 5000 requests</span>
+    --vacuum <span class="se">\ </span>                     <span class="c"># clear environment on exit</span>
+    --home<span class="o">=</span>/path/to/virtual/env <span class="se">\ </span>  <span class="c"># optional path to a virtualenv</span>
+    --daemonize<span class="o">=</span>/var/log/uwsgi/yourproject.log      <span class="c"># background the process</span>
+</pre></div>
+</div>
+<p>This assumes you have a top-level project package named <code class="docutils literal"><span class="pre">mysite</span></code>, and
+within it a module <code class="file docutils literal"><span class="pre">mysite/wsgi.py</span></code> that contains a WSGI <code class="docutils literal"><span class="pre">application</span></code>
+object. This is the layout you&#8217;ll have if you ran <code class="docutils literal"><span class="pre">django-admin.py</span>
+<span class="pre">startproject</span> <span class="pre">mysite</span></code> (using your own project name in place of <code class="docutils literal"><span class="pre">mysite</span></code>) with
+a recent version of Django. If this file doesn&#8217;t exist, you&#8217;ll need to create
+it. See the <a class="reference internal" href="index.html"><em>How to deploy with WSGI</em></a> documentation for the default
+contents you should put in this file and what else you can add to it.</p>
+<p>The Django-specific options here are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">chdir</span></code>: The path to the directory that needs to be on Python&#8217;s import
+path &#8211; i.e., the directory containing the <code class="docutils literal"><span class="pre">mysite</span></code> package.</li>
+<li><code class="docutils literal"><span class="pre">module</span></code>: The WSGI module to use &#8211; probably the <code class="docutils literal"><span class="pre">mysite.wsgi</span></code> module
+that <a class="reference internal" href="../../../ref/django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">startproject</span></code></a> creates.</li>
+<li><code class="docutils literal"><span class="pre">env</span></code>: Should probably contain at least <code class="docutils literal"><span class="pre">DJANGO_SETTINGS_MODULE</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">home</span></code>: Optional path to your project virtualenv.</li>
+</ul>
+<p>Example ini configuration file:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>uwsgi<span class="o">]</span>
+<span class="nv">chdir</span><span class="o">=</span>/path/to/your/project
+<span class="nv">module</span><span class="o">=</span>mysite.wsgi:application
+<span class="nv">master</span><span class="o">=</span>True
+<span class="nv">pidfile</span><span class="o">=</span>/tmp/project-master.pid
+<span class="nv">vacuum</span><span class="o">=</span>True
+max-requests<span class="o">=</span>5000
+<span class="nv">daemonize</span><span class="o">=</span>/var/log/uwsgi/yourproject.log
+</pre></div>
+</div>
+<p>Example ini configuration file usage:</p>
+<div class="highlight-bash"><div class="highlight"><pre>uwsgi --ini uwsgi.ini
+</pre></div>
+</div>
+<p>See the uWSGI docs on <a class="reference external" href="http://projects.unbit.it/uwsgi/wiki/Management">managing the uWSGI process</a> for information on
+starting, stoping and reloading the uWSGI workers.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../fastcgi.html" class="btn btn-neutral float-right" title="How to use Django with FastCGI, SCGI, or AJP" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gunicorn.html" class="btn btn-neutral" title="How to use Django with Gunicorn" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/howto/deployment/wsgi/uwsgi.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+</html>

@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/faq/troubleshooting.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Troubleshooting &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Django FAQ</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="general.html">FAQ: General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">FAQ: Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html">FAQ: Using Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="help.html">FAQ: Getting Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">FAQ: Databases and models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html">FAQ: The admin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">FAQ: Contributing code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#problems-running-django-admin-py">Problems running django-admin.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#command-not-found-django-admin-py">&#8220;command not found: django-admin.py&#8221;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#script-name-may-differ-in-distribution-packages">Script name may differ in distribution packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mac-os-x-permissions">Mac OS X permissions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-virtualenv-on-windows">Running virtualenv on Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Django FAQ</a> &raquo;</li>
+      
+    <li>Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<p>This page contains some advice about errors and problems commonly encountered
+during the development of Django applications.</p>
+<div class="section" id="problems-running-django-admin-py">
+<span id="troubleshooting-django-admin-py"></span><h2>Problems running django-admin.py<a class="headerlink" href="#problems-running-django-admin-py" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="command-not-found-django-admin-py">
+<h3>&#8220;command not found: django-admin.py&#8221;<a class="headerlink" href="#command-not-found-django-admin-py" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../ref/django-admin.html"><em>django-admin.py</em></a> should be on your system path if you
+installed Django via <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span></code>. If it&#8217;s not on your path, you can
+find it in <code class="docutils literal"><span class="pre">site-packages/django/bin</span></code>, where <code class="docutils literal"><span class="pre">site-packages</span></code> is a directory
+within your Python installation. Consider symlinking to <a class="reference internal" href="../ref/django-admin.html"><em>django-admin.py</em></a> from some place on your path, such as
+<code class="file docutils literal"><span class="pre">/usr/local/bin</span></code>.</p>
+</div>
+<div class="section" id="script-name-may-differ-in-distribution-packages">
+<h3>Script name may differ in distribution packages<a class="headerlink" href="#script-name-may-differ-in-distribution-packages" title="Permalink to this headline">¶</a></h3>
+<p>If you installed Django using a Linux distribution&#8217;s package manager
+(e.g. <code class="docutils literal"><span class="pre">apt-get</span></code> or <code class="docutils literal"><span class="pre">yum</span></code>) <code class="docutils literal"><span class="pre">django-admin.py</span></code> may have been renamed to
+<code class="docutils literal"><span class="pre">django-admin</span></code>; use that instead.</p>
+</div>
+<div class="section" id="mac-os-x-permissions">
+<h3>Mac OS X permissions<a class="headerlink" href="#mac-os-x-permissions" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;re using Mac OS X, you may see the message &#8220;permission denied&#8221; when
+you try to run <code class="docutils literal"><span class="pre">django-admin.py</span></code>. This is because, on Unix-based systems like
+OS X, a file must be marked as &#8220;executable&#8221; before it can be run as a program.
+To do this, open Terminal.app and navigate (using the <code class="docutils literal"><span class="pre">cd</span></code> command) to the
+directory where <a class="reference internal" href="../ref/django-admin.html"><em>django-admin.py</em></a> is installed, then
+run the command <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">django-admin.py</span></code>.</p>
+</div>
+<div class="section" id="running-virtualenv-on-windows">
+<h3>Running virtualenv on Windows<a class="headerlink" href="#running-virtualenv-on-windows" title="Permalink to this headline">¶</a></h3>
+<p>If you used <a class="reference external" href="http://www.virtualenv.org/">virtualenv</a> to <a class="reference internal" href="../topics/install.html#installing-official-release"><span>install Django</span></a>
+on Windows, you may get an <code class="docutils literal"><span class="pre">ImportError</span></code> when you try to run
+<code class="docutils literal"><span class="pre">django-admin.py</span></code>. This is because Windows does not run the
+Python interpreter from your virtual environment unless you invoke it
+directly. Instead, prefix all commands that use .py files with <code class="docutils literal"><span class="pre">python</span></code> and
+use the full path to the file, like so:
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">C:\pythonXY\Scripts\django-admin.py</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ref/index.html" class="btn btn-neutral float-right" title="API 参考" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="contributing.html" class="btn btn-neutral" title="FAQ: Contributing code" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/faq/troubleshooting.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

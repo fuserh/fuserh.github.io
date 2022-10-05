@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/faq/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ: Databases and models &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Django FAQ</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="general.html">FAQ: General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">FAQ: Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html">FAQ: Using Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="help.html">FAQ: Getting Help</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FAQ: Databases and models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#how-can-i-see-the-raw-sql-queries-django-is-running">How can I see the raw SQL queries Django is running?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#can-i-use-django-with-a-pre-existing-database">Can I use Django with a pre-existing database?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#if-i-make-changes-to-a-model-how-do-i-update-the-database">If I make changes to a model, how do I update the database?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#do-django-models-support-multiple-column-primary-keys">Do Django models support multiple-column primary keys?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-i-add-database-specific-options-to-my-create-table-statements-such-as-specifying-myisam-as-the-table-type">How do I add database-specific options to my CREATE TABLE statements, such as specifying MyISAM as the table type?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-is-django-leaking-memory">Why is Django leaking memory?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="admin.html">FAQ: The admin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">FAQ: Contributing code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Django FAQ</a> &raquo;</li>
+      
+    <li>FAQ: Databases and models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="faq-databases-and-models">
+<h1>FAQ: Databases and models<a class="headerlink" href="#faq-databases-and-models" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-can-i-see-the-raw-sql-queries-django-is-running">
+<span id="faq-see-raw-sql-queries"></span><h2>How can I see the raw SQL queries Django is running?<a class="headerlink" href="#how-can-i-see-the-raw-sql-queries-django-is-running" title="Permalink to this headline">¶</a></h2>
+<p>Make sure your Django <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> setting is set to <code class="docutils literal"><span class="pre">True</span></code>.
+Then, just do this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connection</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connection</span><span class="o">.</span><span class="n">queries</span>
+<span class="go">[{&#39;sql&#39;: &#39;SELECT polls_polls.id, polls_polls.question, polls_polls.pub_date FROM polls_polls&#39;,</span>
+<span class="go">&#39;time&#39;: &#39;0.002&#39;}]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">connection.queries</span></code> is only available if <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>.
+It&#8217;s a list of dictionaries in order of query execution. Each dictionary has
+the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>``sql`` -- The raw SQL statement
+``time`` -- How long the statement took to execute, in seconds.
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">connection.queries</span></code> includes all SQL statements &#8211; INSERTs, UPDATES,
+SELECTs, etc. Each time your app hits the database, the query will be recorded.
+Note that the SQL recorded here may be <a class="reference internal" href="../ref/databases.html#sqlite-connection-queries"><span>incorrectly quoted under SQLite</span></a>.</p>
+<p>If you are using <a class="reference internal" href="../topics/db/multi-db.html"><em>multiple databases</em></a>, you can use the
+same interface on each member of the <code class="docutils literal"><span class="pre">connections</span></code> dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connections</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">connections</span><span class="p">[</span><span class="s">&#39;my_db_alias&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queries</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="can-i-use-django-with-a-pre-existing-database">
+<h2>Can I use Django with a pre-existing database?<a class="headerlink" href="#can-i-use-django-with-a-pre-existing-database" title="Permalink to this headline">¶</a></h2>
+<p>Yes. See <a class="reference internal" href="../howto/legacy-databases.html"><em>Integrating with a legacy database</em></a>.</p>
+</div>
+<div class="section" id="if-i-make-changes-to-a-model-how-do-i-update-the-database">
+<h2>If I make changes to a model, how do I update the database?<a class="headerlink" href="#if-i-make-changes-to-a-model-how-do-i-update-the-database" title="Permalink to this headline">¶</a></h2>
+<p>If you don&#8217;t mind clearing data, your project&#8217;s <code class="docutils literal"><span class="pre">manage.py</span></code> utility has a
+<a class="reference internal" href="../ref/django-admin.html#django-admin-flush"><code class="xref std std-djadmin docutils literal"><span class="pre">flush</span></code></a> option to reset the database to the state it was in
+immediately after <a class="reference internal" href="../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">syncdb</span></code></a> was executed.</p>
+<p>If you do care about deleting data, you&#8217;ll have to execute the <code class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code>
+statements manually in your database.</p>
+<p>There are <a class="reference external" href="http://www.djangopackages.com/grids/g/database-migration/">external projects which handle schema updates</a>, of which the current
+defacto standard is <a class="reference external" href="http://south.aeracode.org/">south</a>.</p>
+</div>
+<div class="section" id="do-django-models-support-multiple-column-primary-keys">
+<h2>Do Django models support multiple-column primary keys?<a class="headerlink" href="#do-django-models-support-multiple-column-primary-keys" title="Permalink to this headline">¶</a></h2>
+<p>No. Only single-column primary keys are supported.</p>
+<p>But this isn&#8217;t an issue in practice, because there&#8217;s nothing stopping you from
+adding other constraints (using the <code class="docutils literal"><span class="pre">unique_together</span></code> model option or
+creating the constraint directly in your database), and enforcing the
+uniqueness at that level. Single-column primary keys are needed for things such
+as the admin interface to work; e.g., you need a simple way of being able to
+specify an object to edit or delete.</p>
+</div>
+<div class="section" id="how-do-i-add-database-specific-options-to-my-create-table-statements-such-as-specifying-myisam-as-the-table-type">
+<h2>How do I add database-specific options to my CREATE TABLE statements, such as specifying MyISAM as the table type?<a class="headerlink" href="#how-do-i-add-database-specific-options-to-my-create-table-statements-such-as-specifying-myisam-as-the-table-type" title="Permalink to this headline">¶</a></h2>
+<p>We try to avoid adding special cases in the Django code to accommodate all the
+database-specific options such as table type, etc. If you&#8217;d like to use any of
+these options, create an <a class="reference internal" href="../howto/initial-data.html#initial-sql"><span>SQL initial data file</span></a> that
+contains <code class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code> statements that do what you want to do. The initial
+data files are executed in your database after the <code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code> statements.</p>
+<p>For example, if you&#8217;re using MySQL and want your tables to use the MyISAM table
+type, create an initial data file and put something like this in it:</p>
+<div class="highlight-python"><div class="highlight"><pre>ALTER TABLE myapp_mytable ENGINE=MyISAM;
+</pre></div>
+</div>
+<p>As explained in the <a class="reference internal" href="../howto/initial-data.html#initial-sql"><span>SQL initial data file</span></a> documentation,
+this SQL file can contain arbitrary SQL, so you can make any sorts of changes
+you need to make.</p>
+</div>
+<div class="section" id="why-is-django-leaking-memory">
+<h2>Why is Django leaking memory?<a class="headerlink" href="#why-is-django-leaking-memory" title="Permalink to this headline">¶</a></h2>
+<p>Django isn&#8217;t known to leak memory. If you find your Django processes are
+allocating more and more memory, with no sign of releasing it, check to make
+sure your <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> setting is set to <code class="docutils literal"><span class="pre">False</span></code>. If <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a>
+is <code class="docutils literal"><span class="pre">True</span></code>, then Django saves a copy of every SQL statement it has executed.</p>
+<p>(The queries are saved in <code class="docutils literal"><span class="pre">django.db.connection.queries</span></code>. See
+<a class="reference internal" href="#how-can-i-see-the-raw-sql-queries-django-is-running">How can I see the raw SQL queries Django is running?</a>.)</p>
+<p>To fix the problem, set <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> to <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p>If you need to clear the query list manually at any point in your functions,
+just call <code class="docutils literal"><span class="pre">reset_queries()</span></code>, like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="n">db</span><span class="o">.</span><span class="n">reset_queries</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="admin.html" class="btn btn-neutral float-right" title="FAQ: The admin" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="help.html" class="btn btn-neutral" title="FAQ: Getting Help" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/faq/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>
