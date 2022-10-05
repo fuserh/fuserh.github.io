@@ -1,0 +1,711 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/intro/tutorial03.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>编写你的第一个 Django 程序 第3部分 &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">新手入门</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">初探 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">快速安装指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">编写你的第一个 Django 程序 第1部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial02.html">编写你的第一个 Django 程序 第2部分</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">编写你的第一个 Django 程序 第3部分</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">哲理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">编写你的第一个视图</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#url-regex"><code class="docutils literal"><span class="pre">url()</span></code> 参数: regex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#url-view"><code class="docutils literal"><span class="pre">url()</span></code> 参数： view</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#url-kwargs"><code class="docutils literal"><span class="pre">url()</span></code> 参数： kwargs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#url-name"><code class="docutils literal"><span class="pre">url()</span></code> 参数： name</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">编写更多视图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">在视图中添加些实际的功能</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#render">快捷方式: <code class="docutils literal"><span class="pre">render()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">抛出 404 异常</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-object-or-404">快捷方式: <code class="docutils literal"><span class="pre">get_object_or_404()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">编写一个 404 ( 页面未找到 ) 视图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">编写一个 500 ( 服务器错误 ) 视图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">使用模板系统</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urls">移除模板中硬编码的 URLS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial04.html">编写你的第一个 Django 程序 第4部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial05.html">编写你的第一个 Django 程序 第5部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reusable-apps.html">进阶教程：如何编写可重用的应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="whatsnext.html">下一步阅读什么</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">为Django编写属于你的首个补丁</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">新手入门</a> &raquo;</li>
+      
+    <li>编写你的第一个 Django 程序 第3部分</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-3">
+<h1>编写你的第一个 Django 程序 第3部分<a class="headerlink" href="#django-3" title="Permalink to this headline">¶</a></h1>
+<p>本教程上接 <a class="reference internal" href="tutorial02.html"><em>教程 第2部分</em></a> 。我们将继续
+开发 Web-poll 应用并且专注在创建公共界面 &#8211;  &#8220;视图 （views ）&#8221;。</p>
+<div class="section" id="id1">
+<h2>哲理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>在 Django 应用程序中，视图是一“类”具有特定功能和模板的网页。
+例如，在一个博客应用程序中，你可能会有以下视图：</p>
+<ul class="simple">
+<li>博客首页 &#8211; 显示最新发表的博客。</li>
+<li>博客详细页面 &#8211; 一篇博客的独立页面。</li>
+<li>基于年份的归档页 &#8211; 显示给定年份中发表博客的所有月份。</li>
+<li>基于月份的归档页 &#8211; 显示给定月份中发表博客的所有日期。</li>
+<li>基于日期的归档页 &#8211; 显示给定日期中发表的所有的博客。</li>
+<li>评论功能 &#8211; 为一篇给定博客发表评论。</li>
+</ul>
+<p>在我们的 poll 应用程序中，将有以下四个视图：</p>
+<ul class="simple">
+<li>Poll &#8220;index&#8221; 页 &#8211; 显示最新发布的民意调查。</li>
+<li>Poll &#8220;detail&#8221; 页 &#8211; 显示一项民意调查的具体问题，不显示该项的投票结果但可以进行投票的 form 。</li>
+<li>Poll &#8220;results&#8221; 页 &#8211; 显示一项给定的民意调查的投票结果。</li>
+<li>投票功能 &#8211; 为一项给定的民意调查处理投票选项。</li>
+</ul>
+<p>在 Django 中，网页及其他内容是由视图来展现的。而每个视图就是一个简单的 Python 函数（或方法，
+对于基于类的视图情况下）。Django 会通过检查所请求的 URL （确切地说是域名之后的那部分 URL）来匹配一个视图。</p>
+<p>平时你上网的时候可能会遇到像
+&#8220;ME2/Sites/dirmod.asp?sid=&amp;type=gen&amp;mod=Core+Pages&amp;gid=A6CD4967199A42D9B65B1B&#8221; 这种如此美丽的 URL。
+但是你会很高兴知道 Django 允许我们使用比那优雅的 <em>URL 模式</em> 来展现 URL。</p>
+<p>URL 模式就是一个简单的一般形式的 URL - 比如:
+<code class="docutils literal"><span class="pre">/newsarchive/&lt;year&gt;/&lt;month&gt;/</span></code>.</p>
+<p>Django 是通过 &#8216;URLconfs&#8217; 从 URL 获取到视图的。而
+URLconf 是将 URL 模式 ( 由正则表达式来描述的 ) 映射到视图的一种配置。</p>
+<p>本教程中介绍了使用 URLconfs 的基本指令，你可以查阅
+<a class="reference internal" href="../ref/urlresolvers.html#module-django.core.urlresolvers" title="django.core.urlresolvers"><code class="xref py py-mod docutils literal"><span class="pre">django.core.urlresolvers</span></code></a> 来获取更多信息。</p>
+</div>
+<div class="section" id="id2">
+<h2>编写你的第一个视图<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>让我们编写第一个视图。打开文件 <code class="docutils literal"><span class="pre">polls/views.py</span></code>
+并在其中输入以下 Python 代码</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;Hello, world. You&#39;re at the poll index.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在 Django 中这可能是最简单的视图了。为了调用这个视图，我们需要将它映射到一个 URL
+&#8211; 为此我们需要配置一个URLconf 。</p>
+<p>在 polls 目录下创建一个名为 <code class="docutils literal"><span class="pre">urls.py</span></code> 的 URLconf 文档。
+你的应用目录现在看起来像这样</p>
+<div class="highlight-python"><div class="highlight"><pre>polls/
+    __init__.py
+    admin.py
+    models.py
+    tests.py
+    urls.py
+    views.py
+</pre></div>
+</div>
+<p>在 <code class="docutils literal"><span class="pre">polls/urls.py</span></code> 文件中输入以下代码：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span>
+
+<span class="kn">from</span> <span class="nn">polls</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>下一步是将 <code class="docutils literal"><span class="pre">polls.urls</span></code> 模块指向 root URLconf 。在
+<code class="docutils literal"><span class="pre">mysite/urls.py</span></code> 中插入一个 <a class="reference internal" href="../ref/urls.html#django.conf.urls.include" title="django.conf.urls.include"><code class="xref py py-func docutils literal"><span class="pre">include()</span></code></a> 方法，最后的样子如下所示</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^polls/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;polls.urls&#39;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>现在你在 URLconf 中配置了 <cite>index</cite> 视图。通过浏览器访问
+<a class="reference external" href="http://localhost:8000/polls/">http://localhost:8000/polls/</a> ，如同你在 <code class="docutils literal"><span class="pre">index</span></code> 视图中定义的一样，你将看到
+&#8220;<em>Hello, world. You&#8217;re at the poll index.</em>&#8221; 文字。</p>
+<p><a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 函数有四个参数，两个必须的： <code class="docutils literal"><span class="pre">regex</span></code> 和 <code class="docutils literal"><span class="pre">view</span></code>， 两个可选的： <code class="docutils literal"><span class="pre">kwargs</span></code>， 以及 <code class="docutils literal"><span class="pre">name</span></code>。
+接下来，来探讨下这些参数的意义。</p>
+<div class="section" id="url-regex">
+<h3><a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 参数: regex<a class="headerlink" href="#url-regex" title="Permalink to this headline">¶</a></h3>
+<p><cite>regex</cite> 是 <cite>regular expression</cite> 的简写，这是字符串中的模式匹配的一种语法，
+在 Django 中就是是 url 匹配模式。
+Django 将请求的 URL 从上至下依次匹配列表中的正则表达式，直到匹配到一个为止。</p>
+<p>需要注意的是，这些正则表达式不会匹配 GET 和 POST 参数，以及域名。
+例如：针对 <code class="docutils literal"><span class="pre">http://www.example.com/myapp/</span></code> 这一请求，URLconf 将只查找 <code class="docutils literal"><span class="pre">myapp/</span></code>。而在
+<code class="docutils literal"><span class="pre">http://www.example.com/myapp/?page=3</span></code> 中 URLconf 也仅查找 <code class="docutils literal"><span class="pre">myapp/</span></code> 。</p>
+<p>如果你需要正则表达式方面的帮助，请参阅 <a class="reference external" href="http://en.wikipedia.org/wiki/Regular_expression">Wikipedia&#8217;s entry</a> 和本文档中的 <a class="reference external" href="http://docs.python.org/2.7/library/re.html#module-re" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">re</span></code></a> 模块。
+此外，O&#8217;Reilly 出版的由 Jeffrey Friedl 著的 &#8220;Mastering Regular Expressions&#8221; 也是不错的。
+但是，实际上，你并不需要成为一个正则表达式的专家，仅仅需要知道如何捕获简单的模式。
+事实上，复杂的正则表达式会降低查找性能，因此你不能完全依赖正则表达式的功能。</p>
+<p>最后有个性能上的提示：这些正则表达式在 URLconf 模块第一次加载时会被编译。
+因此它们速度超快 ( 像上面提到的那样只要查找的不是太复杂 )。</p>
+</div>
+<div class="section" id="url-view">
+<h3><a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 参数： view<a class="headerlink" href="#url-view" title="Permalink to this headline">¶</a></h3>
+<p>当 Django 匹配了一个正则表达式就会调用指定的视图功能，包含一个
+<a class="reference internal" href="../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> 实例作为第一个参数和正则表达式
+“捕获” 的一些值的作为其他参数。
+如果使用简单的正则捕获，将按顺序位置传参数；如果按命名的正则捕获，将按关键字传参数值。
+有关这一点我们会给出一个例子。</p>
+</div>
+<div class="section" id="url-kwargs">
+<h3><a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 参数： kwargs<a class="headerlink" href="#url-kwargs" title="Permalink to this headline">¶</a></h3>
+<p>任意关键字参数可传一个字典至目标视图。在本教程中，我们并不打算使用 Django 这一特性。</p>
+</div>
+<div class="section" id="url-name">
+<h3><a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 参数： name<a class="headerlink" href="#url-name" title="Permalink to this headline">¶</a></h3>
+<p>命名你的 URL ，让你在 Django 的其他地方明确地引用它，特别是在模板中。
+这一强大的功能可允许你通过一个文件就可全局修改项目中的 URL 模式。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>编写更多视图<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>现在让我们添加一些视图到 <code class="docutils literal"><span class="pre">polls/views.py</span></code> 中去。这些视图与之前的略有不同，因为
+它们有一个参数：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;You&#39;re looking at poll </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">poll_id</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;You&#39;re looking at the results of poll </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">poll_id</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">vote</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;You&#39;re voting on poll </span><span class="si">%s</span><span class="s">.&quot;</span> <span class="o">%</span> <span class="n">poll_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>将新视图按如下所示的 <a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 方法添加到
+<code class="docutils literal"><span class="pre">polls.urls</span></code> 模块中去：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span>
+
+<span class="kn">from</span> <span class="nn">polls</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="c"># ex: /polls/</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
+    <span class="c"># ex: /polls/5/</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;poll_id&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;detail&#39;</span><span class="p">),</span>
+    <span class="c"># ex: /polls/5/results/</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;poll_id&gt;\d+)/results/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">results</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;results&#39;</span><span class="p">),</span>
+    <span class="c"># ex: /polls/5/vote/</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;poll_id&gt;\d+)/vote/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">vote</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;vote&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>在你的浏览器中访问 <a class="reference external" href="http://localhost:8000/polls/34/">http://localhost:8000/polls/34/</a> 。将运行 <code class="docutils literal"><span class="pre">detail()</span></code>
+方法并且显示你在 URL 中提供的任意 ID 。试着访问 <a class="reference external" href="http://localhost:8000/polls/34/results/">http://localhost:8000/polls/34/results/</a>
+和 <a class="reference external" href="http://localhost:8000/polls/34/vote/">http://localhost:8000/polls/34/vote/</a> &#8211; 将会显示对应的结果页及投票页。</p>
+<p>当有人访问你的网站页面如 “ /polls/34/ ” 时，Django 会加载 <code class="docutils literal"><span class="pre">mysite.urls</span></code> 模块，这是因为
+<a class="reference internal" href="../ref/settings.html#std:setting-ROOT_URLCONF"><code class="xref std std-setting docutils literal"><span class="pre">ROOT_URLCONF</span></code></a> 设置指向它。接着在该模块中寻找名为``urlpatterns`` 的变量并依次匹配其中的正则表达式。
+<a class="reference internal" href="../ref/urls.html#django.conf.urls.include" title="django.conf.urls.include"><code class="xref py py-func docutils literal"><span class="pre">include()</span></code></a> 可让我们便利地引用其他 URLconfs 。请注意
+<a class="reference internal" href="../ref/urls.html#django.conf.urls.include" title="django.conf.urls.include"><code class="xref py py-func docutils literal"><span class="pre">include()</span></code></a> 中的正则表达式没有 <code class="docutils literal"><span class="pre">$</span></code> (字符串结尾的匹配符
+match character) 而尾部是一个反斜杠。当 Django 解析
+<a class="reference internal" href="../ref/urls.html#django.conf.urls.include" title="django.conf.urls.include"><code class="xref py py-func docutils literal"><span class="pre">include()</span></code></a> 时，它截取匹配的 URL 那部分而把剩余的字符串交由
+加载进来的 URLconf 作进一步处理。</p>
+<p><a class="reference internal" href="../ref/urls.html#django.conf.urls.include" title="django.conf.urls.include"><code class="xref py py-func docutils literal"><span class="pre">include()</span></code></a> 背后隐藏的想法是使 URLs 即插即用。
+由于 polls 在自己的 URLconf(<code class="docutils literal"><span class="pre">polls/urls.py</span></code>) 中，因此它们可以被放置在 &#8220;/polls/&#8221; 路径下，或
+&#8220;/fun_polls/&#8221; 路径下，或 &#8220;/content/polls/&#8221; 路径下，或者其他根路径，而应用仍可以运行。</p>
+<p>以下是当用户访问 &#8220;/polls/34/&#8221; 路径时系统中将发生的事：</p>
+<ul>
+<li><p class="first">Django 将寻找 <code class="docutils literal"><span class="pre">'^polls/'</span></code> 的匹配</p>
+</li>
+<li><p class="first">接着，Django 截取匹配文本 (<code class="docutils literal"><span class="pre">&quot;polls/&quot;</span></code>) 后剩余的文本
+&#8211; <code class="docutils literal"><span class="pre">&quot;34/&quot;</span></code> &#8211; 传递到 &#8216;polls.urls&#8217; URLconf 中作进一步处理，
+再将匹配 <code class="docutils literal"><span class="pre">r'^(?P&lt;poll_id&gt;\d+)/$'</span></code> 的结果作为参数传给 <code class="docutils literal"><span class="pre">detail()</span></code> 视图</p>
+<div class="highlight-python"><div class="highlight"><pre>detail(request=&lt;HttpRequest object&gt;, poll_id=&#39;34&#39;)
+</pre></div>
+</div>
+</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">poll_id='34'</span></code> 这部分就是来自 <code class="docutils literal"><span class="pre">(?P&lt;poll_id&gt;\d+)</span></code> 匹配的结果。 使用括号包围一个
+正则表达式所“捕获”的文本可作为一个参数传给视图函数；<code class="docutils literal"><span class="pre">?P&lt;poll_id&gt;</span></code> 将会定义名称用于标识匹配的内容；
+而 <code class="docutils literal"><span class="pre">\d+</span></code> 是一个用于匹配数字序列（即一个数字）的正则表达式。</p>
+<p>因为 URL 模式是正则表达式，所以你可以毫无限制地使用它们。但是不要加上 URL 多余的部分如
+<code class="docutils literal"><span class="pre">.html</span></code> &#8211; 除非你想，那你可以像下面这样：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^polls/latest\.html$&#39;</span><span class="p">,</span> <span class="s">&#39;polls.views.index&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>真的，不要这样做。这很傻。</p>
+</div>
+<div class="section" id="id4">
+<h2>在视图中添加些实际的功能<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>每个视图只负责以下两件事中的一件：返回一个
+<a class="reference internal" href="../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> 对象，其中包含了所请求页面的内容，
+或者抛出一个异常，例如 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 。剩下的就由你来实现了。</p>
+<p>你的视图可以读取数据库记录，或者不用。它可以使用一个模板系统，例如 Django 的
+&#8211; 或者第三方的 Python 模板系统 &#8211; 或不用。它可以生成一个 PDF 文件，输出 XML ，
+即时创建 ZIP 文件， 你可以使用你想用的任何 Python 库来做你想做的任何事。</p>
+<p>而 Django 只要求是一个 <a class="reference internal" href="../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> 或一个异常。</p>
+<p>因为它很方便，那让我们来使用 Django 自己的数据库 API 吧，
+在 <a class="reference internal" href="tutorial01.html"><em>教程 第1部分</em></a> 中提过。修改下 <code class="docutils literal"><span class="pre">index()</span></code> 视图，
+让它显示系统中最新发布的 5 个调查问题，以逗号分割并按发布日期排序：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="kn">from</span> <span class="nn">polls.models</span> <span class="kn">import</span> <span class="n">Poll</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">latest_poll_list</span> <span class="o">=</span> <span class="n">Poll</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-pub_date&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">question</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">latest_poll_list</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在这就有了个问题，页面的设计是硬编码在视图中的。如果你想改变页面的外观，就必须修改这里的
+Python 代码。因此，让我们使用 Django 的模板系统创建一个模板给视图用，就使页面设计从 Python 代码中
+分离出来了。</p>
+<p>首先，在 <code class="docutils literal"><span class="pre">polls</span></code> 目录下创建一个 <code class="docutils literal"><span class="pre">templates</span></code> 目录。
+Django 将会在那寻找模板。</p>
+<p>Django 的 <a class="reference internal" href="../ref/settings.html#std:setting-TEMPLATE_LOADERS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_LOADERS</span></code></a> 配置中包含一个知道如何从各种来源导入模板的可调用的方法列表。
+其中有一个默认值是 <a class="reference internal" href="../ref/templates/api.html#django.template.loaders.app_directories.Loader" title="django.template.loaders.app_directories.Loader"><code class="xref py py-class docutils literal"><span class="pre">django.template.loaders.app_directories.Loader</span></code></a> ，Django 就会在每个 <a class="reference internal" href="../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>
+的 &#8220;templates&#8221; 子目录下查找模板 - 这就是 Django 知道怎么找到 polls 模板的原因，即使我们
+没有修改 <a class="reference internal" href="../ref/settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a>, 还是如同在 <a class="reference internal" href="tutorial02.html#ref-customizing-your-projects-templates"><span>教程 第2部分</span></a> 那样。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">组织模板</p>
+<p class="last">我们 <em>能够</em> 在一个大的模板目录下一起共用我们所有的模板，而且它们会运行得很好。
+但是，此模板属于 polls 应用，因此与我们在上一个教程中创建的管理模板不同，
+我们要把这个模板放在应用的模板目录 (<code class="docutils literal"><span class="pre">polls/templates</span></code>) 下而不是项目的模板目录 (<code class="docutils literal"><span class="pre">templates</span></code>) 。
+我们将在 <a class="reference internal" href="reusable-apps.html"><em>可重用的应用教程</em></a> 中详细讨论我们 <em>为什么</em> 要这样做。</p>
+</div>
+<p>在你刚才创建的``templates`` 目录下，另外创建个名为
+<code class="docutils literal"><span class="pre">polls</span></code> 的目录，并在其中创建一个
+<code class="docutils literal"><span class="pre">index.html</span></code> 文件。换句话说，你的模板应该是
+<code class="docutils literal"><span class="pre">polls/templates/polls/index.html</span></code> 。由于知道如上所述的 <code class="docutils literal"><span class="pre">app_directories</span></code> 模板加载器是
+如何运行的，你可以参考 Django 内的模板简单的作为 <code class="docutils literal"><span class="pre">polls/index.html</span></code> 模板。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">模板命名空间</p>
+<p class="last">现在我们 <em>也许</em> 能够直接把我们的模板放在
+<code class="docutils literal"><span class="pre">polls/templates</span></code> 目录下 ( 而不是另外创建 <code class="docutils literal"><span class="pre">polls</span></code> 子目录 ) ，
+但它实际上是一个坏注意。 Django 将会选择第一个找到的按名称匹配的模板，
+如果你在 <em>不同</em> 应用中有相同的名称的模板，Django 将无法区分它们。
+我们想要让 Django 指向正确的模板，最简单的方法是通过 <em>命名空间</em> 来确保是
+他们的模板。也就是说，将模板放在 <em>另一个</em> 目录下并命名为应用本身的名称。</p>
+</div>
+<p>将以下代码添加到该模板中:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">latest_poll_list</span> <span class="cp">%}</span>
+    <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">poll</span> <span class="k">in</span> <span class="nv">latest_poll_list</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/polls/</span><span class="cp">{{</span> <span class="nv">poll.id</span> <span class="cp">}}</span><span class="s">/&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>No polls are available.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>现在让我们在 index 视图中使用这个模板：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">loader</span>
+
+<span class="kn">from</span> <span class="nn">polls.models</span> <span class="kn">import</span> <span class="n">Poll</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">latest_poll_list</span> <span class="o">=</span> <span class="n">Poll</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-pub_date&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;polls/index.html&#39;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span>
+        <span class="s">&#39;latest_poll_list&#39;</span><span class="p">:</span> <span class="n">latest_poll_list</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>代码将加载 <code class="docutils literal"><span class="pre">polls/index.html</span></code> 模板并传递一个 context 变量。 The context is a dictionary mapping template variable names to Python
+该 context 变量是一个映射了 Python 对象到模板变量的字典。</p>
+<p>在你的浏览器中加载 &#8220;/polls/&#8221; 页，你应该看到一个列表，包含了在教程 第1部分 中创建的
+&#8220;What&#8217;s up&#8221; 调查。而链接指向 poll 的详细页面。</p>
+<div class="section" id="render">
+<h3>快捷方式: <a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.render" title="django.shortcuts.render"><code class="xref py py-func docutils literal"><span class="pre">render()</span></code></a><a class="headerlink" href="#render" title="Permalink to this headline">¶</a></h3>
+<p>这是一个非常常见的习惯用语，用于加载模板，填充上下文并返回一个含有模板渲染结果的
+<a class="reference internal" href="../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> 对象。
+Django 提供了一种快捷方式。这里重写完整的 <code class="docutils literal"><span class="pre">index()</span></code> 视图</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+
+<span class="kn">from</span> <span class="nn">polls.models</span> <span class="kn">import</span> <span class="n">Poll</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">latest_poll_list</span> <span class="o">=</span> <span class="n">Poll</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-pub_date&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;latest_poll_list&#39;</span><span class="p">:</span> <span class="n">latest_poll_list</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;polls/index.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>请注意，一旦我们在所有视图中都这样做了，我们就不再需要导入
+<a class="reference internal" href="../ref/templates/api.html#module-django.template.loader" title="django.template.loader"><code class="xref py py-mod docutils literal"><span class="pre">loader</span></code></a> ， <a class="reference internal" href="../ref/templates/api.html#django.template.Context" title="django.template.Context"><code class="xref py py-class docutils literal"><span class="pre">Context</span></code></a> 和
+<a class="reference internal" href="../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> ( 如果你仍然保留了 <code class="docutils literal"><span class="pre">detail</span></code>,``resutls``, 和``vote`` 方法，你还是需要保留 <code class="docutils literal"><span class="pre">HttpResponse</span></code>
+) 。</p>
+<p><a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.render" title="django.shortcuts.render"><code class="xref py py-func docutils literal"><span class="pre">render()</span></code></a> 函数中第一个参数是 request 对象，第二个参数是一个模板名称，第三个是一个字典类型的可选参数。
+它将返回一个包含有给定模板根据给定的上下文渲染结果的 <a class="reference internal" href="../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> 对象。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>抛出 404 异常<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>现在让我们解决 poll 的详细视图 &#8211; 该页显示一个给定 poll 的详细问题。
+视图代码如下所示：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">Http404</span>
+<span class="c"># ...</span>
+<span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">poll</span> <span class="o">=</span> <span class="n">Poll</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">poll_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">Poll</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Http404</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;polls/detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;poll&#39;</span><span class="p">:</span> <span class="n">poll</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>在这有个新概念：如果请求的 poll 的 ID 不存在，该视图将抛出 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 异常。</p>
+<p>我们稍后讨论如何设置 <code class="docutils literal"><span class="pre">polls/detail.html</span></code> 模板，若是你想快速运行上面的例子，
+在模板文件中添加如下代码：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">poll</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>现在你可以运行了。</p>
+<div class="section" id="get-object-or-404">
+<h3>快捷方式: <a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.get_object_or_404" title="django.shortcuts.get_object_or_404"><code class="xref py py-func docutils literal"><span class="pre">get_object_or_404()</span></code></a><a class="headerlink" href="#get-object-or-404" title="Permalink to this headline">¶</a></h3>
+<p>这很常见，当你使用 <a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.get" title="django.db.models.query.QuerySet.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> 获取对象时
+对象却不存在时就会抛出 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 异常。对此 Django
+提供了一个快捷操作。如下所示重写 <code class="docutils literal"><span class="pre">detail()</span></code> 视图：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="c"># ...</span>
+<span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">poll_id</span><span class="p">):</span>
+    <span class="n">poll</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Poll</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">poll_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;polls/detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;poll&#39;</span><span class="p">:</span> <span class="n">poll</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.get_object_or_404" title="django.shortcuts.get_object_or_404"><code class="xref py py-func docutils literal"><span class="pre">get_object_or_404()</span></code></a> 函数需要一个 Django 模型类作为第一个参数以及
+一些关键字参数，它将这些参数传递给模型管理器中的 <a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.get" title="django.db.models.query.QuerySet.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> 函数。
+若对象不存在时就抛出 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 异常。</p>
+<div class="admonition- admonition">
+<p class="first admonition-title">哲理</p>
+<p>为什么我们要使用一个 <a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.get_object_or_404" title="django.shortcuts.get_object_or_404"><code class="xref py py-func docutils literal"><span class="pre">get_object_or_404()</span></code></a> 辅助函数
+而不是在更高级别自动捕获 <a class="reference internal" href="../ref/exceptions.html#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ObjectDoesNotExist</span></code></a> 异常，
+或者由模型 API 抛出 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 异常而不是 <a class="reference internal" href="../ref/exceptions.html#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ObjectDoesNotExist</span></code></a> 异常？</p>
+<p class="last">因为那样会使模型层与视图层耦合在一起。Django 最重要的设计目标之一
+就是保持松耦合。一些控制耦合在 <a class="reference internal" href="../topics/http/shortcuts.html#module-django.shortcuts" title="django.shortcuts: Convenience shortcuts that span multiple levels of Django's MVC stack."><code class="xref py py-mod docutils literal"><span class="pre">django.shortcuts</span></code></a> 模块中介绍。</p>
+</div>
+<p>还有个 <a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.get_list_or_404" title="django.shortcuts.get_list_or_404"><code class="xref py py-func docutils literal"><span class="pre">get_list_or_404()</span></code></a> 函数，与
+<a class="reference internal" href="../topics/http/shortcuts.html#django.shortcuts.get_object_or_404" title="django.shortcuts.get_object_or_404"><code class="xref py py-func docutils literal"><span class="pre">get_object_or_404()</span></code></a> 一样 &#8211; 不过执行的是
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.filter" title="django.db.models.query.QuerySet.filter"><code class="xref py py-meth docutils literal"><span class="pre">filter()</span></code></a> 而不是
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.get" title="django.db.models.query.QuerySet.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> 。若返回的是空列表将抛出
+<a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 异常。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>编写一个 404 ( 页面未找到 ) 视图<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>当你在视图中抛出 <a class="reference internal" href="../topics/http/views.html#django.http.Http404" title="django.http.Http404"><code class="xref py py-exc docutils literal"><span class="pre">Http404</span></code></a> 时，Django
+将载入一个特定的视图来处理 404 错误。Django 会根据你的 root URLconf ( 仅在你的
+root URLconf 中；在其他任何地方设置 <code class="docutils literal"><span class="pre">handler404</span></code> 都无效 ）中设置的 <code class="docutils literal"><span class="pre">handler404</span></code>
+变量来查找该视图，这个变量是个 Python 包格式字符串 &#8211; 和标准 URLconf 中的回调函数格式是一样的。
+404 视图本身没有什么特殊性：它就是一个普通的视图。</p>
+<p>通常你不必费心去编写 404 视图。若你没有设置 <code class="docutils literal"><span class="pre">handler404</span></code> 变量，默认情况下会使用内置的
+<a class="reference internal" href="../topics/http/views.html#django.views.defaults.page_not_found" title="django.views.defaults.page_not_found"><code class="xref py py-func docutils literal"><span class="pre">django.views.defaults.page_not_found()</span></code></a> 视图。或者你可以在你的模板目录下的根目录中
+创建一个 <code class="docutils literal"><span class="pre">404.html</span></code> 模板。当 <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> 值是 <code class="docutils literal"><span class="pre">False</span></code> ( 在你的 settings 模块中 ) 时，
+默认的 404 视图将使用此模板来显示所有的 404 错误。 如果你创建了这个模板，至少添加些如“页面未找到”
+的内容。</p>
+<p>一些有关 404 视图需要注意的事项 :</p>
+<ul class="simple">
+<li>如果 <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> 设为 <code class="docutils literal"><span class="pre">True</span></code> ( 在你的 settings 模块里 ) 那么你的
+404 视图将永远不会被使用 ( 因此 <code class="docutils literal"><span class="pre">404.html</span></code> 模板也将永远不会被渲染
+) 因为将要显示的是跟踪信息。</li>
+<li>当 Django 在 URLconf 中不能找到能匹配的正则表达式时 404 视图也将被调用。</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h2>编写一个 500 ( 服务器错误 ) 视图<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>类似的，你可以在 root URLconf 中定义 <code class="docutils literal"><span class="pre">handler500</span></code> 变量，在服务器发生错误时
+调用它指向的视图。服务器错误是指视图代码产生的运行时错误。</p>
+<p>同样，你在模板根目录下创建一个 <code class="docutils literal"><span class="pre">500.html</span></code> 模板并且添加些像“出错了”的内容。</p>
+</div>
+<div class="section" id="id8">
+<h2>使用模板系统<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>回到我们 poll 应用的 <code class="docutils literal"><span class="pre">detail()</span></code> 视图中，指定 <code class="docutils literal"><span class="pre">poll</span></code> 变量后，<code class="docutils literal"><span class="pre">polls/detail.html</span></code>
+模板可能看起来这样 :</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">choice</span> <span class="k">in</span> <span class="nv">poll.choice_set.all</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">choice.choice_text</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>模板系统使用了“变量.属性”的语法访问变量的属性值。
+例如 <code class="docutils literal"><span class="pre">{{</span> <span class="pre">poll.question</span> <span class="pre">}}</span></code> ， 首先 Django  对 <code class="docutils literal"><span class="pre">poll</span></code> 对象做字典查询。
+否则 Django 会尝试属性查询  &#8211; 在本例中属性查询成功了。
+如果属性查询还是失败了，Django 将尝试 list-index 查询。</p>
+<p>在 <a class="reference internal" href="../ref/templates/builtins.html#std:templatetag-for"><code class="xref std std-ttag docutils literal"><span class="pre">{%</span> <span class="pre">for</span> <span class="pre">%}</span></code></a> 循环中有方法调用:
+<code class="docutils literal"><span class="pre">poll.choice_set.all</span></code> 就是 Python 代码
+<code class="docutils literal"><span class="pre">poll.choice_set.all()</span></code>,它将返回一组可迭代的 <code class="docutils literal"><span class="pre">Choice</span></code> 对象，可以用在
+<a class="reference internal" href="../ref/templates/builtins.html#std:templatetag-for"><code class="xref std std-ttag docutils literal"><span class="pre">{%</span> <span class="pre">for</span> <span class="pre">%}</span></code></a> 标签中。</p>
+<p>请参阅 <a class="reference internal" href="../topics/templates.html"><em>模板指南</em></a> 来了解模板的更多内容。</p>
+</div>
+<div class="section" id="urls">
+<h2>移除模板中硬编码的 URLS<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h2>
+<p>记得吗? 在 <code class="docutils literal"><span class="pre">polls/index.html</span></code> 模板中，我们链接到 poll 的链接是硬编码成这样子的：</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/polls/</span><span class="cp">{{</span> <span class="nv">poll.id</span> <span class="cp">}}</span><span class="s">/&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</pre></div>
+</div>
+<p>问题出在硬编码，紧耦合使得在大量的模板中修改 URLs 成为富有挑战性的项目。
+不过，既然你在 <code class="docutils literal"><span class="pre">polls.urls</span></code> 模块中的 <a class="reference internal" href="../ref/urls.html#django.conf.urls.url" title="django.conf.urls.url"><code class="xref py py-func docutils literal"><span class="pre">url()</span></code></a> 函数中定义了
+命名参数，那么就可以在 url 配置中使用 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">%}</span></code> 模板标记来移除特定的 URL 路径依赖:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;detail&#39;</span> <span class="nv">poll.id</span> <span class="cp">%}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>如果 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">'detail'</span> <span class="pre">poll.id</span> <span class="pre">%}</span></code> (含引号) 不能运行，但是
+<code class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">detail</span> <span class="pre">poll.id</span> <span class="pre">%}</span></code> (不含引号) 却能运行，那么意味着你使用的 Djang 低于
+&lt; 1.5 版。这样的话，你需要在模板文件的顶部添加如下的声明：:</p>
+<div class="last highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">load</span> <span class="nv">url</span> <span class="nv">from</span> <span class="nv">future</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<p>其原理就是在 <code class="docutils literal"><span class="pre">polls.urls</span></code> 模块中寻找指定的 URL 定义。
+你知道命名为 &#8216;detail&#8217; 的 URL 就如下所示那样定义的一样：:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="c"># &#39;name&#39; 的值由 {% url %} 模板标记来引用</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(?P&lt;poll_id&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;detail&#39;</span><span class="p">),</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>如果你想将 polls 的 detail 视图的 URL 改成其他样子，或许像
+<code class="docutils literal"><span class="pre">polls/specifics/12/</span></code> 这样子，那就不需要在模板（或者模板集）中修改而只要在
+<code class="docutils literal"><span class="pre">polls/urls.py</span></code> 修改就行了:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="c"># 新增 &#39;specifics&#39;</span>
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^specifics/(?P&lt;poll_id&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">detail</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;detail&#39;</span><span class="p">),</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Namespacing URL names
+URL 名称的命名空间
+======================</p>
+<p>本教程中的项目只有一个应用：<code class="docutils literal"><span class="pre">polls</span></code> 。在实际的 Django 项目中，可能有 5、10、20 或者
+更多的应用。Django 是如何区分它们的 URL 名称的呢？比如说，<code class="docutils literal"><span class="pre">polls</span></code> 应用有一个
+<code class="docutils literal"><span class="pre">detail</span></code> 视图，而可能会在同一个项目中是一个博客应用的视图。Django 是如何知道
+使用 <code class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">%}</span></code> 模板标记创建应用的 url 时选择正确呢？</p>
+<p>答案是在你的 root URLconf 配置中添加命名空间。在 <code class="docutils literal"><span class="pre">mysite/urls.py</span></code> 文件
+(项目的 <code class="docutils literal"><span class="pre">urls.py</span></code>，不是应用的) 中，修改为包含命名空间的定义:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^polls/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;polls.urls&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s">&quot;polls&quot;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>现在将你的 <code class="docutils literal"><span class="pre">polls/index.html</span></code> 模板中原来的 detail 视图:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;detail&#39;</span> <span class="nv">poll.id</span> <span class="cp">%}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</pre></div>
+</div>
+<p>修改为包含命名空间的 detail 视图:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;polls:detail&#39;</span> <span class="nv">poll.id</span> <span class="cp">%}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">poll.question</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</pre></div>
+</div>
+<p>当你编写视图熟练后，请阅读 <a class="reference internal" href="tutorial04.html"><em>教程 第4部分</em></a> 来学习如何处理简单的表单和通用视图。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial04.html" class="btn btn-neutral float-right" title="编写你的第一个 Django 程序 第4部分" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tutorial02.html" class="btn btn-neutral" title="编写你的第一个 Django 程序 第2部分" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/intro/tutorial03.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:43 GMT -->
+</html>

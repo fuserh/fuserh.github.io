@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/contributing/writing-code/unit-tests.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Unit tests &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Django internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Contributing to Django</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../new-contributors.html">Advice for new contributors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bugs-and-features.html">Reporting bugs and requesting features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../triaging-tickets.html">Triaging tickets</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Writing code</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="coding-style.html">Coding style</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Unit tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="submitting-patches.html">Submitting patches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="working-with-git.html">Working with Git and GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../writing-documentation.html">Writing documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../localizing.html">Localizing Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../committing-code.html">Committing code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../committers.html">Django committers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../security.html">Django&#8217;s security policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../release-process.html">Django&#8217;s release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../deprecation.html">Django Deprecation Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../git.html">The Django source code repository</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Django internals</a> &raquo;</li>
+      
+          <li><a href="../index.html">Contributing to Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Writing code</a> &raquo;</li>
+      
+    <li>Unit tests</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="unit-tests">
+<h1>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h1>
+<p>Django comes with a test suite of its own, in the <code class="docutils literal"><span class="pre">tests</span></code> directory of the
+code base. It&#8217;s our policy to make sure all tests pass at all times.</p>
+<p>The tests cover:</p>
+<ul class="simple">
+<li>Models and the database API (<code class="docutils literal"><span class="pre">tests/modeltests</span></code>),</li>
+<li>Everything else in core Django code (<code class="docutils literal"><span class="pre">tests/regressiontests</span></code>),</li>
+<li><a class="reference internal" href="#contrib-apps"><span>Contrib apps</span></a> (<code class="docutils literal"><span class="pre">django/contrib/&lt;app&gt;/tests</span></code> or
+<code class="docutils literal"><span class="pre">tests/regressiontests/&lt;app&gt;_...</span></code>).</li>
+</ul>
+<p>We appreciate any and all contributions to the test suite!</p>
+<p>The Django tests all use the testing infrastructure that ships with Django for
+testing applications. See <a class="reference internal" href="../../../topics/testing/overview.html"><em>Testing Django applications</em></a> for an explanation of how to write new tests.</p>
+<div class="section" id="running-the-unit-tests">
+<span id="running-unit-tests"></span><h2>Running the unit tests<a class="headerlink" href="#running-the-unit-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quickstart">
+<h3>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h3>
+<p>Running the tests requires a Django settings module that defines the
+databases to use. To make it easy to get started, Django provides a
+sample settings module that uses the SQLite database. To run the tests
+with this sample <code class="docutils literal"><span class="pre">settings</span></code> module, <code class="docutils literal"><span class="pre">cd</span></code> into the Django
+<code class="docutils literal"><span class="pre">tests/</span></code> directory and run:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>test_sqlite
+</pre></div>
+</div>
+<p>If you get an <code class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">django.contrib</span></code> error,
+you need to add your install of Django to your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code>.</p>
+</div>
+<div class="section" id="using-another-settings-module">
+<span id="running-unit-tests-settings"></span><h3>Using another <code class="docutils literal"><span class="pre">settings</span></code> module<a class="headerlink" href="#using-another-settings-module" title="Permalink to this headline">¶</a></h3>
+<p>The included settings module allows you to run the test suite using
+SQLite. If you want to test behavior using a different database (and
+if you&#8217;re proposing patches for Django, it&#8217;s a good idea to test
+across databases), you may need to define your own settings file.</p>
+<p>To run the tests with different settings, <code class="docutils literal"><span class="pre">cd</span></code> to the <code class="docutils literal"><span class="pre">tests/</span></code> directory
+and type:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>path.to.django.settings
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../../../ref/settings.html#std:setting-DATABASES"><code class="xref std std-setting docutils literal"><span class="pre">DATABASES</span></code></a> setting in this test settings module needs to define
+two databases:</p>
+<ul class="simple">
+<li>A <code class="docutils literal"><span class="pre">default</span></code> database. This database should use the backend that
+you want to use for primary testing</li>
+<li>A database with the alias <code class="docutils literal"><span class="pre">other</span></code>. The <code class="docutils literal"><span class="pre">other</span></code> database is
+used to establish that queries can be directed to different
+databases. As a result, this database can use any backend you
+want. It doesn&#8217;t need to use the same backend as the <code class="docutils literal"><span class="pre">default</span></code>
+database (although it can use the same backend if you want to).</li>
+</ul>
+<p>If you&#8217;re using a backend that isn&#8217;t SQLite, you will need to provide other
+details for each database:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../../../ref/settings.html#std:setting-USER"><code class="xref std std-setting docutils literal"><span class="pre">USER</span></code></a> option for each of your databases needs to
+specify an existing user account for the database.</li>
+<li>The <a class="reference internal" href="../../../ref/settings.html#std:setting-PASSWORD"><code class="xref std std-setting docutils literal"><span class="pre">PASSWORD</span></code></a> option needs to provide the password for
+the <a class="reference internal" href="../../../ref/settings.html#std:setting-USER"><code class="xref std std-setting docutils literal"><span class="pre">USER</span></code></a> that has been specified.</li>
+<li>The <a class="reference internal" href="../../../ref/settings.html#std:setting-NAME"><code class="xref std std-setting docutils literal"><span class="pre">NAME</span></code></a> option must be the name of an existing database to
+which the given user has permission to connect. The unit tests will not
+touch this database; the test runner creates a new database whose name
+is <a class="reference internal" href="../../../ref/settings.html#std:setting-NAME"><code class="xref std std-setting docutils literal"><span class="pre">NAME</span></code></a> prefixed with <code class="docutils literal"><span class="pre">test_</span></code>, and this test database is
+deleted when the tests are finished. This means your user account needs
+permission to execute <code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></code>.</li>
+</ul>
+<p>You will also need to ensure that your database uses UTF-8 as the default
+character set. If your database server doesn&#8217;t use UTF-8 as a default charset,
+you will need to include a value for <a class="reference internal" href="../../../ref/settings.html#std:setting-TEST_CHARSET"><code class="xref std std-setting docutils literal"><span class="pre">TEST_CHARSET</span></code></a> in the settings
+dictionary for the applicable database.</p>
+</div>
+<div class="section" id="running-only-some-of-the-tests">
+<h3>Running only some of the tests<a class="headerlink" href="#running-only-some-of-the-tests" title="Permalink to this headline">¶</a></h3>
+<p>Django&#8217;s entire test suite takes a while to run, and running every single test
+could be redundant if, say, you just added a test to Django that you want to
+run quickly without running everything else. You can run a subset of the unit
+tests by appending the names of the test modules to <code class="docutils literal"><span class="pre">runtests.py</span></code> on the
+command line.</p>
+<p>For example, if you&#8217;d like to run tests only for generic relations and
+internationalization, type:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>path.to.settings generic_relations i18n
+</pre></div>
+</div>
+<p>How do you find out the names of individual tests? Look in
+<code class="docutils literal"><span class="pre">tests/modeltests</span></code> and <code class="docutils literal"><span class="pre">tests/regressiontests</span></code> — each directory name
+there is the name of a test. Contrib app names are also valid test names.</p>
+<p>If you just want to run a particular class of tests, you can specify a list of
+paths to individual test classes. For example, to run the <code class="docutils literal"><span class="pre">TranslationTests</span></code>
+of the <code class="docutils literal"><span class="pre">i18n</span></code> module, type:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>path.to.settings i18n.TranslationTests
+</pre></div>
+</div>
+<p>Going beyond that, you can specify an individual test method like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>path.to.settings i18n.TranslationTests.test_lazy_objects
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-selenium-tests">
+<h3>Running the Selenium tests<a class="headerlink" href="#running-the-selenium-tests" title="Permalink to this headline">¶</a></h3>
+<p>Some admin tests require Selenium 2, Firefox and Python &gt;= 2.6 to work via a
+real Web browser. To allow those tests to run and not be skipped, you must
+install the <a class="reference external" href="http://pypi.python.org/pypi/selenium">selenium</a> package (version &gt; 2.13) into your Python path.</p>
+<p>Then, run the tests normally, for example:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./runtests.py --settings<span class="o">=</span>test_sqlite admin_inlines
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-all-the-tests">
+<span id="running-unit-tests-dependencies"></span><h3>Running all the tests<a class="headerlink" href="#running-all-the-tests" title="Permalink to this headline">¶</a></h3>
+<p>If you want to run the full suite of tests, you&#8217;ll need to install a number of
+dependencies:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://pyyaml.org/wiki/PyYAML">PyYAML</a></li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/Markdown/1.7">Markdown</a></li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/textile">Textile</a></li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/docutils/0.4">Docutils</a></li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/setuptools/">setuptools</a></li>
+<li><a class="reference external" href="http://memcached.org/">memcached</a>, plus a <a class="reference internal" href="../../../topics/cache.html#memcached"><span>supported Python binding</span></a></li>
+<li><a class="reference external" href="http://www.gnu.org/software/gettext/manual/gettext.html">gettext</a> (<a class="reference internal" href="../../../topics/i18n/translation.html#gettext-on-windows"><span>gettext on Windows</span></a>)</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/selenium">selenium</a> (if also using Python &gt;= 2.6)</li>
+</ul>
+<p>If you want to test the memcached cache backend, you&#8217;ll also need to define
+a <a class="reference internal" href="../../../ref/settings.html#std:setting-CACHES"><code class="xref std std-setting docutils literal"><span class="pre">CACHES</span></code></a> setting that points at your memcached instance.</p>
+<p>Each of these dependencies is optional. If you&#8217;re missing any of them, the
+associated tests will be skipped.</p>
+</div>
+<div class="section" id="code-coverage">
+<h3>Code coverage<a class="headerlink" href="#code-coverage" title="Permalink to this headline">¶</a></h3>
+<p>Contributors are encouraged to run coverage on the test suite to identify areas
+that need additional tests. The coverage tool installation and use is described
+in <a class="reference internal" href="../../../topics/testing/advanced.html#topics-testing-code-coverage"><span>testing code coverage</span></a>.</p>
+<p>To run coverage on the Django test suite using the standard test settings:</p>
+<div class="highlight-python"><div class="highlight"><pre>coverage run ./runtests.py --settings=test_sqlite
+</pre></div>
+</div>
+<p>After running coverage, generate the html report by running:</p>
+<div class="highlight-python"><div class="highlight"><pre>coverage html
+</pre></div>
+</div>
+<p>When running coverage for the Django tests, the included <code class="docutils literal"><span class="pre">.coveragerc</span></code>
+settings file  defines <code class="docutils literal"><span class="pre">coverage_html</span></code> as the output directory for the report
+and also excludes several directories not relevant to the results
+(test code or external code included in Django).</p>
+</div>
+</div>
+<div class="section" id="contrib-apps">
+<span id="id1"></span><h2>Contrib apps<a class="headerlink" href="#contrib-apps" title="Permalink to this headline">¶</a></h2>
+<p>Tests for contrib apps go in their respective directories under
+<code class="docutils literal"><span class="pre">django/contrib</span></code>, in a <code class="docutils literal"><span class="pre">tests.py</span></code> file. You can split the tests over
+multiple modules by using a <code class="docutils literal"><span class="pre">tests</span></code> directory in the normal Python way.</p>
+<p>For the tests to be found, a <code class="docutils literal"><span class="pre">models.py</span></code> file must exist, even if it&#8217;s empty.
+If you have URLs that need to be mapped, put them in <code class="docutils literal"><span class="pre">tests/urls.py</span></code>.</p>
+<p>To run tests for just one contrib app (e.g. <code class="docutils literal"><span class="pre">markup</span></code>), use the same
+method as above:</p>
+<div class="highlight-python"><div class="highlight"><pre>./runtests.py --settings=settings markup
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="submitting-patches.html" class="btn btn-neutral float-right" title="Submitting patches" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="coding-style.html" class="btn btn-neutral" title="Coding style" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/contributing/writing-code/unit-tests.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+</html>

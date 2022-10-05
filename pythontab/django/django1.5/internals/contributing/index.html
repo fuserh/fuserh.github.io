@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/contributing/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Contributing to Django &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Django internals</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Contributing to Django</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="new-contributors.html">Advice for new contributors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bugs-and-features.html">Reporting bugs and requesting features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="triaging-tickets.html">Triaging tickets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="writing-code/index.html">Writing code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="writing-documentation.html">Writing documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="localizing.html">Localizing Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="committing-code.html">Committing code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../committers.html">Django committers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Django&#8217;s security policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../release-process.html">Django&#8217;s release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deprecation.html">Django Deprecation Timeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../git.html">The Django source code repository</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">Django internals</a> &raquo;</li>
+      
+    <li>Contributing to Django</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="contributing-to-django">
+<h1>Contributing to Django<a class="headerlink" href="#contributing-to-django" title="Permalink to this headline">¶</a></h1>
+<p>Django is a community that lives on its volunteers. As it keeps growing, we
+always need more people to help others. As soon as you learn Django, you can
+contribute in many ways:</p>
+<ul class="simple">
+<li>Join the <a class="reference external" href="http://groups.google.com/group/django-users">django-users</a> mailing list and answer questions. This
+mailing list has a huge audience, and we really want to maintain a
+friendly and helpful atmosphere. If you&#8217;re new to the Django community,
+you should read the <a class="reference external" href="https://code.djangoproject.com/wiki/UsingTheMailingList">posting guidelines</a>.</li>
+<li>Join the <a class="reference external" href="irc://irc.freenode.net/django">#django IRC channel</a> on Freenode and answer questions. By
+explaining Django to other users, you&#8217;re going to learn a lot about the
+framework yourself.</li>
+<li>Blog about Django. We syndicate all the Django blogs we know about on
+the <a class="reference external" href="https://www.djangoproject.com/community/">community page</a>; if you&#8217;d like to see your blog on that page you
+can <a class="reference external" href="https://www.djangoproject.com/community/add/blogs/">register it here</a>.</li>
+<li>Contribute to open-source Django projects, write some documentation, or
+release your own code as an open-source pluggable application. The
+ecosystem of pluggable applications is a big strength of Django, help us
+build it!</li>
+</ul>
+<p>If you think working <em>with</em> Django is fun, wait until you start working <em>on</em>
+it. We&#8217;re passionate about helping Django users make the jump to contributing
+members of the community, so there are several ways you can help Django&#8217;s
+development:</p>
+<ul class="simple">
+<li><a class="reference internal" href="bugs-and-features.html"><em>Report bugs</em></a> in our <a class="reference external" href="https://code.djangoproject.com/newticket">ticket tracker</a>.</li>
+<li>Join the <a class="reference external" href="http://groups.google.com/group/django-developers">django-developers</a> mailing list and share your ideas for how
+to improve Django. We&#8217;re always open to suggestions.</li>
+<li><a class="reference internal" href="writing-code/submitting-patches.html"><em>Submit patches</em></a> for new and/or
+fixed behavior. If you&#8217;re looking for an easy way to start contributing
+to Django have a look at the <a class="reference external" href="https://code.djangoproject.com/query?status=!closed&amp;easy=1">easy pickings</a> tickets.</li>
+<li><a class="reference internal" href="writing-documentation.html"><em>Improve the documentation</em></a> or
+<a class="reference internal" href="writing-code/unit-tests.html"><em>write unit tests</em></a>.</li>
+<li><a class="reference internal" href="triaging-tickets.html"><em>Triage tickets and review patches</em></a> created by
+other users.</li>
+</ul>
+<p>Really, <strong>ANYONE</strong> can do something to help make Django better and greater!</p>
+<p>Browse the following sections to find out how:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="new-contributors.html">Advice for new contributors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="new-contributors.html#first-steps">First steps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new-contributors.html#guidelines">Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new-contributors.html#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bugs-and-features.html">Reporting bugs and requesting features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bugs-and-features.html#reporting-bugs">Reporting bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bugs-and-features.html#reporting-user-interface-bugs-and-features">Reporting user interface bugs and features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bugs-and-features.html#requesting-features">Requesting features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bugs-and-features.html#how-we-make-decisions">How we make decisions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="triaging-tickets.html">Triaging tickets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="triaging-tickets.html#triage-workflow">Triage workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triaging-tickets.html#triage-stages">Triage stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triaging-tickets.html#other-triage-attributes">Other triage attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triaging-tickets.html#closing-tickets">Closing Tickets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="triaging-tickets.html#how-can-i-help-with-triaging">How can I help with triaging?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing-code/index.html">Writing code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing-code/coding-style.html">Coding style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-code/unit-tests.html">Unit tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-code/submitting-patches.html">Submitting patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-code/working-with-git.html">Working with Git and GitHub</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing-documentation.html">Writing documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#getting-the-raw-documentation">Getting the raw documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#getting-started-with-sphinx">Getting started with Sphinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#commonly-used-terms">Commonly used terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#django-specific-terminology">Django-specific terminology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#guidelines-for-restructuredtext-files">Guidelines for reStructuredText files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#django-specific-markup">Django-specific markup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#documenting-new-features">Documenting new features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#an-example">An example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing-documentation.html#improving-the-documentation">Improving the documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="localizing.html">Localizing Django</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="localizing.html#translations">Translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="localizing.html#formats">Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="committing-code.html">Committing code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="committing-code.html#commit-access">Commit access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="committing-code.html#handling-pull-requests">Handling pull requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="committing-code.html#committing-guidelines">Committing guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="committing-code.html#reverting-commits">Reverting commits</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="new-contributors.html" class="btn btn-neutral float-right" title="Advice for new contributors" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="Django internals" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/contributing/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>

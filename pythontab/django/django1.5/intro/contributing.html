@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/intro/contributing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>为Django编写属于你的首个补丁 &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">新手入门</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">初探 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">快速安装指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial01.html">编写你的第一个 Django 程序 第1部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial02.html">编写你的第一个 Django 程序 第2部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial03.html">编写你的第一个 Django 程序 第3部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial04.html">编写你的第一个 Django 程序 第4部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial05.html">编写你的第一个 Django 程序 第5部分</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reusable-apps.html">进阶教程：如何编写可重用的应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="whatsnext.html">下一步阅读什么</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">为Django编写属于你的首个补丁</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#who-s-this-tutorial-for">Who&#8217;s this tutorial for?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-does-this-tutorial-cover">What does this tutorial cover?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-git">Installing Git</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-a-copy-of-django-s-development-version">Getting a copy of Django&#8217;s development version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rolling-back-to-a-previous-revision-of-django">Rolling back to a previous revision of Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-django-s-test-suite-for-the-first-time">Running Django&#8217;s test suite for the first time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-some-tests-for-your-ticket">Writing some tests for your ticket</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-some-tests-for-ticket-17549">Writing some tests for ticket #17549</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-your-new-test">Running your new test</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-code-for-your-ticket">Writing the code for your ticket</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-the-code-for-ticket-17549">Writing the code for ticket #17549</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#verifying-your-test-now-passes">Verifying your test now passes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#running-django-s-test-suite-for-the-second-time">Running Django&#8217;s test suite for the second time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-documentation">Writing Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-a-patch-for-your-changes">Generating a patch for your changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#so-what-do-i-do-next">So what do I do next?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#more-information-for-new-contributors">More information for new contributors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#finding-your-first-real-ticket">Finding your first real ticket</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-next">What&#8217;s next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">新手入门</a> &raquo;</li>
+      
+    <li>为Django编写属于你的首个补丁</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django">
+<h1>为Django编写属于你的首个补丁<a class="headerlink" href="#django" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Interested in giving back to the community a little? Maybe you&#8217;ve found a bug
+in Django that you&#8217;d like to see fixed, or maybe there&#8217;s a small feature you
+want added.</p>
+<p>Contributing back to Django itself is the best way to see your own concerns
+addressed. This may seem daunting at first, but it&#8217;s really pretty simple.
+We&#8217;ll walk you through the entire process, so you can learn by example.</p>
+<div class="section" id="who-s-this-tutorial-for">
+<h3>Who&#8217;s this tutorial for?<a class="headerlink" href="#who-s-this-tutorial-for" title="Permalink to this headline">¶</a></h3>
+<p>For this tutorial, we expect that you have at least a basic understanding of
+how Django works. This means you should be comfortable going through the
+existing tutorials on <a class="reference internal" href="tutorial01.html"><em>writing your first Django app</em></a>.
+In addition, you should have a good understanding of Python itself. But if you
+don&#8217;t, <a class="reference external" href="http://diveintopython.net/toc/index.html">Dive Into Python</a> is a fantastic (and free) online book for beginning
+Python programmers.</p>
+<p>Those of you who are unfamiliar with version control systems and Trac will find
+that this tutorial and its links include just enough information to get started.
+However, you&#8217;ll probably want to read some more about these different tools if
+you plan on contributing to Django regularly.</p>
+<p>For the most part though, this tutorial tries to explain as much as possible,
+so that it can be of use to the widest audience.</p>
+<div class="admonition-where-to-get-help admonition">
+<p class="first admonition-title">Where to get help:</p>
+<p class="last">If you&#8217;re having trouble going through this tutorial, please post a message
+to <a class="reference external" href="http://groups.google.com/group/django-developers">django-developers</a> or drop by <a class="reference external" href="irc://irc.freenode.net/django-dev">#django-dev on irc.freenode.net</a> to
+chat with other Django users who might be able to help.</p>
+</div>
+</div>
+<div class="section" id="what-does-this-tutorial-cover">
+<h3>What does this tutorial cover?<a class="headerlink" href="#what-does-this-tutorial-cover" title="Permalink to this headline">¶</a></h3>
+<p>We&#8217;ll be walking you through contributing a patch to Django for the first time.
+By the end of this tutorial, you should have a basic understanding of both the
+tools and the processes involved. Specifically, we&#8217;ll be covering the following:</p>
+<ul class="simple">
+<li>Installing Git.</li>
+<li>How to download a development copy of Django.</li>
+<li>Running Django&#8217;s test suite.</li>
+<li>Writing a test for your patch.</li>
+<li>Writing the code for your patch.</li>
+<li>Testing your patch.</li>
+<li>Generating a patch file for your changes.</li>
+<li>Where to look for more information.</li>
+</ul>
+<p>Once you&#8217;re done with the tutorial, you can look through the rest of
+<a class="reference internal" href="../internals/contributing/index.html"><em>Django&#8217;s documentation on contributing</em></a>.
+It contains lots of great information and is a must read for anyone who&#8217;d like
+to become a regular contributor to Django. If you&#8217;ve got questions, it&#8217;s
+probably got the answers.</p>
+</div>
+</div>
+<div class="section" id="installing-git">
+<h2>Installing Git<a class="headerlink" href="#installing-git" title="Permalink to this headline">¶</a></h2>
+<p>For this tutorial, you&#8217;ll need Git installed to download the current
+development version of Django and to generate patch files for the changes you
+make.</p>
+<p>To check whether or not you have Git installed, enter <code class="docutils literal"><span class="pre">git</span></code> into the command
+line. If you get messages saying that this command could be found, you&#8217;ll have
+to download and install it, see <a class="reference external" href="http://git-scm.com/download">Git&#8217;s download page</a>.</p>
+<p>If you&#8217;re not that familiar with Git, you can always find out more about its
+commands (once it&#8217;s installed) by typing <code class="docutils literal"><span class="pre">git</span> <span class="pre">help</span></code> into the command line.</p>
+</div>
+<div class="section" id="getting-a-copy-of-django-s-development-version">
+<h2>Getting a copy of Django&#8217;s development version<a class="headerlink" href="#getting-a-copy-of-django-s-development-version" title="Permalink to this headline">¶</a></h2>
+<p>The first step to contributing to Django is to get a copy of the source code.
+From the command line, use the <code class="docutils literal"><span class="pre">cd</span></code> command to navigate to the directory
+where you&#8217;ll want your local copy of Django to live.</p>
+<p>Download the Django source code repository using the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/django/django.git
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For users who wish to use <a class="reference external" href="http://www.virtualenv.org/">virtualenv</a>, you can use:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install -e /path/to/your/local/clone/django/
+</pre></div>
+</div>
+<p class="last">(where <code class="docutils literal"><span class="pre">django</span></code> is the directory of your clone that contains
+<code class="docutils literal"><span class="pre">setup.py</span></code>) to link your cloned checkout into a virtual environment. This
+is a great option to isolate your development copy of Django from the rest
+of your system and avoids potential package conflicts.</p>
+</div>
+</div>
+<div class="section" id="rolling-back-to-a-previous-revision-of-django">
+<h2>Rolling back to a previous revision of Django<a class="headerlink" href="#rolling-back-to-a-previous-revision-of-django" title="Permalink to this headline">¶</a></h2>
+<p>For this tutorial, we&#8217;ll be using <a class="reference external" href="https://code.djangoproject.com/ticket/17549">ticket #17549</a> as a case study, so we&#8217;ll
+rewind Django&#8217;s version history in git to before that ticket&#8217;s patch was
+applied. This will allow us to go through all of the steps involved in writing
+that patch from scratch, including running Django&#8217;s test suite.</p>
+<p><strong>Keep in mind that while we&#8217;ll be using an older revision of Django&#8217;s trunk
+for the purposes of the tutorial below, you should always use the current
+development revision of Django when working on your own patch for a ticket!</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The patch for this ticket was written by Ulrich Petri, and it was applied
+to Django as <a class="reference external" href="https://github.com/django/django/commit/ac2052ebc84c45709ab5f0f25e685bf656ce79bc">commit ac2052ebc84c45709ab5f0f25e685bf656ce79bc</a>.
+Consequently, we&#8217;ll be using the revision of Django just prior to that,
+<a class="reference external" href="https://github.com/django/django/commit/39f5bc7fc3a4bb43ed8a1358b17fe0521a1a63ac">commit 39f5bc7fc3a4bb43ed8a1358b17fe0521a1a63ac</a>.</p>
+</div>
+<p>Navigate into Django&#8217;s root directory (that&#8217;s the one that contains <code class="docutils literal"><span class="pre">django</span></code>,
+<code class="docutils literal"><span class="pre">docs</span></code>, <code class="docutils literal"><span class="pre">tests</span></code>, <code class="docutils literal"><span class="pre">AUTHORS</span></code>, etc.). You can then check out the older
+revision of Django that we&#8217;ll be using in the tutorial below:</p>
+<div class="highlight-python"><div class="highlight"><pre>git checkout 39f5bc7fc3a4bb43ed8a1358b17fe0521a1a63ac
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-django-s-test-suite-for-the-first-time">
+<h2>Running Django&#8217;s test suite for the first time<a class="headerlink" href="#running-django-s-test-suite-for-the-first-time" title="Permalink to this headline">¶</a></h2>
+<p>When contributing to Django it&#8217;s very important that your code changes don&#8217;t
+introduce bugs into other areas of Django.  One way to check that Django still
+works after you make your changes is by running Django&#8217;s test suite. If all
+the tests still pass, then you can be reasonably sure that your changes
+haven&#8217;t completely broken Django. If you&#8217;ve never run Django&#8217;s test suite
+before, it&#8217;s a good idea to run it once beforehand just to get familiar with
+what its output is supposed to look like.</p>
+<p>We can run the test suite by simply <code class="docutils literal"><span class="pre">cd</span></code>-ing into the Django <code class="docutils literal"><span class="pre">tests/</span></code>
+directory and, if you&#8217;re using GNU/Linux, Mac OS X or some other flavor of
+Unix, run:</p>
+<div class="highlight-python"><div class="highlight"><pre>PYTHONPATH=.. python runtests.py --settings=test_sqlite
+</pre></div>
+</div>
+<p>If you&#8217;re on Windows, the above should work provided that you are using
+&#8220;Git Bash&#8221; provided by the default Git install. GitHub has a <a class="reference external" href="https://help.github.com/articles/set-up-git#platform-windows">nice tutorial</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you&#8217;re using <code class="docutils literal"><span class="pre">virtualenv</span></code>, you can omit <code class="docutils literal"><span class="pre">PYTHONPATH=..</span></code> when running
+the tests. This instructs Python to look for Django in the parent directory
+of <code class="docutils literal"><span class="pre">tests</span></code>. <code class="docutils literal"><span class="pre">virtualenv</span></code> puts your copy of Django on the <code class="docutils literal"><span class="pre">PYTHONPATH</span></code>
+automatically.</p>
+</div>
+<p>Now sit back and relax. Django&#8217;s entire test suite has over 4800 different
+tests, so it can take anywhere from 5 to 15 minutes to run, depending on the
+speed of your computer.</p>
+<p>While Django&#8217;s test suite is running, you&#8217;ll see a stream of characters
+representing the status of each test as it&#8217;s run. <code class="docutils literal"><span class="pre">E</span></code> indicates that an error
+was raised during a test, and <code class="docutils literal"><span class="pre">F</span></code> indicates that a test&#8217;s assertions failed.
+Both of these are considered to be test failures. Meanwhile, <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">s</span></code>
+indicated expected failures and skipped tests, respectively. Dots indicate
+passing tests.</p>
+<p>Skipped tests are typically due to missing external libraries required to run
+the test; see <a class="reference internal" href="../internals/contributing/writing-code/unit-tests.html#running-unit-tests-dependencies"><span>Running all the tests</span></a> for a list of dependencies
+and be sure to install any for tests related to the changes you are making (we
+won&#8217;t need any for this tutorial).</p>
+<p>Once the tests complete, you should be greeted with a message informing you
+whether the test suite passed or failed. Since you haven&#8217;t yet made any changes
+to Django&#8217;s code, the entire test suite <strong>should</strong> pass. If you get failures or
+errors make sure you&#8217;ve followed all of the previous steps properly. See
+<a class="reference internal" href="../internals/contributing/writing-code/unit-tests.html#running-unit-tests"><span>Running the unit tests</span></a> for more information.</p>
+<p>Note that the latest Django trunk may not always be stable. When developing
+against trunk, you can check <a class="reference external" href="http://ci.djangoproject.com/">Django&#8217;s continuous integration builds</a> to
+determine if the failures are specific to your machine or if they are also
+present in Django&#8217;s official builds. If you click to view a particular build,
+you can view the &#8220;Configuration Matrix&#8221; which shows failures broken down by
+Python version and database backend.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For this tutorial and the ticket we&#8217;re working on, testing against SQLite
+is sufficient, however, it&#8217;s possible (and sometimes necessary) to
+<a class="reference internal" href="../internals/contributing/writing-code/unit-tests.html#running-unit-tests-settings"><span>run the tests using a different database</span></a>.</p>
+</div>
+</div>
+<div class="section" id="writing-some-tests-for-your-ticket">
+<h2>Writing some tests for your ticket<a class="headerlink" href="#writing-some-tests-for-your-ticket" title="Permalink to this headline">¶</a></h2>
+<p>In most cases, for a patch to be accepted into Django it has to include tests.
+For bug fix patches, this means writing a regression test to ensure that the
+bug is never reintroduced into Django later on. A regression test should be
+written in such a way that it will fail while the bug still exists and pass
+once the bug has been fixed. For patches containing new features, you&#8217;ll need
+to include tests which ensure that the new features are working correctly.
+They too should fail when the new feature is not present, and then pass once it
+has been implemented.</p>
+<p>A good way to do this is to write your new tests first, before making any
+changes to the code. This style of development is called
+<a class="reference external" href="http://en.wikipedia.org/wiki/Test-driven_development">test-driven development</a> and can be applied to both entire projects and
+single patches. After writing your tests, you then run them to make sure that
+they do indeed fail (since you haven&#8217;t fixed that bug or added that feature
+yet). If your new tests don&#8217;t fail, you&#8217;ll need to fix them so that they do.
+After all, a regression test that passes regardless of whether a bug is present
+is not very helpful at preventing that bug from reoccurring down the road.</p>
+<p>Now for our hands-on example.</p>
+<div class="section" id="writing-some-tests-for-ticket-17549">
+<h3>Writing some tests for ticket #17549<a class="headerlink" href="#writing-some-tests-for-ticket-17549" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://code.djangoproject.com/ticket/17549">Ticket #17549</a> describes the following, small feature addition:</p>
+<blockquote>
+<div>It&#8217;s useful for URLField to give you a way to open the URL; otherwise you
+might as well use a CharField.</div></blockquote>
+<p>In order to resolve this ticket, we&#8217;ll add a <code class="docutils literal"><span class="pre">render</span></code> method to the
+<code class="docutils literal"><span class="pre">AdminURLFieldWidget</span></code> in order to display a clickable link above the input
+widget. Before we make those changes though, we&#8217;re going to write a couple
+tests to verify that our modification functions correctly and continues to
+function correctly in the future.</p>
+<p>Navigate to Django&#8217;s <code class="docutils literal"><span class="pre">tests/regressiontests/admin_widgets/</span></code> folder and
+open the <code class="docutils literal"><span class="pre">tests.py</span></code> file. Add the following code on line 269 right before the
+<code class="docutils literal"><span class="pre">AdminFileWidgetTest</span></code> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">AdminURLWidgetTest</span><span class="p">(</span><span class="n">DjangoTestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">AdminURLFieldWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertHTMLEqual</span><span class="p">(</span>
+            <span class="n">conditional_escape</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; /&gt;&#39;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertHTMLEqual</span><span class="p">(</span>
+            <span class="n">conditional_escape</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;http://example.com&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example.com&quot; /&gt;&lt;/p&gt;&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_render_idn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">AdminURLFieldWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertHTMLEqual</span><span class="p">(</span>
+            <span class="n">conditional_escape</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;http://example-äüö.com&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://xn--example--7za4pnc.com&quot;&gt;http://example-äüö.com&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example-äüö.com&quot; /&gt;&lt;/p&gt;&#39;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_render_quoting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">AdminURLFieldWidget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertHTMLEqual</span><span class="p">(</span>
+            <span class="n">conditional_escape</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;http://example.com/&lt;sometag&gt;some text&lt;/sometag&gt;&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://example.com/%3Csometag</span><span class="si">%3E</span><span class="s">some%20text%3C/sometag</span><span class="si">%3E</span><span class="s">&quot;&gt;http://example.com/&amp;lt;sometag&amp;gt;some text&amp;lt;/sometag&amp;gt;&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example.com/&lt;sometag&gt;some text&lt;/sometag&gt;&quot; /&gt;&lt;/p&gt;&#39;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertHTMLEqual</span><span class="p">(</span>
+            <span class="n">conditional_escape</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;http://example-äüö.com/&lt;sometag&gt;some text&lt;/sometag&gt;&#39;</span><span class="p">)),</span>
+            <span class="s">&#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://xn--example--7za4pnc.com/%3Csometag</span><span class="si">%3E</span><span class="s">some%20text%3C/sometag</span><span class="si">%3E</span><span class="s">&quot;&gt;http://example-äüö.com/&amp;lt;sometag&amp;gt;some text&amp;lt;/sometag&amp;gt;&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example-äüö.com/&lt;sometag&gt;some text&lt;/sometag&gt;&quot; /&gt;&lt;/p&gt;&#39;</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>The new tests check to see that the <code class="docutils literal"><span class="pre">render</span></code> method we&#8217;ll be adding works
+correctly in a couple different situations.</p>
+<div class="admonition-but-this-testing-thing-looks-kinda-hard admonition">
+<p class="first admonition-title">But this testing thing looks kinda hard...</p>
+<p>If you&#8217;ve never had to deal with tests before, they can look a little hard
+to write at first glance. Fortunately, testing is a <em>very</em> big subject in
+computer programming, so there&#8217;s lots of information out there:</p>
+<ul class="last simple">
+<li>A good first look at writing tests for Django can be found in the
+documentation on <a class="reference internal" href="../topics/testing/overview.html"><em>Testing Django applications</em></a>.</li>
+<li>Dive Into Python (a free online book for beginning Python developers)
+includes a great <a class="reference external" href="http://diveintopython.net/unit_testing/index.html">introduction to Unit Testing</a>.</li>
+<li>After reading those, if you want something a little meatier to sink
+your teeth into, there&#8217;s always the <a class="reference external" href="http://docs.python.org/library/unittest.html">Python unittest documentation</a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="running-your-new-test">
+<h3>Running your new test<a class="headerlink" href="#running-your-new-test" title="Permalink to this headline">¶</a></h3>
+<p>Remember that we haven&#8217;t actually made any modifications to
+<code class="docutils literal"><span class="pre">AdminURLFieldWidget</span></code> yet, so our tests are going to fail. Let&#8217;s run all the
+tests in the <code class="docutils literal"><span class="pre">model_forms_regress</span></code> folder to make sure that&#8217;s really what
+happens. From the command line, <code class="docutils literal"><span class="pre">cd</span></code> into the Django <code class="docutils literal"><span class="pre">tests/</span></code> directory
+and run:</p>
+<div class="highlight-python"><div class="highlight"><pre>PYTHONPATH=.. python runtests.py --settings=test_sqlite admin_widgets
+</pre></div>
+</div>
+<p>If the tests ran correctly, you should see three failures corresponding to each
+of the test methods we added. If all of the tests passed, then you&#8217;ll want to
+make sure that you added the new test shown above to the appropriate folder and
+class.</p>
+</div>
+</div>
+<div class="section" id="writing-the-code-for-your-ticket">
+<h2>Writing the code for your ticket<a class="headerlink" href="#writing-the-code-for-your-ticket" title="Permalink to this headline">¶</a></h2>
+<p>Next we&#8217;ll be adding the functionality described in <a class="reference external" href="https://code.djangoproject.com/ticket/17549">ticket #17549</a> to Django.</p>
+<div class="section" id="writing-the-code-for-ticket-17549">
+<h3>Writing the code for ticket #17549<a class="headerlink" href="#writing-the-code-for-ticket-17549" title="Permalink to this headline">¶</a></h3>
+<p>Navigate to the <code class="docutils literal"><span class="pre">django/django/contrib/admin/</span></code> folder and open the
+<code class="docutils literal"><span class="pre">widgets.py</span></code> file. Find the <code class="docutils literal"><span class="pre">AdminURLFieldWidget</span></code> class on line 302 and add
+the following <code class="docutils literal"><span class="pre">render</span></code> method after the existing <code class="docutils literal"><span class="pre">__init__</span></code> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">AdminURLFieldWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">force_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_value</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">final_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;href&#39;</span><span class="p">:</span> <span class="n">mark_safe</span><span class="p">(</span><span class="n">smart_urlquote</span><span class="p">(</span><span class="n">value</span><span class="p">))}</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">format_html</span><span class="p">(</span>
+            <span class="s">&#39;&lt;p class=&quot;url&quot;&gt;{0} &lt;a {1}&gt;{2}&lt;/a&gt;&lt;br /&gt;{3} {4}&lt;/p&gt;&#39;</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s">&#39;Currently:&#39;</span><span class="p">),</span> <span class="n">flatatt</span><span class="p">(</span><span class="n">final_attrs</span><span class="p">),</span> <span class="n">value</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s">&#39;Change:&#39;</span><span class="p">),</span> <span class="n">html</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">html</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="verifying-your-test-now-passes">
+<h3>Verifying your test now passes<a class="headerlink" href="#verifying-your-test-now-passes" title="Permalink to this headline">¶</a></h3>
+<p>Once you&#8217;re done modifying Django, we need to make sure that the tests we wrote
+earlier pass, so we can see whether the code we wrote above is working
+correctly. To run the tests in the <code class="docutils literal"><span class="pre">admin_widgets</span></code> folder, <code class="docutils literal"><span class="pre">cd</span></code> into the
+Django <code class="docutils literal"><span class="pre">tests/</span></code> directory and run:</p>
+<div class="highlight-python"><div class="highlight"><pre>PYTHONPATH=.. python runtests.py --settings=test_sqlite admin_widgets
+</pre></div>
+</div>
+<p>Oops, good thing we wrote those tests! You should still see 3 failures with
+the following exception:</p>
+<div class="highlight-python"><div class="highlight"><pre>NameError: global name &#39;smart_urlquote&#39; is not defined
+</pre></div>
+</div>
+<p>We forgot to add the import for that method.  Go ahead and add the
+<code class="docutils literal"><span class="pre">smart_urlquote</span></code> import at the end of line 13 of
+<code class="docutils literal"><span class="pre">django/contrib/admin/widgets.py</span></code> so it looks as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.utils.html</span> <span class="kn">import</span> <span class="n">escape</span><span class="p">,</span> <span class="n">format_html</span><span class="p">,</span> <span class="n">format_html_join</span><span class="p">,</span> <span class="n">smart_urlquote</span>
+</pre></div>
+</div>
+<p>Re-run the tests and everything should pass. If it doesn&#8217;t, make sure you
+correctly modified the <code class="docutils literal"><span class="pre">AdminURLFieldWidget</span></code> class as shown above and
+copied the new tests correctly.</p>
+</div>
+</div>
+<div class="section" id="running-django-s-test-suite-for-the-second-time">
+<h2>Running Django&#8217;s test suite for the second time<a class="headerlink" href="#running-django-s-test-suite-for-the-second-time" title="Permalink to this headline">¶</a></h2>
+<p>Once you&#8217;ve verified that your patch and your test are working correctly, it&#8217;s
+a good idea to run the entire Django test suite just to verify that your change
+hasn&#8217;t introduced any bugs into other areas of Django. While successfully
+passing the entire test suite doesn&#8217;t guarantee your code is bug free, it does
+help identify many bugs and regressions that might otherwise go unnoticed.</p>
+<p>To run the entire Django test suite, <code class="docutils literal"><span class="pre">cd</span></code> into the Django <code class="docutils literal"><span class="pre">tests/</span></code>
+directory and run:</p>
+<div class="highlight-python"><div class="highlight"><pre>PYTHONPATH=.. python runtests.py --settings=test_sqlite
+</pre></div>
+</div>
+<p>As long as you don&#8217;t see any failures, you&#8217;re good to go. Note that this fix
+also made a <a class="reference external" href="https://github.com/django/django/commit/ac2052ebc84c45709ab5f0f25e685bf656ce79bc#diff-0">small CSS change</a> to format the new widget. You can make the
+change if you&#8217;d like, but we&#8217;ll skip it for now in the interest of brevity.</p>
+</div>
+<div class="section" id="writing-documentation">
+<h2>Writing Documentation<a class="headerlink" href="#writing-documentation" title="Permalink to this headline">¶</a></h2>
+<p>This is a new feature, so it should be documented.  Add the following on line
+925 of <code class="docutils literal"><span class="pre">django/docs/ref/models/fields.txt</span></code> beneath the existing docs for
+<code class="docutils literal"><span class="pre">URLField</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. versionadded:: 1.5
+
+The current value of the field will be displayed as a clickable link above the
+input widget.
+</pre></div>
+</div>
+<p>For more information on writing documentation, including an explanation of what
+the <code class="docutils literal"><span class="pre">versionadded</span></code> bit is all about, see
+<a class="reference internal" href="../internals/contributing/writing-documentation.html"><em>Writing documentation</em></a>. That page also includes
+an explanation of how to build a copy of the documentation locally, so you can
+preview the HTML that will be generated.</p>
+</div>
+<div class="section" id="generating-a-patch-for-your-changes">
+<h2>Generating a patch for your changes<a class="headerlink" href="#generating-a-patch-for-your-changes" title="Permalink to this headline">¶</a></h2>
+<p>Now it&#8217;s time to generate a patch file that can be uploaded to Trac or applied
+to another copy of Django. To get a look at the content of your patch, run the
+following command:</p>
+<div class="highlight-python"><div class="highlight"><pre>git diff
+</pre></div>
+</div>
+<p>This will display the differences between your current copy of Django (with
+your changes) and the revision that you initially checked out earlier in the
+tutorial.</p>
+<p>Once you&#8217;re done looking at the patch, hit the <code class="docutils literal"><span class="pre">q</span></code> key to exit back to the
+command line.  If the patch&#8217;s content looked okay, you can run the following
+command to save the patch file to your current working directory:</p>
+<div class="highlight-python"><div class="highlight"><pre>git diff &gt; 17549.diff
+</pre></div>
+</div>
+<p>You should now have a file in the root Django directory called <code class="docutils literal"><span class="pre">17549.diff</span></code>.
+This patch file contains all your changes and should look this:</p>
+<div class="highlight-diff"><div class="highlight"><pre><span class="gh">diff --git a/django/contrib/admin/widgets.py b/django/contrib/admin/widgets.py</span>
+<span class="gh">index 1e0bc2d..9e43a10 100644</span>
+<span class="gd">--- a/django/contrib/admin/widgets.py</span>
+<span class="gi">+++ b/django/contrib/admin/widgets.py</span>
+<span class="gu">@@ -10,7 +10,7 @@ from django.contrib.admin.templatetags.admin_static import static</span>
+ from django.core.urlresolvers import reverse
+ from django.forms.widgets import RadioFieldRenderer
+ from django.forms.util import flatatt
+<span class="gd">-from django.utils.html import escape, format_html, format_html_join</span>
+<span class="gi">+from django.utils.html import escape, format_html, format_html_join, smart_urlquote</span>
+ from django.utils.text import Truncator
+ from django.utils.translation import ugettext as _
+ from django.utils.safestring import mark_safe
+<span class="gu">@@ -306,6 +306,18 @@ class AdminURLFieldWidget(forms.TextInput):</span>
+             final_attrs.update(attrs)
+         super(AdminURLFieldWidget, self).__init__(attrs=final_attrs)
+
+<span class="gi">+    def render(self, name, value, attrs=None):</span>
+<span class="gi">+        html = super(AdminURLFieldWidget, self).render(name, value, attrs)</span>
+<span class="gi">+        if value:</span>
+<span class="gi">+            value = force_text(self._format_value(value))</span>
+<span class="gi">+            final_attrs = {&#39;href&#39;: mark_safe(smart_urlquote(value))}</span>
+<span class="gi">+            html = format_html(</span>
+<span class="gi">+                &#39;&lt;p class=&quot;url&quot;&gt;{0} &lt;a {1}&gt;{2}&lt;/a&gt;&lt;br /&gt;{3} {4}&lt;/p&gt;&#39;,</span>
+<span class="gi">+                _(&#39;Currently:&#39;), flatatt(final_attrs), value,</span>
+<span class="gi">+                _(&#39;Change:&#39;), html</span>
+<span class="gi">+            )</span>
+<span class="gi">+        return html</span>
+<span class="gi">+</span>
+ class AdminIntegerFieldWidget(forms.TextInput):
+     class_name = &#39;vIntegerField&#39;
+
+<span class="gh">diff --git a/docs/ref/models/fields.txt b/docs/ref/models/fields.txt</span>
+<span class="gh">index 809d56e..d44f85f 100644</span>
+<span class="gd">--- a/docs/ref/models/fields.txt</span>
+<span class="gi">+++ b/docs/ref/models/fields.txt</span>
+<span class="gu">@@ -922,6 +922,10 @@ Like all :class:`CharField` subclasses, :class:`URLField` takes the optional</span>
+ :attr:`~CharField.max_length`argument. If you don&#39;t specify
+ :attr:`~CharField.max_length`, a default of 200 is used.
+
+<span class="gi">+.. versionadded:: 1.5</span>
+<span class="gi">+</span>
+<span class="gi">+The current value of the field will be displayed as a clickable link above the</span>
+<span class="gi">+input widget.</span>
+
+ Relationship fields
+ ===================
+<span class="gh">diff --git a/tests/regressiontests/admin_widgets/tests.py b/tests/regressiontests/admin_widgets/tests.py</span>
+<span class="gh">index 4b11543..94acc6d 100644</span>
+<span class="gd">--- a/tests/regressiontests/admin_widgets/tests.py</span>
+<span class="gi">+++ b/tests/regressiontests/admin_widgets/tests.py</span>
+<span class="gu">@@ -265,6 +265,35 @@ class AdminSplitDateTimeWidgetTest(DjangoTestCase):</span>
+                     &#39;&lt;p class=&quot;datetime&quot;&gt;Datum: &lt;input value=&quot;01.12.2007&quot; type=&quot;text&quot; class=&quot;vDateField&quot; name=&quot;test_0&quot; size=&quot;10&quot; /&gt;&lt;br /&gt;Zeit: &lt;input value=&quot;09:30:00&quot; type=&quot;text&quot; class=&quot;vTimeField&quot; name=&quot;test_1&quot; size=&quot;8&quot; /&gt;&lt;/p&gt;&#39;,
+                 )
+
+<span class="gi">+class AdminURLWidgetTest(DjangoTestCase):</span>
+<span class="gi">+    def test_render(self):</span>
+<span class="gi">+        w = widgets.AdminURLFieldWidget()</span>
+<span class="gi">+        self.assertHTMLEqual(</span>
+<span class="gi">+            conditional_escape(w.render(&#39;test&#39;, &#39;&#39;)),</span>
+<span class="gi">+            &#39;&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; /&gt;&#39;</span>
+<span class="gi">+        )</span>
+<span class="gi">+        self.assertHTMLEqual(</span>
+<span class="gi">+            conditional_escape(w.render(&#39;test&#39;, &#39;http://example.com&#39;)),</span>
+<span class="gi">+            &#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://example.com&quot;&gt;http://example.com&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example.com&quot; /&gt;&lt;/p&gt;&#39;</span>
+<span class="gi">+        )</span>
+<span class="gi">+</span>
+<span class="gi">+    def test_render_idn(self):</span>
+<span class="gi">+        w = widgets.AdminURLFieldWidget()</span>
+<span class="gi">+        self.assertHTMLEqual(</span>
+<span class="gi">+            conditional_escape(w.render(&#39;test&#39;, &#39;http://example-äüö.com&#39;)),</span>
+<span class="gi">+            &#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://xn--example--7za4pnc.com&quot;&gt;http://example-äüö.com&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example-äüö.com&quot; /&gt;&lt;/p&gt;&#39;</span>
+<span class="gi">+        )</span>
+<span class="gi">+</span>
+<span class="gi">+    def test_render_quoting(self):</span>
+<span class="gi">+        w = widgets.AdminURLFieldWidget()</span>
+<span class="gi">+        self.assertHTMLEqual(</span>
+<span class="gi">+            conditional_escape(w.render(&#39;test&#39;, &#39;http://example.com/&lt;sometag&gt;some text&lt;/sometag&gt;&#39;)),</span>
+<span class="gi">+            &#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://example.com/%3Csometag%3Esome%20text%3C/sometag%3E&quot;&gt;http://example.com/&amp;lt;sometag&amp;gt;some text&amp;lt;/sometag&amp;gt;&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example.com/&lt;sometag&gt;some text&lt;/sometag&gt;&quot; /&gt;&lt;/p&gt;&#39;</span>
+<span class="gi">+        )</span>
+<span class="gi">+        self.assertHTMLEqual(</span>
+<span class="gi">+            conditional_escape(w.render(&#39;test&#39;, &#39;http://example-äüö.com/&lt;sometag&gt;some text&lt;/sometag&gt;&#39;)),</span>
+<span class="gi">+            &#39;&lt;p class=&quot;url&quot;&gt;Currently:&lt;a href=&quot;http://xn--example--7za4pnc.com/%3Csometag%3Esome%20text%3C/sometag%3E&quot;&gt;http://example-äüö.com/&amp;lt;sometag&amp;gt;some text&amp;lt;/sometag&amp;gt;&lt;/a&gt;&lt;br /&gt;Change:&lt;input class=&quot;vURLField&quot; name=&quot;test&quot; type=&quot;text&quot; value=&quot;http://example-äüö.com/&lt;sometag&gt;some text&lt;/sometag&gt;&quot; /&gt;&lt;/p&gt;&#39;</span>
+<span class="gi">+        )</span>
+
+ class AdminFileWidgetTest(DjangoTestCase):
+     def test_render(self):
+</pre></div>
+</div>
+</div>
+<div class="section" id="so-what-do-i-do-next">
+<h2>So what do I do next?<a class="headerlink" href="#so-what-do-i-do-next" title="Permalink to this headline">¶</a></h2>
+<p>Congratulations, you&#8217;ve generated your very first Django patch! Now that you&#8217;ve
+got that under your belt, you can put those skills to good use by helping to
+improve Django&#8217;s codebase. Generating patches and attaching them to Trac
+tickets is useful, however, since we are using git - adopting a more <a class="reference internal" href="../internals/contributing/writing-code/working-with-git.html"><em>git
+oriented workflow</em></a> is
+recommended.</p>
+<p>Since we never committed our changes locally, perform the following to get your
+git branch back to a good starting point:</p>
+<div class="highlight-python"><div class="highlight"><pre>git reset --hard HEAD
+git checkout master
+</pre></div>
+</div>
+<div class="section" id="more-information-for-new-contributors">
+<h3>More information for new contributors<a class="headerlink" href="#more-information-for-new-contributors" title="Permalink to this headline">¶</a></h3>
+<p>Before you get too into writing patches for Django, there&#8217;s a little more
+information on contributing that you should probably take a look at:</p>
+<ul class="simple">
+<li>You should make sure to read Django&#8217;s documentation on
+<a class="reference internal" href="../internals/contributing/writing-code/submitting-patches.html"><em>claiming tickets and submitting patches</em></a>.
+It covers Trac etiquette, how to claim tickets for yourself, expected
+coding style for patches, and many other important details.</li>
+<li>First time contributors should also read Django&#8217;s <a class="reference internal" href="../internals/contributing/new-contributors.html"><em>documentation
+for first time contributors</em></a>.
+It has lots of good advice for those of us who are new to helping out
+with Django.</li>
+<li>After those, if you&#8217;re still hungry for more information about
+contributing, you can always browse through the rest of
+<a class="reference internal" href="../internals/contributing/index.html"><em>Django&#8217;s documentation on contributing</em></a>.
+It contains a ton of useful information and should be your first source
+for answering any questions you might have.</li>
+</ul>
+</div>
+<div class="section" id="finding-your-first-real-ticket">
+<h3>Finding your first real ticket<a class="headerlink" href="#finding-your-first-real-ticket" title="Permalink to this headline">¶</a></h3>
+<p>Once you&#8217;ve looked through some of that information, you&#8217;ll be ready to go out
+and find a ticket of your own to write a patch for. Pay special attention to
+tickets with the &#8220;easy pickings&#8221; criterion. These tickets are often much
+simpler in nature and are great for first time contributors.  Once you&#8217;re
+familiar with contributing to Django, you can move on to writing patches for
+more difficult and complicated tickets.</p>
+<p>If you just want to get started already (and nobody would blame you!), try
+taking a look at the list of <a class="reference external" href="https://code.djangoproject.com/query?status=new&amp;status=reopened&amp;has_patch=0&amp;easy=1&amp;col=id&amp;col=summary&amp;col=status&amp;col=owner&amp;col=type&amp;col=milestone&amp;order=priority">easy tickets that need patches</a> and the
+<a class="reference external" href="https://code.djangoproject.com/query?status=new&amp;status=reopened&amp;needs_better_patch=1&amp;easy=1&amp;col=id&amp;col=summary&amp;col=status&amp;col=owner&amp;col=type&amp;col=milestone&amp;order=priority">easy tickets that have patches which need improvement</a>. If you&#8217;re familiar
+with writing tests, you can also look at the list of
+<a class="reference external" href="https://code.djangoproject.com/query?status=new&amp;status=reopened&amp;needs_tests=1&amp;easy=1&amp;col=id&amp;col=summary&amp;col=status&amp;col=owner&amp;col=type&amp;col=milestone&amp;order=priority">easy tickets that need tests</a>. Just remember to follow the guidelines about
+claiming tickets that were mentioned in the link to Django&#8217;s documentation on
+<a class="reference internal" href="../internals/contributing/writing-code/submitting-patches.html"><em>claiming tickets and submitting patches</em></a>.</p>
+</div>
+<div class="section" id="what-s-next">
+<h3>What&#8217;s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h3>
+<p>After a ticket has a patch, it needs to be reviewed by a second set of eyes.
+After uploading a patch or submitting a pull request, be sure to update the
+ticket metadata by setting the flags on the ticket to say &#8220;has patch&#8221;,
+&#8220;doesn&#8217;t need tests&#8221;, etc, so others can find it for review. Contributing
+doesn&#8217;t necessarily always mean writing a patch from scratch. Reviewing
+existing patches is also a very helpful contribution. See
+<a class="reference internal" href="../internals/contributing/triaging-tickets.html"><em>Triaging tickets</em></a> for details.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../topics/index.html" class="btn btn-neutral float-right" title="使用 Django" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="whatsnext.html" class="btn btn-neutral" title="下一步阅读什么" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/intro/contributing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:45 GMT -->
+</html>

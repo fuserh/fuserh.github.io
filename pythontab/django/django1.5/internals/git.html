@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/git.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Django source code repository &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Django internals</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="contributing/index.html">Contributing to Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="committers.html">Django committers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security.html">Django&#8217;s security policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release-process.html">Django&#8217;s release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deprecation.html">Django Deprecation Timeline</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Django source code repository</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#high-level-overview">High-level overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-master-branch">The master branch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-branches">Other branches</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#feature-development-branches">Feature-development branches</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#support-and-bugfix-branches">Support and bugfix branches</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Django internals</a> &raquo;</li>
+      
+    <li>The Django source code repository</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-django-source-code-repository">
+<h1>The Django source code repository<a class="headerlink" href="#the-django-source-code-repository" title="Permalink to this headline">¶</a></h1>
+<p>When deploying a Django application into a real production environment, you
+will almost always want to use <a class="reference external" href="https://www.djangoproject.com/download/">an official packaged release of Django</a>.</p>
+<p>However, if you&#8217;d like to try out in-development code from an upcoming release
+or contribute to the development of Django, you&#8217;ll need to obtain a clone of
+Django&#8217;s source code repository.</p>
+<p>This document covers the way the code repository is laid out and how to work
+with and find things in it.</p>
+<div class="section" id="high-level-overview">
+<h2>High-level overview<a class="headerlink" href="#high-level-overview" title="Permalink to this headline">¶</a></h2>
+<p>The Django source code repository uses <a class="reference external" href="http://git-scm.com/">Git</a> to track changes to the code
+over time, so you&#8217;ll need a copy of the Git client (a program called <code class="docutils literal"><span class="pre">git</span></code>)
+on your computer, and you&#8217;ll want to familiarize yourself with the basics of
+how Git works.</p>
+<p>Git&#8217;s web site offers downloads for various operating systems. The site also
+contains vast amounts of <a class="reference external" href="http://git-scm.com/documentation">documentation</a>.</p>
+<p>The Django Git repository is located online at <a class="reference external" href="https://github.com/django/django">github.com/django/django</a>. It contains the full source code for all
+Django releases, which you can browse online.</p>
+<p>The Git repository includes several <a class="reference external" href="https://github.com/django/django/branches">branches</a>:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">master</span></code> contains the main in-development code which will become
+the next packaged release of Django. This is where most development
+activity is focused.</li>
+<li><code class="docutils literal"><span class="pre">stable/A.B.x</span></code> are the maintenance branches. They are used to support
+older versions of Django.</li>
+<li><code class="docutils literal"><span class="pre">soc20XX/&lt;project&gt;</span></code> branches were used by students who worked on Django
+during the 2009 and 2010 Google Summer of Code programs.</li>
+<li><code class="docutils literal"><span class="pre">attic/&lt;project&gt;</span></code> branches were used to develop major or experimental new
+features without affecting the rest of Django&#8217;s code.</li>
+</ul>
+<p>The Git repository also contains <a class="reference external" href="https://github.com/django/django/tags">tags</a>. These are the exact revisions from
+which packaged Django releases were produced, since version 1.0.</p>
+<p>The source code for the <a class="reference external" href="https://www.djangoproject.com/">Djangoproject.com</a> web
+site can be found at <a class="reference external" href="https://github.com/django/djangoproject.com">github.com/django/djangoproject.com</a>.</p>
+</div>
+<div class="section" id="the-master-branch">
+<h2>The master branch<a class="headerlink" href="#the-master-branch" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;d like to try out the in-development code for the next release of
+Django, or if you&#8217;d like to contribute to Django by fixing bugs or developing
+new features, you&#8217;ll want to get the code from the master branch.</p>
+<p>Note that this will get <em>all</em> of Django: in addition to the top-level
+<code class="docutils literal"><span class="pre">django</span></code> module containing Python code, you&#8217;ll also get a copy of Django&#8217;s
+documentation, test suite, packaging scripts and other miscellaneous bits.
+Django&#8217;s code will be present in your clone as a directory named
+<code class="docutils literal"><span class="pre">django</span></code>.</p>
+<p>To try out the in-development code with your own applications, simply place
+the directory containing your clone on your Python import path. Then
+<code class="docutils literal"><span class="pre">import</span></code> statements which look for Django will find the <code class="docutils literal"><span class="pre">django</span></code> module
+within your clone.</p>
+<p>If you&#8217;re going to be working on Django&#8217;s code (say, to fix a bug or
+develop a new feature), you can probably stop reading here and move
+over to <a class="reference internal" href="contributing/index.html"><em>the documentation for contributing to Django</em></a>, which covers things like the preferred
+coding style and how to generate and submit a patch.</p>
+</div>
+<div class="section" id="other-branches">
+<h2>Other branches<a class="headerlink" href="#other-branches" title="Permalink to this headline">¶</a></h2>
+<p>Django uses branches for two main purposes:</p>
+<ol class="arabic simple">
+<li>Development of major or experimental features, to keep them from
+affecting progress on other work in master.</li>
+<li>Security and bugfix support for older releases of Django, during
+their support lifetimes.</li>
+</ol>
+<div class="section" id="feature-development-branches">
+<h3>Feature-development branches<a class="headerlink" href="#feature-development-branches" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-historical-information admonition">
+<p class="first admonition-title">Historical information</p>
+<p>Since Django moved to Git in 2012, anyone can clone the repository and
+create his own branches, alleviating the need for official branches in the
+source code repository.</p>
+<p class="last">The following section is mostly useful if you&#8217;re exploring the repository&#8217;s
+history, for example if you&#8217;re trying to understand how some features were
+designed.</p>
+</div>
+<p>Feature-development branches tend by their nature to be temporary. Some
+produce successful features which are merged back into Django&#8217;s master to
+become part of an official release, but others do not; in either case there
+comes a time when the branch is no longer being actively worked on by any
+developer. At this point the branch is considered closed.</p>
+<p>Unfortunately, Django used to be maintained with the Subversion revision
+control system, that has no standard way of indicating this. As a workaround,
+branches of Django which are closed and no longer maintained were moved into
+<code class="docutils literal"><span class="pre">attic</span></code>.</p>
+<p>For reference, the following are branches whose code eventually became
+part of Django itself, and so are no longer separately maintained:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">boulder-oracle-sprint</span></code>: Added support for Oracle databases to
+Django&#8217;s object-relational mapper. This has been part of Django
+since the 1.0 release.</li>
+<li><code class="docutils literal"><span class="pre">gis</span></code>: Added support for geographic/spatial queries to Django&#8217;s
+object-relational mapper. This has been part of Django since the 1.0
+release, as the bundled application <code class="docutils literal"><span class="pre">django.contrib.gis</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">i18n</span></code>: Added <a class="reference internal" href="../topics/i18n/index.html"><em>internationalization support</em></a> to
+Django. This has been part of Django since the 0.90 release.</li>
+<li><code class="docutils literal"><span class="pre">magic-removal</span></code>: A major refactoring of both the internals and
+public APIs of Django&#8217;s object-relational mapper. This has been part
+of Django since the 0.95 release.</li>
+<li><code class="docutils literal"><span class="pre">multi-auth</span></code>: A refactoring of <a class="reference internal" href="../topics/auth/index.html"><em>Django&#8217;s bundled
+authentication framework</em></a> which added support for
+<a class="reference internal" href="../topics/auth/customizing.html#authentication-backends"><span>authentication backends</span></a>. This has
+been part of Django since the 0.95 release.</li>
+<li><code class="docutils literal"><span class="pre">new-admin</span></code>: A refactoring of <a class="reference internal" href="../ref/contrib/admin/index.html"><em>Django&#8217;s bundled
+administrative application</em></a>. This became part of
+Django as of the 0.91 release, but was superseded by another
+refactoring (see next listing) prior to the Django 1.0 release.</li>
+<li><code class="docutils literal"><span class="pre">newforms-admin</span></code>: The second refactoring of Django&#8217;s bundled
+administrative application. This became part of Django as of the 1.0
+release, and is the basis of the current incarnation of
+<code class="docutils literal"><span class="pre">django.contrib.admin</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">queryset-refactor</span></code>: A refactoring of the internals of Django&#8217;s
+object-relational mapper. This became part of Django as of the 1.0
+release.</li>
+<li><code class="docutils literal"><span class="pre">unicode</span></code>: A refactoring of Django&#8217;s internals to consistently use
+Unicode-based strings in most places within Django and Django
+applications. This became part of Django as of the 1.0 release.</li>
+</ul>
+<p>When Django moved from SVN to Git, the information about branch merges wasn&#8217;t
+preserved in the source code repository. This means that the <code class="docutils literal"><span class="pre">master</span></code> branch
+of Django doesn&#8217;t contain merge commits for the above branches.</p>
+<p>However, this information is <a class="reference external" href="https://github.com/ramiro/django-git-grafts">available as a grafts file</a>. You can restore it
+by putting the following lines in <code class="docutils literal"><span class="pre">.git/info/grafts</span></code> in your local clone:</p>
+<div class="highlight-python"><div class="highlight"><pre>ac64e91a0cadc57f4bc5cd5d66955832320ca7a1 553a20075e6991e7a60baee51ea68c8adc520d9a 0cb8e31823b2e9f05c4ae868c19f5f38e78a5f2e
+79e68c225b926302ebb29c808dda8afa49856f5c d0f57e7c7385a112cb9e19d314352fc5ed5b0747 aa239e3e5405933af6a29dac3cf587b59a099927
+5cf8f684237ab5addaf3549b2347c3adf107c0a7 cb45fd0ae20597306cd1f877efc99d9bd7cbee98 e27211a0deae2f1d402537f0ebb64ad4ccf6a4da
+f69cf70ed813a8cd7e1f963a14ae39103e8d5265 d5dbeaa9be359a4c794885c2e9f1b5a7e5e51fb8 d2fcbcf9d76d5bb8a661ee73dae976c74183098b
+aab3a418ac9293bb4abd7670f65d930cb0426d58 4ea7a11659b8a0ab07b0d2e847975f7324664f10 adf4b9311d5d64a2bdd58da50271c121ea22e397
+ff60c5f9de3e8690d1e86f3e9e3f7248a15397c8 7ef212af149540aa2da577a960d0d87029fd1514 45b4288bb66a3cda401b45901e85b645674c3988
+9dda4abee1225db7a7b195b84c915fdd141a7260 4fe5c9b7ee09dc25921918a6dbb7605edb374bc9 3a7c14b583621272d4ef53061287b619ce3c290d
+a19ed8aea395e8e07164ff7d85bd7dff2f24edca dc375fb0f3b7fbae740e8cfcd791b8bccb8a4e66 42ea7a5ce8aece67d16c6610a49560c1493d4653
+9c52d56f6f8a9cdafb231adf9f4110473099c9b5 c91a30f00fd182faf8ca5c03cd7dbcf8b735b458 4a5c5c78f2ecd4ed8859cd5ac773ff3a01bccf96
+953badbea5a04159adbfa970f5805c0232b6a401 4c958b15b250866b70ded7d82aa532f1e57f96ae 5664a678b29ab04cad425c15b2792f4519f43928
+471596fc1afcb9c6258d317c619eaf5fd394e797 4e89105d64bb9e04c409139a41e9c7aac263df4c 3e9035a9625c8a8a5e88361133e87ce455c4fc13
+9233d0426537615e06b78d28010d17d5a66adf44 6632739e94c6c38b4c5a86cf5c80c48ae50ac49f 18e151bc3f8a85f2766d64262902a9fcad44d937
+</pre></div>
+</div>
+<p>Additionally, the following branches are closed, but their code was
+never merged into Django and the features they aimed to implement
+were never finished:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">full-history</span></code></li>
+<li><code class="docutils literal"><span class="pre">generic-auth</span></code></li>
+<li><code class="docutils literal"><span class="pre">multiple-db-support</span></code></li>
+<li><code class="docutils literal"><span class="pre">per-object-permissions</span></code></li>
+<li><code class="docutils literal"><span class="pre">schema-evolution</span></code></li>
+<li><code class="docutils literal"><span class="pre">schema-evolution-ng</span></code></li>
+<li><code class="docutils literal"><span class="pre">search-api</span></code></li>
+<li><code class="docutils literal"><span class="pre">sqlalchemy</span></code></li>
+</ul>
+<p>All of the above-mentioned branches now reside in <code class="docutils literal"><span class="pre">attic</span></code>.</p>
+<p>Finally, the repository contains <code class="docutils literal"><span class="pre">soc2009/xxx</span></code> and <code class="docutils literal"><span class="pre">soc2010/xxx</span></code> feature
+branches, used for Google Summer of Code projects.</p>
+</div>
+<div class="section" id="support-and-bugfix-branches">
+<h3>Support and bugfix branches<a class="headerlink" href="#support-and-bugfix-branches" title="Permalink to this headline">¶</a></h3>
+<p>In addition to fixing bugs in current master, the Django project provides
+official bugfix support for the most recent released version of Django, and
+security support for the two most recently-released versions of Django.</p>
+<p>This support is provided via branches in which the necessary bug or security
+fixes are applied; the branches are then used as the basis for issuing bugfix
+or security releases.</p>
+<p>These branches can be found in the repository as <code class="docutils literal"><span class="pre">stable/A.B.x</span></code>
+branches, and new branches will be created there after each new Django
+release.</p>
+<p>For example, shortly after the release of Django 1.0, the branch
+<code class="docutils literal"><span class="pre">stable/1.0.x</span></code> was created to receive bug fixes, and shortly after the
+release of Django 1.1 the branch <code class="docutils literal"><span class="pre">stable/1.1.x</span></code> was created.</p>
+<p>Official support for the above mentioned releases has expired, and so they no
+longer receive direct maintenance from the Django project. However, the
+branches continue to exist and interested community members have occasionally
+used them to provide unofficial support for old Django releases.</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Tags<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Each Django release is tagged and signed by Django&#8217;s release manager.</p>
+<p>The tags can be found on GitHub&#8217;s <a class="reference external" href="https://github.com/django/django/tags">tags</a> page.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="deprecation.html" class="btn btn-neutral" title="Django Deprecation Timeline" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/internals/git.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>
