@@ -1,0 +1,893 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/databases.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Databases &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Databases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#postgresql-notes">PostgreSQL notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#postgresql-8-2-to-8-2-4">PostgreSQL 8.2 to 8.2.4</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#postgresql-connection-settings">PostgreSQL connection settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#optimizing-postgresql-s-configuration">Optimizing PostgreSQL&#8217;s configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transaction-handling">Transaction handling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mysql-notes">MySQL notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#version-support">Version support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#storage-engines">Storage engines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mysqldb">MySQLdb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-your-database">Creating your database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connecting-to-the-database">Connecting to the database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-your-tables">Creating your tables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#table-names">Table names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#savepoints">Savepoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes-on-specific-fields">Notes on specific fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#row-locking-with-queryset-select-for-update">Row locking with <code class="docutils literal"><span class="pre">QuerySet.select_for_update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sqlite-notes">SQLite notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#substring-matching-and-case-sensitivity">Substring matching and case sensitivity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sqlite-3-3-6-or-newer-strongly-recommended">SQLite 3.3.6 or newer strongly recommended</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#version-3-5-9">Version 3.5.9</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#version-3-6-2">Version 3.6.2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-newer-versions-of-the-sqlite-db-api-2-0-driver">Using newer versions of the SQLite DB-API 2.0 driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#database-is-locked-errors">&#8220;Database is locked&#8221; errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#queryset-select-for-update-not-supported"><code class="docutils literal"><span class="pre">QuerySet.select_for_update()</span></code> not supported</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters-not-quoted-in-connection-queries">Parameters not quoted in <code class="docutils literal"><span class="pre">connection.queries</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#oracle-notes">Oracle notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Connecting to the database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#threaded-option">Threaded option</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#insert-returning-into">INSERT ... RETURNING INTO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#naming-issues">Naming issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#null-and-empty-strings">NULL and empty strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#textfield-limitations"><code class="docutils literal"><span class="pre">TextField</span></code> limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-a-3rd-party-database-backend">Using a 3rd-party database backend</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">API 参考</a> &raquo;</li>
+      
+    <li>Databases</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="databases">
+<h1>Databases<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h1>
+<p>Django attempts to support as many features as possible on all database
+backends. However, not all database backends are alike, and we&#8217;ve had to make
+design decisions on which features to support and which assumptions we can make
+safely.</p>
+<p>This file describes some of the features that might be relevant to Django
+usage. Of course, it is not intended as a replacement for server-specific
+documentation or reference manuals.</p>
+<div class="section" id="postgresql-notes">
+<span id="id1"></span><h2>PostgreSQL notes<a class="headerlink" href="#postgresql-notes" title="Permalink to this headline">¶</a></h2>
+<div class="versionchanged">
+</div>
+<p>Django supports PostgreSQL 8.2 and higher.</p>
+<div class="section" id="postgresql-8-2-to-8-2-4">
+<h3>PostgreSQL 8.2 to 8.2.4<a class="headerlink" href="#postgresql-8-2-to-8-2-4" title="Permalink to this headline">¶</a></h3>
+<p>The implementation of the population statistics aggregates <code class="docutils literal"><span class="pre">STDDEV_POP</span></code> and
+<code class="docutils literal"><span class="pre">VAR_POP</span></code> that shipped with PostgreSQL 8.2 to 8.2.4 are <a class="reference external" href="http://archives.postgresql.org/pgsql-bugs/2007-07/msg00046.php">known to be
+faulty</a>. Users of these releases of PostgreSQL are advised to upgrade to
+<a class="reference external" href="http://www.postgresql.org/docs/devel/static/release-8-2-5.html">Release 8.2.5</a> or later. Django will raise a <code class="docutils literal"><span class="pre">NotImplementedError</span></code> if you
+attempt to use the <code class="docutils literal"><span class="pre">StdDev(sample=False)</span></code> or <code class="docutils literal"><span class="pre">Variance(sample=False)</span></code>
+aggregate with a database backend that falls within the affected release range.</p>
+</div>
+<div class="section" id="postgresql-connection-settings">
+<h3>PostgreSQL connection settings<a class="headerlink" href="#postgresql-connection-settings" title="Permalink to this headline">¶</a></h3>
+<p>See <a class="reference internal" href="settings.html#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a> for details.</p>
+</div>
+<div class="section" id="optimizing-postgresql-s-configuration">
+<h3>Optimizing PostgreSQL&#8217;s configuration<a class="headerlink" href="#optimizing-postgresql-s-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Django needs the following parameters for its database connections:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">client_encoding</span></code>: <code class="docutils literal"><span class="pre">'UTF8'</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">default_transaction_isolation</span></code>: <code class="docutils literal"><span class="pre">'read</span> <span class="pre">committed'</span></code>,</li>
+<li><code class="docutils literal"><span class="pre">timezone</span></code>: <code class="docutils literal"><span class="pre">'UTC'</span></code> when <a class="reference internal" href="settings.html#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, value of
+<a class="reference internal" href="settings.html#std:setting-TIME_ZONE"><code class="xref std std-setting docutils literal"><span class="pre">TIME_ZONE</span></code></a> otherwise.</li>
+</ul>
+<p>If these parameters already have the correct values, Django won&#8217;t set them for
+every new connection, which improves performance slightly. You can configure
+them directly in <code class="file docutils literal"><span class="pre">postgresql.conf</span></code> or more conveniently per database
+user with <a class="reference external" href="http://www.postgresql.org/docs/current/interactive/sql-alterrole.html">ALTER ROLE</a>.</p>
+<p>Django will work just fine without this optimization, but each new connection
+will do some additional queries to set these parameters.</p>
+</div>
+<div class="section" id="transaction-handling">
+<h3>Transaction handling<a class="headerlink" href="#transaction-handling" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../topics/db/transactions.html"><em>By default</em></a>, Django runs with an open
+transaction which it commits automatically when any built-in, data-altering
+model function is called. The PostgreSQL backends normally operate the same as
+any other Django backend in this respect.</p>
+<div class="section" id="autocommit-mode">
+<span id="postgresql-autocommit-mode"></span><h4>Autocommit mode<a class="headerlink" href="#autocommit-mode" title="Permalink to this headline">¶</a></h4>
+<p>If your application is particularly read-heavy and doesn&#8217;t make many
+database writes, the overhead of a constantly open transaction can
+sometimes be noticeable. For those situations, you can configure Django
+to use <em>&#8220;autocommit&#8221;</em> behavior for the connection, meaning that each database
+operation will normally be in its own transaction, rather than having
+the transaction extend over multiple operations. In this case, you can
+still manually start a transaction if you&#8217;re doing something that
+requires consistency across multiple database operations. The
+autocommit behavior is enabled by setting the <code class="docutils literal"><span class="pre">autocommit</span></code> key in
+the <a class="reference internal" href="settings.html#std:setting-OPTIONS"><code class="xref std std-setting docutils literal"><span class="pre">OPTIONS</span></code></a> part of your database configuration in
+<a class="reference internal" href="settings.html#std:setting-DATABASES"><code class="xref std std-setting docutils literal"><span class="pre">DATABASES</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;OPTIONS&#39;: {
+    &#39;autocommit&#39;: True,
+}
+</pre></div>
+</div>
+<p>In this configuration, Django still ensures that <a class="reference internal" href="../topics/db/queries.html#topics-db-queries-delete"><span>delete()</span></a> and <a class="reference internal" href="../topics/db/queries.html#topics-db-queries-update"><span>update()</span></a>
+queries run inside a single transaction, so that either all the affected
+objects are changed or none of them are.</p>
+<div class="admonition-this-is-database-level-autocommit admonition">
+<p class="first admonition-title">This is database-level autocommit</p>
+<p class="last">This functionality is not the same as the <a class="reference internal" href="../topics/db/transactions.html#topics-db-transactions-autocommit"><span>autocommit</span></a> decorator. That decorator is
+a Django-level implementation that commits automatically after
+data changing operations. The feature enabled using the
+<a class="reference internal" href="settings.html#std:setting-OPTIONS"><code class="xref std std-setting docutils literal"><span class="pre">OPTIONS</span></code></a> option provides autocommit behavior at the
+database adapter level. It commits after <em>every</em> operation.</p>
+</div>
+<p>If you are using this feature and performing an operation akin to delete or
+updating that requires multiple operations, you are strongly recommended to
+wrap you operations in manual transaction handling to ensure data consistency.
+You should also audit your existing code for any instances of this behavior
+before enabling this feature. It&#8217;s faster, but it provides less automatic
+protection for multi-call operations.</p>
+</div>
+<div class="section" id="indexes-for-varchar-and-text-columns">
+<h4>Indexes for <code class="docutils literal"><span class="pre">varchar</span></code> and <code class="docutils literal"><span class="pre">text</span></code> columns<a class="headerlink" href="#indexes-for-varchar-and-text-columns" title="Permalink to this headline">¶</a></h4>
+<p>When specifying <code class="docutils literal"><span class="pre">db_index=True</span></code> on your model fields, Django typically
+outputs a single <code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">INDEX</span></code> statement.  However, if the database type
+for the field is either <code class="docutils literal"><span class="pre">varchar</span></code> or <code class="docutils literal"><span class="pre">text</span></code> (e.g., used by <code class="docutils literal"><span class="pre">CharField</span></code>,
+<code class="docutils literal"><span class="pre">FileField</span></code>, and <code class="docutils literal"><span class="pre">TextField</span></code>), then Django will create
+an additional index that uses an appropriate <a class="reference external" href="http://www.postgresql.org/docs/8.4/static/indexes-opclass.html">PostgreSQL operator class</a>
+for the column.  The extra index is necessary to correctly perform
+lookups that use the <code class="docutils literal"><span class="pre">LIKE</span></code> operator in their SQL, as is done with the
+<code class="docutils literal"><span class="pre">contains</span></code> and <code class="docutils literal"><span class="pre">startswith</span></code> lookup types.</p>
+</div>
+</div>
+</div>
+<div class="section" id="mysql-notes">
+<span id="id2"></span><h2>MySQL notes<a class="headerlink" href="#mysql-notes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-support">
+<h3>Version support<a class="headerlink" href="#version-support" title="Permalink to this headline">¶</a></h3>
+<p>Django supports MySQL 5.0.3 and higher.</p>
+<p><a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/index.html">MySQL 5.0</a> adds the <code class="docutils literal"><span class="pre">information_schema</span></code> database, which contains detailed
+data on all database schema. Django&#8217;s <code class="docutils literal"><span class="pre">inspectdb</span></code> feature uses it.</p>
+<div class="versionchanged">
+The minimum version requirement of MySQL 5.0.3 was set in Django 1.5.</div>
+<p>Django expects the database to support Unicode (UTF-8 encoding) and delegates to
+it the task of enforcing transactions and referential integrity. It is important
+to be aware of the fact that the two latter ones aren&#8217;t actually enforced by
+MySQL when using the MyISAM storage engine, see the next section.</p>
+</div>
+<div class="section" id="storage-engines">
+<span id="mysql-storage-engines"></span><h3>Storage engines<a class="headerlink" href="#storage-engines" title="Permalink to this headline">¶</a></h3>
+<p>MySQL has several <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/storage-engines.html">storage engines</a> (previously called table types). You can
+change the default storage engine in the server configuration.</p>
+<p>Until MySQL 5.5.4, the default engine was <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/myisam-storage-engine.html">MyISAM</a> <a class="footnote-reference" href="#id5" id="id3">[1]</a>. The main drawbacks of
+MyISAM are that it doesn&#8217;t support transactions or enforce foreign-key
+constraints. On the plus side, it&#8217;s currently the only engine that supports
+full-text indexing and searching.</p>
+<p>Since MySQL 5.5.5, the default storage engine is <a class="reference external" href="http://dev.mysql.com/doc/refman/5.5/en/innodb.html">InnoDB</a>. This engine is fully
+transactional and supports foreign key references. It&#8217;s probably the best
+choice at this point.</p>
+<p>If you upgrade an existing project to MySQL 5.5.5 and subsequently add some
+tables, ensure that your tables are using the same storage engine (i.e. MyISAM
+vs. InnoDB). Specifically, if tables that have a <code class="docutils literal"><span class="pre">ForeignKey</span></code> between them
+use different storage engines, you may see an error like the following when
+running <code class="docutils literal"><span class="pre">syncdb</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>_mysql_exceptions.OperationalError: (
+    1005, &quot;Can&#39;t create table &#39;\\db_name\\.#sql-4a8_ab&#39; (errno: 150)&quot;
+)
+</pre></div>
+</div>
+<div class="versionchanged">
+</div>
+<p>In previous versions of Django, fixtures with forward references (i.e.
+relations to rows that have not yet been inserted into the database) would fail
+to load when using the InnoDB storage engine. This was due to the fact that InnoDB
+deviates from the SQL standard by checking foreign key constraints immediately
+instead of deferring the check until the transaction is committed. This
+problem has been resolved in Django 1.4. Fixture data is now loaded with foreign key
+checks turned off; foreign key checks are then re-enabled when the data has
+finished loading, at which point the entire table is checked for invalid foreign
+key references and an <cite>IntegrityError</cite> is raised if any are found.</p>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>Unless this was changed by the packager of your MySQL package. We&#8217;ve
+had reports that the Windows Community Server installer sets up InnoDB as
+the default storage engine, for example.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="mysqldb">
+<h3>MySQLdb<a class="headerlink" href="#mysqldb" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://sourceforge.net/projects/mysql-python">MySQLdb</a> is the Python interface to MySQL. Version 1.2.1p2 or later is
+required for full MySQL support in Django.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you see <code class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">cannot</span> <span class="pre">import</span> <span class="pre">name</span> <span class="pre">ImmutableSet</span></code> when trying to
+use Django, your MySQLdb installation may contain an outdated <code class="docutils literal"><span class="pre">sets.py</span></code>
+file that conflicts with the built-in module of the same name from Python
+2.4 and later. To fix this, verify that you have installed MySQLdb version
+1.2.1p2 or newer, then delete the <code class="docutils literal"><span class="pre">sets.py</span></code> file in the MySQLdb
+directory that was left by an earlier version.</p>
+</div>
+</div>
+<div class="section" id="creating-your-database">
+<h3>Creating your database<a class="headerlink" href="#creating-your-database" title="Permalink to this headline">¶</a></h3>
+<p>You can <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/create-database.html">create your database</a> using the command-line tools and this SQL:</p>
+<div class="highlight-python"><div class="highlight"><pre>CREATE DATABASE &lt;dbname&gt; CHARACTER SET utf8;
+</pre></div>
+</div>
+<p>This ensures all tables and columns will use UTF-8 by default.</p>
+<div class="section" id="collation-settings">
+<span id="mysql-collation"></span><h4>Collation settings<a class="headerlink" href="#collation-settings" title="Permalink to this headline">¶</a></h4>
+<p>The collation setting for a column controls the order in which data is sorted
+as well as what strings compare as equal. It can be set on a database-wide
+level and also per-table and per-column. This is <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/charset.html">documented thoroughly</a> in
+the MySQL documentation. In all cases, you set the collation by directly
+manipulating the database tables; Django doesn&#8217;t provide a way to set this on
+the model definition.</p>
+<p>By default, with a UTF-8 database, MySQL will use the
+<code class="docutils literal"><span class="pre">utf8_general_ci_swedish</span></code> collation. This results in all string equality
+comparisons being done in a <em>case-insensitive</em> manner. That is, <code class="docutils literal"><span class="pre">&quot;Fred&quot;</span></code> and
+<code class="docutils literal"><span class="pre">&quot;freD&quot;</span></code> are considered equal at the database level. If you have a unique
+constraint on a field, it would be illegal to try to insert both <code class="docutils literal"><span class="pre">&quot;aa&quot;</span></code> and
+<code class="docutils literal"><span class="pre">&quot;AA&quot;</span></code> into the same column, since they compare as equal (and, hence,
+non-unique) with the default collation.</p>
+<p>In many cases, this default will not be a problem. However, if you really want
+case-sensitive comparisons on a particular column or table, you would change
+the column or table to use the <code class="docutils literal"><span class="pre">utf8_bin</span></code> collation. The main thing to be
+aware of in this case is that if you are using MySQLdb 1.2.2, the database
+backend in Django will then return bytestrings (instead of unicode strings) for
+any character fields it receive from the database. This is a strong variation
+from Django&#8217;s normal practice of <em>always</em> returning unicode strings. It is up
+to you, the developer, to handle the fact that you will receive bytestrings if
+you configure your table(s) to use <code class="docutils literal"><span class="pre">utf8_bin</span></code> collation. Django itself should
+mostly work smoothly with such columns (except for the <code class="docutils literal"><span class="pre">contrib.sessions</span></code>
+<code class="docutils literal"><span class="pre">Session</span></code> and <code class="docutils literal"><span class="pre">contrib.admin</span></code> <code class="docutils literal"><span class="pre">LogEntry</span></code> tables described below), but
+your code must be prepared to call <code class="docutils literal"><span class="pre">django.utils.encoding.smart_text()</span></code> at
+times if it really wants to work with consistent data &#8211; Django will not do
+this for you (the database backend layer and the model population layer are
+separated internally so the database layer doesn&#8217;t know it needs to make this
+conversion in this one particular case).</p>
+<p>If you&#8217;re using MySQLdb 1.2.1p2, Django&#8217;s standard
+<a class="reference internal" href="models/fields.html#django.db.models.CharField" title="django.db.models.CharField"><code class="xref py py-class docutils literal"><span class="pre">CharField</span></code></a> class will return unicode strings even
+with <code class="docutils literal"><span class="pre">utf8_bin</span></code> collation. However, <a class="reference internal" href="models/fields.html#django.db.models.TextField" title="django.db.models.TextField"><code class="xref py py-class docutils literal"><span class="pre">TextField</span></code></a>
+fields will be returned as an <code class="docutils literal"><span class="pre">array.array</span></code> instance (from Python&#8217;s standard
+<code class="docutils literal"><span class="pre">array</span></code> module). There isn&#8217;t a lot Django can do about that, since, again,
+the information needed to make the necessary conversions isn&#8217;t available when
+the data is read in from the database. This problem was <a class="reference external" href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=1495765&amp;group_id=22307&amp;atid=374932">fixed in MySQLdb
+1.2.2</a>, so if you want to use <a class="reference internal" href="models/fields.html#django.db.models.TextField" title="django.db.models.TextField"><code class="xref py py-class docutils literal"><span class="pre">TextField</span></code></a> with
+<code class="docutils literal"><span class="pre">utf8_bin</span></code> collation, upgrading to version 1.2.2 and then dealing with the
+bytestrings (which shouldn&#8217;t be too difficult) as described above is the
+recommended solution.</p>
+<p>Should you decide to use <code class="docutils literal"><span class="pre">utf8_bin</span></code> collation for some of your tables with
+MySQLdb 1.2.1p2 or 1.2.2, you should still use <code class="docutils literal"><span class="pre">utf8_collation_ci_swedish</span></code>
+(the default) collation for the <code class="docutils literal"><span class="pre">django.contrib.sessions.models.Session</span></code>
+table (usually called <code class="docutils literal"><span class="pre">django_session</span></code>) and the
+<code class="docutils literal"><span class="pre">django.contrib.admin.models.LogEntry</span></code> table (usually called
+<code class="docutils literal"><span class="pre">django_admin_log</span></code>). Those are the two standard tables that use
+<a class="reference internal" href="models/fields.html#django.db.models.TextField" title="django.db.models.TextField"><code class="xref py py-class docutils literal"><span class="pre">TextField</span></code></a> internally.</p>
+</div>
+</div>
+<div class="section" id="connecting-to-the-database">
+<h3>Connecting to the database<a class="headerlink" href="#connecting-to-the-database" title="Permalink to this headline">¶</a></h3>
+<p>Refer to the <a class="reference internal" href="settings.html"><em>settings documentation</em></a>.</p>
+<p>Connection settings are used in this order:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="settings.html#std:setting-OPTIONS"><code class="xref std std-setting docutils literal"><span class="pre">OPTIONS</span></code></a>.</li>
+<li><a class="reference internal" href="settings.html#std:setting-NAME"><code class="xref std std-setting docutils literal"><span class="pre">NAME</span></code></a>, <a class="reference internal" href="settings.html#std:setting-USER"><code class="xref std std-setting docutils literal"><span class="pre">USER</span></code></a>, <a class="reference internal" href="settings.html#std:setting-PASSWORD"><code class="xref std std-setting docutils literal"><span class="pre">PASSWORD</span></code></a>,
+<a class="reference internal" href="settings.html#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a>, <a class="reference internal" href="settings.html#std:setting-PORT"><code class="xref std std-setting docutils literal"><span class="pre">PORT</span></code></a></li>
+<li>MySQL option files.</li>
+</ol>
+<p>In other words, if you set the name of the database in <a class="reference internal" href="settings.html#std:setting-OPTIONS"><code class="xref std std-setting docutils literal"><span class="pre">OPTIONS</span></code></a>,
+this will take precedence over <a class="reference internal" href="settings.html#std:setting-NAME"><code class="xref std std-setting docutils literal"><span class="pre">NAME</span></code></a>, which would override
+anything in a <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/option-files.html">MySQL option file</a>.</p>
+<p>Here&#8217;s a sample configuration which uses a MySQL option file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># settings.py</span>
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.mysql&#39;</span><span class="p">,</span>
+        <span class="s">&#39;OPTIONS&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;read_default_file&#39;</span><span class="p">:</span> <span class="s">&#39;/path/to/my.cnf&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c"># my.cnf</span>
+<span class="p">[</span><span class="n">client</span><span class="p">]</span>
+<span class="n">database</span> <span class="o">=</span> <span class="n">NAME</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">USER</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">PASSWORD</span>
+<span class="n">default</span><span class="o">-</span><span class="n">character</span><span class="o">-</span><span class="nb">set</span> <span class="o">=</span> <span class="n">utf8</span>
+</pre></div>
+</div>
+<p>Several other MySQLdb connection options may be useful, such as <code class="docutils literal"><span class="pre">ssl</span></code>,
+<code class="docutils literal"><span class="pre">use_unicode</span></code>, <code class="docutils literal"><span class="pre">init_command</span></code>, and <code class="docutils literal"><span class="pre">sql_mode</span></code>. Consult the
+<a class="reference external" href="http://mysql-python.sourceforge.net/">MySQLdb documentation</a> for more details.</p>
+</div>
+<div class="section" id="creating-your-tables">
+<h3>Creating your tables<a class="headerlink" href="#creating-your-tables" title="Permalink to this headline">¶</a></h3>
+<p>When Django generates the schema, it doesn&#8217;t specify a storage engine, so
+tables will be created with whatever default storage engine your database
+server is configured for. The easiest solution is to set your database server&#8217;s
+default storage engine to the desired engine.</p>
+<p>If you&#8217;re using a hosting service and can&#8217;t change your server&#8217;s default
+storage engine, you have a couple of options.</p>
+<ul>
+<li><p class="first">After the tables are created, execute an <code class="docutils literal"><span class="pre">ALTER</span> <span class="pre">TABLE</span></code> statement to
+convert a table to a new storage engine (such as InnoDB):</p>
+<div class="highlight-python"><div class="highlight"><pre>ALTER TABLE &lt;tablename&gt; ENGINE=INNODB;
+</pre></div>
+</div>
+<p>This can be tedious if you have a lot of tables.</p>
+</li>
+<li><p class="first">Another option is to use the <code class="docutils literal"><span class="pre">init_command</span></code> option for MySQLdb prior to
+creating your tables:</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;OPTIONS&#39;: {
+   &#39;init_command&#39;: &#39;SET storage_engine=INNODB&#39;,
+}
+</pre></div>
+</div>
+<p>This sets the default storage engine upon connecting to the database.
+After your tables have been created, you should remove this option as it
+adds a query that is only needed during table creation to each database
+connection.</p>
+</li>
+<li><p class="first">Another method for changing the storage engine is described in
+<a class="reference external" href="https://code.djangoproject.com/wiki/AlterModelOnSyncDB">AlterModelOnSyncDB</a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="table-names">
+<h3>Table names<a class="headerlink" href="#table-names" title="Permalink to this headline">¶</a></h3>
+<p>There are <a class="reference external" href="http://bugs.mysql.com/bug.php?id=48875">known issues</a> in even the latest versions of MySQL that can cause the
+case of a table name to be altered when certain SQL statements are executed
+under certain conditions. It is recommended that you use lowercase table
+names, if possible, to avoid any problems that might arise from this behavior.
+Django uses lowercase table names when it auto-generates table names from
+models, so this is mainly a consideration if you are overriding the table name
+via the <a class="reference internal" href="models/options.html#django.db.models.Options.db_table" title="django.db.models.Options.db_table"><code class="xref py py-class docutils literal"><span class="pre">db_table</span></code></a> parameter.</p>
+</div>
+<div class="section" id="savepoints">
+<h3>Savepoints<a class="headerlink" href="#savepoints" title="Permalink to this headline">¶</a></h3>
+<p>Both the Django ORM and MySQL (when using the InnoDB <a class="reference internal" href="#mysql-storage-engines"><span>storage engine</span></a>) support database <a class="reference internal" href="../topics/db/transactions.html#topics-db-transactions-savepoints"><span>savepoints</span></a>, but this feature wasn&#8217;t available in
+Django until version 1.4 when such supports was added.</p>
+<p>If you use the MyISAM storage engine please be aware of the fact that you will
+receive database-generated errors if you try to use the <a class="reference internal" href="../topics/db/transactions.html#topics-db-transactions-savepoints"><span>savepoint-related
+methods of the transactions API</span></a>. The reason
+for this is that detecting the storage engine of a MySQL database/table is an
+expensive operation so it was decided it isn&#8217;t worth to dynamically convert
+these methods in no-op&#8217;s based in the results of such detection.</p>
+</div>
+<div class="section" id="notes-on-specific-fields">
+<h3>Notes on specific fields<a class="headerlink" href="#notes-on-specific-fields" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="character-fields">
+<h4>Character fields<a class="headerlink" href="#character-fields" title="Permalink to this headline">¶</a></h4>
+<p>Any fields that are stored with <code class="docutils literal"><span class="pre">VARCHAR</span></code> column types have their
+<code class="docutils literal"><span class="pre">max_length</span></code> restricted to 255 characters if you are using <code class="docutils literal"><span class="pre">unique=True</span></code>
+for the field. This affects <a class="reference internal" href="models/fields.html#django.db.models.CharField" title="django.db.models.CharField"><code class="xref py py-class docutils literal"><span class="pre">CharField</span></code></a>,
+<a class="reference internal" href="models/fields.html#django.db.models.SlugField" title="django.db.models.SlugField"><code class="xref py py-class docutils literal"><span class="pre">SlugField</span></code></a> and
+<a class="reference internal" href="models/fields.html#django.db.models.CommaSeparatedIntegerField" title="django.db.models.CommaSeparatedIntegerField"><code class="xref py py-class docutils literal"><span class="pre">CommaSeparatedIntegerField</span></code></a>.</p>
+</div>
+<div class="section" id="datetime-fields">
+<h4>DateTime fields<a class="headerlink" href="#datetime-fields" title="Permalink to this headline">¶</a></h4>
+<p>MySQL does not have a timezone-aware column type. If an attempt is made to
+store a timezone-aware <code class="docutils literal"><span class="pre">time</span></code> or <code class="docutils literal"><span class="pre">datetime</span></code> to a
+<a class="reference internal" href="models/fields.html#django.db.models.TimeField" title="django.db.models.TimeField"><code class="xref py py-class docutils literal"><span class="pre">TimeField</span></code></a> or <a class="reference internal" href="models/fields.html#django.db.models.DateTimeField" title="django.db.models.DateTimeField"><code class="xref py py-class docutils literal"><span class="pre">DateTimeField</span></code></a>
+respectively, a <code class="docutils literal"><span class="pre">ValueError</span></code> is raised rather than truncating data.</p>
+<p>MySQL does not store fractions of seconds. Fractions of seconds are truncated
+to zero when the time is stored.</p>
+</div>
+</div>
+<div class="section" id="row-locking-with-queryset-select-for-update">
+<h3>Row locking with <code class="docutils literal"><span class="pre">QuerySet.select_for_update()</span></code><a class="headerlink" href="#row-locking-with-queryset-select-for-update" title="Permalink to this headline">¶</a></h3>
+<p>MySQL does not support the <code class="docutils literal"><span class="pre">NOWAIT</span></code> option to the <code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">FOR</span> <span class="pre">UPDATE</span></code>
+statement. If <code class="docutils literal"><span class="pre">select_for_update()</span></code> is used with <code class="docutils literal"><span class="pre">nowait=True</span></code> then a
+<code class="docutils literal"><span class="pre">DatabaseError</span></code> will be raised.</p>
+</div>
+</div>
+<div class="section" id="sqlite-notes">
+<span id="id7"></span><h2>SQLite notes<a class="headerlink" href="#sqlite-notes" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.sqlite.org/">SQLite</a> provides an excellent development alternative for applications that
+are predominantly read-only or require a smaller installation footprint. As
+with all database servers, though, there are some differences that are
+specific to SQLite that you should be aware of.</p>
+<div class="section" id="substring-matching-and-case-sensitivity">
+<span id="sqlite-string-matching"></span><h3>Substring matching and case sensitivity<a class="headerlink" href="#substring-matching-and-case-sensitivity" title="Permalink to this headline">¶</a></h3>
+<p>For all SQLite versions, there is some slightly counter-intuitive behavior when
+attempting to match some types of strings.  These are triggered when using the
+<a class="reference internal" href="models/querysets.html#std:fieldlookup-iexact"><code class="xref std std-lookup docutils literal"><span class="pre">iexact</span></code></a> or <a class="reference internal" href="models/querysets.html#std:fieldlookup-contains"><code class="xref std std-lookup docutils literal"><span class="pre">contains</span></code></a> filters in Querysets. The behavior
+splits into two cases:</p>
+<p>1. For substring matching, all matches are done case-insensitively. That is a
+filter such as <code class="docutils literal"><span class="pre">filter(name__contains=&quot;aa&quot;)</span></code> will match a name of <code class="docutils literal"><span class="pre">&quot;Aabb&quot;</span></code>.</p>
+<p>2. For strings containing characters outside the ASCII range, all exact string
+matches are performed case-sensitively, even when the case-insensitive options
+are passed into the query. So the <a class="reference internal" href="models/querysets.html#std:fieldlookup-iexact"><code class="xref std std-lookup docutils literal"><span class="pre">iexact</span></code></a> filter will behave exactly
+the same as the <a class="reference internal" href="models/querysets.html#std:fieldlookup-exact"><code class="xref std std-lookup docutils literal"><span class="pre">exact</span></code></a> filter in these cases.</p>
+<p>Some possible workarounds for this are <a class="reference external" href="http://www.sqlite.org/faq.html#q18">documented at sqlite.org</a>, but they
+aren&#8217;t utilised by the default SQLite backend in Django, as incorporating them
+would be fairly difficult to do robustly. Thus, Django exposes the default
+SQLite behavior and you should be aware of this when doing case-insensitive or
+substring filtering.</p>
+</div>
+<div class="section" id="sqlite-3-3-6-or-newer-strongly-recommended">
+<h3>SQLite 3.3.6 or newer strongly recommended<a class="headerlink" href="#sqlite-3-3-6-or-newer-strongly-recommended" title="Permalink to this headline">¶</a></h3>
+<p>Versions of SQLite 3.3.5 and older contains the following bugs:</p>
+<ul class="simple">
+<li>A bug when <a class="reference external" href="http://www.sqlite.org/cvstrac/tktview?tn=1768">handling</a> <code class="docutils literal"><span class="pre">ORDER</span> <span class="pre">BY</span></code> parameters. This can cause problems when
+you use the <code class="docutils literal"><span class="pre">select</span></code> parameter for the <code class="docutils literal"><span class="pre">extra()</span></code> QuerySet method. The bug
+can be identified by the error message <code class="docutils literal"><span class="pre">OperationalError:</span> <span class="pre">ORDER</span> <span class="pre">BY</span> <span class="pre">terms</span>
+<span class="pre">must</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">non-integer</span> <span class="pre">constants</span></code>.</li>
+<li>A bug when handling <a class="reference external" href="https://code.djangoproject.com/ticket/10031">aggregation</a> together with DateFields and
+DecimalFields.</li>
+</ul>
+<p>SQLite 3.3.6 was released in April 2006, so most current binary distributions
+for different platforms include newer version of SQLite usable from Python
+through either the <code class="docutils literal"><span class="pre">pysqlite2</span></code> or the <code class="docutils literal"><span class="pre">sqlite3</span></code> modules.</p>
+</div>
+<div class="section" id="version-3-5-9">
+<h3>Version 3.5.9<a class="headerlink" href="#version-3-5-9" title="Permalink to this headline">¶</a></h3>
+<p>The Ubuntu &#8220;Intrepid Ibex&#8221; (8.10) SQLite 3.5.9-3 package contains a bug that
+causes problems with the evaluation of query expressions. If you are using
+Ubuntu &#8220;Intrepid Ibex&#8221;, you will need to update the package to version
+3.5.9-3ubuntu1 or newer (recommended) or find an alternate source for SQLite
+packages, or install SQLite from source.</p>
+<p>At one time, Debian Lenny shipped with the same malfunctioning SQLite 3.5.9-3
+package. However the Debian project has subsequently issued updated versions
+of the SQLite package that correct these bugs. If you find you are getting
+unexpected results under Debian, ensure you have updated your SQLite package
+to 3.5.9-5 or later.</p>
+<p>The problem does not appear to exist with other versions of SQLite packaged
+with other operating systems.</p>
+</div>
+<div class="section" id="version-3-6-2">
+<h3>Version 3.6.2<a class="headerlink" href="#version-3-6-2" title="Permalink to this headline">¶</a></h3>
+<p>SQLite version 3.6.2 (released August 30, 2008) introduced a bug into <code class="docutils literal"><span class="pre">SELECT</span>
+<span class="pre">DISTINCT</span></code> handling that is triggered by, amongst other things, Django&#8217;s
+<code class="docutils literal"><span class="pre">DateQuerySet</span></code> (returned by the <code class="docutils literal"><span class="pre">dates()</span></code> method on a queryset).</p>
+<p>You should avoid using this version of SQLite with Django. Either upgrade to
+3.6.3 (released September 22, 2008) or later, or downgrade to an earlier
+version of SQLite.</p>
+</div>
+<div class="section" id="using-newer-versions-of-the-sqlite-db-api-2-0-driver">
+<span id="using-newer-versions-of-pysqlite"></span><h3>Using newer versions of the SQLite DB-API 2.0 driver<a class="headerlink" href="#using-newer-versions-of-the-sqlite-db-api-2-0-driver" title="Permalink to this headline">¶</a></h3>
+<p>For versions of Python 2.5 or newer that include <code class="docutils literal"><span class="pre">sqlite3</span></code> in the standard
+library Django will now use a <code class="docutils literal"><span class="pre">pysqlite2</span></code> interface in preference to
+<code class="docutils literal"><span class="pre">sqlite3</span></code> if it finds one is available.</p>
+<p>This provides the ability to upgrade both the DB-API 2.0 interface or SQLite 3
+itself to versions newer than the ones included with your particular Python
+binary distribution, if needed.</p>
+</div>
+<div class="section" id="database-is-locked-errors">
+<h3>&#8220;Database is locked&#8221; errors<a class="headerlink" href="#database-is-locked-errors" title="Permalink to this headline">¶</a></h3>
+<p>SQLite is meant to be a lightweight database, and thus can&#8217;t support a high
+level of concurrency. <code class="docutils literal"><span class="pre">OperationalError:</span> <span class="pre">database</span> <span class="pre">is</span> <span class="pre">locked</span></code> errors indicate
+that your application is experiencing more concurrency than <code class="docutils literal"><span class="pre">sqlite</span></code> can
+handle in default configuration. This error means that one thread or process has
+an exclusive lock on the database connection and another thread timed out
+waiting for the lock the be released.</p>
+<p>Python&#8217;s SQLite wrapper has
+a default timeout value that determines how long the second thread is allowed to
+wait on the lock before it times out and raises the <code class="docutils literal"><span class="pre">OperationalError:</span> <span class="pre">database</span>
+<span class="pre">is</span> <span class="pre">locked</span></code> error.</p>
+<p>If you&#8217;re getting this error, you can solve it by:</p>
+<ul>
+<li><p class="first">Switching to another database backend. At a certain point SQLite becomes
+too &#8220;lite&#8221; for real-world applications, and these sorts of concurrency
+errors indicate you&#8217;ve reached that point.</p>
+</li>
+<li><p class="first">Rewriting your code to reduce concurrency and ensure that database
+transactions are short-lived.</p>
+</li>
+<li><p class="first">Increase the default timeout value by setting the <code class="docutils literal"><span class="pre">timeout</span></code> database
+option option:</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;OPTIONS&#39;: {
+    # ...
+    &#39;timeout&#39;: 20,
+    # ...
+}
+</pre></div>
+</div>
+<p>This will simply make SQLite wait a bit longer before throwing &#8220;database
+is locked&#8221; errors; it won&#8217;t really do anything to solve them.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="queryset-select-for-update-not-supported">
+<h3><code class="docutils literal"><span class="pre">QuerySet.select_for_update()</span></code> not supported<a class="headerlink" href="#queryset-select-for-update-not-supported" title="Permalink to this headline">¶</a></h3>
+<p>SQLite does not support the <code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">...</span> <span class="pre">FOR</span> <span class="pre">UPDATE</span></code> syntax. Calling it will
+have no effect.</p>
+</div>
+<div class="section" id="parameters-not-quoted-in-connection-queries">
+<span id="sqlite-connection-queries"></span><h3>Parameters not quoted in <code class="docutils literal"><span class="pre">connection.queries</span></code><a class="headerlink" href="#parameters-not-quoted-in-connection-queries" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">sqlite3</span></code> does not provide a way to retrieve the SQL after quoting and
+substituting the parameters. Instead, the SQL in <code class="docutils literal"><span class="pre">connection.queries</span></code> is
+rebuilt with a simple string interpolation. It may be incorrect. Make sure
+you add quotes where necessary before copying a query into a SQLite shell.</p>
+</div>
+</div>
+<div class="section" id="oracle-notes">
+<span id="id8"></span><h2>Oracle notes<a class="headerlink" href="#oracle-notes" title="Permalink to this headline">¶</a></h2>
+<p>Django supports <a class="reference external" href="http://www.oracle.com/">Oracle Database Server</a> versions 9i and
+higher. Oracle version 10g or later is required to use Django&#8217;s
+<code class="docutils literal"><span class="pre">regex</span></code> and <code class="docutils literal"><span class="pre">iregex</span></code> query operators. You will also need at least
+version 4.3.1 of the <a class="reference external" href="http://cx-oracle.sourceforge.net/">cx_Oracle</a> Python driver.</p>
+<p>Note that due to a Unicode-corruption bug in <code class="docutils literal"><span class="pre">cx_Oracle</span></code> 5.0, that
+version of the driver should <strong>not</strong> be used with Django;
+<code class="docutils literal"><span class="pre">cx_Oracle</span></code> 5.0.1 resolved this issue, so if you&#8217;d like to use a
+more recent <code class="docutils literal"><span class="pre">cx_Oracle</span></code>, use version 5.0.1.</p>
+<p><code class="docutils literal"><span class="pre">cx_Oracle</span></code> 5.0.1 or greater can optionally be compiled with the
+<code class="docutils literal"><span class="pre">WITH_UNICODE</span></code> environment variable.  This is recommended but not
+required.</p>
+<p>In order for the <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">syncdb</span></code> command to work, your Oracle
+database user must have privileges to run the following commands:</p>
+<ul class="simple">
+<li>CREATE TABLE</li>
+<li>CREATE SEQUENCE</li>
+<li>CREATE PROCEDURE</li>
+<li>CREATE TRIGGER</li>
+</ul>
+<p>To run Django&#8217;s test suite, the user needs these <em>additional</em> privileges:</p>
+<ul class="simple">
+<li>CREATE USER</li>
+<li>DROP USER</li>
+<li>CREATE TABLESPACE</li>
+<li>DROP TABLESPACE</li>
+<li>CONNECT WITH ADMIN OPTION</li>
+<li>RESOURCE WITH ADMIN OPTION</li>
+</ul>
+<div class="section" id="id9">
+<h3>Connecting to the database<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Your Django settings.py file should look something like this for Oracle:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.oracle&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;xe&#39;</span><span class="p">,</span>
+        <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;a_user&#39;</span><span class="p">,</span>
+        <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;a_password&#39;</span><span class="p">,</span>
+        <span class="s">&#39;HOST&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+        <span class="s">&#39;PORT&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you don&#8217;t use a <code class="docutils literal"><span class="pre">tnsnames.ora</span></code> file or a similar naming method that
+recognizes the SID (&#8220;xe&#8221; in this example), then fill in both
+<a class="reference internal" href="settings.html#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a> and <a class="reference internal" href="settings.html#std:setting-PORT"><code class="xref std std-setting docutils literal"><span class="pre">PORT</span></code></a> like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.oracle&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;xe&#39;</span><span class="p">,</span>
+        <span class="s">&#39;USER&#39;</span><span class="p">:</span> <span class="s">&#39;a_user&#39;</span><span class="p">,</span>
+        <span class="s">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s">&#39;a_password&#39;</span><span class="p">,</span>
+        <span class="s">&#39;HOST&#39;</span><span class="p">:</span> <span class="s">&#39;dbprod01ned.mycompany.com&#39;</span><span class="p">,</span>
+        <span class="s">&#39;PORT&#39;</span><span class="p">:</span> <span class="s">&#39;1540&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You should supply both <a class="reference internal" href="settings.html#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a> and <a class="reference internal" href="settings.html#std:setting-PORT"><code class="xref std std-setting docutils literal"><span class="pre">PORT</span></code></a>, or leave both
+as empty strings.</p>
+</div>
+<div class="section" id="threaded-option">
+<h3>Threaded option<a class="headerlink" href="#threaded-option" title="Permalink to this headline">¶</a></h3>
+<p>If you plan to run Django in a multithreaded environment (e.g. Apache in Windows
+using the default MPM module), then you <strong>must</strong> set the <code class="docutils literal"><span class="pre">threaded</span></code> option of
+your Oracle database configuration to True:</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;OPTIONS&#39;: {
+    &#39;threaded&#39;: True,
+},
+</pre></div>
+</div>
+<p>Failure to do this may result in crashes and other odd behavior.</p>
+</div>
+<div class="section" id="insert-returning-into">
+<h3>INSERT ... RETURNING INTO<a class="headerlink" href="#insert-returning-into" title="Permalink to this headline">¶</a></h3>
+<p>By default, the Oracle backend uses a <code class="docutils literal"><span class="pre">RETURNING</span> <span class="pre">INTO</span></code> clause to efficiently
+retrieve the value of an <code class="docutils literal"><span class="pre">AutoField</span></code> when inserting new rows.  This behavior
+may result in a <code class="docutils literal"><span class="pre">DatabaseError</span></code> in certain unusual setups, such as when
+inserting into a remote table, or into a view with an <code class="docutils literal"><span class="pre">INSTEAD</span> <span class="pre">OF</span></code> trigger.
+The <code class="docutils literal"><span class="pre">RETURNING</span> <span class="pre">INTO</span></code> clause can be disabled by setting the
+<code class="docutils literal"><span class="pre">use_returning_into</span></code> option of the database configuration to False:</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;OPTIONS&#39;: {
+    &#39;use_returning_into&#39;: False,
+},
+</pre></div>
+</div>
+<p>In this case, the Oracle backend will use a separate <code class="docutils literal"><span class="pre">SELECT</span></code> query to
+retrieve AutoField values.</p>
+</div>
+<div class="section" id="naming-issues">
+<h3>Naming issues<a class="headerlink" href="#naming-issues" title="Permalink to this headline">¶</a></h3>
+<p>Oracle imposes a name length limit of 30 characters. To accommodate this, the
+backend truncates database identifiers to fit, replacing the final four
+characters of the truncated name with a repeatable MD5 hash value.</p>
+<p>When running syncdb, an <code class="docutils literal"><span class="pre">ORA-06552</span></code> error may be encountered if
+certain Oracle keywords are used as the name of a model field or the
+value of a <code class="docutils literal"><span class="pre">db_column</span></code> option.  Django quotes all identifiers used
+in queries to prevent most such problems, but this error can still
+occur when an Oracle datatype is used as a column name.  In
+particular, take care to avoid using the names <code class="docutils literal"><span class="pre">date</span></code>,
+<code class="docutils literal"><span class="pre">timestamp</span></code>, <code class="docutils literal"><span class="pre">number</span></code> or <code class="docutils literal"><span class="pre">float</span></code> as a field name.</p>
+</div>
+<div class="section" id="null-and-empty-strings">
+<h3>NULL and empty strings<a class="headerlink" href="#null-and-empty-strings" title="Permalink to this headline">¶</a></h3>
+<p>Django generally prefers to use the empty string (&#8216;&#8217;) rather than
+NULL, but Oracle treats both identically. To get around this, the
+Oracle backend ignores an explicit <code class="docutils literal"><span class="pre">null</span></code> option on fields that
+have the empty string as a possible value and generates DDL as if
+<code class="docutils literal"><span class="pre">null=True</span></code>. When fetching from the database, it is assumed that
+a <code class="docutils literal"><span class="pre">NULL</span></code> value in one of these fields really means the empty
+string, and the data is silently converted to reflect this assumption.</p>
+</div>
+<div class="section" id="textfield-limitations">
+<h3><code class="docutils literal"><span class="pre">TextField</span></code> limitations<a class="headerlink" href="#textfield-limitations" title="Permalink to this headline">¶</a></h3>
+<p>The Oracle backend stores <code class="docutils literal"><span class="pre">TextFields</span></code> as <code class="docutils literal"><span class="pre">NCLOB</span></code> columns. Oracle imposes
+some limitations on the usage of such LOB columns in general:</p>
+<ul class="simple">
+<li>LOB columns may not be used as primary keys.</li>
+<li>LOB columns may not be used in indexes.</li>
+<li>LOB columns may not be used in a <code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">DISTINCT</span></code> list. This means that
+attempting to use the <code class="docutils literal"><span class="pre">QuerySet.distinct</span></code> method on a model that
+includes <code class="docutils literal"><span class="pre">TextField</span></code> columns will result in an error when run against
+Oracle. As a workaround, use the <code class="docutils literal"><span class="pre">QuerySet.defer</span></code> method in conjunction
+with <code class="docutils literal"><span class="pre">distinct()</span></code> to prevent <code class="docutils literal"><span class="pre">TextField</span></code> columns from being included in
+the <code class="docutils literal"><span class="pre">SELECT</span> <span class="pre">DISTINCT</span></code> list.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="using-a-3rd-party-database-backend">
+<span id="third-party-notes"></span><h2>Using a 3rd-party database backend<a class="headerlink" href="#using-a-3rd-party-database-backend" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the officially supported databases, there are backends provided
+by 3rd parties that allow you to use other databases with Django:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://code.google.com/p/sqlany-django/">Sybase SQL Anywhere</a></li>
+<li><a class="reference external" href="http://code.google.com/p/ibm-db/">IBM DB2</a></li>
+<li><a class="reference external" href="http://code.google.com/p/django-mssql/">Microsoft SQL Server 2005</a></li>
+<li><a class="reference external" href="http://code.google.com/p/django-firebird/">Firebird</a></li>
+<li><a class="reference external" href="http://code.google.com/p/django-pyodbc/">ODBC</a></li>
+<li><a class="reference external" href="http://code.google.com/p/adsdb-django/">ADSDB</a></li>
+</ul>
+<p>The Django versions and ORM features supported by these unofficial backends
+vary considerably. Queries regarding the specific capabilities of these
+unofficial backends, along with any support queries, should be directed to
+the support channels provided by each 3rd party project.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="django-admin.html" class="btn btn-neutral float-right" title="django-admin.py and manage.py" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="contrib/webdesign.html" class="btn btn-neutral" title="django.contrib.webdesign" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/databases.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+</html>

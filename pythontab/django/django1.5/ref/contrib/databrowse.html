@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/databrowse.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Databrowse &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Databrowse</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-databrowse">How to use Databrowse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#requiring-user-login">Requiring user login</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+    <li>Databrowse</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.databrowse">
+<span id="databrowse"></span><h1>Databrowse<a class="headerlink" href="#module-django.contrib.databrowse" title="Permalink to this headline">¶</a></h1>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.4: </span>This module has been deprecated.</p>
+</div>
+<p>Databrowse is a Django application that lets you browse your data.</p>
+<p>As the Django admin dynamically creates an admin interface by introspecting
+your models, Databrowse dynamically creates a rich, browsable Web site by
+introspecting your models.</p>
+<div class="section" id="how-to-use-databrowse">
+<h2>How to use Databrowse<a class="headerlink" href="#how-to-use-databrowse" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Point Django at the default Databrowse templates. There are two ways to
+do this:</p>
+<ul class="simple">
+<li>Add <code class="docutils literal"><span class="pre">'django.contrib.databrowse'</span></code> to your <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>
+setting. This will work if your <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_LOADERS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_LOADERS</span></code></a> setting
+includes the <code class="docutils literal"><span class="pre">app_directories</span></code> template loader (which is the case by
+default). See the <a class="reference internal" href="../templates/api.html#template-loaders"><span>template loader docs</span></a> for
+more.</li>
+<li>Otherwise, determine the full filesystem path to the
+<code class="file docutils literal"><span class="pre">django/contrib/databrowse/templates</span></code> directory, and add that
+directory to your <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a> setting.</li>
+</ul>
+</li>
+<li><p class="first">Register a number of models with the Databrowse site:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">databrowse</span>
+<span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">SomeModel</span><span class="p">,</span> <span class="n">SomeOtherModel</span><span class="p">,</span> <span class="n">YetAnotherModel</span>
+
+<span class="n">databrowse</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SomeModel</span><span class="p">)</span>
+<span class="n">databrowse</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SomeOtherModel</span><span class="p">,</span> <span class="n">YetAnotherModel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that you should register the model <em>classes</em>, not instances.</p>
+<div class="versionchanged">
+</div>
+<p>Since Django 1.4, it is possible to register several models in the same
+call to <code class="docutils literal"><span class="pre">databrowse.site.register()</span></code>.</p>
+<p>It doesn&#8217;t matter where you put this, as long as it gets executed at some
+point. A good place for it is in your <a class="reference internal" href="../../topics/http/urls.html"><em>URLconf file</em></a> (<code class="docutils literal"><span class="pre">urls.py</span></code>).</p>
+</li>
+<li><p class="first">Change your URLconf to import the <a class="reference internal" href="#module-django.contrib.databrowse" title="django.contrib.databrowse: Databrowse is a Django application that lets you browse your data."><code class="xref py py-mod docutils literal"><span class="pre">databrowse</span></code></a> module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">databrowse</span>
+</pre></div>
+</div>
+<p>...and add the following line to your URLconf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^databrowse/(.*)&#39;</span><span class="p">,</span> <span class="n">databrowse</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">root</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>The prefix doesn&#8217;t matter &#8211; you can use <code class="docutils literal"><span class="pre">databrowse/</span></code> or <code class="docutils literal"><span class="pre">db/</span></code> or
+whatever you&#8217;d like.</p>
+</li>
+<li><p class="first">Run the Django server and visit <code class="docutils literal"><span class="pre">/databrowse/</span></code> in your browser.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="requiring-user-login">
+<h2>Requiring user login<a class="headerlink" href="#requiring-user-login" title="Permalink to this headline">¶</a></h2>
+<p>You can restrict access to logged-in users with only a few extra lines of
+code. Simply add the following import to your URLconf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+</pre></div>
+</div>
+<p>Then modify the <a class="reference internal" href="../../topics/http/urls.html"><em>URLconf</em></a> so that the
+<code class="docutils literal"><span class="pre">databrowse.site.root()</span></code> view is decorated with
+<a class="reference internal" href="../../topics/auth/default.html#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.decorators.login_required()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^databrowse/(.*)&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">databrowse</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">root</span><span class="p">)),</span>
+</pre></div>
+</div>
+<p>If you haven&#8217;t already added support for user logins to your <a class="reference internal" href="../../topics/http/urls.html"><em>URLconf</em></a>, as described in the <a class="reference internal" href="auth.html"><em>user authentication docs</em></a>, then you will need to do so now with the following
+mapping:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^accounts/login/$&#39;</span><span class="p">,</span> <span class="s">&#39;django.contrib.auth.views.login&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>The final step is to create the login form required by
+<a class="reference internal" href="../../topics/auth/default.html#django.contrib.auth.views.login" title="django.contrib.auth.views.login"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.views.login()</span></code></a>. The
+<a class="reference internal" href="auth.html"><em>user authentication docs</em></a> provide full details and a
+sample template that can be used for this purpose.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="flatpages.html" class="btn btn-neutral float-right" title="The flatpages app" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="csrf.html" class="btn btn-neutral" title="Cross Site Request Forgery protection" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/databrowse.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>

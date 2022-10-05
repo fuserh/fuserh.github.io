@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/exceptions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django 异常 &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Django 异常</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-django.core.exceptions">Django 特定异常</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#objectdoesnotexist-doesnotexist">ObjectDoesNotExist 和 DoesNotExist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#multipleobjectsreturned">MultipleObjectsReturned</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#suspiciousoperation">SuspiciousOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#permissiondenied">PermissionDenied</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#viewdoesnotexist">ViewDoesNotExist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#middlewarenotused">MiddlewareNotUsed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#improperlyconfigured">ImproperlyConfigured</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fielderror">FieldError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validationerror">ValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#noreversematch">NoReverseMatch</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#database-exceptions">Database Exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#http-exceptions">Http Exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transaction-exceptions">Transaction Exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-exceptions">Python Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">API 参考</a> &raquo;</li>
+      
+    <li>Django 异常</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django">
+<h1>Django 异常<a class="headerlink" href="#django" title="Permalink to this headline">¶</a></h1>
+<p>Django 提供了一些 Django 特定的异常以及许多 Python 异常。</p>
+<div class="section" id="module-django.core.exceptions">
+<span id="id1"></span><h2>Django 特定异常<a class="headerlink" href="#module-django.core.exceptions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="objectdoesnotexist-doesnotexist">
+<h3>ObjectDoesNotExist 和 DoesNotExist<a class="headerlink" href="#objectdoesnotexist-doesnotexist" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#django.core.exceptions.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="django.core.exceptions.ObjectDoesNotExist">
+<em class="property">exception </em><code class="descname">ObjectDoesNotExist</code><a class="headerlink" href="#django.core.exceptions.ObjectDoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.DoesNotExist" title="django.core.exceptions.DoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">DoesNotExist</span></code></a> 当一个给定参数的查询未能发现对象时抛出该异常。</p>
+<p><a class="reference internal" href="#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ObjectDoesNotExist</span></code></a> 定义在 <a class="reference internal" href="#module-django.core.exceptions" title="django.core.exceptions: Django specific exceptions"><code class="xref py py-mod docutils literal"><span class="pre">django.core.exceptions</span></code></a> 中。
+<a class="reference internal" href="#django.core.exceptions.DoesNotExist" title="django.core.exceptions.DoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">DoesNotExist</span></code></a> 是基类 <a class="reference internal" href="#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ObjectDoesNotExist</span></code></a> 异常的子类，
+用于提供对每一个模型类作为一种识别对象未能发现的特定类型的一种方式。</p>
+<p>请查看 <a class="reference internal" href="models/querysets.html#django.db.models.query.QuerySet.get" title="django.db.models.query.QuerySet.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> 获取
+<a class="reference internal" href="#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ObjectDoesNotExist</span></code></a> 和 <a class="reference internal" href="#django.core.exceptions.DoesNotExist" title="django.core.exceptions.DoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">DoesNotExist</span></code></a> 的更多信息。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="multipleobjectsreturned">
+<h3>MultipleObjectsReturned<a class="headerlink" href="#multipleobjectsreturned" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#django.core.exceptions.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.MultipleObjectsReturned" title="django.core.exceptions.MultipleObjectsReturned"><code class="xref py py-exc docutils literal"><span class="pre">MultipleObjectsReturned</span></code></a> 当预期仅返回一个对象的查询确返回多个是抛出的异常。
+该异常的基础版本由 <a class="reference internal" href="#module-django.core.exceptions" title="django.core.exceptions: Django specific exceptions"><code class="xref py py-mod docutils literal"><span class="pre">django.core.exceptions</span></code></a> 提供；每个模型类都
+包含一个子类版本用于识别返回多个对象的特定对象类型。</p>
+<p>请查看 <a class="reference internal" href="models/querysets.html#django.db.models.query.QuerySet.get" title="django.db.models.query.QuerySet.get"><code class="xref py py-meth docutils literal"><span class="pre">get()</span></code></a> 获取更多信息。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="suspiciousoperation">
+<h3>SuspiciousOperation<a class="headerlink" href="#suspiciousoperation" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.SuspiciousOperation">
+<em class="property">exception </em><code class="descname">SuspiciousOperation</code><a class="headerlink" href="#django.core.exceptions.SuspiciousOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.SuspiciousOperation" title="django.core.exceptions.SuspiciousOperation"><code class="xref py py-exc docutils literal"><span class="pre">SuspiciousOperation</span></code></a> 当用户执行的操作，从安全的角度来看被视为可疑时抛出的异常，例如篡改一个会话 cookie 。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="permissiondenied">
+<h3>PermissionDenied<a class="headerlink" href="#permissiondenied" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.PermissionDenied">
+<em class="property">exception </em><code class="descname">PermissionDenied</code><a class="headerlink" href="#django.core.exceptions.PermissionDenied" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.PermissionDenied" title="django.core.exceptions.PermissionDenied"><code class="xref py py-exc docutils literal"><span class="pre">PermissionDenied</span></code></a> 当用户没有权限来执行所请求的操作时抛出的异常。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="viewdoesnotexist">
+<h3>ViewDoesNotExist<a class="headerlink" href="#viewdoesnotexist" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.ViewDoesNotExist">
+<em class="property">exception </em><code class="descname">ViewDoesNotExist</code><a class="headerlink" href="#django.core.exceptions.ViewDoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.ViewDoesNotExist" title="django.core.exceptions.ViewDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">ViewDoesNotExist</span></code></a> 当一个请求的视图不存在时由
+<a class="reference internal" href="urlresolvers.html#module-django.core.urlresolvers" title="django.core.urlresolvers"><code class="xref py py-mod docutils literal"><span class="pre">django.core.urlresolvers</span></code></a> 抛出的异常。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="middlewarenotused">
+<h3>MiddlewareNotUsed<a class="headerlink" href="#middlewarenotused" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.MiddlewareNotUsed">
+<em class="property">exception </em><code class="descname">MiddlewareNotUsed</code><a class="headerlink" href="#django.core.exceptions.MiddlewareNotUsed" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.MiddlewareNotUsed" title="django.core.exceptions.MiddlewareNotUsed"><code class="xref py py-exc docutils literal"><span class="pre">MiddlewareNotUsed</span></code></a> 当一个中间件在当前服务器配置中不能使用时抛出的异常。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="improperlyconfigured">
+<h3>ImproperlyConfigured<a class="headerlink" href="#improperlyconfigured" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.ImproperlyConfigured">
+<em class="property">exception </em><code class="descname">ImproperlyConfigured</code><a class="headerlink" href="#django.core.exceptions.ImproperlyConfigured" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.ImproperlyConfigured" title="django.core.exceptions.ImproperlyConfigured"><code class="xref py py-exc docutils literal"><span class="pre">ImproperlyConfigured</span></code></a> 当 Django 的某种配置错误时抛出的异常
+&#8211; 例如 <code class="docutils literal"><span class="pre">settings.py</span></code> 中的值错误或不可解析。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="fielderror">
+<h3>FieldError<a class="headerlink" href="#fielderror" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.FieldError">
+<em class="property">exception </em><code class="descname">FieldError</code><a class="headerlink" href="#django.core.exceptions.FieldError" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#django.core.exceptions.FieldError" title="django.core.exceptions.FieldError"><code class="xref py py-exc docutils literal"><span class="pre">FieldError</span></code></a> 当一个模型字段有问题是抛出的异常。
+发生这种情况的原因有几个：</p>
+<ul class="simple">
+<li>模型类中的字段名与抽象基类中的字段名相同而发生冲突</li>
+<li>一个由排序造成的无限循环</li>
+<li>一个关键字不能从过滤参数解析</li>
+<li>A field cannot be determined from a keyword in the query
+parameters</li>
+<li>A join is not permitted on the specified field</li>
+<li>字段名无效</li>
+<li>一个查询包含无效排序参数</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="validationerror">
+<h3>ValidationError<a class="headerlink" href="#validationerror" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.exceptions.ValidationError">
+<em class="property">exception </em><code class="descname">ValidationError</code><a class="headerlink" href="#django.core.exceptions.ValidationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#django.core.exceptions.ValidationError" title="django.core.exceptions.ValidationError"><code class="xref py py-exc docutils literal"><span class="pre">ValidationError</span></code></a> exception is raised when data fails form or
+model field validation. For more information about validation, see
+<a class="reference internal" href="forms/validation.html"><em>Form and Field Validation</em></a>,
+<a class="reference internal" href="models/instances.html#validating-objects"><span>Model Field Validation</span></a> and the
+<a class="reference internal" href="validators.html"><em>Validator Reference</em></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="noreversematch">
+<h3>NoReverseMatch<a class="headerlink" href="#noreversematch" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="django.core.urlresolvers.NoReverseMatch">
+<em class="property">exception </em><code class="descname">NoReverseMatch</code><a class="headerlink" href="#django.core.urlresolvers.NoReverseMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#django.core.urlresolvers.NoReverseMatch" title="django.core.urlresolvers.NoReverseMatch"><code class="xref py py-exc docutils literal"><span class="pre">NoReverseMatch</span></code></a> exception is raised by
+<a class="reference internal" href="urlresolvers.html#module-django.core.urlresolvers" title="django.core.urlresolvers"><code class="xref py py-mod docutils literal"><span class="pre">django.core.urlresolvers</span></code></a> when a matching URL in your URLconf
+cannot be identified based on the parameters supplied.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="database-exceptions">
+<h2>Database Exceptions<a class="headerlink" href="#database-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Django wraps the standard database exceptions <a class="reference internal" href="#django.db.DatabaseError" title="django.db.DatabaseError"><code class="xref py py-exc docutils literal"><span class="pre">DatabaseError</span></code></a> and
+<a class="reference internal" href="#django.db.IntegrityError" title="django.db.IntegrityError"><code class="xref py py-exc docutils literal"><span class="pre">IntegrityError</span></code></a> so that your Django code has a guaranteed common
+implementation of these classes. These database exceptions are
+provided in <a class="reference internal" href="../topics/db/index.html#module-django.db" title="django.db"><code class="xref py py-mod docutils literal"><span class="pre">django.db</span></code></a>.</p>
+<dl class="exception">
+<dt id="django.db.DatabaseError">
+<em class="property">exception </em><code class="descname">DatabaseError</code><a class="headerlink" href="#django.db.DatabaseError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="django.db.IntegrityError">
+<em class="property">exception </em><code class="descname">IntegrityError</code><a class="headerlink" href="#django.db.IntegrityError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The Django wrappers for database exceptions behave exactly the same as
+the underlying database exceptions. See <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0249"><strong>PEP 249</strong></a>, the Python Database API
+Specification v2.0, for further information.</p>
+<dl class="exception">
+<dt id="django.db.models.ProtectedError">
+<em class="property">exception </em><code class="descclassname">models.</code><code class="descname">ProtectedError</code><a class="headerlink" href="#django.db.models.ProtectedError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Raised to prevent deletion of referenced objects when using
+<a class="reference internal" href="models/fields.html#django.db.models.PROTECT" title="django.db.models.PROTECT"><code class="xref py py-attr docutils literal"><span class="pre">django.db.models.PROTECT</span></code></a>. Subclass of <a class="reference internal" href="#django.db.IntegrityError" title="django.db.IntegrityError"><code class="xref py py-exc docutils literal"><span class="pre">IntegrityError</span></code></a>.</p>
+</div>
+<div class="section" id="http-exceptions">
+<h2>Http Exceptions<a class="headerlink" href="#http-exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="django.http.UnreadablePostError">
+<em class="property">exception </em><code class="descname">UnreadablePostError</code><a class="headerlink" href="#django.http.UnreadablePostError" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#django.http.UnreadablePostError" title="django.http.UnreadablePostError"><code class="xref py py-exc docutils literal"><span class="pre">UnreadablePostError</span></code></a> is raised when a user cancels an upload.
+It is available from <a class="reference internal" href="request-response.html#module-django.http" title="django.http: Classes dealing with HTTP requests and responses."><code class="xref py py-mod docutils literal"><span class="pre">django.http</span></code></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="transaction-exceptions">
+<h2>Transaction Exceptions<a class="headerlink" href="#transaction-exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="django.db.transaction.TransactionManagementError">
+<em class="property">exception </em><code class="descname">TransactionManagementError</code><a class="headerlink" href="#django.db.transaction.TransactionManagementError" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#django.db.transaction.TransactionManagementError" title="django.db.transaction.TransactionManagementError"><code class="xref py py-exc docutils literal"><span class="pre">TransactionManagementError</span></code></a> is raised for any and all problems
+related to database transactions. It is available from
+<a class="reference internal" href="../topics/db/transactions.html#module-django.db.transaction" title="django.db.transaction"><code class="xref py py-mod docutils literal"><span class="pre">django.db.transaction</span></code></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="python-exceptions">
+<h2>Python Exceptions<a class="headerlink" href="#python-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Django raises built-in Python exceptions when appropriate as well. See the
+Python documentation for further information on the
+built-in <a class="reference external" href="http://docs.python.org/2.7/library/exceptions.html#module-exceptions" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">exceptions</span></code></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="files/index.html" class="btn btn-neutral float-right" title="File handling" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="django-admin.html" class="btn btn-neutral" title="django-admin.py and manage.py" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/exceptions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+</html>

@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/forms/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Widgets &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Forms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api.html">The Forms API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fields.html">Form fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Model Form Functions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Widgets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#specifying-widgets">Specifying widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-arguments-for-widgets">Setting arguments for widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#widgets-inheriting-from-the-select-widget">Widgets inheriting from the Select widget</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#customizing-widget-instances">Customizing widget instances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#base-widget-classes">Base Widget classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#built-in-widgets">Built-in widgets</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html">Form and field validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html">Forms</a> &raquo;</li>
+      
+    <li>Widgets</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.forms.widgets">
+<span id="widgets"></span><h1>Widgets<a class="headerlink" href="#module-django.forms.widgets" title="Permalink to this headline">¶</a></h1>
+<p>A widget is Django&#8217;s representation of a HTML input element. The widget
+handles the rendering of the HTML, and the extraction of data from a GET/POST
+dictionary that corresponds to the widget.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Widgets should not be confused with the <a class="reference internal" href="fields.html"><em>form fields</em></a>.
+Form fields deal with the logic of input validation and are used directly
+in templates. Widgets deal with rendering of HTML form input elements on
+the web page and extraction of raw submitted data. However, widgets do
+need to be <a class="reference internal" href="#widget-to-field"><span>assigned</span></a> to form fields.</p>
+</div>
+<div class="section" id="specifying-widgets">
+<span id="widget-to-field"></span><h2>Specifying widgets<a class="headerlink" href="#specifying-widgets" title="Permalink to this headline">¶</a></h2>
+<p>Whenever you specify a field on a form, Django will use a default widget
+that is appropriate to the type of data that is to be displayed. To find
+which widget is used on which field, see the documentation about
+<a class="reference internal" href="fields.html#built-in-fields"><span>Built-in Field classes</span></a>.</p>
+<p>However, if you want to use a different widget for a field, you can
+just use the <a class="reference internal" href="fields.html#django.forms.Field.widget" title="django.forms.Field.widget"><code class="xref py py-attr docutils literal"><span class="pre">widget</span></code></a> argument on the field definition. For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+
+<span class="k">class</span> <span class="nc">CommentForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">()</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would specify a form with a comment that uses a larger <a class="reference internal" href="#django.forms.Textarea" title="django.forms.Textarea"><code class="xref py py-class docutils literal"><span class="pre">Textarea</span></code></a>
+widget, rather than the default <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a> widget.</p>
+</div>
+<div class="section" id="setting-arguments-for-widgets">
+<h2>Setting arguments for widgets<a class="headerlink" href="#setting-arguments-for-widgets" title="Permalink to this headline">¶</a></h2>
+<p>Many widgets have optional extra arguments; they can be set when defining the
+widget on the field. In the following example, the
+<a class="reference internal" href="#django.forms.extras.widgets.SelectDateWidget.years" title="django.forms.extras.widgets.SelectDateWidget.years"><code class="xref py py-attr docutils literal"><span class="pre">years</span></code></a> attribute is set
+for a <a class="reference internal" href="#django.forms.extras.widgets.SelectDateWidget" title="django.forms.extras.widgets.SelectDateWidget"><code class="xref py py-class docutils literal"><span class="pre">SelectDateWidget</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.forms.fields</span> <span class="kn">import</span> <span class="n">DateField</span><span class="p">,</span> <span class="n">ChoiceField</span><span class="p">,</span> <span class="n">MultipleChoiceField</span>
+<span class="kn">from</span> <span class="nn">django.forms.widgets</span> <span class="kn">import</span> <span class="n">RadioSelect</span><span class="p">,</span> <span class="n">CheckboxSelectMultiple</span>
+<span class="kn">from</span> <span class="nn">django.forms.extras.widgets</span> <span class="kn">import</span> <span class="n">SelectDateWidget</span>
+
+<span class="n">BIRTH_YEAR_CHOICES</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;1980&#39;</span><span class="p">,</span> <span class="s">&#39;1981&#39;</span><span class="p">,</span> <span class="s">&#39;1982&#39;</span><span class="p">)</span>
+<span class="n">FAVORITE_COLORS_CHOICES</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="s">&#39;Blue&#39;</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s">&#39;green&#39;</span><span class="p">,</span> <span class="s">&#39;Green&#39;</span><span class="p">),</span>
+                            <span class="p">(</span><span class="s">&#39;black&#39;</span><span class="p">,</span> <span class="s">&#39;Black&#39;</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">SimpleForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">birth_year</span> <span class="o">=</span> <span class="n">DateField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">SelectDateWidget</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="n">BIRTH_YEAR_CHOICES</span><span class="p">))</span>
+    <span class="n">favorite_colors</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">MultipleChoiceField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">CheckboxSelectMultiple</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">FAVORITE_COLORS_CHOICES</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="#built-in-widgets"><span>Built-in widgets</span></a> for more information about which widgets
+are available and which arguments they accept.</p>
+</div>
+<div class="section" id="widgets-inheriting-from-the-select-widget">
+<h2>Widgets inheriting from the Select widget<a class="headerlink" href="#widgets-inheriting-from-the-select-widget" title="Permalink to this headline">¶</a></h2>
+<p>Widgets inheriting from the <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a> widget deal with choices. They
+present the user with a list of options to choose from. The different widgets
+present this choice differently; the <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a> widget itself uses a
+<code class="docutils literal"><span class="pre">&lt;select&gt;</span></code> HTML list representation, while <a class="reference internal" href="#django.forms.RadioSelect" title="django.forms.RadioSelect"><code class="xref py py-class docutils literal"><span class="pre">RadioSelect</span></code></a> uses radio
+buttons.</p>
+<p><a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a> widgets are used by default on <a class="reference internal" href="fields.html#django.forms.ChoiceField" title="django.forms.ChoiceField"><code class="xref py py-class docutils literal"><span class="pre">ChoiceField</span></code></a> fields. The
+choices displayed on the widget are inherited from the <a class="reference internal" href="fields.html#django.forms.ChoiceField" title="django.forms.ChoiceField"><code class="xref py py-class docutils literal"><span class="pre">ChoiceField</span></code></a> and
+changing <a class="reference internal" href="fields.html#django.forms.ChoiceField.choices" title="django.forms.ChoiceField.choices"><code class="xref py py-attr docutils literal"><span class="pre">ChoiceField.choices</span></code></a> will update <a class="reference internal" href="#django.forms.Select.choices" title="django.forms.Select.choices"><code class="xref py py-attr docutils literal"><span class="pre">Select.choices</span></code></a>. For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CHOICES</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;First&#39;</span><span class="p">,),</span> <span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="s">&#39;Second&#39;</span><span class="p">,))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">ChoiceField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">CHOICES</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span><span class="o">.</span><span class="n">choices</span>
+<span class="go">[(&#39;1&#39;, &#39;First&#39;), (&#39;2&#39;, &#39;Second&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">choices</span>
+<span class="go">[(&#39;1&#39;, &#39;First&#39;), (&#39;2&#39;, &#39;Second&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span><span class="o">.</span><span class="n">choices</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;First and only&#39;</span><span class="p">,),)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">choice_field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">choices</span>
+<span class="go">[(&#39;1&#39;, &#39;First and only&#39;)]</span>
+</pre></div>
+</div>
+<p>Widgets which offer a <a class="reference internal" href="#django.forms.Select.choices" title="django.forms.Select.choices"><code class="xref py py-attr docutils literal"><span class="pre">choices</span></code></a> attribute can however be used
+with fields which are not based on choice &#8211; such as a <a class="reference internal" href="fields.html#django.forms.CharField" title="django.forms.CharField"><code class="xref py py-class docutils literal"><span class="pre">CharField</span></code></a> &#8211;
+but it is recommended to use a <a class="reference internal" href="fields.html#django.forms.ChoiceField" title="django.forms.ChoiceField"><code class="xref py py-class docutils literal"><span class="pre">ChoiceField</span></code></a>-based field when the
+choices are inherent to the model and not just the representational widget.</p>
+</div>
+<div class="section" id="customizing-widget-instances">
+<h2>Customizing widget instances<a class="headerlink" href="#customizing-widget-instances" title="Permalink to this headline">¶</a></h2>
+<p>When Django renders a widget as HTML, it only renders very minimal markup -
+Django doesn&#8217;t add class names, or any other widget-specific attributes. This
+means, for example, that all <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a> widgets will appear the same
+on your Web pages.</p>
+<p>There are two ways to customize widgets: <a class="reference internal" href="#styling-widget-instances"><span>per widget instance</span></a> and <a class="reference internal" href="#styling-widget-classes"><span>per widget class</span></a>.</p>
+<div class="section" id="styling-widget-instances">
+<span id="id1"></span><h3>Styling widget instances<a class="headerlink" href="#styling-widget-instances" title="Permalink to this headline">¶</a></h3>
+<p>If you want to make one widget instance look different from another, you will
+need to specify additional attributes at the time when the widget object is
+instantiated and assigned to a form field (and perhaps add some rules to your
+CSS files).</p>
+<p>For example, take the following simple form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+
+<span class="k">class</span> <span class="nc">CommentForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">()</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This form will include three default <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a> widgets, with default
+rendering &#8211; no CSS class, no extra attributes. This means that the input boxes
+provided for each widget will be rendered exactly the same:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">auto_id</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">as_table</span><span class="p">()</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Name:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Url:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;url&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Comment:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;comment&quot; /&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+</pre></div>
+</div>
+<p>On a real Web page, you probably don&#8217;t want every widget to look the same. You
+might want a larger input element for the comment, and you might want the
+&#8216;name&#8217; widget to have some special CSS class. It is also possible to specify
+the &#8216;type&#8217; attribute to take advantage of the new HTML5 input types.  To do
+this, you use the <a class="reference internal" href="#django.forms.Widget.attrs" title="django.forms.Widget.attrs"><code class="xref py py-attr docutils literal"><span class="pre">Widget.attrs</span></code></a> argument when creating the widget:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CommentForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+                <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span><span class="p">:</span><span class="s">&#39;special&#39;</span><span class="p">}))</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">()</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+               <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;size&#39;</span><span class="p">:</span><span class="s">&#39;40&#39;</span><span class="p">}))</span>
+</pre></div>
+</div>
+<p>Django will then include the extra attributes in the rendered output:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">CommentForm</span><span class="p">(</span><span class="n">auto_id</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">as_table</span><span class="p">()</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Name:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; class=&quot;special&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Url:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;url&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Comment:&lt;/th&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;comment&quot; size=&quot;40&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="styling-widget-classes">
+<span id="id2"></span><h3>Styling widget classes<a class="headerlink" href="#styling-widget-classes" title="Permalink to this headline">¶</a></h3>
+<p>With widgets, it is possible to add media (<code class="docutils literal"><span class="pre">css</span></code> and <code class="docutils literal"><span class="pre">javascript</span></code>)
+and more deeply customize their appearance and behavior.</p>
+<p>In a nutshell, you will need to subclass the widget and either
+<a class="reference internal" href="../../topics/forms/media.html#media-as-a-static-definition"><span>define a class &#8220;Media&#8221;</span></a> as a member of the
+subclass, or <a class="reference internal" href="../../topics/forms/media.html#dynamic-property"><span>create a property &#8220;media&#8221;</span></a>, returning an
+instance of that class.</p>
+<p>These methods involve somewhat advanced Python programming and are described in
+detail in the <a class="reference internal" href="../../topics/forms/media.html"><em>Form Media</em></a> topic guide.</p>
+</div>
+</div>
+<div class="section" id="base-widget-classes">
+<span id="id3"></span><h2>Base Widget classes<a class="headerlink" href="#base-widget-classes" title="Permalink to this headline">¶</a></h2>
+<p>Base widget classes <a class="reference internal" href="#django.forms.Widget" title="django.forms.Widget"><code class="xref py py-class docutils literal"><span class="pre">Widget</span></code></a> and <a class="reference internal" href="#django.forms.MultiWidget" title="django.forms.MultiWidget"><code class="xref py py-class docutils literal"><span class="pre">MultiWidget</span></code></a> are subclassed by
+all the <a class="reference internal" href="#built-in-widgets"><span>built-in widgets</span></a> and may serve as a
+foundation for custom widgets.</p>
+<dl class="class">
+<dt id="django.forms.Widget">
+<em class="property">class </em><code class="descname">Widget</code><span class="sig-paren">(</span><em>attrs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.Widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>This abstract class cannot be rendered, but provides the basic attribute
+<a class="reference internal" href="#django.forms.Widget.attrs" title="django.forms.Widget.attrs"><code class="xref py py-attr docutils literal"><span class="pre">attrs</span></code></a>.  You may also implement or override the
+<a class="reference internal" href="#django.forms.Widget.render" title="django.forms.Widget.render"><code class="xref py py-meth docutils literal"><span class="pre">render()</span></code></a> method on custom widgets.</p>
+<dl class="attribute">
+<dt id="django.forms.Widget.attrs">
+<code class="descname">attrs</code><a class="headerlink" href="#django.forms.Widget.attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary containing HTML attributes to be set on the rendered
+widget.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="s">&#39;Your name&#39;</span><span class="p">,})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;A name&#39;</span><span class="p">)</span>
+<span class="go">u&#39;&lt;input title=&quot;Your name&quot; type=&quot;text&quot; name=&quot;name&quot; value=&quot;A name&quot; size=&quot;10&quot; /&gt;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.forms.Widget.render">
+<code class="descname">render</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>attrs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.Widget.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns HTML for the widget, as a Unicode string. This method must be
+implemented by the subclass, otherwise <code class="docutils literal"><span class="pre">NotImplementedError</span></code> will be
+raised.</p>
+<p>The &#8216;value&#8217; given is not guaranteed to be valid input, therefore
+subclass implementations should program defensively.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.forms.Widget.value_from_datadict">
+<code class="descname">value_from_datadict</code><span class="sig-paren">(</span><em>self</em>, <em>data</em>, <em>files</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.Widget.value_from_datadict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a dictionary of data and this widget&#8217;s name, returns the value
+of this widget. Returns <code class="docutils literal"><span class="pre">None</span></code> if a value wasn&#8217;t provided.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="django.forms.MultiWidget">
+<em class="property">class </em><code class="descname">MultiWidget</code><span class="sig-paren">(</span><em>widgets</em>, <em>attrs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.MultiWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>A widget that is composed of multiple widgets.
+<a class="reference internal" href="#django.forms.MultiWidget" title="django.forms.MultiWidget"><code class="xref py py-class docutils literal"><span class="pre">MultiWidget</span></code></a> works hand in hand with the
+<a class="reference internal" href="fields.html#django.forms.MultiValueField" title="django.forms.MultiValueField"><code class="xref py py-class docutils literal"><span class="pre">MultiValueField</span></code></a>.</p>
+<p><a class="reference internal" href="#django.forms.MultiWidget" title="django.forms.MultiWidget"><code class="xref py py-class docutils literal"><span class="pre">MultiWidget</span></code></a> has one required argument:</p>
+<dl class="attribute">
+<dt id="django.forms.MultiWidget.widgets">
+<code class="descname">widgets</code><a class="headerlink" href="#django.forms.MultiWidget.widgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>An iterable containing the widgets needed.</p>
+</dd></dl>
+
+<p>And one required method:</p>
+<dl class="method">
+<dt id="django.forms.MultiWidget.decompress">
+<code class="descname">decompress</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.MultiWidget.decompress" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method takes a single &#8220;compressed&#8221; value from the field and
+returns a list of &#8220;decompressed&#8221; values. The input value can be
+assumed valid, but not necessarily non-empty.</p>
+<p>This method <strong>must be implemented</strong> by the subclass, and since the
+value may be empty, the implementation must be defensive.</p>
+<p>The rationale behind &#8220;decompression&#8221; is that it is necessary to &#8220;split&#8221;
+the combined value of the form field into the values for each widget.</p>
+<p>An example of this is how <a class="reference internal" href="#django.forms.SplitDateTimeWidget" title="django.forms.SplitDateTimeWidget"><code class="xref py py-class docutils literal"><span class="pre">SplitDateTimeWidget</span></code></a> turns a
+<a class="reference external" href="http://docs.python.org/2.7/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">datetime</span></code></a> value into a list with date and time split
+into two separate values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SplitDateTimeWidget</span><span class="p">(</span><span class="n">MultiWidget</span><span class="p">):</span>
+
+    <span class="c"># ...</span>
+
+    <span class="k">def</span> <span class="nf">decompress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">value</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Note that <a class="reference internal" href="fields.html#django.forms.MultiValueField" title="django.forms.MultiValueField"><code class="xref py py-class docutils literal"><span class="pre">MultiValueField</span></code></a> has a
+complementary method <a class="reference internal" href="fields.html#django.forms.MultiValueField.compress" title="django.forms.MultiValueField.compress"><code class="xref py py-meth docutils literal"><span class="pre">compress()</span></code></a>
+with the opposite responsibility - to combine cleaned values of
+all member fields into one.</p>
+</div>
+</dd></dl>
+
+<p>Other methods that may be useful to override include:</p>
+<dl class="method">
+<dt id="django.forms.MultiWidget.render">
+<code class="descname">render</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>attrs=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.MultiWidget.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Argument <code class="docutils literal"><span class="pre">value</span></code> is handled differently in this method from the
+subclasses of <a class="reference internal" href="#django.forms.Widget" title="django.forms.Widget"><code class="xref py py-class docutils literal"><span class="pre">Widget</span></code></a> because it has to figure out how to
+split a single value for display in multiple widgets.</p>
+<p>The <code class="docutils literal"><span class="pre">value</span></code> argument used when rendering can be one of two things:</p>
+<ul class="simple">
+<li>A <code class="docutils literal"><span class="pre">list</span></code>.</li>
+<li>A single value (e.g., a string) that is the &#8220;compressed&#8221; representation
+of a <code class="docutils literal"><span class="pre">list</span></code> of values.</li>
+</ul>
+<p>If <code class="docutils literal"><span class="pre">value</span></code> is a list, the output of <a class="reference internal" href="#django.forms.MultiWidget.render" title="django.forms.MultiWidget.render"><code class="xref py py-meth docutils literal"><span class="pre">render()</span></code></a> will
+be a concatenation of rendered child widgets. If <code class="docutils literal"><span class="pre">value</span></code> is not a
+list, it will first be processed by the method
+<a class="reference internal" href="#django.forms.MultiWidget.decompress" title="django.forms.MultiWidget.decompress"><code class="xref py py-meth docutils literal"><span class="pre">decompress()</span></code></a> to create the list and then rendered.</p>
+<p>When <code class="docutils literal"><span class="pre">render()</span></code> executes its HTML rendering, each value in the list
+is rendered with the corresponding widget &#8211; the first value is
+rendered in the first widget, the second value is rendered in the
+second widget, etc.</p>
+<p>Unlike in the single value widgets, method <a class="reference internal" href="#django.forms.MultiWidget.render" title="django.forms.MultiWidget.render"><code class="xref py py-meth docutils literal"><span class="pre">render()</span></code></a>
+need not be implemented in the subclasses.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.forms.MultiWidget.format_output">
+<code class="descname">format_output</code><span class="sig-paren">(</span><em>rendered_widgets</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.MultiWidget.format_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of rendered widgets (as strings), returns a Unicode string
+representing the HTML for the whole lot.</p>
+<p>This hook allows you to format the HTML design of the widgets any way
+you&#8217;d like.</p>
+</dd></dl>
+
+<p>Here&#8217;s an example widget which subclasses <a class="reference internal" href="#django.forms.MultiWidget" title="django.forms.MultiWidget"><code class="xref py py-class docutils literal"><span class="pre">MultiWidget</span></code></a> to display
+a date with the day, month, and year in different select boxes. This widget
+is intended to be used with a <a class="reference internal" href="fields.html#django.forms.DateField" title="django.forms.DateField"><code class="xref py py-class docutils literal"><span class="pre">DateField</span></code></a> rather than
+a <a class="reference internal" href="fields.html#django.forms.MultiValueField" title="django.forms.MultiValueField"><code class="xref py py-class docutils literal"><span class="pre">MultiValueField</span></code></a>, thus we have implemented
+<a class="reference internal" href="#django.forms.Widget.value_from_datadict" title="django.forms.Widget.value_from_datadict"><code class="xref py py-meth docutils literal"><span class="pre">value_from_datadict()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">django.forms</span> <span class="kn">import</span> <span class="n">widgets</span>
+
+<span class="k">class</span> <span class="nc">DateSelectorWidget</span><span class="p">(</span><span class="n">widgets</span><span class="o">.</span><span class="n">MultiWidget</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># create choices for days, months, years</span>
+        <span class="c"># example below, the rest snipped for brevity.</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="p">[(</span><span class="n">year</span><span class="p">,</span> <span class="n">year</span><span class="p">)</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2011</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2013</span><span class="p">)]</span>
+        <span class="n">_widgets</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">widgets</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">days</span><span class="p">),</span>
+            <span class="n">widgets</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">months</span><span class="p">),</span>
+            <span class="n">widgets</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">years</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DateSelectorWidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">_widgets</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">decompress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">year</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">format_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rendered_widgets</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rendered_widgets</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">value_from_datadict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">datelist</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">value_from_datadict</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;_</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">widget</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widgets</span><span class="p">)]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">datelist</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">month</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">datelist</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                    <span class="n">year</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">datelist</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The constructor creates several <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a> widgets in a tuple. The
+<code class="docutils literal"><span class="pre">super</span></code> class uses this tuple to setup the widget.</p>
+<p>The <a class="reference internal" href="#django.forms.MultiWidget.format_output" title="django.forms.MultiWidget.format_output"><code class="xref py py-meth docutils literal"><span class="pre">format_output()</span></code></a> method is fairly vanilla here (in
+fact, it&#8217;s the same as what&#8217;s been implemented as the default for
+<code class="docutils literal"><span class="pre">MultiWidget</span></code>), but the idea is that you could add custom HTML between
+the widgets should you wish.</p>
+<p>The required method <a class="reference internal" href="#django.forms.MultiWidget.decompress" title="django.forms.MultiWidget.decompress"><code class="xref py py-meth docutils literal"><span class="pre">decompress()</span></code></a> breaks up a
+<code class="docutils literal"><span class="pre">datetime.date</span></code> value into the day, month, and year values corresponding
+to each widget. Note how the method handles the case where <code class="docutils literal"><span class="pre">value</span></code> is
+<code class="docutils literal"><span class="pre">None</span></code>.</p>
+<p>The default implementation of <a class="reference internal" href="#django.forms.Widget.value_from_datadict" title="django.forms.Widget.value_from_datadict"><code class="xref py py-meth docutils literal"><span class="pre">value_from_datadict()</span></code></a> returns
+a list of values corresponding to each <code class="docutils literal"><span class="pre">Widget</span></code>.  This is appropriate
+when using a <code class="docutils literal"><span class="pre">MultiWidget</span></code> with a <a class="reference internal" href="fields.html#django.forms.MultiValueField" title="django.forms.MultiValueField"><code class="xref py py-class docutils literal"><span class="pre">MultiValueField</span></code></a>,
+but since we want to use this widget with a <a class="reference internal" href="fields.html#django.forms.DateField" title="django.forms.DateField"><code class="xref py py-class docutils literal"><span class="pre">DateField</span></code></a>
+which takes a single value, we have overridden this method to combine the
+data of all the subwidgets into a <code class="docutils literal"><span class="pre">datetime.date</span></code>. The method extracts
+data from the <code class="docutils literal"><span class="pre">POST</span></code> dictionary and constructs and validates the date.
+If it is valid, we return the string, otherwise, we return an empty string
+which will cause <code class="docutils literal"><span class="pre">form.is_valid</span></code> to return <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="built-in-widgets">
+<span id="id4"></span><h2>Built-in widgets<a class="headerlink" href="#built-in-widgets" title="Permalink to this headline">¶</a></h2>
+<p>Django provides a representation of all the basic HTML widgets, plus some
+commonly used groups of widgets in the <code class="docutils literal"><span class="pre">django.forms.widgets</span></code> module,
+including <a class="reference internal" href="#text-widgets"><span>the input of text</span></a>, <a class="reference internal" href="#selector-widgets"><span>various checkboxes
+and selectors</span></a>, <a class="reference internal" href="#file-upload-widgets"><span>uploading files</span></a>,
+and <a class="reference internal" href="#composite-widgets"><span>handling of multi-valued input</span></a>.</p>
+<div class="section" id="widgets-handling-input-of-text">
+<span id="text-widgets"></span><h3>Widgets handling input of text<a class="headerlink" href="#widgets-handling-input-of-text" title="Permalink to this headline">¶</a></h3>
+<p>These widgets make use of the HTML elements <code class="docutils literal"><span class="pre">input</span></code> and <code class="docutils literal"><span class="pre">textarea</span></code>.</p>
+<div class="section" id="textinput">
+<h4><code class="docutils literal"><span class="pre">TextInput</span></code><a class="headerlink" href="#textinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.TextInput">
+<em class="property">class </em><code class="descname">TextInput</code><a class="headerlink" href="#django.forms.TextInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Text input: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='text'</span> <span class="pre">...&gt;</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="passwordinput">
+<h4><code class="docutils literal"><span class="pre">PasswordInput</span></code><a class="headerlink" href="#passwordinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.PasswordInput">
+<em class="property">class </em><code class="descname">PasswordInput</code><a class="headerlink" href="#django.forms.PasswordInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Password input: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='password'</span> <span class="pre">...&gt;</span></code></p>
+<p>Takes one optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.PasswordInput.render_value">
+<code class="descname">render_value</code><a class="headerlink" href="#django.forms.PasswordInput.render_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the widget will have a value filled in when the
+form is re-displayed after a validation error (default is <code class="docutils literal"><span class="pre">False</span></code>).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="hiddeninput">
+<h4><code class="docutils literal"><span class="pre">HiddenInput</span></code><a class="headerlink" href="#hiddeninput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.HiddenInput">
+<em class="property">class </em><code class="descname">HiddenInput</code><a class="headerlink" href="#django.forms.HiddenInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hidden input: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='hidden'</span> <span class="pre">...&gt;</span></code></p>
+<p>Note that there also is a <a class="reference internal" href="#django.forms.MultipleHiddenInput" title="django.forms.MultipleHiddenInput"><code class="xref py py-class docutils literal"><span class="pre">MultipleHiddenInput</span></code></a> widget that
+encapsulates a set of hidden input elements.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="dateinput">
+<h4><code class="docutils literal"><span class="pre">DateInput</span></code><a class="headerlink" href="#dateinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.DateInput">
+<em class="property">class </em><code class="descname">DateInput</code><a class="headerlink" href="#django.forms.DateInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Date input as a simple text box: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='text'</span> <span class="pre">...&gt;</span></code></p>
+<p>Takes same arguments as <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a>, with one more optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.DateInput.format">
+<code class="descname">format</code><a class="headerlink" href="#django.forms.DateInput.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>The format in which this field&#8217;s initial value will be displayed.</p>
+</dd></dl>
+
+<p>If no <code class="docutils literal"><span class="pre">format</span></code> argument is provided, the default format is the first
+format found in <a class="reference internal" href="../settings.html#std:setting-DATE_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATE_INPUT_FORMATS</span></code></a> and respects
+<a class="reference internal" href="../../topics/i18n/formatting.html#format-localization"><span>Format localization</span></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="datetimeinput">
+<h4><code class="docutils literal"><span class="pre">DateTimeInput</span></code><a class="headerlink" href="#datetimeinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.DateTimeInput">
+<em class="property">class </em><code class="descname">DateTimeInput</code><a class="headerlink" href="#django.forms.DateTimeInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Date/time input as a simple text box: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='text'</span> <span class="pre">...&gt;</span></code></p>
+<p>Takes same arguments as <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a>, with one more optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.DateTimeInput.format">
+<code class="descname">format</code><a class="headerlink" href="#django.forms.DateTimeInput.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>The format in which this field&#8217;s initial value will be displayed.</p>
+</dd></dl>
+
+<p>If no <code class="docutils literal"><span class="pre">format</span></code> argument is provided, the default format is the first
+format found in <a class="reference internal" href="../settings.html#std:setting-DATETIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_INPUT_FORMATS</span></code></a> and respects
+<a class="reference internal" href="../../topics/i18n/formatting.html#format-localization"><span>Format localization</span></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="timeinput">
+<h4><code class="docutils literal"><span class="pre">TimeInput</span></code><a class="headerlink" href="#timeinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.TimeInput">
+<em class="property">class </em><code class="descname">TimeInput</code><a class="headerlink" href="#django.forms.TimeInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time input as a simple text box: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='text'</span> <span class="pre">...&gt;</span></code></p>
+<p>Takes same arguments as <a class="reference internal" href="#django.forms.TextInput" title="django.forms.TextInput"><code class="xref py py-class docutils literal"><span class="pre">TextInput</span></code></a>, with one more optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.TimeInput.format">
+<code class="descname">format</code><a class="headerlink" href="#django.forms.TimeInput.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>The format in which this field&#8217;s initial value will be displayed.</p>
+</dd></dl>
+
+<p>If no <code class="docutils literal"><span class="pre">format</span></code> argument is provided, the default format is the first
+format found in <a class="reference internal" href="../settings.html#std:setting-TIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">TIME_INPUT_FORMATS</span></code></a> and respects
+<a class="reference internal" href="../../topics/i18n/formatting.html#format-localization"><span>Format localization</span></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="textarea">
+<h4><code class="docutils literal"><span class="pre">Textarea</span></code><a class="headerlink" href="#textarea" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.Textarea">
+<em class="property">class </em><code class="descname">Textarea</code><a class="headerlink" href="#django.forms.Textarea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Text area: <code class="docutils literal"><span class="pre">&lt;textarea&gt;...&lt;/textarea&gt;</span></code></p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="selector-and-checkbox-widgets">
+<span id="selector-widgets"></span><h3>Selector and checkbox widgets<a class="headerlink" href="#selector-and-checkbox-widgets" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="checkboxinput">
+<h4><code class="docutils literal"><span class="pre">CheckboxInput</span></code><a class="headerlink" href="#checkboxinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.CheckboxInput">
+<em class="property">class </em><code class="descname">CheckboxInput</code><a class="headerlink" href="#django.forms.CheckboxInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checkbox: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='checkbox'</span> <span class="pre">...&gt;</span></code></p>
+<p>Takes one optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.CheckboxInput.check_test">
+<code class="descname">check_test</code><a class="headerlink" href="#django.forms.CheckboxInput.check_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>A callable that takes the value of the CheckBoxInput and returns
+<code class="docutils literal"><span class="pre">True</span></code> if the checkbox should be checked for that value.</p>
+<div class="versionchanged">
+Exceptions from <code class="docutils literal"><span class="pre">check_test</span></code> used to be silenced by its caller,
+this is no longer the case, they will propagate upwards.</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="select">
+<h4><code class="docutils literal"><span class="pre">Select</span></code><a class="headerlink" href="#select" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.Select">
+<em class="property">class </em><code class="descname">Select</code><a class="headerlink" href="#django.forms.Select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select widget: <code class="docutils literal"><span class="pre">&lt;select&gt;&lt;option</span> <span class="pre">...&gt;...&lt;/select&gt;</span></code></p>
+<dl class="attribute">
+<dt id="django.forms.Select.choices">
+<code class="descname">choices</code><a class="headerlink" href="#django.forms.Select.choices" title="Permalink to this definition">¶</a></dt>
+<dd><p>This attribute is optional when the form field does not have a
+<code class="docutils literal"><span class="pre">choices</span></code> attribute. If it does, it will override anything you set
+here when the attribute is updated on the <a class="reference internal" href="fields.html#django.forms.Field" title="django.forms.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="nullbooleanselect">
+<h4><code class="docutils literal"><span class="pre">NullBooleanSelect</span></code><a class="headerlink" href="#nullbooleanselect" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.NullBooleanSelect">
+<em class="property">class </em><code class="descname">NullBooleanSelect</code><a class="headerlink" href="#django.forms.NullBooleanSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select widget with options &#8216;Unknown&#8217;, &#8216;Yes&#8217; and &#8216;No&#8217;</p>
+</dd></dl>
+
+</div>
+<div class="section" id="selectmultiple">
+<h4><code class="docutils literal"><span class="pre">SelectMultiple</span></code><a class="headerlink" href="#selectmultiple" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.SelectMultiple">
+<em class="property">class </em><code class="descname">SelectMultiple</code><a class="headerlink" href="#django.forms.SelectMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a>, but allows multiple selection:
+<code class="docutils literal"><span class="pre">&lt;select</span> <span class="pre">multiple='multiple'&gt;...&lt;/select&gt;</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="radioselect">
+<h4><code class="docutils literal"><span class="pre">RadioSelect</span></code><a class="headerlink" href="#radioselect" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.RadioSelect">
+<em class="property">class </em><code class="descname">RadioSelect</code><a class="headerlink" href="#django.forms.RadioSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a>, but rendered as a list of radio buttons within
+<code class="docutils literal"><span class="pre">&lt;li&gt;</span></code> tags:</p>
+<div class="highlight-html"><div class="highlight"><pre>&lt;ul&gt;
+  &lt;li&gt;&lt;input type=&#39;radio&#39; ...&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre></div>
+</div>
+<div class="versionadded">
+</div>
+<p>For more granular control over the generated markup, you can loop over the
+radio buttons in the template. Assuming a form <code class="docutils literal"><span class="pre">myform</span></code> with a field
+<code class="docutils literal"><span class="pre">beatles</span></code> that uses a <code class="docutils literal"><span class="pre">RadioSelect</span></code> as its widget:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">radio</span> <span class="k">in</span> <span class="nv">myform.beatles</span> <span class="cp">%}</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;myradio&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">radio</span> <span class="cp">}}</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>This would generate the following HTML:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;myradio&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;john&quot;</span> <span class="nt">/&gt;</span> John<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;myradio&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;paul&quot;</span> <span class="nt">/&gt;</span> Paul<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;myradio&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;george&quot;</span> <span class="nt">/&gt;</span> George<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;myradio&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;label&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;ringo&quot;</span> <span class="nt">/&gt;</span> Ringo<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>That included the <code class="docutils literal"><span class="pre">&lt;label&gt;</span></code> tags. To get more granular, you can use each
+radio button&#8217;s <code class="docutils literal"><span class="pre">tag</span></code> and <code class="docutils literal"><span class="pre">choice_label</span></code> attributes. For example, this template...</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">radio</span> <span class="k">in</span> <span class="nv">myform.beatles</span> <span class="cp">%}</span>
+    <span class="nt">&lt;label&gt;</span>
+        <span class="cp">{{</span> <span class="nv">radio.choice_label</span> <span class="cp">}}</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;radio&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">radio.tag</span> <span class="cp">}}</span><span class="nt">&lt;/span&gt;</span>
+    <span class="nt">&lt;/label&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>...will result in the following HTML:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;label&gt;</span>
+    John
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;radio&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;john&quot;</span> <span class="nt">/&gt;&lt;/span&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>
+    Paul
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;radio&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;paul&quot;</span> <span class="nt">/&gt;&lt;/span&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>
+    George
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;radio&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;george&quot;</span> <span class="nt">/&gt;&lt;/span&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+<span class="nt">&lt;label&gt;</span>
+    Ringo
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;radio&quot;</span><span class="nt">&gt;&lt;input</span> <span class="na">type=</span><span class="s">&quot;radio&quot;</span> <span class="na">name=</span><span class="s">&quot;beatles&quot;</span> <span class="na">value=</span><span class="s">&quot;ringo&quot;</span> <span class="nt">/&gt;&lt;/span&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+</pre></div>
+</div>
+<p>If you decide not to loop over the radio buttons &#8211; e.g., if your template simply includes
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">myform.beatles</span> <span class="pre">}}</span></code> &#8211; they&#8217;ll be output in a <code class="docutils literal"><span class="pre">&lt;ul&gt;</span></code> with <code class="docutils literal"><span class="pre">&lt;li&gt;</span></code> tags, as above.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="checkboxselectmultiple">
+<h4><code class="docutils literal"><span class="pre">CheckboxSelectMultiple</span></code><a class="headerlink" href="#checkboxselectmultiple" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.CheckboxSelectMultiple">
+<em class="property">class </em><code class="descname">CheckboxSelectMultiple</code><a class="headerlink" href="#django.forms.CheckboxSelectMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.SelectMultiple" title="django.forms.SelectMultiple"><code class="xref py py-class docutils literal"><span class="pre">SelectMultiple</span></code></a>, but rendered as a list of check
+buttons:</p>
+<div class="highlight-html"><div class="highlight"><pre>&lt;ul&gt;
+  &lt;li&gt;&lt;input type=&#39;checkbox&#39; ...&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="file-upload-widgets">
+<span id="id5"></span><h3>File upload widgets<a class="headerlink" href="#file-upload-widgets" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fileinput">
+<h4><code class="docutils literal"><span class="pre">FileInput</span></code><a class="headerlink" href="#fileinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.FileInput">
+<em class="property">class </em><code class="descname">FileInput</code><a class="headerlink" href="#django.forms.FileInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>File upload input: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='file'</span> <span class="pre">...&gt;</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="clearablefileinput">
+<h4><code class="docutils literal"><span class="pre">ClearableFileInput</span></code><a class="headerlink" href="#clearablefileinput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.ClearableFileInput">
+<em class="property">class </em><code class="descname">ClearableFileInput</code><a class="headerlink" href="#django.forms.ClearableFileInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>File upload input: <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='file'</span> <span class="pre">...&gt;</span></code>, with an additional checkbox
+input to clear the field&#8217;s value, if the field is not required and has
+initial data.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="composite-widgets">
+<span id="id6"></span><h3>Composite widgets<a class="headerlink" href="#composite-widgets" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="multiplehiddeninput">
+<h4><code class="docutils literal"><span class="pre">MultipleHiddenInput</span></code><a class="headerlink" href="#multiplehiddeninput" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.MultipleHiddenInput">
+<em class="property">class </em><code class="descname">MultipleHiddenInput</code><a class="headerlink" href="#django.forms.MultipleHiddenInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type='hidden'</span> <span class="pre">...&gt;</span></code> widgets.</p>
+<p>A widget that handles multiple hidden widgets for fields that have a list
+of values.</p>
+<dl class="attribute">
+<dt id="django.forms.MultipleHiddenInput.choices">
+<code class="descname">choices</code><a class="headerlink" href="#django.forms.MultipleHiddenInput.choices" title="Permalink to this definition">¶</a></dt>
+<dd><p>This attribute is optional when the form field does not have a
+<code class="docutils literal"><span class="pre">choices</span></code> attribute. If it does, it will override anything you set
+here when the attribute is updated on the <a class="reference internal" href="fields.html#django.forms.Field" title="django.forms.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="splitdatetimewidget">
+<h4><code class="docutils literal"><span class="pre">SplitDateTimeWidget</span></code><a class="headerlink" href="#splitdatetimewidget" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.SplitDateTimeWidget">
+<em class="property">class </em><code class="descname">SplitDateTimeWidget</code><a class="headerlink" href="#django.forms.SplitDateTimeWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper (using <a class="reference internal" href="#django.forms.MultiWidget" title="django.forms.MultiWidget"><code class="xref py py-class docutils literal"><span class="pre">MultiWidget</span></code></a>) around two widgets: <a class="reference internal" href="#django.forms.DateInput" title="django.forms.DateInput"><code class="xref py py-class docutils literal"><span class="pre">DateInput</span></code></a>
+for the date, and <a class="reference internal" href="#django.forms.TimeInput" title="django.forms.TimeInput"><code class="xref py py-class docutils literal"><span class="pre">TimeInput</span></code></a> for the time.</p>
+<p><code class="docutils literal"><span class="pre">SplitDateTimeWidget</span></code> has two optional attributes:</p>
+<dl class="attribute">
+<dt id="django.forms.SplitDateTimeWidget.date_format">
+<code class="descname">date_format</code><a class="headerlink" href="#django.forms.SplitDateTimeWidget.date_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.DateInput.format" title="django.forms.DateInput.format"><code class="xref py py-attr docutils literal"><span class="pre">DateInput.format</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="django.forms.SplitDateTimeWidget.time_format">
+<code class="descname">time_format</code><a class="headerlink" href="#django.forms.SplitDateTimeWidget.time_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.TimeInput.format" title="django.forms.TimeInput.format"><code class="xref py py-attr docutils literal"><span class="pre">TimeInput.format</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="splithiddendatetimewidget">
+<h4><code class="docutils literal"><span class="pre">SplitHiddenDateTimeWidget</span></code><a class="headerlink" href="#splithiddendatetimewidget" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.SplitHiddenDateTimeWidget">
+<em class="property">class </em><code class="descname">SplitHiddenDateTimeWidget</code><a class="headerlink" href="#django.forms.SplitHiddenDateTimeWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#django.forms.SplitDateTimeWidget" title="django.forms.SplitDateTimeWidget"><code class="xref py py-class docutils literal"><span class="pre">SplitDateTimeWidget</span></code></a>, but uses <a class="reference internal" href="#django.forms.HiddenInput" title="django.forms.HiddenInput"><code class="xref py py-class docutils literal"><span class="pre">HiddenInput</span></code></a> for
+both date and time.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="selectdatewidget">
+<h4><code class="docutils literal"><span class="pre">SelectDateWidget</span></code><a class="headerlink" href="#selectdatewidget" title="Permalink to this headline">¶</a></h4>
+<dl class="class">
+<dt id="django.forms.extras.widgets.SelectDateWidget">
+<em class="property">class </em><code class="descname">SelectDateWidget</code><a class="headerlink" href="#django.forms.extras.widgets.SelectDateWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around three <a class="reference internal" href="#django.forms.Select" title="django.forms.Select"><code class="xref py py-class docutils literal"><span class="pre">Select</span></code></a> widgets: one each for
+month, day, and year. Note that this widget lives in a separate file from
+the standard widgets.</p>
+<p>Takes one optional argument:</p>
+<dl class="attribute">
+<dt id="django.forms.extras.widgets.SelectDateWidget.years">
+<code class="descname">years</code><a class="headerlink" href="#django.forms.extras.widgets.SelectDateWidget.years" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optional list/tuple of years to use in the &#8220;year&#8221; select box.
+The default is a list containing the current year and the next 9 years.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="validation.html" class="btn btn-neutral float-right" title="Form and field validation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="models.html" class="btn btn-neutral" title="Model Form Functions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/forms/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:51 GMT -->
+</html>

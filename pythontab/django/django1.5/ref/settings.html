@@ -1,0 +1,1974 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Settings &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#available-settings">Available settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#absolute-url-overrides">ABSOLUTE_URL_OVERRIDES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#admin-for">ADMIN_FOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#admins">ADMINS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allowed-hosts">ALLOWED_HOSTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allowed-include-roots">ALLOWED_INCLUDE_ROOTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#append-slash">APPEND_SLASH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#authentication-backends">AUTHENTICATION_BACKENDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#auth-user-model">AUTH_USER_MODEL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#caches">CACHES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cache-middleware-alias">CACHE_MIDDLEWARE_ALIAS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cache-middleware-anonymous-only">CACHE_MIDDLEWARE_ANONYMOUS_ONLY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cache-middleware-key-prefix">CACHE_MIDDLEWARE_KEY_PREFIX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cache-middleware-seconds">CACHE_MIDDLEWARE_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf-cookie-domain">CSRF_COOKIE_DOMAIN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf-cookie-name">CSRF_COOKIE_NAME</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf-cookie-path">CSRF_COOKIE_PATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf-cookie-secure">CSRF_COOKIE_SECURE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#csrf-failure-view">CSRF_FAILURE_VIEW</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#databases">DATABASES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#database-routers">DATABASE_ROUTERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#date-format">DATE_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#date-input-formats">DATE_INPUT_FORMATS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datetime-format">DATETIME_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#datetime-input-formats">DATETIME_INPUT_FORMATS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug">DEBUG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-propagate-exceptions">DEBUG_PROPAGATE_EXCEPTIONS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decimal-separator">DECIMAL_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-charset">DEFAULT_CHARSET</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-content-type">DEFAULT_CONTENT_TYPE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-exception-reporter-filter">DEFAULT_EXCEPTION_REPORTER_FILTER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-file-storage">DEFAULT_FILE_STORAGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-from-email">DEFAULT_FROM_EMAIL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-index-tablespace">DEFAULT_INDEX_TABLESPACE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-tablespace">DEFAULT_TABLESPACE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disallowed-user-agents">DISALLOWED_USER_AGENTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-backend">EMAIL_BACKEND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-file-path">EMAIL_FILE_PATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-host">EMAIL_HOST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-host-password">EMAIL_HOST_PASSWORD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-host-user">EMAIL_HOST_USER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-port">EMAIL_PORT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-subject-prefix">EMAIL_SUBJECT_PREFIX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#email-use-tls">EMAIL_USE_TLS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-charset">FILE_CHARSET</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-upload-handlers">FILE_UPLOAD_HANDLERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-upload-max-memory-size">FILE_UPLOAD_MAX_MEMORY_SIZE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-upload-permissions">FILE_UPLOAD_PERMISSIONS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-upload-temp-dir">FILE_UPLOAD_TEMP_DIR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#first-day-of-week">FIRST_DAY_OF_WEEK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fixture-dirs">FIXTURE_DIRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#force-script-name">FORCE_SCRIPT_NAME</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#format-module-path">FORMAT_MODULE_PATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ignorable-404-urls">IGNORABLE_404_URLS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installed-apps">INSTALLED_APPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#internal-ips">INTERNAL_IPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language-code">LANGUAGE_CODE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#language-cookie-name">LANGUAGE_COOKIE_NAME</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#languages">LANGUAGES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#locale-paths">LOCALE_PATHS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging">LOGGING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logging-config">LOGGING_CONFIG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#login-redirect-url">LOGIN_REDIRECT_URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#login-url">LOGIN_URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#logout-url">LOGOUT_URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#managers">MANAGERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#media-root">MEDIA_ROOT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#media-url">MEDIA_URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#message-level">MESSAGE_LEVEL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#message-storage">MESSAGE_STORAGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#message-tags">MESSAGE_TAGS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#middleware-classes">MIDDLEWARE_CLASSES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#month-day-format">MONTH_DAY_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#number-grouping">NUMBER_GROUPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#password-hashers">PASSWORD_HASHERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#password-reset-timeout-days">PASSWORD_RESET_TIMEOUT_DAYS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#prepend-www">PREPEND_WWW</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#profanities-list">PROFANITIES_LIST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#restructuredtext-filter-settings">RESTRUCTUREDTEXT_FILTER_SETTINGS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#root-urlconf">ROOT_URLCONF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#secret-key">SECRET_KEY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#secure-proxy-ssl-header">SECURE_PROXY_SSL_HEADER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#send-broken-link-emails">SEND_BROKEN_LINK_EMAILS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#serialization-modules">SERIALIZATION_MODULES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server-email">SERVER_EMAIL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-age">SESSION_COOKIE_AGE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-domain">SESSION_COOKIE_DOMAIN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-httponly">SESSION_COOKIE_HTTPONLY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-name">SESSION_COOKIE_NAME</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-path">SESSION_COOKIE_PATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cache-alias">SESSION_CACHE_ALIAS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-cookie-secure">SESSION_COOKIE_SECURE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-engine">SESSION_ENGINE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-expire-at-browser-close">SESSION_EXPIRE_AT_BROWSER_CLOSE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-file-path">SESSION_FILE_PATH</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#session-save-every-request">SESSION_SAVE_EVERY_REQUEST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#short-date-format">SHORT_DATE_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#short-datetime-format">SHORT_DATETIME_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#signing-backend">SIGNING_BACKEND</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#site-id">SITE_ID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#static-root">STATIC_ROOT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#static-url">STATIC_URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#template-context-processors">TEMPLATE_CONTEXT_PROCESSORS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#template-debug">TEMPLATE_DEBUG</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#template-dirs">TEMPLATE_DIRS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#template-loaders">TEMPLATE_LOADERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#template-string-if-invalid">TEMPLATE_STRING_IF_INVALID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-runner">TEST_RUNNER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#thousand-separator">THOUSAND_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time-format">TIME_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time-input-formats">TIME_INPUT_FORMATS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time-zone">TIME_ZONE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transactions-managed">TRANSACTIONS_MANAGED</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-etags">USE_ETAGS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-i18n">USE_I18N</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-l10n">USE_L10N</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-thousand-separator">USE_THOUSAND_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-tz">USE_TZ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-x-forwarded-host">USE_X_FORWARDED_HOST</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wsgi-application">WSGI_APPLICATION</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#year-month-format">YEAR_MONTH_FORMAT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#x-frame-options">X_FRAME_OPTIONS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#deprecated-settings">Deprecated settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#auth-profile-module">AUTH_PROFILE_MODULE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ignorable-404-ends">IGNORABLE_404_ENDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ignorable-404-starts">IGNORABLE_404_STARTS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">API 参考</a> &raquo;</li>
+      
+    <li>Settings</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="settings">
+<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#available-settings" id="id4">Available settings</a></li>
+<li><a class="reference internal" href="#deprecated-settings" id="id5">Deprecated settings</a></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Be careful when you override settings, especially when the default value
+is a non-empty tuple or dictionary, such as <a class="reference internal" href="#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>
+and <a class="reference internal" href="#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a>. Make sure you keep the
+components required by the features of Django you wish to use.</p>
+</div>
+<div class="section" id="available-settings">
+<h2><a class="toc-backref" href="#id4">Available settings</a><a class="headerlink" href="#available-settings" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s a full list of all available settings, in alphabetical order, and their
+default values.</p>
+<div class="section" id="absolute-url-overrides">
+<span id="std:setting-ABSOLUTE_URL_OVERRIDES"></span><h3>ABSOLUTE_URL_OVERRIDES<a class="headerlink" href="#absolute-url-overrides" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">{}</span></code> (Empty dictionary)</p>
+<p>A dictionary mapping <code class="docutils literal"><span class="pre">&quot;app_label.model_name&quot;</span></code> strings to functions that take
+a model object and return its URL. This is a way of overriding
+<code class="docutils literal"><span class="pre">get_absolute_url()</span></code> methods on a per-installation basis. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ABSOLUTE_URL_OVERRIDES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;blogs.weblog&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="s">&quot;/blogs/</span><span class="si">%s</span><span class="s">/&quot;</span> <span class="o">%</span> <span class="n">o</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+    <span class="s">&#39;news.story&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="s">&quot;/stories/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">pub_year</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">slug</span><span class="p">),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that the model name used in this setting should be all lower-case, regardless
+of the case of the actual model class name.</p>
+</div>
+<div class="section" id="admin-for">
+<span id="std:setting-ADMIN_FOR"></span><h3>ADMIN_FOR<a class="headerlink" href="#admin-for" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>Used for admin-site settings modules, this should be a tuple of settings
+modules (in the format <code class="docutils literal"><span class="pre">'foo.bar.baz'</span></code>) for which this site is an admin.</p>
+<p>The admin site uses this in its automatically-introspected documentation of
+models, views and template tags.</p>
+</div>
+<div class="section" id="admins">
+<span id="std:setting-ADMINS"></span><h3>ADMINS<a class="headerlink" href="#admins" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple that lists people who get code error notifications. When
+<code class="docutils literal"><span class="pre">DEBUG=False</span></code> and a view raises an exception, Django will email these people
+with the full exception information. Each member of the tuple should be a tuple
+of (Full name, email address). Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">((</span><span class="s">&#39;John&#39;</span><span class="p">,</span> <span class="s">&#39;john@example.com&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;Mary&#39;</span><span class="p">,</span> <span class="s">&#39;mary@example.com&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that Django will email <em>all</em> of these people whenever an error happens.
+See <a class="reference internal" href="../howto/error-reporting.html"><em>Error reporting</em></a> for more information.</p>
+</div>
+<div class="section" id="allowed-hosts">
+<span id="std:setting-ALLOWED_HOSTS"></span><h3>ALLOWED_HOSTS<a class="headerlink" href="#allowed-hosts" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">[]</span></code> (Empty list)</p>
+<p>A list of strings representing the host/domain names that this Django site can
+serve. This is a security measure to prevent an attacker from poisoning caches
+and password reset emails with links to malicious hosts by submitting requests
+with a fake HTTP <code class="docutils literal"><span class="pre">Host</span></code> header, which is possible even under many
+seemingly-safe webserver configurations.</p>
+<p>Values in this list can be fully qualified names (e.g. <code class="docutils literal"><span class="pre">'www.example.com'</span></code>),
+in which case they will be matched against the request&#8217;s <code class="docutils literal"><span class="pre">Host</span></code> header
+exactly (case-insensitive, not including port). A value beginning with a period
+can be used as a subdomain wildcard: <code class="docutils literal"><span class="pre">'.example.com'</span></code> will match
+<code class="docutils literal"><span class="pre">example.com</span></code>, <code class="docutils literal"><span class="pre">www.example.com</span></code>, and any other subdomain of
+<code class="docutils literal"><span class="pre">example.com</span></code>. A value of <code class="docutils literal"><span class="pre">'*'</span></code> will match anything; in this case you are
+responsible to provide your own validation of the <code class="docutils literal"><span class="pre">Host</span></code> header (perhaps in a
+middleware; if so this middleware must be listed first in
+<a class="reference internal" href="#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>).</p>
+<p>If the <code class="docutils literal"><span class="pre">Host</span></code> header (or <code class="docutils literal"><span class="pre">X-Forwarded-Host</span></code> if
+<a class="reference internal" href="#std:setting-USE_X_FORWARDED_HOST"><code class="xref std std-setting docutils literal"><span class="pre">USE_X_FORWARDED_HOST</span></code></a> is enabled) does not match any value in this
+list, the <a class="reference internal" href="request-response.html#django.http.HttpRequest.get_host" title="django.http.HttpRequest.get_host"><code class="xref py py-meth docutils literal"><span class="pre">django.http.HttpRequest.get_host()</span></code></a> method will raise
+<a class="reference internal" href="exceptions.html#django.core.exceptions.SuspiciousOperation" title="django.core.exceptions.SuspiciousOperation"><code class="xref py py-exc docutils literal"><span class="pre">SuspiciousOperation</span></code></a>.</p>
+<p>When <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code> or when running tests, host validation is
+disabled; any host will be accepted. Thus it&#8217;s usually only necessary to set it
+in production.</p>
+<p>This validation only applies via <a class="reference internal" href="request-response.html#django.http.HttpRequest.get_host" title="django.http.HttpRequest.get_host"><code class="xref py py-meth docutils literal"><span class="pre">get_host()</span></code></a>;
+if your code accesses the <code class="docutils literal"><span class="pre">Host</span></code> header directly from <code class="docutils literal"><span class="pre">request.META</span></code> you
+are bypassing this security protection.</p>
+</div>
+<div class="section" id="allowed-include-roots">
+<span id="std:setting-ALLOWED_INCLUDE_ROOTS"></span><h3>ALLOWED_INCLUDE_ROOTS<a class="headerlink" href="#allowed-include-roots" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple of strings representing allowed prefixes for the <code class="docutils literal"><span class="pre">{%</span> <span class="pre">ssi</span> <span class="pre">%}</span></code> template
+tag. This is a security measure, so that template authors can&#8217;t access files
+that they shouldn&#8217;t be accessing.</p>
+<p>For example, if <a class="reference internal" href="#std:setting-ALLOWED_INCLUDE_ROOTS"><code class="xref std std-setting docutils literal"><span class="pre">ALLOWED_INCLUDE_ROOTS</span></code></a> is <code class="docutils literal"><span class="pre">('/home/html',</span> <span class="pre">'/var/www')</span></code>,
+then <code class="docutils literal"><span class="pre">{%</span> <span class="pre">ssi</span> <span class="pre">/home/html/foo.txt</span> <span class="pre">%}</span></code> would work, but <code class="docutils literal"><span class="pre">{%</span> <span class="pre">ssi</span> <span class="pre">/etc/passwd</span> <span class="pre">%}</span></code>
+wouldn&#8217;t.</p>
+</div>
+<div class="section" id="append-slash">
+<span id="std:setting-APPEND_SLASH"></span><h3>APPEND_SLASH<a class="headerlink" href="#append-slash" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>When set to <code class="docutils literal"><span class="pre">True</span></code>, if the request URL does not match any of the patterns
+in the URLconf and it doesn&#8217;t end in a slash, an HTTP redirect is issued to the
+same URL with a slash appended. Note that the redirect may cause any data
+submitted in a POST request to be lost.</p>
+<p>The <a class="reference internal" href="#std:setting-APPEND_SLASH"><code class="xref std std-setting docutils literal"><span class="pre">APPEND_SLASH</span></code></a> setting is only used if
+<a class="reference internal" href="middleware.html#django.middleware.common.CommonMiddleware" title="django.middleware.common.CommonMiddleware"><code class="xref py py-class docutils literal"><span class="pre">CommonMiddleware</span></code></a> is installed
+(see <a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>). See also <a class="reference internal" href="#std:setting-PREPEND_WWW"><code class="xref std std-setting docutils literal"><span class="pre">PREPEND_WWW</span></code></a>.</p>
+</div>
+<div class="section" id="authentication-backends">
+<span id="std:setting-AUTHENTICATION_BACKENDS"></span><h3>AUTHENTICATION_BACKENDS<a class="headerlink" href="#authentication-backends" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">('django.contrib.auth.backends.ModelBackend',)</span></code></p>
+<p>A tuple of authentication backend classes (as strings) to use when attempting to
+authenticate a user. See the <a class="reference internal" href="../topics/auth/customizing.html#authentication-backends"><span>authentication backends documentation</span></a> for details.</p>
+</div>
+<div class="section" id="auth-user-model">
+<span id="std:setting-AUTH_USER_MODEL"></span><h3>AUTH_USER_MODEL<a class="headerlink" href="#auth-user-model" title="Permalink to this headline">¶</a></h3>
+<p>Default: &#8216;auth.User&#8217;</p>
+<p>The model to use to represent a User. See <a class="reference internal" href="../topics/auth/customizing.html#auth-custom-user"><span>Substituting a custom User model</span></a>.</p>
+</div>
+<div class="section" id="caches">
+<span id="std:setting-CACHES"></span><h3>CACHES<a class="headerlink" href="#caches" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;BACKEND&#39;</span><span class="p">:</span> <span class="s">&#39;django.core.cache.backends.locmem.LocMemCache&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A dictionary containing the settings for all caches to be used with
+Django. It is a nested dictionary whose contents maps cache aliases
+to a dictionary containing the options for an individual cache.</p>
+<p>The <a class="reference internal" href="#std:setting-CACHES"><code class="xref std std-setting docutils literal"><span class="pre">CACHES</span></code></a> setting must configure a <code class="docutils literal"><span class="pre">default</span></code> cache;
+any number of additional caches may also be specified. If you
+are using a cache backend other than the local memory cache, or
+you need to define multiple caches, other options will be required.
+The following cache options are available.</p>
+<div class="section" id="backend">
+<span id="std:setting-CACHES-BACKEND"></span><h4>BACKEND<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The cache backend to use. The built-in cache backends are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.db.DatabaseCache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.dummy.DummyCache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.filebased.FileBasedCache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.locmem.LocMemCache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.memcached.MemcachedCache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.core.cache.backends.memcached.PyLibMCCache'</span></code></li>
+</ul>
+<p>You can use a cache backend that doesn&#8217;t ship with Django by setting
+<a class="reference internal" href="#std:setting-CACHES-BACKEND"><code class="xref std std-setting docutils literal"><span class="pre">BACKEND</span></code></a> to a fully-qualified path of a cache
+backend class (i.e. <code class="docutils literal"><span class="pre">mypackage.backends.whatever.WhateverCache</span></code>).
+Writing a whole new cache backend from scratch is left as an exercise
+to the reader; see the other backends for examples.</p>
+</div>
+<div class="section" id="key-function">
+<span id="std:setting-CACHES-KEY_FUNCTION"></span><h4>KEY_FUNCTION<a class="headerlink" href="#key-function" title="Permalink to this headline">¶</a></h4>
+<p>A string containing a dotted path to a function that defines how to
+compose a prefix, version and key into a final cache key. The default
+implementation is equivalent to the function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">make_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">key_prefix</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key_prefix</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">),</span> <span class="n">key</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You may use any key function you want, as long as it has the same
+argument signature.</p>
+<p>See the <a class="reference internal" href="../topics/cache.html#cache-key-transformation"><span>cache documentation</span></a> for more information.</p>
+</div>
+<div class="section" id="key-prefix">
+<span id="std:setting-CACHES-KEY_PREFIX"></span><h4>KEY_PREFIX<a class="headerlink" href="#key-prefix" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>A string that will be automatically included (prepended by default) to
+all cache keys used by the Django server.</p>
+<p>See the <a class="reference internal" href="../topics/cache.html#cache-key-prefixing"><span>cache documentation</span></a> for more information.</p>
+</div>
+<div class="section" id="location">
+<span id="std:setting-CACHES-LOCATION"></span><h4>LOCATION<a class="headerlink" href="#location" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The location of the cache to use. This might be the directory for a
+file system cache, a host and port for a memcache server, or simply an
+identifying name for a local memory cache. e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CACHES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;BACKEND&#39;</span><span class="p">:</span> <span class="s">&#39;django.core.cache.backends.filebased.FileBasedCache&#39;</span><span class="p">,</span>
+        <span class="s">&#39;LOCATION&#39;</span><span class="p">:</span> <span class="s">&#39;/var/tmp/django_cache&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="options">
+<span id="std:setting-CACHES-OPTIONS"></span><h4>OPTIONS<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h4>
+<p>Default: None</p>
+<p>Extra parameters to pass to the cache backend. Available parameters
+vary depending on your cache backend.</p>
+<p>Some information on available parameters can be found in the
+<a class="reference internal" href="../topics/cache.html"><em>Cache Backends</em></a> documentation. For more information,
+consult your backend module&#8217;s own documentation.</p>
+</div>
+<div class="section" id="timeout">
+<span id="std:setting-CACHES-TIMEOUT"></span><h4>TIMEOUT<a class="headerlink" href="#timeout" title="Permalink to this headline">¶</a></h4>
+<p>Default: 300</p>
+<p>The number of seconds before a cache entry is considered stale.</p>
+</div>
+<div class="section" id="version">
+<span id="std:setting-CACHES-VERSION"></span><h4>VERSION<a class="headerlink" href="#version" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">1</span></code></p>
+<p>The default version number for cache keys generated by the Django server.</p>
+<p>See the <a class="reference internal" href="../topics/cache.html#cache-versioning"><span>cache documentation</span></a> for more information.</p>
+</div>
+</div>
+<div class="section" id="cache-middleware-alias">
+<span id="std:setting-CACHE_MIDDLEWARE_ALIAS"></span><h3>CACHE_MIDDLEWARE_ALIAS<a class="headerlink" href="#cache-middleware-alias" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">default</span></code></p>
+<p>The cache connection to use for the cache middleware.</p>
+</div>
+<div class="section" id="cache-middleware-anonymous-only">
+<span id="std:setting-CACHE_MIDDLEWARE_ANONYMOUS_ONLY"></span><h3>CACHE_MIDDLEWARE_ANONYMOUS_ONLY<a class="headerlink" href="#cache-middleware-anonymous-only" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>If the value of this setting is <code class="docutils literal"><span class="pre">True</span></code>, only anonymous requests (i.e., not
+those made by a logged-in user) will be cached.  Otherwise, the middleware
+caches every page that doesn&#8217;t have GET or POST parameters.</p>
+<p>If you set the value of this setting to <code class="docutils literal"><span class="pre">True</span></code>, you should make sure you&#8217;ve
+activated <code class="docutils literal"><span class="pre">AuthenticationMiddleware</span></code>.</p>
+<p>See <a class="reference internal" href="../topics/cache.html"><em>Django&#8217;s cache framework</em></a>.</p>
+</div>
+<div class="section" id="cache-middleware-key-prefix">
+<span id="std:setting-CACHE_MIDDLEWARE_KEY_PREFIX"></span><h3>CACHE_MIDDLEWARE_KEY_PREFIX<a class="headerlink" href="#cache-middleware-key-prefix" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The cache key prefix that the cache middleware should use.</p>
+<p>See <a class="reference internal" href="../topics/cache.html"><em>Django&#8217;s cache framework</em></a>.</p>
+</div>
+<div class="section" id="cache-middleware-seconds">
+<span id="std:setting-CACHE_MIDDLEWARE_SECONDS"></span><h3>CACHE_MIDDLEWARE_SECONDS<a class="headerlink" href="#cache-middleware-seconds" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">600</span></code></p>
+<p>The default number of seconds to cache a page when the caching middleware or
+<code class="docutils literal"><span class="pre">cache_page()</span></code> decorator is used.</p>
+<p>See <a class="reference internal" href="../topics/cache.html"><em>Django&#8217;s cache framework</em></a>.</p>
+</div>
+<div class="section" id="csrf-cookie-domain">
+<span id="std:setting-CSRF_COOKIE_DOMAIN"></span><h3>CSRF_COOKIE_DOMAIN<a class="headerlink" href="#csrf-cookie-domain" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The domain to be used when setting the CSRF cookie.  This can be useful for
+easily allowing cross-subdomain requests to be excluded from the normal cross
+site request forgery protection.  It should be set to a string such as
+<code class="docutils literal"><span class="pre">&quot;.example.com&quot;</span></code> to allow a POST request from a form on one subdomain to be
+accepted by accepted by a view served from another subdomain.</p>
+<p>Please note that the presence of this setting does not imply that Django&#8217;s CSRF
+protection is safe from cross-subdomain attacks by default - please see the
+<a class="reference internal" href="contrib/csrf.html#csrf-limitations"><span>CSRF limitations</span></a> section.</p>
+</div>
+<div class="section" id="csrf-cookie-name">
+<span id="std:setting-CSRF_COOKIE_NAME"></span><h3>CSRF_COOKIE_NAME<a class="headerlink" href="#csrf-cookie-name" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'csrftoken'</span></code></p>
+<p>The name of the cookie to use for the CSRF authentication token. This can be whatever you
+want.  See <a class="reference internal" href="contrib/csrf.html"><em>Cross Site Request Forgery protection</em></a>.</p>
+</div>
+<div class="section" id="csrf-cookie-path">
+<span id="std:setting-CSRF_COOKIE_PATH"></span><h3>CSRF_COOKIE_PATH<a class="headerlink" href="#csrf-cookie-path" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">'/'</span></code></p>
+<p>The path set on the CSRF cookie. This should either match the URL path of your
+Django installation or be a parent of that path.</p>
+<p>This is useful if you have multiple Django instances running under the same
+hostname. They can use different cookie paths, and each instance will only see
+its own CSRF cookie.</p>
+</div>
+<div class="section" id="csrf-cookie-secure">
+<span id="std:setting-CSRF_COOKIE_SECURE"></span><h3>CSRF_COOKIE_SECURE<a class="headerlink" href="#csrf-cookie-secure" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to use a secure cookie for the CSRF cookie. If this is set to <code class="docutils literal"><span class="pre">True</span></code>,
+the cookie will be marked as &#8220;secure,&#8221; which means browsers may ensure that the
+cookie is only sent under an HTTPS connection.</p>
+</div>
+<div class="section" id="csrf-failure-view">
+<span id="std:setting-CSRF_FAILURE_VIEW"></span><h3>CSRF_FAILURE_VIEW<a class="headerlink" href="#csrf-failure-view" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.views.csrf.csrf_failure'</span></code></p>
+<p>A dotted path to the view function to be used when an incoming request
+is rejected by the CSRF protection.  The function should have this signature:</p>
+<div class="highlight-python"><div class="highlight"><pre>def csrf_failure(request, reason=&quot;&quot;)
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">reason</span></code> is a short message (intended for developers or logging, not for
+end users) indicating the reason the request was rejected.  See
+<a class="reference internal" href="contrib/csrf.html"><em>Cross Site Request Forgery protection</em></a>.</p>
+</div>
+<div class="section" id="databases">
+<span id="std:setting-DATABASES"></span><h3>DATABASES<a class="headerlink" href="#databases" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">{}</span></code> (Empty dictionary)</p>
+<p>A dictionary containing the settings for all databases to be used with
+Django. It is a nested dictionary whose contents maps database aliases
+to a dictionary containing the options for an individual database.</p>
+<p>The <a class="reference internal" href="#std:setting-DATABASES"><code class="xref std std-setting docutils literal"><span class="pre">DATABASES</span></code></a> setting must configure a <code class="docutils literal"><span class="pre">default</span></code> database;
+any number of additional databases may also be specified.</p>
+<p>The simplest possible settings file is for a single-database setup using
+SQLite. This can be configured using the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.sqlite3&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="s">&#39;mydatabase&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For other database backends, or more complex SQLite configurations, other options
+will be required. The following inner options are available.</p>
+<div class="section" id="engine">
+<span id="std:setting-DATABASE-ENGINE"></span><h4>ENGINE<a class="headerlink" href="#engine" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The database backend to use. The built-in database backends are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'django.db.backends.postgresql_psycopg2'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.db.backends.mysql'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.db.backends.sqlite3'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.db.backends.oracle'</span></code></li>
+</ul>
+<p>You can use a database backend that doesn&#8217;t ship with Django by setting
+<code class="docutils literal"><span class="pre">ENGINE</span></code> to a fully-qualified path (i.e.
+<code class="docutils literal"><span class="pre">mypackage.backends.whatever</span></code>). Writing a whole new database backend from
+scratch is left as an exercise to the reader; see the other backends for
+examples.</p>
+</div>
+<div class="section" id="host">
+<span id="std:setting-HOST"></span><h4>HOST<a class="headerlink" href="#host" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Which host to use when connecting to the database. An empty string means
+localhost. Not used with SQLite.</p>
+<p>If this value starts with a forward slash (<code class="docutils literal"><span class="pre">'/'</span></code>) and you&#8217;re using MySQL,
+MySQL will connect via a Unix socket to the specified socket. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>&quot;HOST&quot;: &#39;/var/run/mysql&#39;
+</pre></div>
+</div>
+<p>If you&#8217;re using MySQL and this value <em>doesn&#8217;t</em> start with a forward slash, then
+this value is assumed to be the host.</p>
+<p>If you&#8217;re using PostgreSQL, by default (empty <a class="reference internal" href="#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a>), the connection
+to the database is done through UNIX domain sockets (&#8216;local&#8217; lines in
+<code class="docutils literal"><span class="pre">pg_hba.conf</span></code>). If you want to connect through TCP sockets, set
+<a class="reference internal" href="#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a> to &#8216;localhost&#8217; or &#8216;127.0.0.1&#8217; (&#8216;host&#8217; lines in <code class="docutils literal"><span class="pre">pg_hba.conf</span></code>).
+On Windows, you should always define <a class="reference internal" href="#std:setting-HOST"><code class="xref std std-setting docutils literal"><span class="pre">HOST</span></code></a>, as UNIX domain sockets
+are not available.</p>
+</div>
+<div class="section" id="name">
+<span id="std:setting-NAME"></span><h4>NAME<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The name of the database to use. For SQLite, it&#8217;s the full path to the database
+file. When specifying the path, always use forward slashes, even on Windows
+(e.g. <code class="docutils literal"><span class="pre">C:/homes/user/mysite/sqlite3.db</span></code>).</p>
+</div>
+<div class="section" id="std:setting-OPTIONS">
+<span id="id1"></span><h4>OPTIONS<a class="headerlink" href="#std:setting-OPTIONS" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">{}</span></code> (Empty dictionary)</p>
+<p>Extra parameters to use when connecting to the database. Available parameters
+vary depending on your database backend.</p>
+<p>Some information on available parameters can be found in the
+<a class="reference internal" href="databases.html"><em>Database Backends</em></a> documentation. For more information,
+consult your backend module&#8217;s own documentation.</p>
+</div>
+<div class="section" id="password">
+<span id="std:setting-PASSWORD"></span><h4>PASSWORD<a class="headerlink" href="#password" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The password to use when connecting to the database. Not used with SQLite.</p>
+</div>
+<div class="section" id="port">
+<span id="std:setting-PORT"></span><h4>PORT<a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The port to use when connecting to the database. An empty string means the
+default port. Not used with SQLite.</p>
+</div>
+<div class="section" id="user">
+<span id="std:setting-USER"></span><h4>USER<a class="headerlink" href="#user" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The username to use when connecting to the database. Not used with SQLite.</p>
+</div>
+<div class="section" id="test-charset">
+<span id="std:setting-TEST_CHARSET"></span><h4>TEST_CHARSET<a class="headerlink" href="#test-charset" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The character set encoding used to create the test database. The value of this
+string is passed directly through to the database, so its format is
+backend-specific.</p>
+<p>Supported for the <a class="reference external" href="http://www.postgresql.org/docs/8.2/static/multibyte.html">PostgreSQL</a> (<code class="docutils literal"><span class="pre">postgresql_psycopg2</span></code>) and <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/charset-database.html">MySQL</a> (<code class="docutils literal"><span class="pre">mysql</span></code>)
+backends.</p>
+</div>
+<div class="section" id="test-collation">
+<span id="std:setting-TEST_COLLATION"></span><h4>TEST_COLLATION<a class="headerlink" href="#test-collation" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The collation order to use when creating the test database. This value is
+passed directly to the backend, so its format is backend-specific.</p>
+<p>Only supported for the <code class="docutils literal"><span class="pre">mysql</span></code> backend (see the <a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/charset-database.html">MySQL manual</a> for details).</p>
+</div>
+<div class="section" id="test-dependencies">
+<span id="std:setting-TEST_DEPENDENCIES"></span><h4>TEST_DEPENDENCIES<a class="headerlink" href="#test-dependencies" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">['default']</span></code>, for all databases other than <code class="docutils literal"><span class="pre">default</span></code>,
+which has no dependencies.</p>
+<p>The creation-order dependencies of the database. See the documentation
+on <a class="reference internal" href="../topics/testing/advanced.html#topics-testing-creation-dependencies"><span>controlling the creation order of test databases</span></a> for details.</p>
+</div>
+<div class="section" id="test-mirror">
+<span id="std:setting-TEST_MIRROR"></span><h4>TEST_MIRROR<a class="headerlink" href="#test-mirror" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The alias of the database that this database should mirror during
+testing.</p>
+<p>This setting exists to allow for testing of master/slave
+configurations of multiple databases. See the documentation on
+<a class="reference internal" href="../topics/testing/advanced.html#topics-testing-masterslave"><span>testing master/slave configurations</span></a> for details.</p>
+</div>
+<div class="section" id="test-name">
+<span id="std:setting-TEST_NAME"></span><h4>TEST_NAME<a class="headerlink" href="#test-name" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The name of database to use when running the test suite.</p>
+<p>If the default value (<code class="docutils literal"><span class="pre">None</span></code>) is used with the SQLite database engine, the
+tests will use a memory resident database. For all other database engines the
+test database will use the name <code class="docutils literal"><span class="pre">'test_'</span> <span class="pre">+</span> <span class="pre">DATABASE_NAME</span></code>.</p>
+<p>See <a class="reference internal" href="../topics/testing/overview.html#the-test-database"><span>The test database</span></a>.</p>
+</div>
+<div class="section" id="test-create">
+<span id="std:setting-TEST_CREATE"></span><h4>TEST_CREATE<a class="headerlink" href="#test-create" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>If it is set to <code class="docutils literal"><span class="pre">False</span></code>, the test tablespaces won&#8217;t be automatically created
+at the beginning of the tests and dropped at the end.</p>
+</div>
+<div class="section" id="test-user">
+<span id="std:setting-TEST_USER"></span><h4>TEST_USER<a class="headerlink" href="#test-user" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>The username to use when connecting to the Oracle database that will be used
+when running tests. If not provided, Django will use <code class="docutils literal"><span class="pre">'test_'</span> <span class="pre">+</span> <span class="pre">USER</span></code>.</p>
+</div>
+<div class="section" id="test-user-create">
+<span id="std:setting-TEST_USER_CREATE"></span><h4>TEST_USER_CREATE<a class="headerlink" href="#test-user-create" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>If it is set to <code class="docutils literal"><span class="pre">False</span></code>, the test user won&#8217;t be automatically created at the
+beginning of the tests and dropped at the end.</p>
+</div>
+<div class="section" id="test-passwd">
+<span id="std:setting-TEST_PASSWD"></span><h4>TEST_PASSWD<a class="headerlink" href="#test-passwd" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>The password to use when connecting to the Oracle database that will be used
+when running tests. If not provided, Django will use a hardcoded default value.</p>
+</div>
+<div class="section" id="test-tblspace">
+<span id="std:setting-TEST_TBLSPACE"></span><h4>TEST_TBLSPACE<a class="headerlink" href="#test-tblspace" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>The name of the tablespace that will be used when running tests. If not
+provided, Django will use <code class="docutils literal"><span class="pre">'test_'</span> <span class="pre">+</span> <span class="pre">NAME</span></code>.</p>
+</div>
+<div class="section" id="test-tblspace-tmp">
+<span id="std:setting-TEST_TBLSPACE_TMP"></span><h4>TEST_TBLSPACE_TMP<a class="headerlink" href="#test-tblspace-tmp" title="Permalink to this headline">¶</a></h4>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>This is an Oracle-specific setting.</p>
+<p>The name of the temporary tablespace that will be used when running tests. If
+not provided, Django will use <code class="docutils literal"><span class="pre">'test_'</span> <span class="pre">+</span> <span class="pre">NAME</span> <span class="pre">+</span> <span class="pre">'_temp'</span></code>.</p>
+</div>
+</div>
+<div class="section" id="database-routers">
+<span id="std:setting-DATABASE_ROUTERS"></span><h3>DATABASE_ROUTERS<a class="headerlink" href="#database-routers" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">[]</span></code> (Empty list)</p>
+<p>The list of routers that will be used to determine which database
+to use when performing a database queries.</p>
+<p>See the documentation on <a class="reference internal" href="../topics/db/multi-db.html#topics-db-multi-db-routing"><span>automatic database routing in multi
+database configurations</span></a>.</p>
+</div>
+<div class="section" id="date-format">
+<span id="std:setting-DATE_FORMAT"></span><h3>DATE_FORMAT<a class="headerlink" href="#date-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'N</span> <span class="pre">j,</span> <span class="pre">Y'</span></code> (e.g. <code class="docutils literal"><span class="pre">Feb.</span> <span class="pre">4,</span> <span class="pre">2003</span></code>)</p>
+<p>The default formatting to use for displaying date fields in any part of the
+system. Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the
+locale-dictated format has higher precedence and will be applied instead. See
+<a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-TIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">TIME_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-SHORT_DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATE_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="date-input-formats">
+<span id="std:setting-DATE_INPUT_FORMATS"></span><h3>DATE_INPUT_FORMATS<a class="headerlink" href="#date-input-formats" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span>
+    <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%Y&#39;</span><span class="p">,</span> <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%y&#39;</span><span class="p">,</span> <span class="c"># &#39;2006-10-25&#39;, &#39;10/25/2006&#39;, &#39;10/25/06&#39;</span>
+    <span class="s">&#39;%b </span><span class="si">%d</span><span class="s"> %Y&#39;</span><span class="p">,</span> <span class="s">&#39;%b </span><span class="si">%d</span><span class="s">, %Y&#39;</span><span class="p">,</span>            <span class="c"># &#39;Oct 25 2006&#39;, &#39;Oct 25, 2006&#39;</span>
+    <span class="s">&#39;</span><span class="si">%d</span><span class="s"> %b %Y&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%d</span><span class="s"> %b, %Y&#39;</span><span class="p">,</span>            <span class="c"># &#39;25 Oct 2006&#39;, &#39;25 Oct, 2006&#39;</span>
+    <span class="s">&#39;%B </span><span class="si">%d</span><span class="s"> %Y&#39;</span><span class="p">,</span> <span class="s">&#39;%B </span><span class="si">%d</span><span class="s">, %Y&#39;</span><span class="p">,</span>            <span class="c"># &#39;October 25 2006&#39;, &#39;October 25, 2006&#39;</span>
+    <span class="s">&#39;</span><span class="si">%d</span><span class="s"> %B %Y&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%d</span><span class="s"> %B, %Y&#39;</span><span class="p">,</span>            <span class="c"># &#39;25 October 2006&#39;, &#39;25 October, 2006&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>A tuple of formats that will be accepted when inputting data on a date field.
+Formats will be tried in order, using the first valid one. Note that these
+format strings use Python&#8217;s <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-strptime-behavior">datetime</a> module syntax, not the format strings
+from the <code class="docutils literal"><span class="pre">date</span></code> Django template tag.</p>
+<p>When <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, the locale-dictated format has higher
+precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATETIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_INPUT_FORMATS</span></code></a> and <a class="reference internal" href="#std:setting-TIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">TIME_INPUT_FORMATS</span></code></a>.</p>
+</div>
+<div class="section" id="datetime-format">
+<span id="std:setting-DATETIME_FORMAT"></span><h3>DATETIME_FORMAT<a class="headerlink" href="#datetime-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'N</span> <span class="pre">j,</span> <span class="pre">Y,</span> <span class="pre">P'</span></code> (e.g. <code class="docutils literal"><span class="pre">Feb.</span> <span class="pre">4,</span> <span class="pre">2003,</span> <span class="pre">4</span> <span class="pre">p.m.</span></code>)</p>
+<p>The default formatting to use for displaying datetime fields in any part of the
+system. Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the
+locale-dictated format has higher precedence and will be applied instead. See
+<a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-TIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">TIME_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-SHORT_DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATETIME_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="datetime-input-formats">
+<span id="std:setting-DATETIME_INPUT_FORMATS"></span><h3>DATETIME_INPUT_FORMATS<a class="headerlink" href="#datetime-input-formats" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span>
+    <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">,</span>     <span class="c"># &#39;2006-10-25 14:30:59&#39;</span>
+    <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S.</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">,</span>  <span class="c"># &#39;2006-10-25 14:30:59.000200&#39;</span>
+    <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M&#39;</span><span class="p">,</span>        <span class="c"># &#39;2006-10-25 14:30&#39;</span>
+    <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span>              <span class="c"># &#39;2006-10-25&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%Y %H:%M:%S&#39;</span><span class="p">,</span>     <span class="c"># &#39;10/25/2006 14:30:59&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%Y %H:%M:%S.</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">,</span>  <span class="c"># &#39;10/25/2006 14:30:59.000200&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%Y %H:%M&#39;</span><span class="p">,</span>        <span class="c"># &#39;10/25/2006 14:30&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%Y&#39;</span><span class="p">,</span>              <span class="c"># &#39;10/25/2006&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%y %H:%M:%S&#39;</span><span class="p">,</span>     <span class="c"># &#39;10/25/06 14:30:59&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%y %H:%M:%S.</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">,</span>  <span class="c"># &#39;10/25/06 14:30:59.000200&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%y %H:%M&#39;</span><span class="p">,</span>        <span class="c"># &#39;10/25/06 14:30&#39;</span>
+    <span class="s">&#39;%m/</span><span class="si">%d</span><span class="s">/%y&#39;</span><span class="p">,</span>              <span class="c"># &#39;10/25/06&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>A tuple of formats that will be accepted when inputting data on a datetime
+field. Formats will be tried in order, using the first valid one. Note that
+these format strings use Python&#8217;s <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-strptime-behavior">datetime</a> module syntax, not the format
+strings from the <code class="docutils literal"><span class="pre">date</span></code> Django template tag.</p>
+<p>When <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, the locale-dictated format has higher
+precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATE_INPUT_FORMATS</span></code></a> and <a class="reference internal" href="#std:setting-TIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">TIME_INPUT_FORMATS</span></code></a>.</p>
+</div>
+<div class="section" id="debug">
+<span id="std:setting-DEBUG"></span><h3>DEBUG<a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that turns on/off debug mode.</p>
+<p>Never deploy a site into production with <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> turned on.</p>
+<p>Did you catch that? NEVER deploy a site into production with <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a>
+turned on.</p>
+<p>One of the main features of debug mode is the display of detailed error pages.
+If your app raises an exception when <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, Django will
+display a detailed traceback, including a lot of metadata about your
+environment, such as all the currently defined Django settings (from
+<code class="docutils literal"><span class="pre">settings.py</span></code>).</p>
+<p>As a security measure, Django will <em>not</em> include settings that might be
+sensitive (or offensive), such as <a class="reference internal" href="#std:setting-SECRET_KEY"><code class="xref std std-setting docutils literal"><span class="pre">SECRET_KEY</span></code></a> or
+<a class="reference internal" href="#std:setting-PROFANITIES_LIST"><code class="xref std std-setting docutils literal"><span class="pre">PROFANITIES_LIST</span></code></a>. Specifically, it will exclude any setting whose
+name includes any of the following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'API'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'KEY'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'PASS'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'PROFANITIES_LIST'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'SECRET'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'SIGNATURE'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'TOKEN'</span></code></li>
+</ul>
+<div class="versionchanged">
+</div>
+<p>Note that these are <em>partial</em> matches. <code class="docutils literal"><span class="pre">'PASS'</span></code> will also match PASSWORD,
+just as <code class="docutils literal"><span class="pre">'TOKEN'</span></code> will also match TOKENIZED and so on.</p>
+<p>Still, note that there are always going to be sections of your debug output
+that are inappropriate for public consumption. File paths, configuration
+options and the like all give attackers extra information about your server.</p>
+<p>It is also important to remember that when running with <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a>
+turned on, Django will remember every SQL query it executes. This is useful
+when you&#8217;re debugging, but it&#8217;ll rapidly consume memory on a production server.</p>
+</div>
+<div class="section" id="debug-propagate-exceptions">
+<h3>DEBUG_PROPAGATE_EXCEPTIONS<a class="headerlink" href="#debug-propagate-exceptions" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>If set to True, Django&#8217;s normal exception handling of view functions
+will be suppressed, and exceptions will propagate upwards.  This can
+be useful for some test setups, and should never be used on a live
+site.</p>
+</div>
+<div class="section" id="decimal-separator">
+<span id="std:setting-DECIMAL_SEPARATOR"></span><h3>DECIMAL_SEPARATOR<a class="headerlink" href="#decimal-separator" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'.'</span></code> (Dot)</p>
+<p>Default decimal separator used when formatting decimal numbers.</p>
+<p>Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the locale-dictated
+format has higher precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a>, <a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a> and
+<a class="reference internal" href="#std:setting-USE_THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">USE_THOUSAND_SEPARATOR</span></code></a>.</p>
+</div>
+<div class="section" id="default-charset">
+<span id="std:setting-DEFAULT_CHARSET"></span><h3>DEFAULT_CHARSET<a class="headerlink" href="#default-charset" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'utf-8'</span></code></p>
+<p>Default charset to use for all <code class="docutils literal"><span class="pre">HttpResponse</span></code> objects, if a MIME type isn&#8217;t
+manually specified. Used with <a class="reference internal" href="#std:setting-DEFAULT_CONTENT_TYPE"><code class="xref std std-setting docutils literal"><span class="pre">DEFAULT_CONTENT_TYPE</span></code></a> to construct the
+<code class="docutils literal"><span class="pre">Content-Type</span></code> header.</p>
+</div>
+<div class="section" id="default-content-type">
+<span id="std:setting-DEFAULT_CONTENT_TYPE"></span><h3>DEFAULT_CONTENT_TYPE<a class="headerlink" href="#default-content-type" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'text/html'</span></code></p>
+<p>Default content type to use for all <code class="docutils literal"><span class="pre">HttpResponse</span></code> objects, if a MIME type
+isn&#8217;t manually specified. Used with <a class="reference internal" href="#std:setting-DEFAULT_CHARSET"><code class="xref std std-setting docutils literal"><span class="pre">DEFAULT_CHARSET</span></code></a> to construct
+the <code class="docutils literal"><span class="pre">Content-Type</span></code> header.</p>
+</div>
+<div class="section" id="default-exception-reporter-filter">
+<span id="std:setting-DEFAULT_EXCEPTION_REPORTER_FILTER"></span><h3>DEFAULT_EXCEPTION_REPORTER_FILTER<a class="headerlink" href="#default-exception-reporter-filter" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="../howto/error-reporting.html#django.views.debug.SafeExceptionReporterFilter" title="django.views.debug.SafeExceptionReporterFilter"><code class="xref py py-class docutils literal"><span class="pre">django.views.debug.SafeExceptionReporterFilter</span></code></a></p>
+<p>Default exception reporter filter class to be used if none has been assigned to
+the <a class="reference internal" href="request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> instance yet.
+See <a class="reference internal" href="../howto/error-reporting.html#filtering-error-reports"><span>Filtering error reports</span></a>.</p>
+</div>
+<div class="section" id="default-file-storage">
+<span id="std:setting-DEFAULT_FILE_STORAGE"></span><h3>DEFAULT_FILE_STORAGE<a class="headerlink" href="#default-file-storage" title="Permalink to this headline">¶</a></h3>
+<p>Default: <a class="reference internal" href="files/storage.html#django.core.files.storage.FileSystemStorage" title="django.core.files.storage.FileSystemStorage"><code class="xref py py-class docutils literal"><span class="pre">django.core.files.storage.FileSystemStorage</span></code></a></p>
+<p>Default file storage class to be used for any file-related operations that don&#8217;t
+specify a particular storage system. See <a class="reference internal" href="../topics/files.html"><em>Managing files</em></a>.</p>
+</div>
+<div class="section" id="default-from-email">
+<span id="std:setting-DEFAULT_FROM_EMAIL"></span><h3>DEFAULT_FROM_EMAIL<a class="headerlink" href="#default-from-email" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'webmaster&#64;localhost'</span></code></p>
+<p>Default email address to use for various automated correspondence from the
+site manager(s).</p>
+</div>
+<div class="section" id="default-index-tablespace">
+<span id="std:setting-DEFAULT_INDEX_TABLESPACE"></span><h3>DEFAULT_INDEX_TABLESPACE<a class="headerlink" href="#default-index-tablespace" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Default tablespace to use for indexes on fields that don&#8217;t specify
+one, if the backend supports it (see <a class="reference internal" href="../topics/db/tablespaces.html"><em>Tablespaces</em></a>).</p>
+</div>
+<div class="section" id="default-tablespace">
+<span id="std:setting-DEFAULT_TABLESPACE"></span><h3>DEFAULT_TABLESPACE<a class="headerlink" href="#default-tablespace" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Default tablespace to use for models that don&#8217;t specify one, if the
+backend supports it (see <a class="reference internal" href="../topics/db/tablespaces.html"><em>Tablespaces</em></a>).</p>
+</div>
+<div class="section" id="disallowed-user-agents">
+<span id="std:setting-DISALLOWED_USER_AGENTS"></span><h3>DISALLOWED_USER_AGENTS<a class="headerlink" href="#disallowed-user-agents" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>List of compiled regular expression objects representing User-Agent strings that
+are not allowed to visit any page, systemwide. Use this for bad robots/crawlers.
+This is only used if <code class="docutils literal"><span class="pre">CommonMiddleware</span></code> is installed (see
+<a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>).</p>
+</div>
+<div class="section" id="email-backend">
+<span id="std:setting-EMAIL_BACKEND"></span><h3>EMAIL_BACKEND<a class="headerlink" href="#email-backend" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.core.mail.backends.smtp.EmailBackend'</span></code></p>
+<p>The backend to use for sending emails. For the list of available backends see
+<a class="reference internal" href="../topics/email.html"><em>Sending email</em></a>.</p>
+</div>
+<div class="section" id="email-file-path">
+<span id="std:setting-EMAIL_FILE_PATH"></span><h3>EMAIL_FILE_PATH<a class="headerlink" href="#email-file-path" title="Permalink to this headline">¶</a></h3>
+<p>Default: Not defined</p>
+<p>The directory used by the <code class="docutils literal"><span class="pre">file</span></code> email backend to store output files.</p>
+</div>
+<div class="section" id="email-host">
+<span id="std:setting-EMAIL_HOST"></span><h3>EMAIL_HOST<a class="headerlink" href="#email-host" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'localhost'</span></code></p>
+<p>The host to use for sending email.</p>
+<p>See also <a class="reference internal" href="#std:setting-EMAIL_PORT"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_PORT</span></code></a>.</p>
+</div>
+<div class="section" id="email-host-password">
+<span id="std:setting-EMAIL_HOST_PASSWORD"></span><h3>EMAIL_HOST_PASSWORD<a class="headerlink" href="#email-host-password" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Password to use for the SMTP server defined in <a class="reference internal" href="#std:setting-EMAIL_HOST"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST</span></code></a>. This
+setting is used in conjunction with <a class="reference internal" href="#std:setting-EMAIL_HOST_USER"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST_USER</span></code></a> when
+authenticating to the SMTP server. If either of these settings is empty,
+Django won&#8217;t attempt authentication.</p>
+<p>See also <a class="reference internal" href="#std:setting-EMAIL_HOST_USER"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST_USER</span></code></a>.</p>
+</div>
+<div class="section" id="email-host-user">
+<span id="std:setting-EMAIL_HOST_USER"></span><h3>EMAIL_HOST_USER<a class="headerlink" href="#email-host-user" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Username to use for the SMTP server defined in <a class="reference internal" href="#std:setting-EMAIL_HOST"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST</span></code></a>.
+If empty, Django won&#8217;t attempt authentication.</p>
+<p>See also <a class="reference internal" href="#std:setting-EMAIL_HOST_PASSWORD"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST_PASSWORD</span></code></a>.</p>
+</div>
+<div class="section" id="email-port">
+<span id="std:setting-EMAIL_PORT"></span><h3>EMAIL_PORT<a class="headerlink" href="#email-port" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">25</span></code></p>
+<p>Port to use for the SMTP server defined in <a class="reference internal" href="#std:setting-EMAIL_HOST"><code class="xref std std-setting docutils literal"><span class="pre">EMAIL_HOST</span></code></a>.</p>
+</div>
+<div class="section" id="email-subject-prefix">
+<span id="std:setting-EMAIL_SUBJECT_PREFIX"></span><h3>EMAIL_SUBJECT_PREFIX<a class="headerlink" href="#email-subject-prefix" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'[Django]</span> <span class="pre">'</span></code></p>
+<p>Subject-line prefix for email messages sent with <code class="docutils literal"><span class="pre">django.core.mail.mail_admins</span></code>
+or <code class="docutils literal"><span class="pre">django.core.mail.mail_managers</span></code>. You&#8217;ll probably want to include the
+trailing space.</p>
+</div>
+<div class="section" id="email-use-tls">
+<span id="std:setting-EMAIL_USE_TLS"></span><h3>EMAIL_USE_TLS<a class="headerlink" href="#email-use-tls" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to use a TLS (secure) connection when talking to the SMTP server.</p>
+</div>
+<div class="section" id="file-charset">
+<span id="std:setting-FILE_CHARSET"></span><h3>FILE_CHARSET<a class="headerlink" href="#file-charset" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'utf-8'</span></code></p>
+<p>The character encoding used to decode any files read from disk. This includes
+template files and initial SQL data files.</p>
+</div>
+<div class="section" id="file-upload-handlers">
+<span id="std:setting-FILE_UPLOAD_HANDLERS"></span><h3>FILE_UPLOAD_HANDLERS<a class="headerlink" href="#file-upload-handlers" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&quot;django.core.files.uploadhandler.MemoryFileUploadHandler&quot;</span><span class="p">,</span>
+ <span class="s">&quot;django.core.files.uploadhandler.TemporaryFileUploadHandler&quot;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>A tuple of handlers to use for uploading. See <a class="reference internal" href="../topics/files.html"><em>Managing files</em></a> for details.</p>
+</div>
+<div class="section" id="file-upload-max-memory-size">
+<span id="std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE"></span><h3>FILE_UPLOAD_MAX_MEMORY_SIZE<a class="headerlink" href="#file-upload-max-memory-size" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">2621440</span></code> (i.e. 2.5 MB).</p>
+<p>The maximum size (in bytes) that an upload will be before it gets streamed to
+the file system. See <a class="reference internal" href="../topics/files.html"><em>Managing files</em></a> for details.</p>
+</div>
+<div class="section" id="file-upload-permissions">
+<span id="std:setting-FILE_UPLOAD_PERMISSIONS"></span><h3>FILE_UPLOAD_PERMISSIONS<a class="headerlink" href="#file-upload-permissions" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The numeric mode (i.e. <code class="docutils literal"><span class="pre">0644</span></code>) to set newly uploaded files to. For
+more information about what these modes mean, see the documentation for
+<a class="reference external" href="http://docs.python.org/2.7/library/os.html#os.chmod" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">os.chmod()</span></code></a>.</p>
+<p>If this isn&#8217;t given or is <code class="docutils literal"><span class="pre">None</span></code>, you&#8217;ll get operating-system
+dependent behavior. On most platforms, temporary files will have a mode
+of <code class="docutils literal"><span class="pre">0600</span></code>, and files saved from memory will be saved using the
+system&#8217;s standard umask.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><strong>Always prefix the mode with a 0.</strong></p>
+<p class="last">If you&#8217;re not familiar with file modes, please note that the leading
+<code class="docutils literal"><span class="pre">0</span></code> is very important: it indicates an octal number, which is the
+way that modes must be specified. If you try to use <code class="docutils literal"><span class="pre">644</span></code>, you&#8217;ll
+get totally incorrect behavior.</p>
+</div>
+</div>
+<div class="section" id="file-upload-temp-dir">
+<span id="std:setting-FILE_UPLOAD_TEMP_DIR"></span><h3>FILE_UPLOAD_TEMP_DIR<a class="headerlink" href="#file-upload-temp-dir" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The directory to store data temporarily while uploading files. If <code class="docutils literal"><span class="pre">None</span></code>,
+Django will use the standard temporary directory for the operating system. For
+example, this will default to &#8216;/tmp&#8217; on *nix-style operating systems.</p>
+<p>See <a class="reference internal" href="../topics/files.html"><em>Managing files</em></a> for details.</p>
+</div>
+<div class="section" id="first-day-of-week">
+<span id="std:setting-FIRST_DAY_OF_WEEK"></span><h3>FIRST_DAY_OF_WEEK<a class="headerlink" href="#first-day-of-week" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">0</span></code> (Sunday)</p>
+<p>Number representing the first day of the week. This is especially useful
+when displaying a calendar. This value is only used when not using
+format internationalization, or when a format cannot be found for the
+current locale.</p>
+<p>The value must be an integer from 0 to 6, where 0 means Sunday, 1 means
+Monday and so on.</p>
+</div>
+<div class="section" id="fixture-dirs">
+<span id="std:setting-FIXTURE_DIRS"></span><h3>FIXTURE_DIRS<a class="headerlink" href="#fixture-dirs" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>List of directories searched for fixture files, in addition to the
+<code class="docutils literal"><span class="pre">fixtures</span></code> directory of each application, in search order.</p>
+<p>Note that these paths should use Unix-style forward slashes, even on Windows.</p>
+<p>See <a class="reference internal" href="../howto/initial-data.html#id1"><span>Providing initial data with fixtures</span></a> and <a class="reference internal" href="../topics/testing/overview.html#topics-testing-fixtures"><span>Fixture loading</span></a>.</p>
+</div>
+<div class="section" id="force-script-name">
+<span id="std:setting-FORCE_SCRIPT_NAME"></span><h3>FORCE_SCRIPT_NAME<a class="headerlink" href="#force-script-name" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>If not <code class="docutils literal"><span class="pre">None</span></code>, this will be used as the value of the <code class="docutils literal"><span class="pre">SCRIPT_NAME</span></code>
+environment variable in any HTTP request. This setting can be used to override
+the server-provided value of <code class="docutils literal"><span class="pre">SCRIPT_NAME</span></code>, which may be a rewritten version
+of the preferred value or not supplied at all.</p>
+</div>
+<div class="section" id="format-module-path">
+<span id="std:setting-FORMAT_MODULE_PATH"></span><h3>FORMAT_MODULE_PATH<a class="headerlink" href="#format-module-path" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>A full Python path to a Python package that contains format definitions for
+project locales. If not <code class="docutils literal"><span class="pre">None</span></code>, Django will check for a <code class="docutils literal"><span class="pre">formats.py</span></code>
+file, under the directory named as the current locale, and will use the
+formats defined on this file.</p>
+<p>For example, if <a class="reference internal" href="#std:setting-FORMAT_MODULE_PATH"><code class="xref std std-setting docutils literal"><span class="pre">FORMAT_MODULE_PATH</span></code></a> is set to <code class="docutils literal"><span class="pre">mysite.formats</span></code>,
+and current language is <code class="docutils literal"><span class="pre">en</span></code> (English), Django will expect a directory tree
+like:</p>
+<div class="highlight-python"><div class="highlight"><pre>mysite/
+    formats/
+        __init__.py
+        en/
+            __init__.py
+            formats.py
+</pre></div>
+</div>
+<p>Available formats are <a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-TIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">TIME_FORMAT</span></code></a>,
+<a class="reference internal" href="#std:setting-DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-YEAR_MONTH_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">YEAR_MONTH_FORMAT</span></code></a>,
+<a class="reference internal" href="#std:setting-MONTH_DAY_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">MONTH_DAY_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-SHORT_DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATE_FORMAT</span></code></a>,
+<a class="reference internal" href="#std:setting-SHORT_DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATETIME_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-FIRST_DAY_OF_WEEK"><code class="xref std std-setting docutils literal"><span class="pre">FIRST_DAY_OF_WEEK</span></code></a>,
+<a class="reference internal" href="#std:setting-DECIMAL_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">DECIMAL_SEPARATOR</span></code></a>, <a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a> and
+<a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a>.</p>
+</div>
+<div class="section" id="ignorable-404-urls">
+<span id="std:setting-IGNORABLE_404_URLS"></span><h3>IGNORABLE_404_URLS<a class="headerlink" href="#ignorable-404-urls" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code></p>
+<p>List of compiled regular expression objects describing URLs that should be
+ignored when reporting HTTP 404 errors via email (see
+<a class="reference internal" href="../howto/error-reporting.html"><em>Error reporting</em></a>). Regular expressions are matched against
+<a class="reference internal" href="request-response.html#django.http.HttpRequest.get_full_path" title="django.http.HttpRequest.get_full_path"><code class="xref py py-meth docutils literal"><span class="pre">request's</span> <span class="pre">full</span> <span class="pre">paths</span></code></a> (including
+query string, if any). Use this if your site does not provide a commonly
+requested file such as <code class="docutils literal"><span class="pre">favicon.ico</span></code> or <code class="docutils literal"><span class="pre">robots.txt</span></code>, or if it gets
+hammered by script kiddies.</p>
+<p>This is only used if <a class="reference internal" href="#std:setting-SEND_BROKEN_LINK_EMAILS"><code class="xref std std-setting docutils literal"><span class="pre">SEND_BROKEN_LINK_EMAILS</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code> and
+<code class="docutils literal"><span class="pre">CommonMiddleware</span></code> is installed (see <a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>).</p>
+</div>
+<div class="section" id="installed-apps">
+<span id="std:setting-INSTALLED_APPS"></span><h3>INSTALLED_APPS<a class="headerlink" href="#installed-apps" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple of strings designating all applications that are enabled in this Django
+installation. Each string should be a full Python path to a Python package that
+contains a Django application, as created by <a class="reference internal" href="django-admin.html#django-admin-startapp"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span> <span class="pre">startapp</span></code></a>.</p>
+<div class="admonition-app-names-must-be-unique admonition">
+<p class="first admonition-title">App names must be unique</p>
+<p class="last">The application names (that is, the final dotted part of the
+path to the module containing <code class="docutils literal"><span class="pre">models.py</span></code>) defined in
+<a class="reference internal" href="#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> <em>must</em> be unique. For example, you can&#8217;t
+include both <code class="docutils literal"><span class="pre">django.contrib.auth</span></code> and <code class="docutils literal"><span class="pre">myproject.auth</span></code> in
+INSTALLED_APPS.</p>
+</div>
+</div>
+<div class="section" id="internal-ips">
+<span id="std:setting-INTERNAL_IPS"></span><h3>INTERNAL_IPS<a class="headerlink" href="#internal-ips" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple of IP addresses, as strings, that:</p>
+<ul class="simple">
+<li>See debug comments, when <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code></li>
+<li>Receive X headers if the <code class="docutils literal"><span class="pre">XViewMiddleware</span></code> is installed (see
+<a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>)</li>
+</ul>
+</div>
+<div class="section" id="language-code">
+<span id="std:setting-LANGUAGE_CODE"></span><h3>LANGUAGE_CODE<a class="headerlink" href="#language-code" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'en-us'</span></code></p>
+<p>A string representing the language code for this installation. This should be in
+standard <a class="reference internal" href="../topics/i18n/index.html#term-language-code"><span class="xref std std-term">language format</span></a>. For example, U.S. English is
+<code class="docutils literal"><span class="pre">&quot;en-us&quot;</span></code>. See <a class="reference internal" href="../topics/i18n/index.html"><em>Internationalization and localization</em></a>.</p>
+</div>
+<div class="section" id="language-cookie-name">
+<span id="std:setting-LANGUAGE_COOKIE_NAME"></span><h3>LANGUAGE_COOKIE_NAME<a class="headerlink" href="#language-cookie-name" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django_language'</span></code></p>
+<p>The name of the cookie to use for the language cookie. This can be whatever
+you want (but should be different from <a class="reference internal" href="#std:setting-SESSION_COOKIE_NAME"><code class="xref std std-setting docutils literal"><span class="pre">SESSION_COOKIE_NAME</span></code></a>). See
+<a class="reference internal" href="../topics/i18n/index.html"><em>Internationalization and localization</em></a>.</p>
+</div>
+<div class="section" id="languages">
+<span id="std:setting-LANGUAGES"></span><h3>LANGUAGES<a class="headerlink" href="#languages" title="Permalink to this headline">¶</a></h3>
+<p>Default: A tuple of all available languages. This list is continually growing
+and including a copy here would inevitably become rapidly out of date. You can
+see the current list of translated languages by looking in
+<code class="docutils literal"><span class="pre">django/conf/global_settings.py</span></code> (or view the <a class="reference external" href="https://github.com/django/django/blob/master/django/conf/global_settings.py">online source</a>).</p>
+<p>The list is a tuple of two-tuples in the format <code class="docutils literal"><span class="pre">(language</span> <span class="pre">code,</span> <span class="pre">language</span>
+<span class="pre">name)</span></code>, the <code class="docutils literal"><span class="pre">language</span> <span class="pre">code</span></code> part should be a
+<a class="reference internal" href="../topics/i18n/index.html#term-language-code"><span class="xref std std-term">language name</span></a> &#8211; for example, <code class="docutils literal"><span class="pre">('ja',</span> <span class="pre">'Japanese')</span></code>.
+This specifies which languages are available for language selection. See
+<a class="reference internal" href="../topics/i18n/index.html"><em>Internationalization and localization</em></a>.</p>
+<p>Generally, the default value should suffice. Only set this setting if you want
+to restrict language selection to a subset of the Django-provided languages.</p>
+<p>If you define a custom <a class="reference internal" href="#std:setting-LANGUAGES"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGES</span></code></a> setting, it&#8217;s OK to mark the
+languages as translation strings (as in the default value referred to above)
+&#8211; but use a &#8220;dummy&#8221; <code class="docutils literal"><span class="pre">gettext()</span></code> function, not the one in
+<code class="docutils literal"><span class="pre">django.utils.translation</span></code>. You should <em>never</em> import
+<code class="docutils literal"><span class="pre">django.utils.translation</span></code> from within your settings file, because that
+module in itself depends on the settings, and that would cause a circular
+import.</p>
+<p>The solution is to use a &#8220;dummy&#8221; <code class="docutils literal"><span class="pre">gettext()</span></code> function. Here&#8217;s a sample
+settings file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">gettext</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span>
+
+<span class="n">LANGUAGES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">&#39;de&#39;</span><span class="p">,</span> <span class="n">gettext</span><span class="p">(</span><span class="s">&#39;German&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">&#39;en&#39;</span><span class="p">,</span> <span class="n">gettext</span><span class="p">(</span><span class="s">&#39;English&#39;</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>With this arrangement, <code class="docutils literal"><span class="pre">django-admin.py</span> <span class="pre">makemessages</span></code> will still find and
+mark these strings for translation, but the translation won&#8217;t happen at
+runtime &#8211; so you&#8217;ll have to remember to wrap the languages in the <em>real</em>
+<code class="docutils literal"><span class="pre">gettext()</span></code> in any code that uses <a class="reference internal" href="#std:setting-LANGUAGES"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGES</span></code></a> at runtime.</p>
+</div>
+<div class="section" id="locale-paths">
+<span id="std:setting-LOCALE_PATHS"></span><h3>LOCALE_PATHS<a class="headerlink" href="#locale-paths" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple of directories where Django looks for translation files.
+See <a class="reference internal" href="../topics/i18n/translation.html#how-django-discovers-translations"><span>How Django discovers translations</span></a>.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LOCALE_PATHS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;/home/www/project/common_files/locale&#39;</span><span class="p">,</span>
+    <span class="s">&#39;/var/local/translations/locale&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Django will look within each of these paths for the <code class="docutils literal"><span class="pre">&lt;locale_code&gt;/LC_MESSAGES</span></code>
+directories containing the actual translation files.</p>
+</div>
+<div class="section" id="logging">
+<span id="std:setting-LOGGING"></span><h3>LOGGING<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
+<p>Default: A logging configuration dictionary.</p>
+<p>A data structure containing configuration information. The contents of
+this data structure will be passed as the argument to the
+configuration method described in <a class="reference internal" href="#std:setting-LOGGING_CONFIG"><code class="xref std std-setting docutils literal"><span class="pre">LOGGING_CONFIG</span></code></a>.</p>
+<p>The default logging configuration passes HTTP 500 server errors to an
+email log handler; all other log messages are given to a NullHandler.</p>
+</div>
+<div class="section" id="logging-config">
+<span id="std:setting-LOGGING_CONFIG"></span><h3>LOGGING_CONFIG<a class="headerlink" href="#logging-config" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.utils.log.dictConfig'</span></code></p>
+<p>A path to a callable that will be used to configure logging in the
+Django project. Points at a instance of Python&#8217;s <a class="reference external" href="http://docs.python.org/library/logging.config.html#configuration-dictionary-schema">dictConfig</a>
+configuration method by default.</p>
+<p>If you set <a class="reference internal" href="#std:setting-LOGGING_CONFIG"><code class="xref std std-setting docutils literal"><span class="pre">LOGGING_CONFIG</span></code></a> to <code class="docutils literal"><span class="pre">None</span></code>, the logging
+configuration process will be skipped.</p>
+</div>
+<div class="section" id="login-redirect-url">
+<span id="std:setting-LOGIN_REDIRECT_URL"></span><h3>LOGIN_REDIRECT_URL<a class="headerlink" href="#login-redirect-url" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'/accounts/profile/'</span></code></p>
+<p>The URL where requests are redirected after login when the
+<code class="docutils literal"><span class="pre">contrib.auth.login</span></code> view gets no <code class="docutils literal"><span class="pre">next</span></code> parameter.</p>
+<p>This is used by the <a class="reference internal" href="../topics/auth/default.html#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a>
+decorator, for example.</p>
+<div class="versionchanged">
+</div>
+<p>This setting now also accepts view function names and
+<a class="reference internal" href="../topics/http/urls.html#naming-url-patterns"><span>named URL patterns</span></a> which can be used to reduce
+configuration duplication since you no longer have to define the URL in two
+places (<code class="docutils literal"><span class="pre">settings</span></code> and URLconf).
+For backward compatibility reasons the default remains unchanged.</p>
+</div>
+<div class="section" id="login-url">
+<span id="std:setting-LOGIN_URL"></span><h3>LOGIN_URL<a class="headerlink" href="#login-url" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'/accounts/login/'</span></code></p>
+<p>The URL where requests are redirected for login, especially when using the
+<a class="reference internal" href="../topics/auth/default.html#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> decorator.</p>
+<div class="versionchanged">
+</div>
+<p>This setting now also accepts view function names and
+<a class="reference internal" href="../topics/http/urls.html#naming-url-patterns"><span>named URL patterns</span></a> which can be used to reduce
+configuration duplication since you no longer have to define the URL in two
+places (<code class="docutils literal"><span class="pre">settings</span></code> and URLconf).
+For backward compatibility reasons the default remains unchanged.</p>
+</div>
+<div class="section" id="logout-url">
+<span id="std:setting-LOGOUT_URL"></span><h3>LOGOUT_URL<a class="headerlink" href="#logout-url" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'/accounts/logout/'</span></code></p>
+<p>LOGIN_URL counterpart.</p>
+</div>
+<div class="section" id="managers">
+<span id="std:setting-MANAGERS"></span><h3>MANAGERS<a class="headerlink" href="#managers" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple in the same format as <a class="reference internal" href="#std:setting-ADMINS"><code class="xref std std-setting docutils literal"><span class="pre">ADMINS</span></code></a> that specifies who should get
+broken-link notifications when <a class="reference internal" href="#std:setting-SEND_BROKEN_LINK_EMAILS"><code class="xref std std-setting docutils literal"><span class="pre">SEND_BROKEN_LINK_EMAILS</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>.</p>
+</div>
+<div class="section" id="media-root">
+<span id="std:setting-MEDIA_ROOT"></span><h3>MEDIA_ROOT<a class="headerlink" href="#media-root" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Absolute filesystem path to the directory that will hold <a class="reference internal" href="../topics/files.html"><em>user-uploaded
+files</em></a>.</p>
+<p>Example: <code class="docutils literal"><span class="pre">&quot;/var/www/example.com/media/&quot;</span></code></p>
+<p>See also <a class="reference internal" href="#std:setting-MEDIA_URL"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_URL</span></code></a>.</p>
+</div>
+<div class="section" id="media-url">
+<span id="std:setting-MEDIA_URL"></span><h3>MEDIA_URL<a class="headerlink" href="#media-url" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>URL that handles the media served from <a class="reference internal" href="#std:setting-MEDIA_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_ROOT</span></code></a>, used
+for <a class="reference internal" href="../topics/files.html"><em>managing stored files</em></a>. It must end in a slash if set
+to a non-empty value.</p>
+<p>Example: <code class="docutils literal"><span class="pre">&quot;http://media.example.com/&quot;</span></code></p>
+</div>
+<div class="section" id="message-level">
+<h3>MESSAGE_LEVEL<a class="headerlink" href="#message-level" title="Permalink to this headline">¶</a></h3>
+<p>Default: <cite>messages.INFO</cite></p>
+<p>Sets the minimum message level that will be recorded by the messages
+framework. See the <a class="reference internal" href="contrib/messages.html"><em>messages documentation</em></a> for
+more details.</p>
+</div>
+<div class="section" id="message-storage">
+<h3>MESSAGE_STORAGE<a class="headerlink" href="#message-storage" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.contrib.messages.storage.fallback.FallbackStorage'</span></code></p>
+<p>Controls where Django stores message data.  See the
+<a class="reference internal" href="contrib/messages.html"><em>messages documentation</em></a> for more details.</p>
+</div>
+<div class="section" id="message-tags">
+<h3>MESSAGE_TAGS<a class="headerlink" href="#message-tags" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="n">messages</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="s">&#39;debug&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s">&#39;info&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="s">&#39;warning&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,}</span>
+</pre></div>
+</div>
+<p>Sets the mapping of message levels to message tags. See the
+<a class="reference internal" href="contrib/messages.html"><em>messages documentation</em></a> for more details.</p>
+</div>
+<div class="section" id="middleware-classes">
+<span id="std:setting-MIDDLEWARE_CLASSES"></span><h3>MIDDLEWARE_CLASSES<a class="headerlink" href="#middleware-classes" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.middleware.csrf.CsrfViewMiddleware&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>A tuple of middleware classes to use. See <a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>.</p>
+</div>
+<div class="section" id="month-day-format">
+<span id="std:setting-MONTH_DAY_FORMAT"></span><h3>MONTH_DAY_FORMAT<a class="headerlink" href="#month-day-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'F</span> <span class="pre">j'</span></code></p>
+<p>The default formatting to use for date fields on Django admin change-list
+pages &#8211; and, possibly, by other parts of the system &#8211; in cases when only the
+month and day are displayed.</p>
+<p>For example, when a Django admin change-list page is being filtered by a date
+drilldown, the header for a given day displays the day and month. Different
+locales have different formats. For example, U.S. English would say
+&#8220;January 1,&#8221; whereas Spanish might say &#8220;1 Enero.&#8221;</p>
+<p>See <a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>. See also
+<a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_FORMAT</span></code></a>,
+<a class="reference internal" href="#std:setting-TIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">TIME_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-YEAR_MONTH_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">YEAR_MONTH_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="number-grouping">
+<span id="std:setting-NUMBER_GROUPING"></span><h3>NUMBER_GROUPING<a class="headerlink" href="#number-grouping" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">0</span></code></p>
+<p>Number of digits grouped together on the integer part of a number.</p>
+<p>Common use is to display a thousand separator. If this setting is <code class="docutils literal"><span class="pre">0</span></code>, then
+no grouping will be applied to the number. If this setting is greater than
+<code class="docutils literal"><span class="pre">0</span></code>, then <a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a> will be used as the separator between
+those groups.</p>
+<p>Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the locale-dictated
+format has higher precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-DECIMAL_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">DECIMAL_SEPARATOR</span></code></a>, <a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a> and
+<a class="reference internal" href="#std:setting-USE_THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">USE_THOUSAND_SEPARATOR</span></code></a>.</p>
+</div>
+<div class="section" id="password-hashers">
+<span id="std:setting-PASSWORD_HASHERS"></span><h3>PASSWORD_HASHERS<a class="headerlink" href="#password-hashers" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>See <a class="reference internal" href="../topics/auth/passwords.html#auth-password-storage"><span>How Django stores passwords</span></a>.</p>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&#39;django.contrib.auth.hashers.PBKDF2PasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.BCryptPasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.SHA1PasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.MD5PasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.UnsaltedMD5PasswordHasher&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.contrib.auth.hashers.CryptPasswordHasher&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="password-reset-timeout-days">
+<span id="std:setting-PASSWORD_RESET_TIMEOUT_DAYS"></span><h3>PASSWORD_RESET_TIMEOUT_DAYS<a class="headerlink" href="#password-reset-timeout-days" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">3</span></code></p>
+<p>The number of days a password reset link is valid for. Used by the
+<a class="reference internal" href="../topics/auth/index.html#module-django.contrib.auth" title="django.contrib.auth: Django's authentication framework."><code class="xref py py-mod docutils literal"><span class="pre">django.contrib.auth</span></code></a> password reset mechanism.</p>
+</div>
+<div class="section" id="prepend-www">
+<span id="std:setting-PREPEND_WWW"></span><h3>PREPEND_WWW<a class="headerlink" href="#prepend-www" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to prepend the &#8220;www.&#8221; subdomain to URLs that don&#8217;t have it. This is only
+used if <a class="reference internal" href="middleware.html#django.middleware.common.CommonMiddleware" title="django.middleware.common.CommonMiddleware"><code class="xref py py-class docutils literal"><span class="pre">CommonMiddleware</span></code></a> is installed
+(see <a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>). See also <a class="reference internal" href="#std:setting-APPEND_SLASH"><code class="xref std std-setting docutils literal"><span class="pre">APPEND_SLASH</span></code></a>.</p>
+</div>
+<div class="section" id="profanities-list">
+<span id="std:setting-PROFANITIES_LIST"></span><h3>PROFANITIES_LIST<a class="headerlink" href="#profanities-list" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>A tuple of profanities, as strings, that will be forbidden in comments when
+<code class="docutils literal"><span class="pre">COMMENTS_ALLOW_PROFANITIES</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</div>
+<div class="section" id="restructuredtext-filter-settings">
+<span id="std:setting-RESTRUCTUREDTEXT_FILTER_SETTINGS"></span><h3>RESTRUCTUREDTEXT_FILTER_SETTINGS<a class="headerlink" href="#restructuredtext-filter-settings" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">{}</span></code></p>
+<p>A dictionary containing settings for the <code class="docutils literal"><span class="pre">restructuredtext</span></code> markup filter from
+the <a class="reference internal" href="contrib/markup.html"><em>django.contrib.markup application</em></a>. They override
+the default writer settings. See the Docutils restructuredtext <a class="reference external" href="http://docutils.sourceforge.net/docs/user/config.html#html4css1-writer">writer settings
+docs</a> for details.</p>
+</div>
+<div class="section" id="root-urlconf">
+<span id="std:setting-ROOT_URLCONF"></span><h3>ROOT_URLCONF<a class="headerlink" href="#root-urlconf" title="Permalink to this headline">¶</a></h3>
+<p>Default: Not defined</p>
+<p>A string representing the full Python import path to your root URLconf. For example:
+<code class="docutils literal"><span class="pre">&quot;mydjangoapps.urls&quot;</span></code>. Can be overridden on a per-request basis by
+setting the attribute <code class="docutils literal"><span class="pre">urlconf</span></code> on the incoming <code class="docutils literal"><span class="pre">HttpRequest</span></code>
+object. See <a class="reference internal" href="../topics/http/urls.html#how-django-processes-a-request"><span>How Django processes a request</span></a> for details.</p>
+</div>
+<div class="section" id="secret-key">
+<span id="std:setting-SECRET_KEY"></span><h3>SECRET_KEY<a class="headerlink" href="#secret-key" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>A secret key for a particular Django installation. This is used to provide
+<a class="reference internal" href="../topics/signing.html"><em>cryptographic signing</em></a>, and should be set to a unique,
+unpredictable value.</p>
+<p><a class="reference internal" href="django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span> <span class="pre">startproject</span></code></a> automatically adds a
+randomly-generated <code class="docutils literal"><span class="pre">SECRET_KEY</span></code> to each new project.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><strong>Keep this value secret.</strong></p>
+<p class="last">Running Django with a known <a class="reference internal" href="#std:setting-SECRET_KEY"><code class="xref std std-setting docutils literal"><span class="pre">SECRET_KEY</span></code></a> defeats many of Django&#8217;s
+security protections, and can lead to privilege escalation and remote code
+execution vulnerabilities.</p>
+</div>
+<div class="versionchanged">
+Django will now refuse to start if <a class="reference internal" href="#std:setting-SECRET_KEY"><code class="xref std std-setting docutils literal"><span class="pre">SECRET_KEY</span></code></a> is not set.</div>
+</div>
+<div class="section" id="secure-proxy-ssl-header">
+<span id="std:setting-SECURE_PROXY_SSL_HEADER"></span><h3>SECURE_PROXY_SSL_HEADER<a class="headerlink" href="#secure-proxy-ssl-header" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>A tuple representing a HTTP header/value combination that signifies a request
+is secure. This controls the behavior of the request object&#8217;s <code class="docutils literal"><span class="pre">is_secure()</span></code>
+method.</p>
+<p>This takes some explanation. By default, <code class="docutils literal"><span class="pre">is_secure()</span></code> is able to determine
+whether a request is secure by looking at whether the requested URL uses
+&#8220;<a class="reference external" href="https:///">https://</a>&#8221;. This is important for Django&#8217;s CSRF protection, and may be used
+by your own code or third-party apps.</p>
+<p>If your Django app is behind a proxy, though, the proxy may be &#8220;swallowing&#8221; the
+fact that a request is HTTPS, using a non-HTTPS connection between the proxy
+and Django. In this case, <code class="docutils literal"><span class="pre">is_secure()</span></code> would always return <code class="docutils literal"><span class="pre">False</span></code> &#8211; even
+for requests that were made via HTTPS by the end user.</p>
+<p>In this situation, you&#8217;ll want to configure your proxy to set a custom HTTP
+header that tells Django whether the request came in via HTTPS, and you&#8217;ll want
+to set <code class="docutils literal"><span class="pre">SECURE_PROXY_SSL_HEADER</span></code> so that Django knows what header to look
+for.</p>
+<p>You&#8217;ll need to set a tuple with two elements &#8211; the name of the header to look
+for and the required value. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SECURE_PROXY_SSL_HEADER</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;HTTP_X_FORWARDED_PROTO&#39;</span><span class="p">,</span> <span class="s">&#39;https&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we&#8217;re telling Django that we trust the <code class="docutils literal"><span class="pre">X-Forwarded-Proto</span></code> header
+that comes from our proxy, and any time its value is <code class="docutils literal"><span class="pre">'https'</span></code>, then the
+request is guaranteed to be secure (i.e., it originally came in via HTTPS).
+Obviously, you should <em>only</em> set this setting if you control your proxy or
+have some other guarantee that it sets/strips this header appropriately.</p>
+<p>Note that the header needs to be in the format as used by <code class="docutils literal"><span class="pre">request.META</span></code> &#8211;
+all caps and likely starting with <code class="docutils literal"><span class="pre">HTTP_</span></code>. (Remember, Django automatically
+adds <code class="docutils literal"><span class="pre">'HTTP_'</span></code> to the start of x-header names before making the header
+available in <code class="docutils literal"><span class="pre">request.META</span></code>.)</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p><strong>You will probably open security holes in your site if you set this
+without knowing what you&#8217;re doing. And if you fail to set it when you
+should. Seriously.</strong></p>
+<p>Make sure ALL of the following are true before setting this (assuming the
+values from the example above):</p>
+<ul class="simple">
+<li>Your Django app is behind a proxy.</li>
+<li>Your proxy strips the <code class="docutils literal"><span class="pre">X-Forwarded-Proto</span></code> header from all incoming
+requests. In other words, if end users include that header in their
+requests, the proxy will discard it.</li>
+<li>Your proxy sets the <code class="docutils literal"><span class="pre">X-Forwarded-Proto</span></code> header and sends it to Django,
+but only for requests that originally come in via HTTPS.</li>
+</ul>
+<p class="last">If any of those are not true, you should keep this setting set to <code class="docutils literal"><span class="pre">None</span></code>
+and find another way of determining HTTPS, perhaps via custom middleware.</p>
+</div>
+</div>
+<div class="section" id="send-broken-link-emails">
+<span id="std:setting-SEND_BROKEN_LINK_EMAILS"></span><h3>SEND_BROKEN_LINK_EMAILS<a class="headerlink" href="#send-broken-link-emails" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to send an email to the <a class="reference internal" href="#std:setting-MANAGERS"><code class="xref std std-setting docutils literal"><span class="pre">MANAGERS</span></code></a> each time somebody visits
+a Django-powered page that is 404ed with a non-empty referer (i.e., a broken
+link). This is only used if <code class="docutils literal"><span class="pre">CommonMiddleware</span></code> is installed (see
+<a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>). See also <a class="reference internal" href="#std:setting-IGNORABLE_404_URLS"><code class="xref std std-setting docutils literal"><span class="pre">IGNORABLE_404_URLS</span></code></a> and
+<a class="reference internal" href="../howto/error-reporting.html"><em>Error reporting</em></a>.</p>
+</div>
+<div class="section" id="serialization-modules">
+<span id="std:setting-SERIALIZATION_MODULES"></span><h3>SERIALIZATION_MODULES<a class="headerlink" href="#serialization-modules" title="Permalink to this headline">¶</a></h3>
+<p>Default: Not defined.</p>
+<p>A dictionary of modules containing serializer definitions (provided as
+strings), keyed by a string identifier for that serialization type. For
+example, to define a YAML serializer, use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SERIALIZATION_MODULES</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;yaml&#39;</span> <span class="p">:</span> <span class="s">&#39;path.to.yaml_serializer&#39;</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="server-email">
+<span id="std:setting-SERVER_EMAIL"></span><h3>SERVER_EMAIL<a class="headerlink" href="#server-email" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'root&#64;localhost'</span></code></p>
+<p>The email address that error messages come from, such as those sent to
+<a class="reference internal" href="#std:setting-ADMINS"><code class="xref std std-setting docutils literal"><span class="pre">ADMINS</span></code></a> and <a class="reference internal" href="#std:setting-MANAGERS"><code class="xref std std-setting docutils literal"><span class="pre">MANAGERS</span></code></a>.</p>
+</div>
+<div class="section" id="session-cookie-age">
+<span id="std:setting-SESSION_COOKIE_AGE"></span><h3>SESSION_COOKIE_AGE<a class="headerlink" href="#session-cookie-age" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">1209600</span></code> (2 weeks, in seconds)</p>
+<p>The age of session cookies, in seconds. See <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-cookie-domain">
+<span id="std:setting-SESSION_COOKIE_DOMAIN"></span><h3>SESSION_COOKIE_DOMAIN<a class="headerlink" href="#session-cookie-domain" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The domain to use for session cookies. Set this to a string such as
+<code class="docutils literal"><span class="pre">&quot;.example.com&quot;</span></code> for cross-domain cookies, or use <code class="docutils literal"><span class="pre">None</span></code> for a standard
+domain cookie. See the <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-cookie-httponly">
+<span id="std:setting-SESSION_COOKIE_HTTPONLY"></span><h3>SESSION_COOKIE_HTTPONLY<a class="headerlink" href="#session-cookie-httponly" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>Whether to use HTTPOnly flag on the session cookie. If this is set to
+<code class="docutils literal"><span class="pre">True</span></code>, client-side JavaScript will not to be able to access the
+session cookie.</p>
+<p><a class="reference external" href="https://www.owasp.org/index.php/HTTPOnly">HTTPOnly</a> is a flag included in a Set-Cookie HTTP response header. It
+is not part of the <span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2109.html"><strong>RFC 2109</strong></a> standard for cookies, and it isn&#8217;t honored
+consistently by all browsers. However, when it is honored, it can be a
+useful way to mitigate the risk of client side script accessing the
+protected cookie data.</p>
+<div class="versionchanged">
+The default value of the setting was changed from <code class="docutils literal"><span class="pre">False</span></code> to <code class="docutils literal"><span class="pre">True</span></code>.</div>
+</div>
+<div class="section" id="session-cookie-name">
+<span id="std:setting-SESSION_COOKIE_NAME"></span><h3>SESSION_COOKIE_NAME<a class="headerlink" href="#session-cookie-name" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'sessionid'</span></code></p>
+<p>The name of the cookie to use for sessions. This can be whatever you want (but
+should be different from <a class="reference internal" href="#std:setting-LANGUAGE_COOKIE_NAME"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGE_COOKIE_NAME</span></code></a>).
+See the <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-cookie-path">
+<span id="std:setting-SESSION_COOKIE_PATH"></span><h3>SESSION_COOKIE_PATH<a class="headerlink" href="#session-cookie-path" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'/'</span></code></p>
+<p>The path set on the session cookie. This should either match the URL path of your
+Django installation or be parent of that path.</p>
+<p>This is useful if you have multiple Django instances running under the same
+hostname. They can use different cookie paths, and each instance will only see
+its own session cookie.</p>
+</div>
+<div class="section" id="session-cache-alias">
+<span id="std:setting-SESSION_CACHE_ALIAS"></span><h3>SESSION_CACHE_ALIAS<a class="headerlink" href="#session-cache-alias" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">default</span></code></p>
+<p>If you&#8217;re using <a class="reference internal" href="../topics/http/sessions.html#cached-sessions-backend"><span>cache-based session storage</span></a>,
+this selects the cache to use.</p>
+</div>
+<div class="section" id="session-cookie-secure">
+<span id="std:setting-SESSION_COOKIE_SECURE"></span><h3>SESSION_COOKIE_SECURE<a class="headerlink" href="#session-cookie-secure" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to use a secure cookie for the session cookie. If this is set to
+<code class="docutils literal"><span class="pre">True</span></code>, the cookie will be marked as &#8220;secure,&#8221; which means browsers may
+ensure that the cookie is only sent under an HTTPS connection.
+See the <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-engine">
+<span id="std:setting-SESSION_ENGINE"></span><h3>SESSION_ENGINE<a class="headerlink" href="#session-engine" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">django.contrib.sessions.backends.db</span></code></p>
+<p>Controls where Django stores session data. Valid values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'django.contrib.sessions.backends.db'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.sessions.backends.file'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.sessions.backends.cache'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.sessions.backends.cached_db'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.sessions.backends.signed_cookies'</span></code></li>
+</ul>
+<p>See <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-expire-at-browser-close">
+<span id="std:setting-SESSION_EXPIRE_AT_BROWSER_CLOSE"></span><h3>SESSION_EXPIRE_AT_BROWSER_CLOSE<a class="headerlink" href="#session-expire-at-browser-close" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to expire the session when the user closes his or her browser.
+See the <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="session-file-path">
+<span id="std:setting-SESSION_FILE_PATH"></span><h3>SESSION_FILE_PATH<a class="headerlink" href="#session-file-path" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>If you&#8217;re using file-based session storage, this sets the directory in
+which Django will store session data. See <a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>. When
+the default value (<code class="docutils literal"><span class="pre">None</span></code>) is used, Django will use the standard temporary
+directory for the system.</p>
+</div>
+<div class="section" id="session-save-every-request">
+<span id="std:setting-SESSION_SAVE_EVERY_REQUEST"></span><h3>SESSION_SAVE_EVERY_REQUEST<a class="headerlink" href="#session-save-every-request" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Whether to save the session data on every request. See
+<a class="reference internal" href="../topics/http/sessions.html"><em>How to use sessions</em></a>.</p>
+</div>
+<div class="section" id="short-date-format">
+<span id="std:setting-SHORT_DATE_FORMAT"></span><h3>SHORT_DATE_FORMAT<a class="headerlink" href="#short-date-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">m/d/Y</span></code> (e.g. <code class="docutils literal"><span class="pre">12/31/2003</span></code>)</p>
+<p>An available formatting that can be used for displaying date fields on
+templates. Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the
+corresponding locale-dictated format has higher precedence and will be applied.
+See <a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-SHORT_DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATETIME_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="short-datetime-format">
+<span id="std:setting-SHORT_DATETIME_FORMAT"></span><h3>SHORT_DATETIME_FORMAT<a class="headerlink" href="#short-datetime-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">m/d/Y</span> <span class="pre">P</span></code> (e.g. <code class="docutils literal"><span class="pre">12/31/2003</span> <span class="pre">4</span> <span class="pre">p.m.</span></code>)</p>
+<p>An available formatting that can be used for displaying datetime fields on
+templates. Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the
+corresponding locale-dictated format has higher precedence and will be applied.
+See <a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-SHORT_DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">SHORT_DATE_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="signing-backend">
+<span id="std:setting-SIGNING_BACKEND"></span><h3>SIGNING_BACKEND<a class="headerlink" href="#signing-backend" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: &#8216;django.core.signing.TimestampSigner&#8217;</p>
+<p>The backend used for signing cookies and other data.</p>
+<p>See also the <a class="reference internal" href="../topics/signing.html"><em>Cryptographic signing</em></a> documentation.</p>
+</div>
+<div class="section" id="site-id">
+<span id="std:setting-SITE_ID"></span><h3>SITE_ID<a class="headerlink" href="#site-id" title="Permalink to this headline">¶</a></h3>
+<p>Default: Not defined</p>
+<p>The ID, as an integer, of the current site in the <code class="docutils literal"><span class="pre">django_site</span></code> database
+table. This is used so that application data can hook into specific site(s)
+and a single database can manage content for multiple sites.</p>
+<p>See <a class="reference internal" href="contrib/sites.html"><em>The &#8220;sites&#8221; framework</em></a>.</p>
+</div>
+<div class="section" id="static-root">
+<span id="std:setting-STATIC_ROOT"></span><h3>STATIC_ROOT<a class="headerlink" href="#static-root" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>The absolute path to the directory where <a class="reference internal" href="contrib/staticfiles.html#django-admin-collectstatic"><code class="xref std std-djadmin docutils literal"><span class="pre">collectstatic</span></code></a> will collect
+static files for deployment.</p>
+<p>Example: <code class="docutils literal"><span class="pre">&quot;/var/www/example.com/static/&quot;</span></code></p>
+<p>If the <a class="reference internal" href="contrib/staticfiles.html"><em>staticfiles</em></a> contrib app is enabled
+(default) the <a class="reference internal" href="contrib/staticfiles.html#django-admin-collectstatic"><code class="xref std std-djadmin docutils literal"><span class="pre">collectstatic</span></code></a> management command will collect static
+files into this directory. See the howto on <a class="reference internal" href="../howto/static-files.html"><em>managing static
+files</em></a> for more details about usage.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This should be an (initially empty) destination directory for collecting
+your static files from their permanent locations into one directory for
+ease of deployment; it is <strong>not</strong> a place to store your static files
+permanently. You should do that in directories that will be found by
+<a class="reference internal" href="contrib/staticfiles.html"><em>staticfiles</em></a>&#8216;s
+<a class="reference internal" href="contrib/staticfiles.html#std:setting-STATICFILES_FINDERS"><code class="xref std std-setting docutils literal"><span class="pre">finders</span></code></a>, which by default, are
+<code class="docutils literal"><span class="pre">'static/'</span></code> app sub-directories and any directories you include in
+<a class="reference internal" href="contrib/staticfiles.html#std:setting-STATICFILES_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">STATICFILES_DIRS</span></code></a>).</p>
+</div>
+<p>See <a class="reference internal" href="contrib/staticfiles.html"><em>staticfiles reference</em></a> and
+<a class="reference internal" href="#std:setting-STATIC_URL"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_URL</span></code></a>.</p>
+</div>
+<div class="section" id="static-url">
+<span id="std:setting-STATIC_URL"></span><h3>STATIC_URL<a class="headerlink" href="#static-url" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>URL to use when referring to static files located in <a class="reference internal" href="#std:setting-STATIC_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_ROOT</span></code></a>.</p>
+<p>Example: <code class="docutils literal"><span class="pre">&quot;/static/&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;http://static.example.com/&quot;</span></code></p>
+<p>If not <code class="docutils literal"><span class="pre">None</span></code>, this will be used as the base path for
+<a class="reference internal" href="../topics/forms/media.html#form-media-paths"><span>media definitions</span></a> and the
+<a class="reference internal" href="contrib/staticfiles.html"><em>staticfiles app</em></a>.</p>
+<p>It must end in a slash if set to a non-empty value.</p>
+<p>See <a class="reference internal" href="#std:setting-STATIC_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_ROOT</span></code></a>.</p>
+</div>
+<div class="section" id="template-context-processors">
+<span id="std:setting-TEMPLATE_CONTEXT_PROCESSORS"></span><h3>TEMPLATE_CONTEXT_PROCESSORS<a class="headerlink" href="#template-context-processors" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&quot;django.contrib.auth.context_processors.auth&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.debug&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.i18n&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.media&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.static&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.tz&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.contrib.messages.context_processors.messages&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A tuple of callables that are used to populate the context in <code class="docutils literal"><span class="pre">RequestContext</span></code>.
+These callables take a request object as their argument and return a dictionary
+of items to be merged into the context.</p>
+<div class="versionadded">
+The <code class="docutils literal"><span class="pre">django.core.context_processors.tz</span></code> context processor
+was added in this release.</div>
+</div>
+<div class="section" id="template-debug">
+<span id="std:setting-TEMPLATE_DEBUG"></span><h3>TEMPLATE_DEBUG<a class="headerlink" href="#template-debug" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that turns on/off template debug mode. If this is <code class="docutils literal"><span class="pre">True</span></code>, the fancy
+error page will display a detailed report for any exception raised during
+template rendering. This report contains the relevant snippet of the template,
+with the appropriate line highlighted.</p>
+<p>Note that Django only displays fancy error pages if <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, so
+you&#8217;ll want to set that to take advantage of this setting.</p>
+<p>See also <a class="reference internal" href="#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a>.</p>
+</div>
+<div class="section" id="template-dirs">
+<span id="std:setting-TEMPLATE_DIRS"></span><h3>TEMPLATE_DIRS<a class="headerlink" href="#template-dirs" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">()</span></code> (Empty tuple)</p>
+<p>List of locations of the template source files searched by
+<a class="reference internal" href="templates/api.html#django.template.loaders.filesystem.Loader" title="django.template.loaders.filesystem.Loader"><code class="xref py py-class docutils literal"><span class="pre">django.template.loaders.filesystem.Loader</span></code></a>, in search order.</p>
+<p>Note that these paths should use Unix-style forward slashes, even on Windows.</p>
+<p>See <a class="reference internal" href="../topics/templates.html"><em>The Django template language</em></a>.</p>
+</div>
+<div class="section" id="template-loaders">
+<span id="std:setting-TEMPLATE_LOADERS"></span><h3>TEMPLATE_LOADERS<a class="headerlink" href="#template-loaders" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&#39;django.template.loaders.filesystem.Loader&#39;</span><span class="p">,</span>
+ <span class="s">&#39;django.template.loaders.app_directories.Loader&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A tuple of template loader classes, specified as strings. Each <code class="docutils literal"><span class="pre">Loader</span></code> class
+knows how to import templates from a particular source. Optionally, a tuple can be
+used instead of a string. The first item in the tuple should be the <code class="docutils literal"><span class="pre">Loader</span></code>&#8216;s
+module, subsequent items are passed to the <code class="docutils literal"><span class="pre">Loader</span></code> during initialization. See
+<a class="reference internal" href="templates/api.html"><em>The Django template language: For Python programmers</em></a>.</p>
+</div>
+<div class="section" id="template-string-if-invalid">
+<span id="std:setting-TEMPLATE_STRING_IF_INVALID"></span><h3>TEMPLATE_STRING_IF_INVALID<a class="headerlink" href="#template-string-if-invalid" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">''</span></code> (Empty string)</p>
+<p>Output, as a string, that the template system should use for invalid (e.g.
+misspelled) variables. See <a class="reference internal" href="templates/api.html#invalid-template-variables"><span>How invalid variables are handled</span></a>..</p>
+</div>
+<div class="section" id="test-runner">
+<span id="std:setting-TEST_RUNNER"></span><h3>TEST_RUNNER<a class="headerlink" href="#test-runner" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.test.simple.DjangoTestSuiteRunner'</span></code></p>
+<p>The name of the class to use for starting the test suite. See
+<a class="reference internal" href="../topics/testing/advanced.html#other-testing-frameworks"><span>Using different testing frameworks</span></a>.</p>
+</div>
+<div class="section" id="thousand-separator">
+<span id="std:setting-THOUSAND_SEPARATOR"></span><h3>THOUSAND_SEPARATOR<a class="headerlink" href="#thousand-separator" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">,</span></code> (Comma)</p>
+<p>Default thousand separator used when formatting numbers. This setting is
+used only when <a class="reference internal" href="#std:setting-USE_THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">USE_THOUSAND_SEPARATOR</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code> and
+<a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a> is greater than <code class="docutils literal"><span class="pre">0</span></code>.</p>
+<p>Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the locale-dictated
+format has higher precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a>, <a class="reference internal" href="#std:setting-DECIMAL_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">DECIMAL_SEPARATOR</span></code></a> and
+<a class="reference internal" href="#std:setting-USE_THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">USE_THOUSAND_SEPARATOR</span></code></a>.</p>
+</div>
+<div class="section" id="time-format">
+<span id="std:setting-TIME_FORMAT"></span><h3>TIME_FORMAT<a class="headerlink" href="#time-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'P'</span></code> (e.g. <code class="docutils literal"><span class="pre">4</span> <span class="pre">p.m.</span></code>)</p>
+<p>The default formatting to use for displaying time fields in any part of the
+system. Note that if <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, then the
+locale-dictated format has higher precedence and will be applied instead. See
+<a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a> and <a class="reference internal" href="#std:setting-DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="time-input-formats">
+<span id="std:setting-TIME_INPUT_FORMATS"></span><h3>TIME_INPUT_FORMATS<a class="headerlink" href="#time-input-formats" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span>
+    <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">,</span>     <span class="c"># &#39;14:30:59&#39;</span>
+    <span class="s">&#39;%H:%M&#39;</span><span class="p">,</span>        <span class="c"># &#39;14:30&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>A tuple of formats that will be accepted when inputting data on a time field.
+Formats will be tried in order, using the first valid one. Note that these
+format strings use Python&#8217;s <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-strptime-behavior">datetime</a> module syntax, not the format strings
+from the <code class="docutils literal"><span class="pre">date</span></code> Django template tag.</p>
+<p>When <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, the locale-dictated format has higher
+precedence and will be applied instead.</p>
+<p>See also <a class="reference internal" href="#std:setting-DATE_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATE_INPUT_FORMATS</span></code></a> and <a class="reference internal" href="#std:setting-DATETIME_INPUT_FORMATS"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_INPUT_FORMATS</span></code></a>.</p>
+</div>
+<div class="section" id="time-zone">
+<span id="std:setting-TIME_ZONE"></span><h3>TIME_ZONE<a class="headerlink" href="#time-zone" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'America/Chicago'</span></code></p>
+<div class="versionchanged">
+The meaning of this setting now depends on the value of <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a>.</div>
+<p>A string representing the time zone for this installation, or
+<code class="docutils literal"><span class="pre">None</span></code>. <a class="reference external" href="http://www.postgresql.org/docs/8.1/static/datetime-keywords.html#DATETIME-TIMEZONE-SET-TABLE">See available choices</a>. (Note that list of available
+choices lists more than one on the same line; you&#8217;ll want to use just
+one of the choices for a given time zone. For instance, one line says
+<code class="docutils literal"><span class="pre">'Europe/London</span> <span class="pre">GB</span> <span class="pre">GB-Eire'</span></code>, but you should use the first bit of
+that &#8211; <code class="docutils literal"><span class="pre">'Europe/London'</span></code> &#8211; as your <a class="reference internal" href="#std:setting-TIME_ZONE"><code class="xref std std-setting docutils literal"><span class="pre">TIME_ZONE</span></code></a> setting.)</p>
+<p>Note that this isn&#8217;t necessarily the time zone of the server. For example, one
+server may serve multiple Django-powered sites, each with a separate time zone
+setting.</p>
+<p>When <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a> is <code class="docutils literal"><span class="pre">False</span></code>, this is the time zone in which Django
+will store all datetimes. When <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, this is the
+default time zone that Django will use to display datetimes in templates and
+to interpret datetimes entered in forms.</p>
+<p>Django sets the <code class="docutils literal"><span class="pre">os.environ['TZ']</span></code> variable to the time zone you specify in
+the <a class="reference internal" href="#std:setting-TIME_ZONE"><code class="xref std std-setting docutils literal"><span class="pre">TIME_ZONE</span></code></a> setting. Thus, all your views and models will
+automatically operate in this time zone. However, Django won&#8217;t set the <code class="docutils literal"><span class="pre">TZ</span></code>
+environment variable under the following conditions:</p>
+<ul class="simple">
+<li>If you&#8217;re using the manual configuration option as described in
+<a class="reference internal" href="../topics/settings.html#settings-without-django-settings-module"><span>manually configuring settings</span></a>, or</li>
+<li>If you specify <code class="docutils literal"><span class="pre">TIME_ZONE</span> <span class="pre">=</span> <span class="pre">None</span></code>. This will cause Django to fall back to
+using the system timezone. However, this is discouraged when <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span>
+<span class="pre">=</span> <span class="pre">True</span></code></a>, because it makes conversions between local time and UTC
+less reliable.</li>
+</ul>
+<p>If Django doesn&#8217;t set the <code class="docutils literal"><span class="pre">TZ</span></code> environment variable, it&#8217;s up to you
+to ensure your processes are running in the correct environment.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Django cannot reliably use alternate time zones in a Windows environment.
+If you&#8217;re running Django on Windows, <a class="reference internal" href="#std:setting-TIME_ZONE"><code class="xref std std-setting docutils literal"><span class="pre">TIME_ZONE</span></code></a> must be set to
+match the system time zone.</p>
+</div>
+</div>
+<div class="section" id="transactions-managed">
+<span id="std:setting-TRANSACTIONS_MANAGED"></span><h3>TRANSACTIONS_MANAGED<a class="headerlink" href="#transactions-managed" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>Set this to <code class="docutils literal"><span class="pre">True</span></code> if you want to <a class="reference internal" href="../topics/db/transactions.html#deactivate-transaction-management"><span>disable Django&#8217;s transaction
+management</span></a> and implement your own.</p>
+</div>
+<div class="section" id="use-etags">
+<span id="std:setting-USE_ETAGS"></span><h3>USE_ETAGS<a class="headerlink" href="#use-etags" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that specifies whether to output the &#8220;Etag&#8221; header. This saves
+bandwidth but slows down performance. This is used by the <code class="docutils literal"><span class="pre">CommonMiddleware</span></code>
+(see <a class="reference internal" href="../topics/http/middleware.html"><em>Middleware</em></a>) and in the``Cache Framework``
+(see <a class="reference internal" href="../topics/cache.html"><em>Django&#8217;s cache framework</em></a>).</p>
+</div>
+<div class="section" id="use-i18n">
+<span id="std:setting-USE_I18N"></span><h3>USE_I18N<a class="headerlink" href="#use-i18n" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">True</span></code></p>
+<p>A boolean that specifies whether Django&#8217;s translation system should be enabled.
+This provides an easy way to turn it off, for performance. If this is set to
+<code class="docutils literal"><span class="pre">False</span></code>, Django will make some optimizations so as not to load the
+translation machinery.</p>
+<p>See also <a class="reference internal" href="#std:setting-LANGUAGE_CODE"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGE_CODE</span></code></a>, <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> and <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a>.</p>
+</div>
+<div class="section" id="use-l10n">
+<span id="std:setting-USE_L10N"></span><h3>USE_L10N<a class="headerlink" href="#use-l10n" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that specifies if localized formatting of data will be enabled by
+default or not. If this is set to <code class="docutils literal"><span class="pre">True</span></code>, e.g. Django will display numbers and
+dates using the format of the current locale.</p>
+<p>See also <a class="reference internal" href="#std:setting-LANGUAGE_CODE"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGE_CODE</span></code></a>, <a class="reference internal" href="#std:setting-USE_I18N"><code class="xref std std-setting docutils literal"><span class="pre">USE_I18N</span></code></a> and <a class="reference internal" href="#std:setting-USE_TZ"><code class="xref std std-setting docutils literal"><span class="pre">USE_TZ</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default <code class="file docutils literal"><span class="pre">settings.py</span></code> file created by <a class="reference internal" href="django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span>
+<span class="pre">startproject</span></code></a> includes <code class="docutils literal"><span class="pre">USE_L10N</span> <span class="pre">=</span> <span class="pre">True</span></code> for convenience.</p>
+</div>
+</div>
+<div class="section" id="use-thousand-separator">
+<span id="std:setting-USE_THOUSAND_SEPARATOR"></span><h3>USE_THOUSAND_SEPARATOR<a class="headerlink" href="#use-thousand-separator" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that specifies whether to display numbers using a thousand separator.
+When <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code> and if this is also set to
+<code class="docutils literal"><span class="pre">True</span></code>, Django will use the values of <a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a> and
+<a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a> to format numbers.</p>
+<p>See also <a class="reference internal" href="#std:setting-DECIMAL_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">DECIMAL_SEPARATOR</span></code></a>, <a class="reference internal" href="#std:setting-NUMBER_GROUPING"><code class="xref std std-setting docutils literal"><span class="pre">NUMBER_GROUPING</span></code></a> and
+<a class="reference internal" href="#std:setting-THOUSAND_SEPARATOR"><code class="xref std std-setting docutils literal"><span class="pre">THOUSAND_SEPARATOR</span></code></a>.</p>
+</div>
+<div class="section" id="use-tz">
+<span id="std:setting-USE_TZ"></span><h3>USE_TZ<a class="headerlink" href="#use-tz" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that specifies if datetimes will be timezone-aware by default or not.
+If this is set to <code class="docutils literal"><span class="pre">True</span></code>, Django will use timezone-aware datetimes internally.
+Otherwise, Django will use naive datetimes in local time.</p>
+<p>See also <a class="reference internal" href="#std:setting-TIME_ZONE"><code class="xref std std-setting docutils literal"><span class="pre">TIME_ZONE</span></code></a>, <a class="reference internal" href="#std:setting-USE_I18N"><code class="xref std std-setting docutils literal"><span class="pre">USE_I18N</span></code></a> and <a class="reference internal" href="#std:setting-USE_L10N"><code class="xref std std-setting docutils literal"><span class="pre">USE_L10N</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The default <code class="file docutils literal"><span class="pre">settings.py</span></code> file created by
+<a class="reference internal" href="django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span> <span class="pre">startproject</span></code></a> includes
+<code class="docutils literal"><span class="pre">USE_TZ</span> <span class="pre">=</span> <span class="pre">True</span></code> for convenience.</p>
+</div>
+</div>
+<div class="section" id="use-x-forwarded-host">
+<span id="std:setting-USE_X_FORWARDED_HOST"></span><h3>USE_X_FORWARDED_HOST<a class="headerlink" href="#use-x-forwarded-host" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">False</span></code></p>
+<p>A boolean that specifies whether to use the X-Forwarded-Host header in
+preference to the Host header. This should only be enabled if a proxy
+which sets this header is in use.</p>
+</div>
+<div class="section" id="wsgi-application">
+<span id="std:setting-WSGI_APPLICATION"></span><h3>WSGI_APPLICATION<a class="headerlink" href="#wsgi-application" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The full Python path of the WSGI application object that Django&#8217;s built-in
+servers (e.g. <a class="reference internal" href="django-admin.html#django-admin-runserver"><code class="xref std std-djadmin docutils literal"><span class="pre">runserver</span></code></a>) will use. The <a class="reference internal" href="django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span>
+<span class="pre">startproject</span></code></a> management command will create a simple
+<code class="docutils literal"><span class="pre">wsgi.py</span></code> file with an <code class="docutils literal"><span class="pre">application</span></code> callable in it, and point this setting
+to that <code class="docutils literal"><span class="pre">application</span></code>.</p>
+<p>If not set, the return value of <code class="docutils literal"><span class="pre">django.core.wsgi.get_wsgi_application()</span></code>
+will be used. In this case, the behavior of <a class="reference internal" href="django-admin.html#django-admin-runserver"><code class="xref std std-djadmin docutils literal"><span class="pre">runserver</span></code></a> will be
+identical to previous Django versions.</p>
+</div>
+<div class="section" id="year-month-format">
+<span id="std:setting-YEAR_MONTH_FORMAT"></span><h3>YEAR_MONTH_FORMAT<a class="headerlink" href="#year-month-format" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'F</span> <span class="pre">Y'</span></code></p>
+<p>The default formatting to use for date fields on Django admin change-list
+pages &#8211; and, possibly, by other parts of the system &#8211; in cases when only the
+year and month are displayed.</p>
+<p>For example, when a Django admin change-list page is being filtered by a date
+drilldown, the header for a given month displays the month and the year.
+Different locales have different formats. For example, U.S. English would say
+&#8220;January 2006,&#8221; whereas another locale might say &#8220;2006/January.&#8221;</p>
+<p>See <a class="reference internal" href="templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">allowed</span> <span class="pre">date</span> <span class="pre">format</span> <span class="pre">strings</span></code></a>. See also
+<a class="reference internal" href="#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-DATETIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATETIME_FORMAT</span></code></a>, <a class="reference internal" href="#std:setting-TIME_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">TIME_FORMAT</span></code></a>
+and <a class="reference internal" href="#std:setting-MONTH_DAY_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">MONTH_DAY_FORMAT</span></code></a>.</p>
+</div>
+<div class="section" id="x-frame-options">
+<span id="std:setting-X_FRAME_OPTIONS"></span><h3>X_FRAME_OPTIONS<a class="headerlink" href="#x-frame-options" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'SAMEORIGIN'</span></code></p>
+<p>The default value for the X-Frame-Options header used by
+<a class="reference internal" href="middleware.html#django.middleware.clickjacking.XFrameOptionsMiddleware" title="django.middleware.clickjacking.XFrameOptionsMiddleware"><code class="xref py py-class docutils literal"><span class="pre">XFrameOptionsMiddleware</span></code></a>. See the
+<a class="reference internal" href="clickjacking.html"><em>clickjacking protection</em></a> documentation.</p>
+</div>
+</div>
+<div class="section" id="deprecated-settings">
+<h2><a class="toc-backref" href="#id5">Deprecated settings</a><a class="headerlink" href="#deprecated-settings" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="auth-profile-module">
+<span id="std:setting-AUTH_PROFILE_MODULE"></span><h3>AUTH_PROFILE_MODULE<a class="headerlink" href="#auth-profile-module" title="Permalink to this headline">¶</a></h3>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.5: </span>With the introduction of <a class="reference internal" href="../topics/auth/customizing.html#auth-custom-user"><span>custom User models</span></a>,
+the use of <a class="reference internal" href="#std:setting-AUTH_PROFILE_MODULE"><code class="xref std std-setting docutils literal"><span class="pre">AUTH_PROFILE_MODULE</span></code></a> to define a single profile
+model is no longer supported. See the
+<a class="reference internal" href="../releases/1.5.html"><em>Django 1.5 release notes</em></a> for more information.</p>
+</div>
+<p>Default: Not defined</p>
+<p>The site-specific user profile model used by this site. See
+<a class="reference internal" href="../topics/auth/customizing.html#auth-profiles"><span>User profiles</span></a>.</p>
+</div>
+<div class="section" id="ignorable-404-ends">
+<span id="std:setting-IGNORABLE_404_ENDS"></span><h3>IGNORABLE_404_ENDS<a class="headerlink" href="#ignorable-404-ends" title="Permalink to this headline">¶</a></h3>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.4: </span>This setting has been superseded by <a class="reference internal" href="#std:setting-IGNORABLE_404_URLS"><code class="xref std std-setting docutils literal"><span class="pre">IGNORABLE_404_URLS</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="ignorable-404-starts">
+<span id="std:setting-IGNORABLE_404_STARTS"></span><h3>IGNORABLE_404_STARTS<a class="headerlink" href="#ignorable-404-starts" title="Permalink to this headline">¶</a></h3>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 1.4: </span>This setting has been superseded by <a class="reference internal" href="#std:setting-IGNORABLE_404_URLS"><code class="xref std std-setting docutils literal"><span class="pre">IGNORABLE_404_URLS</span></code></a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="signals.html" class="btn btn-neutral float-right" title="Signals" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="template-response.html" class="btn btn-neutral" title="TemplateResponse and SimpleTemplateResponse" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+</html>

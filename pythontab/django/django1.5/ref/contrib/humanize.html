@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/humanize.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>django.contrib.humanize &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">django.contrib.humanize</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#apnumber">apnumber</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intcomma">intcomma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intword">intword</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#naturalday">naturalday</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#naturaltime">naturaltime</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ordinal">ordinal</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+    <li>django.contrib.humanize</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.humanize">
+<span id="django-contrib-humanize"></span><h1>django.contrib.humanize<a class="headerlink" href="#module-django.contrib.humanize" title="Permalink to this headline">¶</a></h1>
+<p>A set of Django template filters useful for adding a &#8220;human touch&#8221; to data.</p>
+<p>To activate these filters, add <code class="docutils literal"><span class="pre">'django.contrib.humanize'</span></code> to your
+<a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> setting. Once you&#8217;ve done that, use
+<code class="docutils literal"><span class="pre">{%</span> <span class="pre">load</span> <span class="pre">humanize</span> <span class="pre">%}</span></code> in a template, and you&#8217;ll have access to the following
+filters.</p>
+<div class="section" id="apnumber">
+<span id="std:templatefilter-apnumber"></span><h2>apnumber<a class="headerlink" href="#apnumber" title="Permalink to this headline">¶</a></h2>
+<p>For numbers 1-9, returns the number spelled out. Otherwise, returns the
+number. This follows Associated Press style.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">1</span></code> becomes <code class="docutils literal"><span class="pre">one</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">2</span></code> becomes <code class="docutils literal"><span class="pre">two</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">10</span></code> becomes <code class="docutils literal"><span class="pre">10</span></code>.</li>
+</ul>
+<p>You can pass in either an integer or a string representation of an integer.</p>
+</div>
+<div class="section" id="intcomma">
+<span id="std:templatefilter-intcomma"></span><h2>intcomma<a class="headerlink" href="#intcomma" title="Permalink to this headline">¶</a></h2>
+<p>Converts an integer to a string containing commas every three digits.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">4500</span></code> becomes <code class="docutils literal"><span class="pre">4,500</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">45000</span></code> becomes <code class="docutils literal"><span class="pre">45,000</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">450000</span></code> becomes <code class="docutils literal"><span class="pre">450,000</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">4500000</span></code> becomes <code class="docutils literal"><span class="pre">4,500,000</span></code>.</li>
+</ul>
+<p><a class="reference internal" href="../../topics/i18n/formatting.html#format-localization"><span>Format localization</span></a> will be respected if enabled,
+e.g. with the <code class="docutils literal"><span class="pre">'de'</span></code> language:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">45000</span></code> becomes <code class="docutils literal"><span class="pre">'45.000'</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">450000</span></code> becomes <code class="docutils literal"><span class="pre">'450.000'</span></code>.</li>
+</ul>
+<p>You can pass in either an integer or a string representation of an integer.</p>
+</div>
+<div class="section" id="intword">
+<span id="std:templatefilter-intword"></span><h2>intword<a class="headerlink" href="#intword" title="Permalink to this headline">¶</a></h2>
+<p>Converts a large integer to a friendly text representation. Works best for
+numbers over 1 million.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">1000000</span></code> becomes <code class="docutils literal"><span class="pre">1.0</span> <span class="pre">million</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">1200000</span></code> becomes <code class="docutils literal"><span class="pre">1.2</span> <span class="pre">million</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">1200000000</span></code> becomes <code class="docutils literal"><span class="pre">1.2</span> <span class="pre">billion</span></code>.</li>
+</ul>
+<p>Values up to 10^100 (Googol) are supported.</p>
+<p><a class="reference internal" href="../../topics/i18n/formatting.html#format-localization"><span>Format localization</span></a> will be respected if enabled,
+e.g. with the <code class="docutils literal"><span class="pre">'de'</span></code> language:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">1000000</span></code> becomes <code class="docutils literal"><span class="pre">'1,0</span> <span class="pre">Million'</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">1200000</span></code> becomes <code class="docutils literal"><span class="pre">'1,2</span> <span class="pre">Million'</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">1200000000</span></code> becomes <code class="docutils literal"><span class="pre">'1,2</span> <span class="pre">Milliarden'</span></code>.</li>
+</ul>
+<p>You can pass in either an integer or a string representation of an integer.</p>
+</div>
+<div class="section" id="naturalday">
+<span id="std:templatefilter-naturalday"></span><h2>naturalday<a class="headerlink" href="#naturalday" title="Permalink to this headline">¶</a></h2>
+<p>For dates that are the current day or within one day, return &#8220;today&#8221;,
+&#8220;tomorrow&#8221; or &#8220;yesterday&#8221;, as appropriate. Otherwise, format the date using
+the passed in format string.</p>
+<p><strong>Argument:</strong> Date formatting string as described in the <a class="reference internal" href="../templates/builtins.html#std:templatefilter-date"><code class="xref std std-tfilter docutils literal"><span class="pre">date</span></code></a> tag.</p>
+<p>Examples (when &#8216;today&#8217; is 17 Feb 2007):</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">16</span> <span class="pre">Feb</span> <span class="pre">2007</span></code> becomes <code class="docutils literal"><span class="pre">yesterday</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span></code> becomes <code class="docutils literal"><span class="pre">today</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">18</span> <span class="pre">Feb</span> <span class="pre">2007</span></code> becomes <code class="docutils literal"><span class="pre">tomorrow</span></code>.</li>
+<li>Any other day is formatted according to given argument or the
+<a class="reference internal" href="../settings.html#std:setting-DATE_FORMAT"><code class="xref std std-setting docutils literal"><span class="pre">DATE_FORMAT</span></code></a> setting if no argument is given.</li>
+</ul>
+</div>
+<div class="section" id="naturaltime">
+<span id="std:templatefilter-naturaltime"></span><h2>naturaltime<a class="headerlink" href="#naturaltime" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+</div>
+<p>For datetime values, returns a string representing how many seconds,
+minutes or hours ago it was &#8211; falling back to the <a class="reference internal" href="../templates/builtins.html#std:templatefilter-timesince"><code class="xref std std-tfilter docutils literal"><span class="pre">timesince</span></code></a>
+format if the value is more than a day old. In case the datetime value is in
+the future the return value will automatically use an appropriate phrase.</p>
+<p>Examples (when &#8216;now&#8217; is 17 Feb 2007 16:30:00):</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:30:00</span></code> becomes <code class="docutils literal"><span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:29:31</span></code> becomes <code class="docutils literal"><span class="pre">29</span> <span class="pre">seconds</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:29:00</span></code> becomes <code class="docutils literal"><span class="pre">a</span> <span class="pre">minute</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:25:35</span></code> becomes <code class="docutils literal"><span class="pre">4</span> <span class="pre">minutes</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">15:30:29</span></code> becomes <code class="docutils literal"><span class="pre">an</span> <span class="pre">hour</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">13:31:29</span></code> becomes <code class="docutils literal"><span class="pre">2</span> <span class="pre">hours</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">16</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">13:31:29</span></code> becomes <code class="docutils literal"><span class="pre">1</span> <span class="pre">day,</span> <span class="pre">3</span> <span class="pre">hours</span> <span class="pre">ago</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:30:30</span></code> becomes <code class="docutils literal"><span class="pre">29</span> <span class="pre">seconds</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:31:00</span></code> becomes <code class="docutils literal"><span class="pre">a</span> <span class="pre">minute</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:34:35</span></code> becomes <code class="docutils literal"><span class="pre">4</span> <span class="pre">minutes</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:30:29</span></code> becomes <code class="docutils literal"><span class="pre">an</span> <span class="pre">hour</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">17</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">18:31:29</span></code> becomes <code class="docutils literal"><span class="pre">2</span> <span class="pre">hours</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">18</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">16:31:29</span></code> becomes <code class="docutils literal"><span class="pre">1</span> <span class="pre">day</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">26</span> <span class="pre">Feb</span> <span class="pre">2007</span> <span class="pre">18:31:29</span></code> becomes <code class="docutils literal"><span class="pre">1</span> <span class="pre">week,</span> <span class="pre">2</span> <span class="pre">days</span> <span class="pre">from</span> <span class="pre">now</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="ordinal">
+<span id="std:templatefilter-ordinal"></span><h2>ordinal<a class="headerlink" href="#ordinal" title="Permalink to this headline">¶</a></h2>
+<p>Converts an integer to its ordinal as a string.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">1</span></code> becomes <code class="docutils literal"><span class="pre">1st</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">2</span></code> becomes <code class="docutils literal"><span class="pre">2nd</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">3</span></code> becomes <code class="docutils literal"><span class="pre">3rd</span></code>.</li>
+</ul>
+<p>You can pass in either an integer or a string representation of an integer.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="localflavor.html" class="btn btn-neutral float-right" title="The “local flavor” add-ons" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gis/deployment.html" class="btn btn-neutral" title="Deploying GeoDjango" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/humanize.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:51 GMT -->
+</html>

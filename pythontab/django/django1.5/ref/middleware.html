@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Middleware &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Forms</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Middleware</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#available-middleware">Available middleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.cache">Cache middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.common">&#8220;Common&#8221; middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.doc">View metadata middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.gzip">GZip middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.http">Conditional GET middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reverse-proxy-middleware">Reverse proxy middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.locale">Locale middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.contrib.messages.middleware">Message middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.contrib.sessions.middleware">Session middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.contrib.auth.middleware">Authentication middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.csrf">CSRF protection middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.transaction">Transaction middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-django.middleware.clickjacking">X-Frame-Options middleware</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">API 参考</a> &raquo;</li>
+      
+    <li>Middleware</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.middleware">
+<span id="middleware"></span><h1>Middleware<a class="headerlink" href="#module-django.middleware" title="Permalink to this headline">¶</a></h1>
+<p>This document explains all middleware components that come with Django. For
+information on how to use them and how to write your own middleware, see
+the <a class="reference internal" href="../topics/http/middleware.html"><em>middleware usage guide</em></a>.</p>
+<div class="section" id="available-middleware">
+<h2>Available middleware<a class="headerlink" href="#available-middleware" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-django.middleware.cache">
+<span id="cache-middleware"></span><h3>Cache middleware<a class="headerlink" href="#module-django.middleware.cache" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.cache.UpdateCacheMiddleware">
+<em class="property">class </em><code class="descname">UpdateCacheMiddleware</code><a class="headerlink" href="#django.middleware.cache.UpdateCacheMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="django.middleware.cache.FetchFromCacheMiddleware">
+<em class="property">class </em><code class="descname">FetchFromCacheMiddleware</code><a class="headerlink" href="#django.middleware.cache.FetchFromCacheMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Enable the site-wide cache. If these are enabled, each Django-powered page will
+be cached for as long as the <a class="reference internal" href="settings.html#std:setting-CACHE_MIDDLEWARE_SECONDS"><code class="xref std std-setting docutils literal"><span class="pre">CACHE_MIDDLEWARE_SECONDS</span></code></a> setting
+defines. See the <a class="reference internal" href="../topics/cache.html"><em>cache documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.middleware.common">
+<span id="common-middleware"></span><h3>&#8220;Common&#8221; middleware<a class="headerlink" href="#module-django.middleware.common" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.common.CommonMiddleware">
+<em class="property">class </em><code class="descname">CommonMiddleware</code><a class="headerlink" href="#django.middleware.common.CommonMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Adds a few conveniences for perfectionists:</p>
+<ul>
+<li><p class="first">Forbids access to user agents in the <a class="reference internal" href="settings.html#std:setting-DISALLOWED_USER_AGENTS"><code class="xref std std-setting docutils literal"><span class="pre">DISALLOWED_USER_AGENTS</span></code></a>
+setting, which should be a list of strings.</p>
+</li>
+<li><p class="first">Performs URL rewriting based on the <a class="reference internal" href="settings.html#std:setting-APPEND_SLASH"><code class="xref std std-setting docutils literal"><span class="pre">APPEND_SLASH</span></code></a> and
+<a class="reference internal" href="settings.html#std:setting-PREPEND_WWW"><code class="xref std std-setting docutils literal"><span class="pre">PREPEND_WWW</span></code></a> settings.</p>
+<p>If <a class="reference internal" href="settings.html#std:setting-APPEND_SLASH"><code class="xref std std-setting docutils literal"><span class="pre">APPEND_SLASH</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code> and the initial URL doesn&#8217;t end
+with a slash, and it is not found in the URLconf, then a new URL is
+formed by appending a slash at the end. If this new URL is found in the
+URLconf, then Django redirects the request to this new URL. Otherwise,
+the initial URL is processed as usual.</p>
+<p>For example, <code class="docutils literal"><span class="pre">foo.com/bar</span></code> will be redirected to <code class="docutils literal"><span class="pre">foo.com/bar/</span></code> if
+you don&#8217;t have a valid URL pattern for <code class="docutils literal"><span class="pre">foo.com/bar</span></code> but <em>do</em> have a
+valid pattern for <code class="docutils literal"><span class="pre">foo.com/bar/</span></code>.</p>
+<p>If <a class="reference internal" href="settings.html#std:setting-PREPEND_WWW"><code class="xref std std-setting docutils literal"><span class="pre">PREPEND_WWW</span></code></a> is <code class="docutils literal"><span class="pre">True</span></code>, URLs that lack a leading &#8220;www.&#8221;
+will be redirected to the same URL with a leading &#8220;www.&#8221;</p>
+<p>Both of these options are meant to normalize URLs. The philosophy is that
+each URL should exist in one, and only one, place. Technically a URL
+<code class="docutils literal"><span class="pre">foo.com/bar</span></code> is distinct from <code class="docutils literal"><span class="pre">foo.com/bar/</span></code> &#8211; a search-engine
+indexer would treat them as separate URLs &#8211; so it&#8217;s best practice to
+normalize URLs.</p>
+</li>
+<li><p class="first">Sends broken link notification emails to <a class="reference internal" href="settings.html#std:setting-MANAGERS"><code class="xref std std-setting docutils literal"><span class="pre">MANAGERS</span></code></a> if
+<a class="reference internal" href="settings.html#std:setting-SEND_BROKEN_LINK_EMAILS"><code class="xref std std-setting docutils literal"><span class="pre">SEND_BROKEN_LINK_EMAILS</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+</li>
+<li><p class="first">Handles ETags based on the <a class="reference internal" href="settings.html#std:setting-USE_ETAGS"><code class="xref std std-setting docutils literal"><span class="pre">USE_ETAGS</span></code></a> setting. If
+<a class="reference internal" href="settings.html#std:setting-USE_ETAGS"><code class="xref std std-setting docutils literal"><span class="pre">USE_ETAGS</span></code></a> is set to <code class="docutils literal"><span class="pre">True</span></code>, Django will calculate an ETag
+for each request by MD5-hashing the page content, and it&#8217;ll take care of
+sending <code class="docutils literal"><span class="pre">Not</span> <span class="pre">Modified</span></code> responses, if appropriate.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="module-django.middleware.doc">
+<span id="view-metadata-middleware"></span><h3>View metadata middleware<a class="headerlink" href="#module-django.middleware.doc" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.doc.XViewMiddleware">
+<em class="property">class </em><code class="descname">XViewMiddleware</code><a class="headerlink" href="#django.middleware.doc.XViewMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sends custom <code class="docutils literal"><span class="pre">X-View</span></code> HTTP headers to HEAD requests that come from IP
+addresses defined in the <a class="reference internal" href="settings.html#std:setting-INTERNAL_IPS"><code class="xref std std-setting docutils literal"><span class="pre">INTERNAL_IPS</span></code></a> setting. This is used by
+Django&#8217;s <a class="reference internal" href="contrib/admin/admindocs.html"><em>automatic documentation system</em></a>.
+Depends on <a class="reference internal" href="#django.contrib.auth.middleware.AuthenticationMiddleware" title="django.contrib.auth.middleware.AuthenticationMiddleware"><code class="xref py py-class docutils literal"><span class="pre">AuthenticationMiddleware</span></code></a>.</p>
+</div>
+<div class="section" id="module-django.middleware.gzip">
+<span id="gzip-middleware"></span><h3>GZip middleware<a class="headerlink" href="#module-django.middleware.gzip" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.gzip.GZipMiddleware">
+<em class="property">class </em><code class="descname">GZipMiddleware</code><a class="headerlink" href="#django.middleware.gzip.GZipMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Compresses content for browsers that understand GZip compression (all modern
+browsers).</p>
+<p>This middleware should be placed before any other middleware that need to
+read or write the response body so that compression happens afterward.</p>
+<p>It will NOT compress content if any of the following are true:</p>
+<ul class="simple">
+<li>The content body is less than 200 bytes long.</li>
+<li>The response has already set the <code class="docutils literal"><span class="pre">Content-Encoding</span></code> header.</li>
+<li>The request (the browser) hasn&#8217;t sent an <code class="docutils literal"><span class="pre">Accept-Encoding</span></code> header
+containing <code class="docutils literal"><span class="pre">gzip</span></code>.</li>
+<li>The request is from Internet Explorer and the <code class="docutils literal"><span class="pre">Content-Type</span></code> header
+contains <code class="docutils literal"><span class="pre">javascript</span></code> or starts with anything other than <code class="docutils literal"><span class="pre">text/</span></code>.
+We do this to avoid a bug in early versions of IE that caused decompression
+not to be performed on certain content types.</li>
+</ul>
+<p>You can apply GZip compression to individual views using the
+<a class="reference internal" href="../topics/http/decorators.html#django.views.decorators.gzip.gzip_page" title="django.views.decorators.gzip.gzip_page"><code class="xref py py-func docutils literal"><span class="pre">gzip_page()</span></code></a> decorator.</p>
+</div>
+<div class="section" id="module-django.middleware.http">
+<span id="conditional-get-middleware"></span><h3>Conditional GET middleware<a class="headerlink" href="#module-django.middleware.http" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.http.ConditionalGetMiddleware">
+<em class="property">class </em><code class="descname">ConditionalGetMiddleware</code><a class="headerlink" href="#django.middleware.http.ConditionalGetMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Handles conditional GET operations. If the response has a <code class="docutils literal"><span class="pre">ETag</span></code> or
+<code class="docutils literal"><span class="pre">Last-Modified</span></code> header, and the request has <code class="docutils literal"><span class="pre">If-None-Match</span></code> or
+<code class="docutils literal"><span class="pre">If-Modified-Since</span></code>, the response is replaced by an
+<a class="reference internal" href="request-response.html#django.http.HttpResponseNotModified" title="django.http.HttpResponseNotModified"><code class="xref py py-class docutils literal"><span class="pre">HttpResponseNotModified</span></code></a>.</p>
+<p>Also sets the <code class="docutils literal"><span class="pre">Date</span></code> and <code class="docutils literal"><span class="pre">Content-Length</span></code> response-headers.</p>
+</div>
+<div class="section" id="reverse-proxy-middleware">
+<h3>Reverse proxy middleware<a class="headerlink" href="#reverse-proxy-middleware" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.http.SetRemoteAddrFromForwardedFor">
+<em class="property">class </em><code class="descname">SetRemoteAddrFromForwardedFor</code><a class="headerlink" href="#django.middleware.http.SetRemoteAddrFromForwardedFor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This middleware was removed in Django 1.1. See <a class="reference internal" href="../releases/1.1.html#removed-setremoteaddrfromforwardedfor-middleware"><span>the release notes</span></a> for details.</p>
+</div>
+<div class="section" id="module-django.middleware.locale">
+<span id="locale-middleware"></span><h3>Locale middleware<a class="headerlink" href="#module-django.middleware.locale" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.locale.LocaleMiddleware">
+<em class="property">class </em><code class="descname">LocaleMiddleware</code><a class="headerlink" href="#django.middleware.locale.LocaleMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Enables language selection based on data from the request. It customizes
+content for each user. See the <a class="reference internal" href="../topics/i18n/translation.html"><em>internationalization documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.contrib.messages.middleware">
+<span id="message-middleware"></span><h3>Message middleware<a class="headerlink" href="#module-django.contrib.messages.middleware" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.contrib.messages.middleware.MessageMiddleware">
+<em class="property">class </em><code class="descname">MessageMiddleware</code><a class="headerlink" href="#django.contrib.messages.middleware.MessageMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Enables cookie- and session-based message support. See the
+<a class="reference internal" href="contrib/messages.html"><em>messages documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.contrib.sessions.middleware">
+<span id="session-middleware"></span><h3>Session middleware<a class="headerlink" href="#module-django.contrib.sessions.middleware" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.contrib.sessions.middleware.SessionMiddleware">
+<em class="property">class </em><code class="descname">SessionMiddleware</code><a class="headerlink" href="#django.contrib.sessions.middleware.SessionMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Enables session support. See the <a class="reference internal" href="../topics/http/sessions.html"><em>session documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.contrib.auth.middleware">
+<span id="authentication-middleware"></span><h3>Authentication middleware<a class="headerlink" href="#module-django.contrib.auth.middleware" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.contrib.auth.middleware.AuthenticationMiddleware">
+<em class="property">class </em><code class="descname">AuthenticationMiddleware</code><a class="headerlink" href="#django.contrib.auth.middleware.AuthenticationMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Adds the <code class="docutils literal"><span class="pre">user</span></code> attribute, representing the currently-logged-in user, to
+every incoming <code class="docutils literal"><span class="pre">HttpRequest</span></code> object. See <a class="reference internal" href="../topics/auth/default.html#auth-web-requests"><span>Authentication in Web requests</span></a>.</p>
+</div>
+<div class="section" id="module-django.middleware.csrf">
+<span id="csrf-protection-middleware"></span><h3>CSRF protection middleware<a class="headerlink" href="#module-django.middleware.csrf" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.csrf.CsrfViewMiddleware">
+<em class="property">class </em><code class="descname">CsrfViewMiddleware</code><a class="headerlink" href="#django.middleware.csrf.CsrfViewMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Adds protection against Cross Site Request Forgeries by adding hidden form
+fields to POST forms and checking requests for the correct value. See the
+<a class="reference internal" href="contrib/csrf.html"><em>Cross Site Request Forgery protection documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.middleware.transaction">
+<span id="transaction-middleware"></span><h3>Transaction middleware<a class="headerlink" href="#module-django.middleware.transaction" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.transaction.TransactionMiddleware">
+<em class="property">class </em><code class="descname">TransactionMiddleware</code><a class="headerlink" href="#django.middleware.transaction.TransactionMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Binds commit and rollback of the default database to the request/response
+phase. If a view function runs successfully, a commit is done. If it fails with
+an exception, a rollback is done.</p>
+<p>The order of this middleware in the stack is important: middleware modules
+running outside of it run with commit-on-save - the default Django behavior.
+Middleware modules running inside it (coming later in the stack) will be under
+the same transaction control as the view functions.</p>
+<p>See the <a class="reference internal" href="../topics/db/transactions.html"><em>transaction management documentation</em></a>.</p>
+</div>
+<div class="section" id="module-django.middleware.clickjacking">
+<span id="x-frame-options-middleware"></span><h3>X-Frame-Options middleware<a class="headerlink" href="#module-django.middleware.clickjacking" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.middleware.clickjacking.XFrameOptionsMiddleware">
+<em class="property">class </em><code class="descname">XFrameOptionsMiddleware</code><a class="headerlink" href="#django.middleware.clickjacking.XFrameOptionsMiddleware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="versionadded">
+<code class="docutils literal"><span class="pre">XFrameOptionsMiddleware</span></code> was added.</div>
+<p>Simple <a class="reference internal" href="clickjacking.html"><em>clickjacking protection via the X-Frame-Options header</em></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models/index.html" class="btn btn-neutral float-right" title="Models" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="forms/validation.html" class="btn btn-neutral" title="Form and field validation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:50 GMT -->
+</html>

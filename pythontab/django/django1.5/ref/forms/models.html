@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/forms/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Model Form Functions &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Forms</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="api.html">The Forms API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fields.html">Form fields</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Model Form Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="widgets.html">Widgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="validation.html">Form and field validation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html">Forms</a> &raquo;</li>
+      
+    <li>Model Form Functions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.forms.models">
+<span id="model-form-functions"></span><h1>Model Form Functions<a class="headerlink" href="#module-django.forms.models" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="django.forms.models.modelform_factory">
+<code class="descname">modelform_factory</code><span class="sig-paren">(</span><em>model</em>, <em>form=ModelForm</em>, <em>fields=None</em>, <em>exclude=None</em>, <em>formfield_callback=None</em>, <em>widgets=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.models.modelform_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> class for the given <code class="docutils literal"><span class="pre">model</span></code>.
+You can optionally pass a <code class="docutils literal"><span class="pre">form</span></code> argument to use as a starting point for
+constructing the <code class="docutils literal"><span class="pre">ModelForm</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">fields</span></code> is an optional list of field names. If provided, only the named
+fields will be included in the returned fields.</p>
+<p><code class="docutils literal"><span class="pre">exclude</span></code> is an optional list of field names. If provided, the named
+fields will be excluded from the returned fields, even if they are listed
+in the <code class="docutils literal"><span class="pre">fields</span></code> argument.</p>
+<p><code class="docutils literal"><span class="pre">widgets</span></code> is a dictionary of model field names mapped to a widget.</p>
+<p><code class="docutils literal"><span class="pre">formfield_callback</span></code> is a callable that takes a model field and returns
+a form field.</p>
+<p>See <a class="reference internal" href="../../topics/forms/modelforms.html#modelforms-factory"><span>ModelForm factory function</span></a> for example usage.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.forms.models.modelformset_factory">
+<code class="descname">modelformset_factory</code><span class="sig-paren">(</span><em>model</em>, <em>form=ModelForm</em>, <em>formfield_callback=None</em>, <em>formset=BaseModelFormSet</em>, <em>extra=1</em>, <em>can_delete=False</em>, <em>can_order=False</em>, <em>max_num=None</em>, <em>fields=None</em>, <em>exclude=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.models.modelformset_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <code class="docutils literal"><span class="pre">FormSet</span></code> class for the given <code class="docutils literal"><span class="pre">model</span></code> class.</p>
+<p>Arguments <code class="docutils literal"><span class="pre">model</span></code>, <code class="docutils literal"><span class="pre">form</span></code>, <code class="docutils literal"><span class="pre">fields</span></code>, <code class="docutils literal"><span class="pre">exclude</span></code>, and
+<code class="docutils literal"><span class="pre">formfield_callback</span></code> are all passed through to
+<a class="reference internal" href="#django.forms.models.modelform_factory" title="django.forms.models.modelform_factory"><code class="xref py py-func docutils literal"><span class="pre">modelform_factory()</span></code></a>.</p>
+<p>Arguments <code class="docutils literal"><span class="pre">formset</span></code>, <code class="docutils literal"><span class="pre">extra</span></code>, <code class="docutils literal"><span class="pre">max_num</span></code>, <code class="docutils literal"><span class="pre">can_order</span></code>, and
+<code class="docutils literal"><span class="pre">can_delete</span></code> are passed through to <code class="docutils literal"><span class="pre">formset_factory</span></code>. See
+<a class="reference internal" href="../../topics/forms/formsets.html#formsets"><span>Formsets</span></a> for details.</p>
+<p>See <a class="reference internal" href="../../topics/forms/modelforms.html#model-formsets"><span>Model formsets</span></a> for example usage.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.forms.models.inlineformset_factory">
+<code class="descname">inlineformset_factory</code><span class="sig-paren">(</span><em>parent_model</em>, <em>model</em>, <em>form=ModelForm</em>, <em>formset=BaseInlineFormSet</em>, <em>fk_name=None</em>, <em>fields=None</em>, <em>exclude=None</em>, <em>extra=3</em>, <em>can_order=False</em>, <em>can_delete=True</em>, <em>max_num=None</em>, <em>formfield_callback=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.forms.models.inlineformset_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <code class="docutils literal"><span class="pre">InlineFormSet</span></code> using <a class="reference internal" href="#django.forms.models.modelformset_factory" title="django.forms.models.modelformset_factory"><code class="xref py py-func docutils literal"><span class="pre">modelformset_factory()</span></code></a> with
+defaults of <code class="docutils literal"><span class="pre">formset=BaseInlineFormSet</span></code>, <code class="docutils literal"><span class="pre">can_delete=True</span></code>, and
+<code class="docutils literal"><span class="pre">extra=3</span></code>.</p>
+<p>If your model has more than one <a class="reference internal" href="../models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> to
+the <code class="docutils literal"><span class="pre">parent_model</span></code>, you must specify a <code class="docutils literal"><span class="pre">fk_name</span></code>.</p>
+<p>See <a class="reference internal" href="../../topics/forms/modelforms.html#inline-formsets"><span>Inline formsets</span></a> for example usage.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="widgets.html" class="btn btn-neutral float-right" title="Widgets" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="fields.html" class="btn btn-neutral" title="Form fields" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/forms/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

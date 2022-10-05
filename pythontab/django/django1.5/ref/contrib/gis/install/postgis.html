@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/gis/install/postgis.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing PostGIS &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">GeoDjango</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../tutorial.html">GeoDjango Tutorial</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">GeoDjango Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../model-api.html">GeoDjango Model API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../db-api.html">GeoDjango Database API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geoquerysets.html">GeoQuerySet API Reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../measure.html">Measurement Objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geos.html">GEOS API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../gdal.html">GDAL API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../geoip.html">Geolocation with GeoIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../utils.html">GeoDjango Utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../commands.html">GeoDjango Management Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../admin.html">GeoDjango&#8217;s admin site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../feeds.html">Geographic Feeds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sitemaps.html">Geographic Sitemaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../testing.html">Testing GeoDjango apps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../deployment.html">Deploying GeoDjango</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="../../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+          <li><a href="../index.html">GeoDjango</a> &raquo;</li>
+      
+          <li><a href="index.html">GeoDjango Installation</a> &raquo;</li>
+      
+    <li>Installing PostGIS</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installing-postgis">
+<span id="postgis"></span><h1>Installing PostGIS<a class="headerlink" href="#installing-postgis" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://postgis.refractions.net/">PostGIS</a> adds geographic object support to PostgreSQL, turning it
+into a spatial database. <a class="reference internal" href="geolibs.html#geosbuild"><span>GEOS</span></a>, <a class="reference internal" href="geolibs.html#proj4"><span>PROJ.4</span></a> and
+<a class="reference internal" href="geolibs.html#gdalbuild"><span>GDAL</span></a> should be installed prior to building PostGIS. You
+might also need additional libraries, see <a class="reference external" href="http://www.postgis.org/documentation/manual-2.0/postgis_installation.html#id2711662">PostGIS requirements</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference external" href="http://initd.org/psycopg/">psycopg2</a> module is required for use as the database adaptor
+when using GeoDjango with PostGIS.</p>
+</div>
+<p>On Debian/Ubuntu, you are advised to install the following packages:
+postgresql-x.x, postgresql-x.x-postgis, postgresql-server-dev-x.x,
+python-psycopg2 (x.x matching the PostgreSQL version you want to install).
+Please also consult platform-specific instructions if you are on <a class="reference internal" href="index.html#macosx"><span>Mac OS X</span></a>
+or <a class="reference internal" href="index.html#windows"><span>Windows</span></a>.</p>
+<div class="section" id="building-from-source">
+<h2>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this headline">¶</a></h2>
+<p>First download the source archive, and extract:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ wget http://postgis.refractions.net/download/postgis-2.0.1.tar.gz
+$ tar xzf postgis-2.0.1.tar.gz
+$ cd postgis-2.0.1
+</pre></div>
+</div>
+<p>Next, configure, make and install PostGIS:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ./configure
+</pre></div>
+</div>
+<p>Finally, make and install:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ make
+$ sudo make install
+$ cd ..
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GeoDjango does not automatically create a spatial database.  Please consult
+the section on <a class="reference internal" href="#spatialdb-template91"><span>Creating a spatial database with PostGIS 2.0 and PostgreSQL 9.1+</span></a> or
+<a class="reference internal" href="#spatialdb-template-earlier"><span>Creating a spatial database template for earlier versions</span></a> for more information.</p>
+</div>
+</div>
+<div class="section" id="post-installation">
+<h2>Post-installation<a class="headerlink" href="#post-installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-a-spatial-database-with-postgis-2-0-and-postgresql-9-1">
+<span id="spatialdb-template91"></span><span id="spatialdb-template"></span><h3>Creating a spatial database with PostGIS 2.0 and PostgreSQL 9.1+<a class="headerlink" href="#creating-a-spatial-database-with-postgis-2-0-and-postgresql-9-1" title="Permalink to this headline">¶</a></h3>
+<p>PostGIS 2 includes an extension for Postgres 9.1+ that can be used to enable
+spatial functionality:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ createdb  &lt;db name&gt;
+$ psql &lt;db name&gt;
+&gt; CREATE EXTENSION postgis;
+&gt; CREATE EXTENSION postgis_topology;
+</pre></div>
+</div>
+<p>No PostGIS topology functionalities are yet available from GeoDjango, so the
+creation of the <code class="docutils literal"><span class="pre">postgis_topology</span></code> extension is entirely optional.</p>
+</div>
+<div class="section" id="creating-a-spatial-database-template-for-earlier-versions">
+<span id="spatialdb-template-earlier"></span><h3>Creating a spatial database template for earlier versions<a class="headerlink" href="#creating-a-spatial-database-template-for-earlier-versions" title="Permalink to this headline">¶</a></h3>
+<p>If you have an earlier version of PostGIS or PostgreSQL, the CREATE
+EXTENSION isn&#8217;t available and you need to create the spatial database
+using the following instructions.</p>
+<p>Creating a spatial database with PostGIS is different than normal because
+additional SQL must be loaded to enable spatial functionality.  Because of
+the steps in this process, it&#8217;s better to create a database template that
+can be reused later.</p>
+<p>First, you need to be able to execute the commands as a privileged database
+user.  For example, you can use the following to become the <code class="docutils literal"><span class="pre">postgres</span></code> user:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo su - postgres
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The location <em>and</em> name of the PostGIS SQL files (e.g., from
+<code class="docutils literal"><span class="pre">POSTGIS_SQL_PATH</span></code> below) depends on the version of PostGIS.
+PostGIS versions 1.3 and below use <code class="docutils literal"><span class="pre">&lt;pg_sharedir&gt;/contrib/lwpostgis.sql</span></code>;
+whereas version 1.4 uses <code class="docutils literal"><span class="pre">&lt;sharedir&gt;/contrib/postgis.sql</span></code> and
+version 1.5 uses <code class="docutils literal"><span class="pre">&lt;sharedir&gt;/contrib/postgis-1.5/postgis.sql</span></code>.</p>
+<p>To complicate matters, Debian/Ubuntu distributions have their own separate
+directory naming system that might change with time. In this case, use the
+<a class="reference download internal" href="../../../../_downloads/create_template_postgis-debian.sh"><code class="xref download docutils literal"><span class="pre">create_template_postgis-debian.sh</span></code></a> script.</p>
+<p class="last">The example below assumes PostGIS 1.5, thus you may need to modify
+<code class="docutils literal"><span class="pre">POSTGIS_SQL_PATH</span></code> and the name of the SQL file for the specific
+version of PostGIS you are using.</p>
+</div>
+<p>Once you&#8217;re a database super user, then you may execute the following commands
+to create a PostGIS spatial database template:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ POSTGIS_SQL_PATH=`pg_config --sharedir`/contrib/postgis-2.0
+# Creating the template spatial database.
+$ createdb -E UTF8 template_postgis
+$ createlang -d template_postgis plpgsql # Adding PLPGSQL language support.
+# Allows non-superusers the ability to create from this template
+$ psql -d postgres -c &quot;UPDATE pg_database SET datistemplate=&#39;true&#39; WHERE datname=&#39;template_postgis&#39;;&quot;
+# Loading the PostGIS SQL routines
+$ psql -d template_postgis -f $POSTGIS_SQL_PATH/postgis.sql
+$ psql -d template_postgis -f $POSTGIS_SQL_PATH/spatial_ref_sys.sql
+# Enabling users to alter spatial tables.
+$ psql -d template_postgis -c &quot;GRANT ALL ON geometry_columns TO PUBLIC;&quot;
+$ psql -d template_postgis -c &quot;GRANT ALL ON geography_columns TO PUBLIC;&quot;
+$ psql -d template_postgis -c &quot;GRANT ALL ON spatial_ref_sys TO PUBLIC;&quot;
+</pre></div>
+</div>
+<p>These commands may be placed in a shell script for later use; for convenience
+the following scripts are available:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">PostGIS version</th>
+<th class="head">Bash shell script</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1.3</td>
+<td><a class="reference download internal" href="../../../../_downloads/create_template_postgis-1.3.sh"><code class="xref download docutils literal"><span class="pre">create_template_postgis-1.3.sh</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>1.4</td>
+<td><a class="reference download internal" href="../../../../_downloads/create_template_postgis-1.4.sh"><code class="xref download docutils literal"><span class="pre">create_template_postgis-1.4.sh</span></code></a></td>
+</tr>
+<tr class="row-even"><td>1.5</td>
+<td><a class="reference download internal" href="../../../../_downloads/create_template_postgis-1.5.sh"><code class="xref download docutils literal"><span class="pre">create_template_postgis-1.5.sh</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Debian/Ubuntu</td>
+<td><a class="reference download internal" href="../../../../_downloads/create_template_postgis-debian.sh"><code class="xref download docutils literal"><span class="pre">create_template_postgis-debian.sh</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Afterwards, you may create a spatial database by simply specifying
+<code class="docutils literal"><span class="pre">template_postgis</span></code> as the template to use (via the <code class="docutils literal"><span class="pre">-T</span></code> option):</p>
+<div class="highlight-python"><div class="highlight"><pre>$ createdb -T template_postgis &lt;db name&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>While the <code class="docutils literal"><span class="pre">createdb</span></code> command does not require database super-user privileges,
+it must be executed by a database user that has permissions to create databases.
+You can create such a user with the following command:</p>
+<div class="last highlight-python"><div class="highlight"><pre>$ createuser --createdb &lt;user&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="postgresql-s-createdb-fails">
+<h3>PostgreSQL&#8217;s createdb fails<a class="headerlink" href="#postgresql-s-createdb-fails" title="Permalink to this headline">¶</a></h3>
+<p>When the PostgreSQL cluster uses a non-UTF8 encoding, the
+<code class="file docutils literal"><span class="pre">create_template_postgis-*.sh</span></code> script will fail when executing
+<code class="docutils literal"><span class="pre">createdb</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>createdb: database creation failed: ERROR:  new encoding (UTF8) is incompatible
+  with the encoding of the template database (SQL_ASCII)
+</pre></div>
+</div>
+<p>The <a class="reference external" href="http://jacobian.org/writing/pg-encoding-ubuntu/">current workaround</a> is to re-create the cluster using UTF8 (back up any
+databases before dropping the cluster).</p>
+</div>
+<div class="section" id="managing-the-database">
+<h3>Managing the database<a class="headerlink" href="#managing-the-database" title="Permalink to this headline">¶</a></h3>
+<p>To administer the database, you can either use the pgAdmin III program
+(<span class="menuselection">Start ‣ PostgreSQL 9.x ‣ pgAdmin III</span>) or the
+SQL Shell (<span class="menuselection">Start ‣ PostgreSQL 9.x ‣ SQL Shell</span>).
+For example, to create a <code class="docutils literal"><span class="pre">geodjango</span></code> spatial database and user, the following
+may be executed from the SQL Shell as the <code class="docutils literal"><span class="pre">postgres</span></code> user:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">postgres</span><span class="c"># CREATE USER geodjango PASSWORD &#39;my_passwd&#39;;</span>
+<span class="n">postgres</span><span class="c"># CREATE DATABASE geodjango OWNER geodjango TEMPLATE template_postgis ENCODING &#39;utf8&#39;;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spatialite.html" class="btn btn-neutral float-right" title="Installing Spatialite" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="geolibs.html" class="btn btn-neutral" title="Installing Geospatial libraries" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/gis/install/postgis.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:30 GMT -->
+</html>

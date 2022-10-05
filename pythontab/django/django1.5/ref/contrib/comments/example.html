@@ -1,0 +1,481 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/comments/example.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example of using the built-in comments app &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Django&#8217;s comments framework</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#quick-start-guide">Quick start guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#comment-template-tags">Comment template tags</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#more-information">More information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+          <li><a href="index.html">Django&#8217;s comments framework</a> &raquo;</li>
+      
+    <li>Example of using the built-in comments app</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="example-of-using-the-built-in-comments-app">
+<h1>Example of using the built-in comments app<a class="headerlink" href="#example-of-using-the-built-in-comments-app" title="Permalink to this headline">¶</a></h1>
+<p>Follow the first three steps of the quick start guide in the
+<a class="reference internal" href="index.html"><em>documentation</em></a>.</p>
+<p>Now suppose, you have an app (<code class="docutils literal"><span class="pre">blog</span></code>) with a model (<code class="docutils literal"><span class="pre">Post</span></code>)
+to which you want to attach comments. Let&#8217;s also suppose that
+you have a template called <code class="docutils literal"><span class="pre">blog_detail.html</span></code> where you want
+to display the comments list and comment form.</p>
+<div class="section" id="template">
+<h2>Template<a class="headerlink" href="#template" title="Permalink to this headline">¶</a></h2>
+<p>First, we should load the <code class="docutils literal"><span class="pre">comment</span></code> template tags in the
+<code class="docutils literal"><span class="pre">blog_detail.html</span></code> so that we can use its functionality. So
+just like all other custom template tag libraries:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">load</span> <span class="nv">comments</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Next, let&#8217;s add the number of comments attached to the particular
+model instance of <code class="docutils literal"><span class="pre">Post</span></code>. For this we assume that a context
+variable <code class="docutils literal"><span class="pre">object_pk</span></code> is present which gives the <code class="docutils literal"><span class="pre">id</span></code> of the
+instance of <code class="docutils literal"><span class="pre">Post</span></code>.</p>
+<p>The usage of the <a class="reference internal" href="index.html#std:templatetag-get_comment_count"><code class="xref std std-ttag docutils literal"><span class="pre">get_comment_count</span></code></a> tag is like below:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">get_comment_count</span> <span class="nv">for</span> <span class="nv">blog.post</span> <span class="nv">object_pk</span> <span class="k">as</span> <span class="nv">comment_count</span> <span class="cp">%}</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">comment_count</span> <span class="cp">}}</span> comments have been posted.<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>If you have the instance (say <code class="docutils literal"><span class="pre">entry</span></code>) of the model (<code class="docutils literal"><span class="pre">Post</span></code>)
+available in the context, then you can refer to it directly:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">get_comment_count</span> <span class="nv">for</span> <span class="nv">entry</span> <span class="k">as</span> <span class="nv">comment_count</span> <span class="cp">%}</span>
+<span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">comment_count</span> <span class="cp">}}</span> comments have been posted.<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>Next, we can use the <a class="reference internal" href="index.html#std:templatetag-render_comment_list"><code class="xref std std-ttag docutils literal"><span class="pre">render_comment_list</span></code></a> tag, to render all comments
+to the given instance (<code class="docutils literal"><span class="pre">entry</span></code>) by using the <code class="docutils literal"><span class="pre">comments/list.html</span></code> template:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">render_comment_list</span> <span class="nv">for</span> <span class="nv">entry</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Django will will look for the <code class="docutils literal"><span class="pre">list.html</span></code> under the following directories
+(for our example):</p>
+<div class="highlight-html+django"><div class="highlight"><pre>comments/blog/post/list.html
+comments/blog/list.html
+comments/list.html
+</pre></div>
+</div>
+<p>To get a list of comments, we make use of the <a class="reference internal" href="index.html#std:templatetag-get_comment_list"><code class="xref std std-ttag docutils literal"><span class="pre">get_comment_list</span></code></a> tag.
+Using this tag is very similar to the <a class="reference internal" href="index.html#std:templatetag-get_comment_count"><code class="xref std std-ttag docutils literal"><span class="pre">get_comment_count</span></code></a> tag. We
+need to remember that <a class="reference internal" href="index.html#std:templatetag-get_comment_list"><code class="xref std std-ttag docutils literal"><span class="pre">get_comment_list</span></code></a> returns a list of comments
+and hence we have to iterate through them to display them:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">get_comment_list</span> <span class="nv">for</span> <span class="nv">blog.post</span> <span class="nv">object_pk</span> <span class="k">as</span> <span class="nv">comment_list</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">comment</span> <span class="k">in</span> <span class="nv">comment_list</span> <span class="cp">%}</span>
+<span class="nt">&lt;p&gt;</span>Posted by: <span class="cp">{{</span> <span class="nv">comment.user_name</span> <span class="cp">}}</span> on <span class="cp">{{</span> <span class="nv">comment.submit_date</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+...
+<span class="nt">&lt;p&gt;</span>Comment: <span class="cp">{{</span> <span class="nv">comment.comment</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Finally, we display the comment form, enabling users to enter their
+comments. There are two ways of doing so. The first is when you want to
+display the comments template available under your <code class="docutils literal"><span class="pre">comments/form.html</span></code>.
+The other method gives you a chance to customize the form.</p>
+<p>The first method makes use of the <a class="reference internal" href="index.html#std:templatetag-render_comment_form"><code class="xref std std-ttag docutils literal"><span class="pre">render_comment_form</span></code></a> tag. Its usage
+too is similar to the other three tags we have discussed above:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">render_comment_form</span> <span class="nv">for</span> <span class="nv">entry</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>It looks for the <code class="docutils literal"><span class="pre">form.html</span></code> under the following directories
+(for our example):</p>
+<div class="highlight-html+django"><div class="highlight"><pre>comments/blog/post/form.html
+comments/blog/form.html
+comments/form.html
+</pre></div>
+</div>
+<p>Since we customize the form in the second method, we make use of another
+tag called <a class="reference internal" href="index.html#std:templatetag-comment_form_target"><code class="xref std std-ttag docutils literal"><span class="pre">comment_form_target</span></code></a>. This tag on rendering gives the URL
+where the comment form is posted. Without any <a class="reference internal" href="custom.html"><em>customization</em></a>, <a class="reference internal" href="index.html#std:templatetag-comment_form_target"><code class="xref std std-ttag docutils literal"><span class="pre">comment_form_target</span></code></a> evaluates to
+<code class="docutils literal"><span class="pre">/comments/post/</span></code>. We use this tag in the form&#8217;s <code class="docutils literal"><span class="pre">action</span></code> attribute.</p>
+<p>The <a class="reference internal" href="index.html#std:templatetag-get_comment_form"><code class="xref std std-ttag docutils literal"><span class="pre">get_comment_form</span></code></a> tag renders a <code class="docutils literal"><span class="pre">form</span></code> for a model instance by
+creating a context variable. One can iterate over the <code class="docutils literal"><span class="pre">form</span></code> object to
+get individual fields. This gives you fine-grain control over the form:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">field</span> <span class="k">in</span> <span class="nv">form</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">ifequal</span> <span class="nv">field.name</span> <span class="s2">&quot;comment&quot;</span> <span class="cp">%}</span>
+  <span class="c">&lt;!-- Customize the &quot;comment&quot; field, say, make CSS changes --&gt;</span>
+...
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>But let&#8217;s look at a simple example:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">get_comment_form</span> <span class="nv">for</span> <span class="nv">entry</span> <span class="k">as</span> <span class="nv">form</span> <span class="cp">%}</span>
+<span class="c">&lt;!-- A context variable called form is created with the necessary hidden</span>
+<span class="c">fields, timestamps and security hashes --&gt;</span>
+<span class="nt">&lt;table&gt;</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">comment_form_target</span> <span class="cp">%}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">form</span> <span class="cp">}}</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">&quot;2&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;Post&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">name=</span><span class="s">&quot;preview&quot;</span> <span class="na">value=</span><span class="s">&quot;Preview&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flagging">
+<h2>Flagging<a class="headerlink" href="#flagging" title="Permalink to this headline">¶</a></h2>
+<p>If you want your users to be able to flag comments (say for profanity), you
+can just direct them (by placing a link in your comment list) to <code class="docutils literal"><span class="pre">/flag/{{</span>
+<span class="pre">comment.id</span> <span class="pre">}}/</span></code>. Similarly, a user with requisite permissions (<code class="docutils literal"><span class="pre">&quot;Can</span>
+<span class="pre">moderate</span> <span class="pre">comments&quot;</span></code>) can approve and delete comments. This can also be
+done through the <code class="docutils literal"><span class="pre">admin</span></code> as you&#8217;ll see later. You might also want to
+customize the following templates:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">flag.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">flagged.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">approve.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">approved.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">delete.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">deleted.html</span></code></li>
+</ul>
+<p>found under the directory structure we saw for <code class="docutils literal"><span class="pre">form.html</span></code>.</p>
+</div>
+<div class="section" id="feeds">
+<h2>Feeds<a class="headerlink" href="#feeds" title="Permalink to this headline">¶</a></h2>
+<p>Suppose you want to export a <a class="reference internal" href="../syndication.html"><em>feed</em></a> of the
+latest comments, you can use the built-in <code class="docutils literal"><span class="pre">LatestCommentFeed</span></code>. Just
+enable it in your project&#8217;s <code class="docutils literal"><span class="pre">urls.py</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span>
+<span class="kn">from</span> <span class="nn">django.contrib.comments.feeds</span> <span class="kn">import</span> <span class="n">LatestCommentFeed</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+<span class="c"># ...</span>
+    <span class="p">(</span><span class="s">r&#39;^feeds/latest/$&#39;</span><span class="p">,</span> <span class="n">LatestCommentFeed</span><span class="p">()),</span>
+<span class="c"># ...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you should have the latest comment feeds being served off <code class="docutils literal"><span class="pre">/feeds/latest/</span></code>.</p>
+</div>
+<div class="section" id="moderation">
+<h2>Moderation<a class="headerlink" href="#moderation" title="Permalink to this headline">¶</a></h2>
+<p>Now that we have the comments framework working, we might want to have some
+moderation setup to administer the comments. The comments framework comes
+built-in with <a class="reference internal" href="moderation.html"><em>generic comment moderation</em></a>. The comment moderation has the following
+features (all of which or only certain can be enabled):</p>
+<ul class="simple">
+<li>Enable comments for a particular model instance.</li>
+<li>Close comments after a particular (user-defined) number of days.</li>
+<li>Email new comments to the site-staff.</li>
+</ul>
+<p>To enable comment moderation, we subclass the <code class="docutils literal"><span class="pre">CommentModerator</span></code> and
+register it with the moderation features we want. Let&#8217;s suppose we want to
+close comments after 7 days of posting and also send out an email to the
+site staff. In <code class="docutils literal"><span class="pre">blog/models.py</span></code>, we register a comment moderator in the
+following way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.comments.moderation</span> <span class="kn">import</span> <span class="n">CommentModerator</span><span class="p">,</span> <span class="n">moderator</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span>   <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">255</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">posted_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">PostModerator</span><span class="p">(</span><span class="n">CommentModerator</span><span class="p">):</span>
+    <span class="n">email_notification</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">auto_close_field</span>   <span class="o">=</span> <span class="s">&#39;posted_date&#39;</span>
+    <span class="c"># Close the comments after 7 days.</span>
+    <span class="n">close_after</span>        <span class="o">=</span> <span class="mi">7</span>
+
+<span class="n">moderator</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Post</span><span class="p">,</span> <span class="n">PostModerator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The generic comment moderation also has the facility to remove comments.
+These comments can then be moderated by any user who has access to the
+<code class="docutils literal"><span class="pre">admin</span></code> site and the <code class="docutils literal"><span class="pre">Can</span> <span class="pre">moderate</span> <span class="pre">comments</span></code> permission (can be set
+under the <code class="docutils literal"><span class="pre">Users</span></code> page in the <code class="docutils literal"><span class="pre">admin</span></code>).</p>
+<p>The moderator can <code class="docutils literal"><span class="pre">Flag</span></code>, <code class="docutils literal"><span class="pre">Approve</span></code> or <code class="docutils literal"><span class="pre">Remove</span></code> comments using the
+<code class="docutils literal"><span class="pre">Action</span></code> drop-down in the <code class="docutils literal"><span class="pre">admin</span></code> under the <code class="docutils literal"><span class="pre">Comments</span></code> page.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only a super-user will be able to delete comments from the database.
+<code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Comments</span></code> only sets the <code class="docutils literal"><span class="pre">is_public</span></code> attribute to
+<code class="docutils literal"><span class="pre">False</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../contenttypes.html" class="btn btn-neutral float-right" title="The contenttypes framework" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="moderation.html" class="btn btn-neutral" title="Generic comment moderation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/comments/example.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:24 GMT -->
+</html>

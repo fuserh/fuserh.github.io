@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/sites.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The “sites” framework &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The &#8220;sites&#8221; framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#example-usage">Example usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-site-and-syncdb">Default site and <code class="docutils literal"><span class="pre">syncdb</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#caching-the-current-site-object">Caching the current <code class="docutils literal"><span class="pre">Site</span></code> object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-currentsitemanager">The <code class="docutils literal"><span class="pre">CurrentSiteManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-django-uses-the-sites-framework">How Django uses the sites framework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#requestsite-objects"><code class="docutils literal"><span class="pre">RequestSite</span></code> objects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+    <li>The &#8220;sites&#8221; framework</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.sites">
+<span id="the-sites-framework"></span><h1>The &#8220;sites&#8221; framework<a class="headerlink" href="#module-django.contrib.sites" title="Permalink to this headline">¶</a></h1>
+<p>Django comes with an optional &#8220;sites&#8221; framework. It&#8217;s a hook for associating
+objects and functionality to particular Web sites, and it&#8217;s a holding place for
+the domain names and &#8220;verbose&#8221; names of your Django-powered sites.</p>
+<p>Use it if your single Django installation powers more than one site and you
+need to differentiate between those sites in some way.</p>
+<p>The whole sites framework is based on a simple model:</p>
+<dl class="class">
+<dt id="django.contrib.sites.models.Site">
+<em class="property">class </em><code class="descname">Site</code><a class="headerlink" href="#django.contrib.sites.models.Site" title="Permalink to this definition">¶</a></dt>
+<dd><p>A model for storing the <code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">name</span></code> attributes of a Web site.
+The <a class="reference internal" href="../settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting specifies the database ID of the
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> object associated with that
+particular settings file.</p>
+<dl class="attribute">
+<dt id="django.contrib.sites.models.Site.domain">
+<code class="descname">domain</code><a class="headerlink" href="#django.contrib.sites.models.Site.domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>The domain name associated with the Web site.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="django.contrib.sites.models.Site.name">
+<code class="descname">name</code><a class="headerlink" href="#django.contrib.sites.models.Site.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A human-readable &#8220;verbose&#8221; name for the Web site.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>How you use this is up to you, but Django uses it in a couple of ways
+automatically via simple conventions.</p>
+<div class="section" id="example-usage">
+<h2>Example usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>Why would you use sites? It&#8217;s best explained through examples.</p>
+<div class="section" id="associating-content-with-multiple-sites">
+<h3>Associating content with multiple sites<a class="headerlink" href="#associating-content-with-multiple-sites" title="Permalink to this headline">¶</a></h3>
+<p>The Django-powered sites <a class="reference external" href="http://www.ljworld.com/">LJWorld.com</a> and <a class="reference external" href="http://www.lawrence.com/">Lawrence.com</a> are operated by the
+same news organization &#8211; the Lawrence Journal-World newspaper in Lawrence,
+Kansas. LJWorld.com focuses on news, while Lawrence.com focuses on local
+entertainment. But sometimes editors want to publish an article on <em>both</em>
+sites.</p>
+<p>The brain-dead way of solving the problem would be to require site producers to
+publish the same story twice: once for LJWorld.com and again for Lawrence.com.
+But that&#8217;s inefficient for site producers, and it&#8217;s redundant to store
+multiple copies of the same story in the database.</p>
+<p>The better solution is simple: Both sites use the same article database, and an
+article is associated with one or more sites. In Django model terminology,
+that&#8217;s represented by a <a class="reference internal" href="../models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> in the
+<code class="docutils literal"><span class="pre">Article</span></code> model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="c"># ...</span>
+    <span class="n">sites</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Site</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This accomplishes several things quite nicely:</p>
+<ul>
+<li><p class="first">It lets the site producers edit all content &#8211; on both sites &#8211; in a
+single interface (the Django admin).</p>
+</li>
+<li><p class="first">It means the same story doesn&#8217;t have to be published twice in the
+database; it only has a single record in the database.</p>
+</li>
+<li><p class="first">It lets the site developers use the same Django view code for both sites.
+The view code that displays a given story just checks to make sure the
+requested story is on the current site. It looks something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">get_current_site</span>
+
+<span class="k">def</span> <span class="nf">article_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">,</span> <span class="n">sites__id__exact</span><span class="o">=</span><span class="n">get_current_site</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">Article</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Http404</span>
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="associating-content-with-a-single-site">
+<h3>Associating content with a single site<a class="headerlink" href="#associating-content-with-a-single-site" title="Permalink to this headline">¶</a></h3>
+<p>Similarly, you can associate a model to the
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>
+model in a many-to-one relationship, using
+<a class="reference internal" href="../models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a>.</p>
+<p>For example, if an article is only allowed on a single site, you&#8217;d use a model
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="c"># ...</span>
+    <span class="n">site</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Site</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This has the same benefits as described in the last section.</p>
+</div>
+<div class="section" id="hooking-into-the-current-site-from-views">
+<span id="hooking-into-current-site-from-views"></span><h3>Hooking into the current site from views<a class="headerlink" href="#hooking-into-the-current-site-from-views" title="Permalink to this headline">¶</a></h3>
+<p>You can use the sites framework in your Django views to do
+particular things based on the site in which the view is being called.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">SITE_ID</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c"># Do something.</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># Do something else.</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Of course, it&#8217;s ugly to hard-code the site IDs like that. This sort of
+hard-coding is best for hackish fixes that you need done quickly. The
+cleaner way of accomplishing the same thing is to check the current site&#8217;s
+domain:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">get_current_site</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">current_site</span> <span class="o">=</span> <span class="n">get_current_site</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">current_site</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="s">&#39;foo.com&#39;</span><span class="p">:</span>
+        <span class="c"># Do something</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># Do something else.</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>This has also the advantage of checking if the sites framework is installed,
+and return a <a class="reference internal" href="#django.contrib.sites.models.RequestSite" title="django.contrib.sites.models.RequestSite"><code class="xref py py-class docutils literal"><span class="pre">RequestSite</span></code></a> instance if it is not.</p>
+<p>If you don&#8217;t have access to the request object, you can use the
+<code class="docutils literal"><span class="pre">get_current()</span></code> method of the <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>
+model&#8217;s manager. You should then ensure that your settings file does contain
+the <a class="reference internal" href="../settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting. This example is equivalent to the previous one:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+
+<span class="k">def</span> <span class="nf">my_function_without_request</span><span class="p">():</span>
+    <span class="n">current_site</span> <span class="o">=</span> <span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">current_site</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="s">&#39;foo.com&#39;</span><span class="p">:</span>
+        <span class="c"># Do something</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># Do something else.</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-the-current-domain-for-display">
+<h3>Getting the current domain for display<a class="headerlink" href="#getting-the-current-domain-for-display" title="Permalink to this headline">¶</a></h3>
+<p>LJWorld.com and Lawrence.com both have email alert functionality, which lets
+readers sign up to get notifications when news happens. It&#8217;s pretty basic: A
+reader signs up on a Web form, and he immediately gets an email saying,
+&#8220;Thanks for your subscription.&#8221;</p>
+<p>It&#8217;d be inefficient and redundant to implement this signup-processing code
+twice, so the sites use the same code behind the scenes. But the &#8220;thank you for
+signing up&#8221; notice needs to be different for each site. By using
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>
+objects, we can abstract the &#8220;thank you&#8221; notice to use the values of the
+current site&#8217;s <a class="reference internal" href="#django.contrib.sites.models.Site.name" title="django.contrib.sites.models.Site.name"><code class="xref py py-attr docutils literal"><span class="pre">name</span></code></a> and
+<a class="reference internal" href="#django.contrib.sites.models.Site.domain" title="django.contrib.sites.models.Site.domain"><code class="xref py py-attr docutils literal"><span class="pre">domain</span></code></a>.</p>
+<p>Here&#8217;s an example of what the form-handling view looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">get_current_site</span>
+<span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="kn">import</span> <span class="n">send_mail</span>
+
+<span class="k">def</span> <span class="nf">register_for_newsletter</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># Check form values, etc., and subscribe the user.</span>
+    <span class="c"># ...</span>
+
+    <span class="n">current_site</span> <span class="o">=</span> <span class="n">get_current_site</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">send_mail</span><span class="p">(</span><span class="s">&#39;Thanks for subscribing to </span><span class="si">%s</span><span class="s"> alerts&#39;</span> <span class="o">%</span> <span class="n">current_site</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s">&#39;Thanks for your subscription. We appreciate it.</span><span class="se">\n\n</span><span class="s">-The </span><span class="si">%s</span><span class="s"> team.&#39;</span> <span class="o">%</span> <span class="n">current_site</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s">&#39;editor@</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">current_site</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>On Lawrence.com, this email has the subject line &#8220;Thanks for subscribing to
+lawrence.com alerts.&#8221; On LJWorld.com, the email has the subject &#8220;Thanks for
+subscribing to LJWorld.com alerts.&#8221; Same goes for the email&#8217;s message body.</p>
+<p>Note that an even more flexible (but more heavyweight) way of doing this would
+be to use Django&#8217;s template system. Assuming Lawrence.com and LJWorld.com have
+different template directories (<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a>), you could simply
+farm out to the template system like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="kn">import</span> <span class="n">send_mail</span>
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">loader</span><span class="p">,</span> <span class="n">Context</span>
+
+<span class="k">def</span> <span class="nf">register_for_newsletter</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># Check form values, etc., and subscribe the user.</span>
+    <span class="c"># ...</span>
+
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;alerts/subject.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({}))</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;alerts/message.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({}))</span>
+    <span class="n">send_mail</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="s">&#39;editor@ljworld.com&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">])</span>
+
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>In this case, you&#8217;d have to create <code class="file docutils literal"><span class="pre">subject.txt</span></code> and <code class="file docutils literal"><span class="pre">message.txt</span></code>
+template files for both the LJWorld.com and Lawrence.com template directories.
+That gives you more flexibility, but it&#8217;s also more complex.</p>
+<p>It&#8217;s a good idea to exploit the <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>
+objects as much as possible, to remove unneeded complexity and redundancy.</p>
+</div>
+<div class="section" id="getting-the-current-domain-for-full-urls">
+<h3>Getting the current domain for full URLs<a class="headerlink" href="#getting-the-current-domain-for-full-urls" title="Permalink to this headline">¶</a></h3>
+<p>Django&#8217;s <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> convention is nice for getting your objects&#8217;
+URL without the domain name, but in some cases you might want to display the
+full URL &#8211; with <code class="docutils literal"><span class="pre">http://</span></code> and the domain and everything &#8211; for an object.
+To do this, you can use the sites framework. A simple example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="o">.</span><span class="n">get_absolute_url</span><span class="p">()</span>
+<span class="go">&#39;/mymodel/objects/3/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span>
+<span class="go">&#39;example.com&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;http://</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_absolute_url</span><span class="p">())</span>
+<span class="go">&#39;http://example.com/mymodel/objects/3/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="default-site-and-syncdb">
+<span id="enabling-the-sites-framework"></span><h2>Default site and <code class="docutils literal"><span class="pre">syncdb</span></code><a class="headerlink" href="#default-site-and-syncdb" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">django.contrib.sites</span></code> registers a
+<a class="reference internal" href="../signals.html#django.db.models.signals.post_syncdb" title="django.db.models.signals.post_syncdb"><code class="xref py py-data docutils literal"><span class="pre">post_syncdb</span></code></a> signal handler which creates a
+default site named <code class="docutils literal"><span class="pre">example.com</span></code> with the domain <code class="docutils literal"><span class="pre">example.com</span></code>. For
+example, this site will be created after Django creates the test database.</p>
+</div>
+<div class="section" id="caching-the-current-site-object">
+<h2>Caching the current <code class="docutils literal"><span class="pre">Site</span></code> object<a class="headerlink" href="#caching-the-current-site-object" title="Permalink to this headline">¶</a></h2>
+<p>As the current site is stored in the database, each call to
+<code class="docutils literal"><span class="pre">Site.objects.get_current()</span></code> could result in a database query. But Django is a
+little cleverer than that: on the first request, the current site is cached, and
+any subsequent call returns the cached data instead of hitting the database.</p>
+<p>If for any reason you want to force a database query, you can tell Django to
+clear the cache using <code class="docutils literal"><span class="pre">Site.objects.clear_cache()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># First call; current site fetched from database.</span>
+<span class="n">current_site</span> <span class="o">=</span> <span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span>
+<span class="c"># ...</span>
+
+<span class="c"># Second call; current site fetched from cache.</span>
+<span class="n">current_site</span> <span class="o">=</span> <span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span>
+<span class="c"># ...</span>
+
+<span class="c"># Force a database query for the third call.</span>
+<span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
+<span class="n">current_site</span> <span class="o">=</span> <span class="n">Site</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_current</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-currentsitemanager">
+<h2>The <code class="docutils literal"><span class="pre">CurrentSiteManager</span></code><a class="headerlink" href="#the-currentsitemanager" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.contrib.sites.managers.CurrentSiteManager">
+<em class="property">class </em><code class="descname">CurrentSiteManager</code><a class="headerlink" href="#django.contrib.sites.managers.CurrentSiteManager" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>If <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> plays a key role in your
+application, consider using the helpful
+<a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a> in your
+model(s). It&#8217;s a model <a class="reference internal" href="../../topics/db/managers.html"><em>manager</em></a> that
+automatically filters its queries to include only objects associated
+with the current <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>.</p>
+<p>Use <a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a> by adding it to
+your model explicitly. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.managers</span> <span class="kn">import</span> <span class="n">CurrentSiteManager</span>
+
+<span class="k">class</span> <span class="nc">Photo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">photo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s">&#39;/home/photos&#39;</span><span class="p">)</span>
+    <span class="n">photographer_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pub_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">site</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Site</span><span class="p">)</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">on_site</span> <span class="o">=</span> <span class="n">CurrentSiteManager</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>With this model, <code class="docutils literal"><span class="pre">Photo.objects.all()</span></code> will return all <code class="docutils literal"><span class="pre">Photo</span></code> objects in
+the database, but <code class="docutils literal"><span class="pre">Photo.on_site.all()</span></code> will return only the <code class="docutils literal"><span class="pre">Photo</span></code> objects
+associated with the current site, according to the <a class="reference internal" href="../settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting.</p>
+<p>Put another way, these two statements are equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Photo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">site</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">SITE_ID</span><span class="p">)</span>
+<span class="n">Photo</span><span class="o">.</span><span class="n">on_site</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>How did <a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a>
+know which field of <code class="docutils literal"><span class="pre">Photo</span></code> was the
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>? By default,
+<a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a> looks for a
+either a <a class="reference internal" href="../models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> called
+<code class="docutils literal"><span class="pre">site</span></code> or a
+<a class="reference internal" href="../models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> called
+<code class="docutils literal"><span class="pre">sites</span></code> to filter on. If you use a field named something other than
+<code class="docutils literal"><span class="pre">site</span></code> or <code class="docutils literal"><span class="pre">sites</span></code> to identify which
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> objects your object is
+related to, then you need to explicitly pass the custom field name as
+a parameter to
+<a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a> on your
+model. The following model, which has a field called <code class="docutils literal"><span class="pre">publish_on</span></code>,
+demonstrates this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.models</span> <span class="kn">import</span> <span class="n">Site</span>
+<span class="kn">from</span> <span class="nn">django.contrib.sites.managers</span> <span class="kn">import</span> <span class="n">CurrentSiteManager</span>
+
+<span class="k">class</span> <span class="nc">Photo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">photo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s">&#39;/home/photos&#39;</span><span class="p">)</span>
+    <span class="n">photographer_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pub_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">publish_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Site</span><span class="p">)</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">()</span>
+    <span class="n">on_site</span> <span class="o">=</span> <span class="n">CurrentSiteManager</span><span class="p">(</span><span class="s">&#39;publish_on&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you attempt to use <a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a>
+and pass a field name that doesn&#8217;t exist, Django will raise a <code class="docutils literal"><span class="pre">ValueError</span></code>.</p>
+<p>Finally, note that you&#8217;ll probably want to keep a normal
+(non-site-specific) <code class="docutils literal"><span class="pre">Manager</span></code> on your model, even if you use
+<a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a>. As
+explained in the <a class="reference internal" href="../../topics/db/managers.html"><em>manager documentation</em></a>, if
+you define a manager manually, then Django won&#8217;t create the automatic
+<code class="docutils literal"><span class="pre">objects</span> <span class="pre">=</span> <span class="pre">models.Manager()</span></code> manager for you. Also note that certain
+parts of Django &#8211; namely, the Django admin site and generic views &#8211;
+use whichever manager is defined <em>first</em> in the model, so if you want
+your admin site to have access to all objects (not just site-specific
+ones), put <code class="docutils literal"><span class="pre">objects</span> <span class="pre">=</span> <span class="pre">models.Manager()</span></code> in your model, before you
+define <a class="reference internal" href="#django.contrib.sites.managers.CurrentSiteManager" title="django.contrib.sites.managers.CurrentSiteManager"><code class="xref py py-class docutils literal"><span class="pre">CurrentSiteManager</span></code></a>.</p>
+</div>
+<div class="section" id="how-django-uses-the-sites-framework">
+<h2>How Django uses the sites framework<a class="headerlink" href="#how-django-uses-the-sites-framework" title="Permalink to this headline">¶</a></h2>
+<p>Although it&#8217;s not required that you use the sites framework, it&#8217;s strongly
+encouraged, because Django takes advantage of it in a few places. Even if your
+Django installation is powering only a single site, you should take the two
+seconds to create the site object with your <code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">name</span></code>, and point
+to its ID in your <a class="reference internal" href="../settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting.</p>
+<p>Here&#8217;s how Django uses the sites framework:</p>
+<ul class="simple">
+<li>In the <a class="reference internal" href="redirects.html#module-django.contrib.redirects" title="django.contrib.redirects: A framework for managing redirects."><code class="xref py py-mod docutils literal"><span class="pre">redirects</span> <span class="pre">framework</span></code></a>, each
+redirect object is associated with a particular site. When Django searches
+for a redirect, it takes into account the current site.</li>
+<li>In the comments framework, each comment is associated with a particular
+site. When a comment is posted, its
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> is set to the current site,
+and when comments are listed via the appropriate template tag, only the
+comments for the current site are displayed.</li>
+<li>In the <a class="reference internal" href="flatpages.html#module-django.contrib.flatpages" title="django.contrib.flatpages: A framework for managing simple ?flat? HTML content in a database."><code class="xref py py-mod docutils literal"><span class="pre">flatpages</span> <span class="pre">framework</span></code></a>, each
+flatpage is associated with a particular site. When a flatpage is created,
+you specify its <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>, and the
+<a class="reference internal" href="flatpages.html#django.contrib.flatpages.middleware.FlatpageFallbackMiddleware" title="django.contrib.flatpages.middleware.FlatpageFallbackMiddleware"><code class="xref py py-class docutils literal"><span class="pre">FlatpageFallbackMiddleware</span></code></a>
+checks the current site in retrieving flatpages to display.</li>
+<li>In the <a class="reference internal" href="syndication.html#module-django.contrib.syndication" title="django.contrib.syndication: A framework for generating syndication feeds, in RSS and Atom, quite easily."><code class="xref py py-mod docutils literal"><span class="pre">syndication</span> <span class="pre">framework</span></code></a>, the
+templates for <code class="docutils literal"><span class="pre">title</span></code> and <code class="docutils literal"><span class="pre">description</span></code> automatically have access to a
+variable <code class="docutils literal"><span class="pre">{{</span> <span class="pre">site</span> <span class="pre">}}</span></code>, which is the
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> object representing the current
+site. Also, the hook for providing item URLs will use the <code class="docutils literal"><span class="pre">domain</span></code> from
+the current <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> object if you don&#8217;t
+specify a fully-qualified domain.</li>
+<li>In the <a class="reference internal" href="../../topics/auth/index.html#module-django.contrib.auth" title="django.contrib.auth: Django's authentication framework."><code class="xref py py-mod docutils literal"><span class="pre">authentication</span> <span class="pre">framework</span></code></a>, the
+<a class="reference internal" href="../../topics/auth/default.html#django.contrib.auth.views.login" title="django.contrib.auth.views.login"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.views.login()</span></code></a> view passes the current
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> name to the template as
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">site_name</span> <span class="pre">}}</span></code>.</li>
+<li>The shortcut view (<code class="docutils literal"><span class="pre">django.views.defaults.shortcut</span></code>) uses the domain
+of the current <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> object when
+calculating an object&#8217;s URL.</li>
+<li>In the admin framework, the &#8220;view on site&#8221; link uses the current
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> to work out the domain for the
+site that it will redirect to.</li>
+</ul>
+</div>
+<div class="section" id="requestsite-objects">
+<h2><code class="docutils literal"><span class="pre">RequestSite</span></code> objects<a class="headerlink" href="#requestsite-objects" title="Permalink to this headline">¶</a></h2>
+<p id="id1">Some <a class="reference internal" href="index.html"><em>django.contrib</em></a> applications take advantage of
+the sites framework but are architected in a way that doesn&#8217;t <em>require</em> the
+sites framework to be installed in your database. (Some people don&#8217;t want to, or
+just aren&#8217;t <em>able</em> to install the extra database table that the sites framework
+requires.) For those cases, the framework provides a
+<a class="reference internal" href="#django.contrib.sites.models.RequestSite" title="django.contrib.sites.models.RequestSite"><code class="xref py py-class docutils literal"><span class="pre">RequestSite</span></code></a> class, which can be used as a
+fallback when the database-backed sites framework is not available.</p>
+<dl class="class">
+<dt id="django.contrib.sites.models.RequestSite">
+<em class="property">class </em><code class="descname">RequestSite</code><a class="headerlink" href="#django.contrib.sites.models.RequestSite" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class that shares the primary interface of
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> (i.e., it has
+<code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">name</span></code> attributes) but gets its data from a Django
+<a class="reference internal" href="../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object rather than from a database.</p>
+<p>The <code class="docutils literal"><span class="pre">save()</span></code> and <code class="docutils literal"><span class="pre">delete()</span></code> methods raise <code class="docutils literal"><span class="pre">NotImplementedError</span></code>.</p>
+<dl class="method">
+<dt id="django.contrib.sites.models.RequestSite.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.sites.models.RequestSite.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <code class="docutils literal"><span class="pre">name</span></code> and <code class="docutils literal"><span class="pre">domain</span></code> attributes to the value of
+<a class="reference internal" href="../request-response.html#django.http.HttpRequest.get_host" title="django.http.HttpRequest.get_host"><code class="xref py py-meth docutils literal"><span class="pre">get_host()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>A <a class="reference internal" href="#django.contrib.sites.models.RequestSite" title="django.contrib.sites.models.RequestSite"><code class="xref py py-class docutils literal"><span class="pre">RequestSite</span></code></a> object has a similar
+interface to a normal <a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a> object, except
+its <a class="reference internal" href="#django.contrib.sites.models.RequestSite.__init__" title="django.contrib.sites.models.RequestSite.__init__"><code class="xref py py-meth docutils literal"><span class="pre">__init__()</span></code></a> method takes an
+<a class="reference internal" href="../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. It&#8217;s able to deduce the
+<code class="docutils literal"><span class="pre">domain</span></code> and <code class="docutils literal"><span class="pre">name</span></code> by looking at the request&#8217;s domain. It has <code class="docutils literal"><span class="pre">save()</span></code>
+and <code class="docutils literal"><span class="pre">delete()</span></code> methods to match the interface of
+<a class="reference internal" href="#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>, but the methods raise
+<code class="docutils literal"><span class="pre">NotImplementedError</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="staticfiles.html" class="btn btn-neutral float-right" title="The staticfiles app" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sitemaps.html" class="btn btn-neutral" title="The sitemap framework" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/sites.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>

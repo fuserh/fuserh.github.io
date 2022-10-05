@@ -1,0 +1,894 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/models/instances.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Model instance reference &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fields.html">Model field reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="relations.html">Related objects reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="options.html">Model <code class="docutils literal"><span class="pre">Meta</span></code> options</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Model instance reference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-objects">Creating objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validating-objects">Validating objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#saving-objects">Saving objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deleting-objects">Deleting objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-model-instance-methods">Other model instance methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extra-instance-methods">Extra instance methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="querysets.html">QuerySet API reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html">Models</a> &raquo;</li>
+      
+    <li>Model instance reference</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="model-instance-reference">
+<h1>Model instance reference<a class="headerlink" href="#model-instance-reference" title="Permalink to this headline">¶</a></h1>
+<p>This document describes the details of the <code class="docutils literal"><span class="pre">Model</span></code> API. It builds on the
+material presented in the <a class="reference internal" href="../../topics/db/models.html"><em>model</em></a> and <a class="reference internal" href="../../topics/db/queries.html"><em>database
+query</em></a> guides, so you&#8217;ll probably want to read and
+understand those documents before reading this one.</p>
+<p>Throughout this reference we&#8217;ll use the <a class="reference internal" href="../../topics/db/queries.html#queryset-model-example"><span>example Weblog models</span></a> presented in the <a class="reference internal" href="../../topics/db/queries.html"><em>database query guide</em></a>.</p>
+<div class="section" id="creating-objects">
+<h2>Creating objects<a class="headerlink" href="#creating-objects" title="Permalink to this headline">¶</a></h2>
+<p>To create a new instance of a model, just instantiate it like any other Python
+class:</p>
+<dl class="class">
+<dt id="django.db.models.Model">
+<em class="property">class </em><code class="descname">Model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The keyword arguments are simply the names of the fields you&#8217;ve defined on your
+model. Note that instantiating a model in no way touches your database; for
+that, you need to <a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>You may be tempted to customize the model by overriding the <code class="docutils literal"><span class="pre">__init__</span></code>
+method. If you do so, however, take care not to change the calling
+signature as any change may prevent the model instance from being saved.
+Rather than overriding <code class="docutils literal"><span class="pre">__init__</span></code>, try using one of these approaches:</p>
+<ol class="last arabic">
+<li><p class="first">Add a classmethod on the model class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="n">book</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+        <span class="c"># do something with the book</span>
+        <span class="k">return</span> <span class="n">book</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;Pride and Prejudice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add a method on a custom manager (usually preferred):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">BookManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create_book</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="n">book</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+        <span class="c"># do something with the book</span>
+        <span class="k">return</span> <span class="n">book</span>
+
+<span class="k">class</span> <span class="nc">Book</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">BookManager</span><span class="p">()</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_book</span><span class="p">(</span><span class="s">&quot;Pride and Prejudice&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="validating-objects">
+<span id="id1"></span><h2>Validating objects<a class="headerlink" href="#validating-objects" title="Permalink to this headline">¶</a></h2>
+<p>There are three steps involved in validating a model:</p>
+<ol class="arabic simple">
+<li>Validate the model fields - <a class="reference internal" href="#django.db.models.Model.clean_fields" title="django.db.models.Model.clean_fields"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean_fields()</span></code></a></li>
+<li>Validate the model as a whole - <a class="reference internal" href="#django.db.models.Model.clean" title="django.db.models.Model.clean"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean()</span></code></a></li>
+<li>Validate the field uniqueness - <a class="reference internal" href="#django.db.models.Model.validate_unique" title="django.db.models.Model.validate_unique"><code class="xref py py-meth docutils literal"><span class="pre">Model.validate_unique()</span></code></a></li>
+</ol>
+<p>All three steps are performed when you call a model&#8217;s
+<a class="reference internal" href="#django.db.models.Model.full_clean" title="django.db.models.Model.full_clean"><code class="xref py py-meth docutils literal"><span class="pre">full_clean()</span></code></a> method.</p>
+<p>When you use a <a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a>, the call to
+<a class="reference internal" href="../forms/api.html#django.forms.Form.is_valid" title="django.forms.Form.is_valid"><code class="xref py py-meth docutils literal"><span class="pre">is_valid()</span></code></a> will perform these validation steps for
+all the fields that are included on the form. See the <a class="reference internal" href="../../topics/forms/modelforms.html"><em>ModelForm
+documentation</em></a> for more information. You should only
+need to call a model&#8217;s <a class="reference internal" href="#django.db.models.Model.full_clean" title="django.db.models.Model.full_clean"><code class="xref py py-meth docutils literal"><span class="pre">full_clean()</span></code></a> method if you plan to handle
+validation errors yourself, or if you have excluded fields from the
+<a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> that require validation.</p>
+<dl class="method">
+<dt id="django.db.models.Model.full_clean">
+<code class="descclassname">Model.</code><code class="descname">full_clean</code><span class="sig-paren">(</span><em>exclude=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.full_clean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This method calls <a class="reference internal" href="#django.db.models.Model.clean_fields" title="django.db.models.Model.clean_fields"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean_fields()</span></code></a>, <a class="reference internal" href="#django.db.models.Model.clean" title="django.db.models.Model.clean"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean()</span></code></a>, and
+<a class="reference internal" href="#django.db.models.Model.validate_unique" title="django.db.models.Model.validate_unique"><code class="xref py py-meth docutils literal"><span class="pre">Model.validate_unique()</span></code></a>, in that order and raises a
+<a class="reference internal" href="../exceptions.html#django.core.exceptions.ValidationError" title="django.core.exceptions.ValidationError"><code class="xref py py-exc docutils literal"><span class="pre">ValidationError</span></code></a> that has a <code class="docutils literal"><span class="pre">message_dict</span></code>
+attribute containing errors from all three stages.</p>
+<p>The optional <code class="docutils literal"><span class="pre">exclude</span></code> argument can be used to provide a list of field names
+that can be excluded from validation and cleaning.
+<a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> uses this argument to exclude fields that
+aren&#8217;t present on your form from being validated since any errors raised could
+not be corrected by the user.</p>
+<p>Note that <code class="docutils literal"><span class="pre">full_clean()</span></code> will <em>not</em> be called automatically when you call
+your model&#8217;s <a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> method, nor as a result of
+<a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> validation. In the case of
+<a class="reference internal" href="../../topics/forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> validation, <a class="reference internal" href="#django.db.models.Model.clean_fields" title="django.db.models.Model.clean_fields"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean_fields()</span></code></a>,
+<a class="reference internal" href="#django.db.models.Model.clean" title="django.db.models.Model.clean"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean()</span></code></a>, and <a class="reference internal" href="#django.db.models.Model.validate_unique" title="django.db.models.Model.validate_unique"><code class="xref py py-meth docutils literal"><span class="pre">Model.validate_unique()</span></code></a> are all called
+individually.</p>
+<p>You&#8217;ll need to call <code class="docutils literal"><span class="pre">full_clean</span></code> manually when you want to run one-step model
+validation for your own manually created models. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="n">article</span><span class="o">.</span><span class="n">full_clean</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="c"># Do something based on the errors contained in e.message_dict.</span>
+    <span class="c"># Display them to a user, or handle them programatically.</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The first step <code class="docutils literal"><span class="pre">full_clean()</span></code> performs is to clean each individual field.</p>
+<dl class="method">
+<dt id="django.db.models.Model.clean_fields">
+<code class="descclassname">Model.</code><code class="descname">clean_fields</code><span class="sig-paren">(</span><em>exclude=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.clean_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This method will validate all fields on your model. The optional <code class="docutils literal"><span class="pre">exclude</span></code>
+argument lets you provide a list of field names to exclude from validation. It
+will raise a <a class="reference internal" href="../exceptions.html#django.core.exceptions.ValidationError" title="django.core.exceptions.ValidationError"><code class="xref py py-exc docutils literal"><span class="pre">ValidationError</span></code></a> if any fields fail
+validation.</p>
+<p>The second step <code class="docutils literal"><span class="pre">full_clean()</span></code> performs is to call <a class="reference internal" href="#django.db.models.Model.clean" title="django.db.models.Model.clean"><code class="xref py py-meth docutils literal"><span class="pre">Model.clean()</span></code></a>.
+This method should be overridden to perform custom validation on your model.</p>
+<dl class="method">
+<dt id="django.db.models.Model.clean">
+<code class="descclassname">Model.</code><code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.clean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This method should be used to provide custom model validation, and to modify
+attributes on your model if desired. For instance, you could use it to
+automatically provide a value for a field, or to do validation that requires
+access to more than a single field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+    <span class="c"># Don&#39;t allow draft entries to have a pub_date.</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s">&#39;draft&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pub_date</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s">&#39;Draft entries may not have a publication date.&#39;</span><span class="p">)</span>
+    <span class="c"># Set the pub_date for published items if it hasn&#39;t been set already.</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s">&#39;published&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pub_date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pub_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Any <a class="reference internal" href="../exceptions.html#django.core.exceptions.ValidationError" title="django.core.exceptions.ValidationError"><code class="xref py py-exc docutils literal"><span class="pre">ValidationError</span></code></a> exceptions raised by
+<code class="docutils literal"><span class="pre">Model.clean()</span></code> will be stored in a special key error dictionary key,
+<code class="docutils literal"><span class="pre">NON_FIELD_ERRORS</span></code>, that is used for errors that are tied to the entire model
+instead of to a specific field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">NON_FIELD_ERRORS</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">article</span><span class="o">.</span><span class="n">full_clean</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">non_field_errors</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">message_dict</span><span class="p">[</span><span class="n">NON_FIELD_ERRORS</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, <code class="docutils literal"><span class="pre">full_clean()</span></code> will check any unique constraints on your model.</p>
+<dl class="method">
+<dt id="django.db.models.Model.validate_unique">
+<code class="descclassname">Model.</code><code class="descname">validate_unique</code><span class="sig-paren">(</span><em>exclude=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.validate_unique" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This method is similar to <a class="reference internal" href="#django.db.models.Model.clean_fields" title="django.db.models.Model.clean_fields"><code class="xref py py-meth docutils literal"><span class="pre">clean_fields()</span></code></a>, but validates all
+uniqueness constraints on your model instead of individual field values. The
+optional <code class="docutils literal"><span class="pre">exclude</span></code> argument allows you to provide a list of field names to
+exclude from validation. It will raise a
+<a class="reference internal" href="../exceptions.html#django.core.exceptions.ValidationError" title="django.core.exceptions.ValidationError"><code class="xref py py-exc docutils literal"><span class="pre">ValidationError</span></code></a> if any fields fail validation.</p>
+<p>Note that if you provide an <code class="docutils literal"><span class="pre">exclude</span></code> argument to <code class="docutils literal"><span class="pre">validate_unique()</span></code>, any
+<a class="reference internal" href="options.html#django.db.models.Options.unique_together" title="django.db.models.Options.unique_together"><code class="xref py py-attr docutils literal"><span class="pre">unique_together</span></code></a> constraint involving one of
+the fields you provided will not be checked.</p>
+</div>
+<div class="section" id="saving-objects">
+<h2>Saving objects<a class="headerlink" href="#saving-objects" title="Permalink to this headline">¶</a></h2>
+<p>To save an object back to the database, call <code class="docutils literal"><span class="pre">save()</span></code>:</p>
+<dl class="method">
+<dt id="django.db.models.Model.save">
+<code class="descclassname">Model.</code><code class="descname">save</code><span class="sig-paren">(</span><span class="optional">[</span><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=DEFAULT_DB_ALIAS</em>, <em>update_fields=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>If you want customized saving behavior, you can override this <code class="docutils literal"><span class="pre">save()</span></code>
+method. See <a class="reference internal" href="../../topics/db/models.html#overriding-model-methods"><span>Overriding predefined model methods</span></a> for more details.</p>
+<p>The model save process also has some subtleties; see the sections below.</p>
+<div class="section" id="auto-incrementing-primary-keys">
+<h3>Auto-incrementing primary keys<a class="headerlink" href="#auto-incrementing-primary-keys" title="Permalink to this headline">¶</a></h3>
+<p>If a model has an <a class="reference internal" href="fields.html#django.db.models.AutoField" title="django.db.models.AutoField"><code class="xref py py-class docutils literal"><span class="pre">AutoField</span></code></a> — an auto-incrementing
+primary key — then that auto-incremented value will be calculated and saved as
+an attribute on your object the first time you call <code class="docutils literal"><span class="pre">save()</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b2</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Cheddar Talk&#39;</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">&#39;Thoughts on cheese.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b2</span><span class="o">.</span><span class="n">id</span>     <span class="c"># Returns None, because b doesn&#39;t have an ID yet.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b2</span><span class="o">.</span><span class="n">id</span>     <span class="c"># Returns the ID of your new object.</span>
+</pre></div>
+</div>
+<p>There&#8217;s no way to tell what the value of an ID will be before you call
+<code class="docutils literal"><span class="pre">save()</span></code>, because that value is calculated by your database, not by Django.</p>
+<p>For convenience, each model has an <a class="reference internal" href="fields.html#django.db.models.AutoField" title="django.db.models.AutoField"><code class="xref py py-class docutils literal"><span class="pre">AutoField</span></code></a> named
+<code class="docutils literal"><span class="pre">id</span></code> by default unless you explicitly specify <code class="docutils literal"><span class="pre">primary_key=True</span></code> on a field
+in your model. See the documentation for <a class="reference internal" href="fields.html#django.db.models.AutoField" title="django.db.models.AutoField"><code class="xref py py-class docutils literal"><span class="pre">AutoField</span></code></a>
+for more details.</p>
+<div class="section" id="the-pk-property">
+<h4>The <code class="docutils literal"><span class="pre">pk</span></code> property<a class="headerlink" href="#the-pk-property" title="Permalink to this headline">¶</a></h4>
+<dl class="attribute">
+<dt id="django.db.models.Model.pk">
+<code class="descclassname">Model.</code><code class="descname">pk</code><a class="headerlink" href="#django.db.models.Model.pk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Regardless of whether you define a primary key field yourself, or let Django
+supply one for you, each model will have a property called <code class="docutils literal"><span class="pre">pk</span></code>. It behaves
+like a normal attribute on the model, but is actually an alias for whichever
+attribute is the primary key field for the model. You can read and set this
+value, just as you would for any other attribute, and it will update the
+correct field in the model.</p>
+</div>
+<div class="section" id="explicitly-specifying-auto-primary-key-values">
+<h4>Explicitly specifying auto-primary-key values<a class="headerlink" href="#explicitly-specifying-auto-primary-key-values" title="Permalink to this headline">¶</a></h4>
+<p>If a model has an <a class="reference internal" href="fields.html#django.db.models.AutoField" title="django.db.models.AutoField"><code class="xref py py-class docutils literal"><span class="pre">AutoField</span></code></a> but you want to define a
+new object&#8217;s ID explicitly when saving, just define it explicitly before
+saving, rather than relying on the auto-assignment of the ID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b3</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;Cheddar Talk&#39;</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">&#39;Thoughts on cheese.&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b3</span><span class="o">.</span><span class="n">id</span>     <span class="c"># Returns 3.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b3</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b3</span><span class="o">.</span><span class="n">id</span>     <span class="c"># Returns 3.</span>
+</pre></div>
+</div>
+<p>If you assign auto-primary-key values manually, make sure not to use an
+already-existing primary-key value! If you create a new object with an explicit
+primary-key value that already exists in the database, Django will assume you&#8217;re
+changing the existing record rather than creating a new one.</p>
+<p>Given the above <code class="docutils literal"><span class="pre">'Cheddar</span> <span class="pre">Talk'</span></code> blog example, this example would override the
+previous record in the database:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">b4</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;Not Cheddar&#39;</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">&#39;Anything but cheese.&#39;</span><span class="p">)</span>
+<span class="n">b4</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c"># Overrides the previous blog with ID=3!</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#how-django-knows-to-update-vs-insert">How Django knows to UPDATE vs. INSERT</a>, below, for the reason this
+happens.</p>
+<p>Explicitly specifying auto-primary-key values is mostly useful for bulk-saving
+objects, when you&#8217;re confident you won&#8217;t have primary-key collision.</p>
+</div>
+</div>
+<div class="section" id="what-happens-when-you-save">
+<h3>What happens when you save?<a class="headerlink" href="#what-happens-when-you-save" title="Permalink to this headline">¶</a></h3>
+<p>When you save an object, Django performs the following steps:</p>
+<ol class="arabic">
+<li><p class="first"><strong>Emit a pre-save signal.</strong> The <a class="reference internal" href="../signals.html"><em>signal</em></a>
+<a class="reference internal" href="../signals.html#django.db.models.signals.pre_save" title="django.db.models.signals.pre_save"><code class="xref py py-attr docutils literal"><span class="pre">django.db.models.signals.pre_save</span></code></a> is sent, allowing any
+functions listening for that signal to take some customized
+action.</p>
+</li>
+<li><p class="first"><strong>Pre-process the data.</strong> Each field on the object is asked to
+perform any automated data modification that the field may need
+to perform.</p>
+<p>Most fields do <em>no</em> pre-processing — the field data is kept as-is.
+Pre-processing is only used on fields that have special behavior.  For
+example, if your model has a <a class="reference internal" href="fields.html#django.db.models.DateField" title="django.db.models.DateField"><code class="xref py py-class docutils literal"><span class="pre">DateField</span></code></a> with
+<code class="docutils literal"><span class="pre">auto_now=True</span></code>, the pre-save phase will alter the data in the object
+to ensure that the date field contains the current date stamp. (Our
+documentation doesn&#8217;t yet include a list of all the fields with this
+&#8220;special behavior.&#8221;)</p>
+</li>
+<li><p class="first"><strong>Prepare the data for the database.</strong> Each field is asked to provide
+its current value in a data type that can be written to the database.</p>
+<p>Most fields require <em>no</em> data preparation. Simple data types, such as
+integers and strings, are &#8216;ready to write&#8217; as a Python object. However,
+more complex data types often require some modification.</p>
+<p>For example, <a class="reference internal" href="fields.html#django.db.models.DateField" title="django.db.models.DateField"><code class="xref py py-class docutils literal"><span class="pre">DateField</span></code></a> fields use a Python
+<code class="docutils literal"><span class="pre">datetime</span></code> object to store data. Databases don&#8217;t store <code class="docutils literal"><span class="pre">datetime</span></code>
+objects, so the field value must be converted into an ISO-compliant date
+string for insertion into the database.</p>
+</li>
+<li><p class="first"><strong>Insert the data into the database.</strong> The pre-processed, prepared
+data is then composed into an SQL statement for insertion into the
+database.</p>
+</li>
+<li><p class="first"><strong>Emit a post-save signal.</strong> The signal
+<a class="reference internal" href="../signals.html#django.db.models.signals.post_save" title="django.db.models.signals.post_save"><code class="xref py py-attr docutils literal"><span class="pre">django.db.models.signals.post_save</span></code></a> is sent, allowing
+any functions listening for that signal to take some customized
+action.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="how-django-knows-to-update-vs-insert">
+<h3>How Django knows to UPDATE vs. INSERT<a class="headerlink" href="#how-django-knows-to-update-vs-insert" title="Permalink to this headline">¶</a></h3>
+<p>You may have noticed Django database objects use the same <code class="docutils literal"><span class="pre">save()</span></code> method
+for creating and changing objects. Django abstracts the need to use <code class="docutils literal"><span class="pre">INSERT</span></code>
+or <code class="docutils literal"><span class="pre">UPDATE</span></code> SQL statements. Specifically, when you call <code class="docutils literal"><span class="pre">save()</span></code>, Django
+follows this algorithm:</p>
+<ul class="simple">
+<li>If the object&#8217;s primary key attribute is set to a value that evaluates to
+<code class="docutils literal"><span class="pre">True</span></code> (i.e., a value other than <code class="docutils literal"><span class="pre">None</span></code> or the empty string), Django
+executes a <code class="docutils literal"><span class="pre">SELECT</span></code> query to determine whether a record with the given
+primary key already exists.</li>
+<li>If the record with the given primary key does already exist, Django
+executes an <code class="docutils literal"><span class="pre">UPDATE</span></code> query.</li>
+<li>If the object&#8217;s primary key attribute is <em>not</em> set, or if it&#8217;s set but a
+record doesn&#8217;t exist, Django executes an <code class="docutils literal"><span class="pre">INSERT</span></code>.</li>
+</ul>
+<p>The one gotcha here is that you should be careful not to specify a primary-key
+value explicitly when saving new objects, if you cannot guarantee the
+primary-key value is unused. For more on this nuance, see <a class="reference internal" href="#explicitly-specifying-auto-primary-key-values">Explicitly specifying
+auto-primary-key values</a> above and <a class="reference internal" href="#forcing-an-insert-or-update">Forcing an INSERT or UPDATE</a> below.</p>
+<div class="section" id="forcing-an-insert-or-update">
+<span id="ref-models-force-insert"></span><h4>Forcing an INSERT or UPDATE<a class="headerlink" href="#forcing-an-insert-or-update" title="Permalink to this headline">¶</a></h4>
+<p>In some rare circumstances, it&#8217;s necessary to be able to force the
+<a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> method to perform an SQL <code class="docutils literal"><span class="pre">INSERT</span></code> and not fall back to
+doing an <code class="docutils literal"><span class="pre">UPDATE</span></code>. Or vice-versa: update, if possible, but not insert a new
+row. In these cases you can pass the <code class="docutils literal"><span class="pre">force_insert=True</span></code> or
+<code class="docutils literal"><span class="pre">force_update=True</span></code> parameters to the <a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> method.
+Obviously, passing both parameters is an error: you cannot both insert <em>and</em>
+update at the same time!</p>
+<p>It should be very rare that you&#8217;ll need to use these parameters. Django will
+almost always do the right thing and trying to override that will lead to
+errors that are difficult to track down. This feature is for advanced use
+only.</p>
+<p>Using <code class="docutils literal"><span class="pre">update_fields</span></code> will force an update similarly to <code class="docutils literal"><span class="pre">force_update</span></code>.</p>
+</div>
+</div>
+<div class="section" id="updating-attributes-based-on-existing-fields">
+<h3>Updating attributes based on existing fields<a class="headerlink" href="#updating-attributes-based-on-existing-fields" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes you&#8217;ll need to perform a simple arithmetic task on a field, such
+as incrementing or decrementing the current value. The obvious way to
+achieve this is to do something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Venezuelan Beaver Cheese&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">number_sold</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If the old <code class="docutils literal"><span class="pre">number_sold</span></code> value retrieved from the database was 10, then
+the value of 11 will be written back to the database.</p>
+<p>This sequence has a standard update problem in that it contains a race
+condition. If another thread of execution has already saved an updated value
+after the current thread retrieved the old value, the current thread will only
+save the old value plus one, rather than the new (current) value plus one.</p>
+<p>The process can be made robust and slightly faster by expressing the update
+relative to the original field value, rather than as an explicit assignment of
+a new value. Django provides <a class="reference internal" href="../../topics/db/queries.html#query-expressions"><span>F() expressions</span></a> for
+performing this kind of relative update. Using <code class="docutils literal"><span class="pre">F()</span></code> expressions, the
+previous example is expressed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">F</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Venezuelan Beaver Cheese&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">number_sold</span> <span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="s">&#39;number_sold&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This approach doesn&#8217;t use the initial value from the database. Instead, it
+makes the database do the update based on whatever value is current at the time
+that the <a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> is executed.</p>
+<p>Once the object has been saved, you must reload the object in order to access
+the actual value that was applied to the updated field:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">product</span> <span class="o">=</span> <span class="n">Products</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">product</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">number_sold</span><span class="p">)</span>
+<span class="go">42</span>
+</pre></div>
+</div>
+<p>For more details, see the documentation on <a class="reference internal" href="../../topics/db/queries.html#query-expressions"><span>F() expressions</span></a> and their <a class="reference internal" href="../../topics/db/queries.html#topics-db-queries-update"><span>use in update queries</span></a>.</p>
+</div>
+<div class="section" id="specifying-which-fields-to-save">
+<h3>Specifying which fields to save<a class="headerlink" href="#specifying-which-fields-to-save" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+</div>
+<p>If <code class="docutils literal"><span class="pre">save()</span></code> is passed a list of field names in keyword argument
+<code class="docutils literal"><span class="pre">update_fields</span></code>, only the fields named in that list will be updated.
+This may be desirable if you want to update just one or a few fields on
+an object. There will be a slight performance benefit from preventing
+all of the model fields from being updated in the database. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">product</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;Name changed again&#39;</span>
+<span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">update_fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">update_fields</span></code> argument can be any iterable containing strings. An
+empty <code class="docutils literal"><span class="pre">update_fields</span></code> iterable will skip the save. A value of None will
+perform an update on all fields.</p>
+<p>Specifying <code class="docutils literal"><span class="pre">update_fields</span></code> will force an update.</p>
+<p>When saving a model fetched through deferred model loading
+(<a class="reference internal" href="querysets.html#django.db.models.query.QuerySet.only" title="django.db.models.query.QuerySet.only"><code class="xref py py-meth docutils literal"><span class="pre">only()</span></code></a> or
+<a class="reference internal" href="querysets.html#django.db.models.query.QuerySet.defer" title="django.db.models.query.QuerySet.defer"><code class="xref py py-meth docutils literal"><span class="pre">defer()</span></code></a>) only the fields loaded
+from the DB will get updated. In effect there is an automatic
+<code class="docutils literal"><span class="pre">update_fields</span></code> in this case. If you assign or change any deferred field
+value, the field will be added to the updated fields.</p>
+</div>
+</div>
+<div class="section" id="deleting-objects">
+<h2>Deleting objects<a class="headerlink" href="#deleting-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="method">
+<dt id="django.db.models.Model.delete">
+<code class="descclassname">Model.</code><code class="descname">delete</code><span class="sig-paren">(</span><span class="optional">[</span><em>using=DEFAULT_DB_ALIAS</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Issues a SQL <code class="docutils literal"><span class="pre">DELETE</span></code> for the object. This only deletes the object in the
+database; the Python instance will still exist and will still have data in
+its fields.</p>
+<p>For more details, including how to delete objects in bulk, see
+<a class="reference internal" href="../../topics/db/queries.html#topics-db-queries-delete"><span>Deleting objects</span></a>.</p>
+<p>If you want customized deletion behavior, you can override the <code class="docutils literal"><span class="pre">delete()</span></code>
+method. See <a class="reference internal" href="../../topics/db/models.html#overriding-model-methods"><span>Overriding predefined model methods</span></a> for more details.</p>
+</div>
+<div class="section" id="other-model-instance-methods">
+<span id="model-instance-methods"></span><h2>Other model instance methods<a class="headerlink" href="#other-model-instance-methods" title="Permalink to this headline">¶</a></h2>
+<p>A few object methods have special purposes.</p>
+<div class="section" id="unicode">
+<h3><code class="docutils literal"><span class="pre">__unicode__</span></code><a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="django.db.models.Model.__unicode__">
+<code class="descclassname">Model.</code><code class="descname">__unicode__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.__unicode__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The <code class="docutils literal"><span class="pre">__unicode__()</span></code> method is called whenever you call <code class="docutils literal"><span class="pre">unicode()</span></code> on an
+object. Django uses <code class="docutils literal"><span class="pre">unicode(obj)</span></code> (or the related function, <a class="reference internal" href="#django.db.models.Model.__str__" title="django.db.models.Model.__str__"><code class="xref py py-meth docutils literal"><span class="pre">str(obj)</span></code></a>) in a number of places. Most notably, to display an object in
+the Django admin site and as the value inserted into a template when it
+displays an object. Thus, you should always return a nice, human-readable
+representation of the model from the <code class="docutils literal"><span class="pre">__unicode__()</span></code> method.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you define a <code class="docutils literal"><span class="pre">__unicode__()</span></code> method on your model and not a
+<a class="reference internal" href="#django.db.models.Model.__str__" title="django.db.models.Model.__str__"><code class="xref py py-meth docutils literal"><span class="pre">__str__()</span></code></a> method, Django will automatically provide you with a
+<a class="reference internal" href="#django.db.models.Model.__str__" title="django.db.models.Model.__str__"><code class="xref py py-meth docutils literal"><span class="pre">__str__()</span></code></a> that calls <code class="docutils literal"><span class="pre">__unicode__()</span></code> and then converts the
+result correctly to a UTF-8 encoded string object. This is recommended
+development practice: define only <code class="docutils literal"><span class="pre">__unicode__()</span></code> and let Django take care of
+the conversion to string objects when required.</p>
+</div>
+<div class="section" id="str">
+<h3><code class="docutils literal"><span class="pre">__str__</span></code><a class="headerlink" href="#str" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="django.db.models.Model.__str__">
+<code class="descclassname">Model.</code><code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.__str__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The <code class="docutils literal"><span class="pre">__str__()</span></code> method is called whenever you call <code class="docutils literal"><span class="pre">str()</span></code> on an object. The main use for this method directly inside Django is when the <code class="docutils literal"><span class="pre">repr()</span></code> output of a model is displayed anywhere (for example, in debugging output).
+Thus, you should return a nice, human-readable string for the object&#8217;s
+<code class="docutils literal"><span class="pre">__str__()</span></code>.  It isn&#8217;t required to put <code class="docutils literal"><span class="pre">__str__()</span></code> methods everywhere if you have sensible <a class="reference internal" href="#django.db.models.Model.__unicode__" title="django.db.models.Model.__unicode__"><code class="xref py py-meth docutils literal"><span class="pre">__unicode__()</span></code></a> methods.</p>
+<p>The previous <a class="reference internal" href="#django.db.models.Model.__unicode__" title="django.db.models.Model.__unicode__"><code class="xref py py-meth docutils literal"><span class="pre">__unicode__()</span></code></a> example could be similarly written
+using <code class="docutils literal"><span class="pre">__str__()</span></code> like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Note use of django.utils.encoding.force_bytes() here because</span>
+        <span class="c"># first_name and last_name will be unicode strings.</span>
+        <span class="k">return</span> <span class="n">force_bytes</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-absolute-url">
+<h3><code class="docutils literal"><span class="pre">get_absolute_url</span></code><a class="headerlink" href="#get-absolute-url" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="django.db.models.Model.get_absolute_url">
+<code class="descclassname">Model.</code><code class="descname">get_absolute_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.get_absolute_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Define a <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> method to tell Django how to calculate the
+canonical URL for an object. To callers, this method should appear to return a
+string that can be used to refer to the object over HTTP.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;/people/</span><span class="si">%i</span><span class="s">/&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+</pre></div>
+</div>
+<p>(Whilst this code is correct and simple, it may not be the most portable way to
+write this kind of method. The <a class="reference internal" href="../urlresolvers.html#django.core.urlresolvers.reverse" title="django.core.urlresolvers.reverse"><code class="xref py py-func docutils literal"><span class="pre">reverse()</span></code></a>
+function is usually the best approach.)</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;people.views.details&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>One place Django uses <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> is in the admin app. If an object
+defines this method, the object-editing page will have a &#8220;View on site&#8221; link
+that will jump you directly to the object&#8217;s public view, as given by
+<code class="docutils literal"><span class="pre">get_absolute_url()</span></code>.</p>
+<p>Similarly, a couple of other bits of Django, such as the <a class="reference internal" href="../contrib/syndication.html"><em>syndication feed
+framework</em></a>, use <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> when it is
+defined. If it makes sense for your model&#8217;s instances to each have a unique
+URL, you should define <code class="docutils literal"><span class="pre">get_absolute_url()</span></code>.</p>
+<p>It&#8217;s good practice to use <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> in templates, instead of
+hard-coding your objects&#8217; URLs. For example, this template code is bad:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="c">&lt;!-- BAD template code. Avoid! --&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/people/</span><span class="cp">{{</span> <span class="nv">object.id</span> <span class="cp">}}</span><span class="s">/&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">object.name</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>This template code is much better:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">object.get_absolute_url</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">object.name</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>The logic here is that if you change the URL structure of your objects, even
+for something simple such as correcting a spelling error, you don&#8217;t want to
+have to track down every place that the URL might be created. Specify it once,
+in <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> and have all your other code call that one place.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The string you return from <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> <strong>must</strong> contain only
+ASCII characters (required by the URI specfication, <span class="target" id="index-0"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2396.html"><strong>RFC 2396</strong></a>) and be
+URL-encoded, if necessary.</p>
+<p class="last">Code and templates calling <code class="docutils literal"><span class="pre">get_absolute_url()</span></code> should be able to use the
+result directly without any further processing. You may wish to use the
+<code class="docutils literal"><span class="pre">django.utils.encoding.iri_to_uri()</span></code> function to help with this if you
+are using unicode strings containing characters outside the ASCII range at
+all.</p>
+</div>
+<div class="section" id="the-permalink-decorator">
+<h4>The <code class="docutils literal"><span class="pre">permalink</span></code> decorator<a class="headerlink" href="#the-permalink-decorator" title="Permalink to this headline">¶</a></h4>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <code class="docutils literal"><span class="pre">permalink</span></code> decorator is no longer recommended. You should use
+<a class="reference internal" href="../urlresolvers.html#django.core.urlresolvers.reverse" title="django.core.urlresolvers.reverse"><code class="xref py py-func docutils literal"><span class="pre">reverse()</span></code></a> in the body of your
+<code class="docutils literal"><span class="pre">get_absolute_url</span></code> method instead.</p>
+</div>
+<p>In early versions of Django, there wasn&#8217;t an easy way to use URLs defined in
+URLconf file inside <a class="reference internal" href="#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a>. That
+meant you would need to define the URL both in URLConf and
+<a class="reference internal" href="#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a>. The <code class="docutils literal"><span class="pre">permalink</span></code> decorator
+was added to overcome this DRY principle violation. However, since the
+introduction of <a class="reference internal" href="../urlresolvers.html#django.core.urlresolvers.reverse" title="django.core.urlresolvers.reverse"><code class="xref py py-func docutils literal"><span class="pre">reverse()</span></code></a> there is no
+reason to use <code class="docutils literal"><span class="pre">permalink</span></code> any more.</p>
+<dl class="function">
+<dt id="django.db.models.permalink">
+<code class="descname">permalink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.permalink" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>This decorator takes the name of a URL pattern (either a view name or a URL
+pattern name) and a list of position or keyword arguments and uses the URLconf
+patterns to construct the correct, full URL. It returns a string for the
+correct URL, with all parameters substituted in the correct positions.</p>
+<p>The <code class="docutils literal"><span class="pre">permalink</span></code> decorator is a Python-level equivalent to the <a class="reference internal" href="../templates/builtins.html#std:templatetag-url"><code class="xref std std-ttag docutils literal"><span class="pre">url</span></code></a>
+template tag and a high-level wrapper for the
+<a class="reference internal" href="../urlresolvers.html#django.core.urlresolvers.reverse" title="django.core.urlresolvers.reverse"><code class="xref py py-func docutils literal"><span class="pre">reverse()</span></code></a> function.</p>
+<p>An example should make it clear how to use <code class="docutils literal"><span class="pre">permalink()</span></code>. Suppose your URLconf
+contains a line such as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^people/(\d+)/$&#39;</span><span class="p">,</span> <span class="s">&#39;people.views.details&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>...your model could have a <a class="reference internal" href="#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a>
+method that looked like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="nd">@models.permalink</span>
+<span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s">&#39;people.views.details&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>Similarly, if you had a URLconf entry that looked like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;/archive/(?P&lt;year&gt;\d{4})/(?P&lt;month&gt;\d{2})/(?P&lt;day&gt;\d{2})/$&#39;</span><span class="p">,</span> <span class="n">archive_view</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...you could reference this using <code class="docutils literal"><span class="pre">permalink()</span></code> as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@models.permalink</span>
+<span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s">&#39;archive_view&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span>
+        <span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+        <span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%m&#39;</span><span class="p">),</span>
+        <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>Notice that we specify an empty sequence for the second parameter in this case,
+because we only want to pass keyword parameters, not positional ones.</p>
+<p>In this way, you&#8217;re associating the model&#8217;s absolute path with the view that is
+used to display it, without repeating the view&#8217;s URL information anywhere. You
+can still use the <a class="reference internal" href="#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a> method in
+templates, as before.</p>
+<p>In some cases, such as the use of generic views or the re-use of custom views
+for multiple models, specifying the view function may confuse the reverse URL
+matcher (because multiple patterns point to the same view). For that case,
+Django has <a class="reference internal" href="../../topics/http/urls.html#naming-url-patterns"><span>named URL patterns</span></a>. Using a named URL
+pattern, it&#8217;s possible to give a name to a pattern, and then reference the name
+rather than the view function. A named URL pattern is defined by replacing the
+pattern tuple by a call to the <code class="docutils literal"><span class="pre">url</span></code> function):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+
+<span class="n">url</span><span class="p">(</span><span class="s">r&#39;^people/(\d+)/$&#39;</span><span class="p">,</span> <span class="s">&#39;blog_views.generic_detail&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;people_view&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>...and then using that name to perform the reverse URL resolution instead
+of the view name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="nd">@models.permalink</span>
+<span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s">&#39;people_view&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>More details on named URL patterns are in the <a class="reference internal" href="../../topics/http/urls.html"><em>URL dispatch documentation</em></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="extra-instance-methods">
+<h2>Extra instance methods<a class="headerlink" href="#extra-instance-methods" title="Permalink to this headline">¶</a></h2>
+<p>In addition to <a class="reference internal" href="#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a>, <a class="reference internal" href="#django.db.models.Model.delete" title="django.db.models.Model.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a>, a model object
+might have some of the following methods:</p>
+<dl class="method">
+<dt id="django.db.models.Model.get_FOO_display">
+<code class="descclassname">Model.</code><code class="descname">get_FOO_display</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.get_FOO_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>For every field that has <a class="reference internal" href="fields.html#django.db.models.Field.choices" title="django.db.models.Field.choices"><code class="xref py py-attr docutils literal"><span class="pre">choices</span></code></a> set, the
+object will have a <code class="docutils literal"><span class="pre">get_FOO_display()</span></code> method, where <code class="docutils literal"><span class="pre">FOO</span></code> is the name of
+the field. This method returns the &#8220;human-readable&#8221; value of the field.</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">SHIRT_SIZES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">u&#39;S&#39;</span><span class="p">,</span> <span class="s">u&#39;Small&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">u&#39;M&#39;</span><span class="p">,</span> <span class="s">u&#39;Medium&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">u&#39;L&#39;</span><span class="p">,</span> <span class="s">u&#39;Large&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">shirt_size</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SHIRT_SIZES</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Fred Flintstone&quot;</span><span class="p">,</span> <span class="n">shirt_size</span><span class="o">=</span><span class="s">&quot;L&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">shirt_size</span>
+<span class="go">u&#39;L&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">get_shirt_size_display</span><span class="p">()</span>
+<span class="go">u&#39;Large&#39;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="django.db.models.Model.get_next_by_FOO">
+<code class="descclassname">Model.</code><code class="descname">get_next_by_FOO</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.get_next_by_FOO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="django.db.models.Model.get_previous_by_FOO">
+<code class="descclassname">Model.</code><code class="descname">get_previous_by_FOO</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.models.Model.get_previous_by_FOO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>For every <a class="reference internal" href="fields.html#django.db.models.DateField" title="django.db.models.DateField"><code class="xref py py-class docutils literal"><span class="pre">DateField</span></code></a> and
+<a class="reference internal" href="fields.html#django.db.models.DateTimeField" title="django.db.models.DateTimeField"><code class="xref py py-class docutils literal"><span class="pre">DateTimeField</span></code></a> that does not have <a class="reference internal" href="fields.html#django.db.models.Field.null" title="django.db.models.Field.null"><code class="xref py py-attr docutils literal"><span class="pre">null=True</span></code></a>, the object will have <code class="docutils literal"><span class="pre">get_next_by_FOO()</span></code> and
+<code class="docutils literal"><span class="pre">get_previous_by_FOO()</span></code> methods, where <code class="docutils literal"><span class="pre">FOO</span></code> is the name of the field. This
+returns the next and previous object with respect to the date field, raising
+a <a class="reference internal" href="../exceptions.html#django.core.exceptions.DoesNotExist" title="django.core.exceptions.DoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">DoesNotExist</span></code></a> exception when appropriate.</p>
+<p>Both methods accept optional keyword arguments, which should be in the format
+described in <a class="reference internal" href="querysets.html#field-lookups"><span>Field lookups</span></a>.</p>
+<p>Note that in the case of identical date values, these methods will use the
+primary key as a tie-breaker. This guarantees that no records are skipped or
+duplicated. That also means you cannot use those methods on unsaved objects.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="querysets.html" class="btn btn-neutral float-right" title="QuerySet API reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="options.html" class="btn btn-neutral" title="Model Meta options" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/models/instances.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+</html>

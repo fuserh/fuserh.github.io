@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/redirects.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The redirects app &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="messages.html">The messages framework</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The redirects app</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-works">How it works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-add-change-and-delete-redirects">How to add, change and delete redirects</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+    <li>The redirects app</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.redirects">
+<span id="the-redirects-app"></span><h1>The redirects app<a class="headerlink" href="#module-django.contrib.redirects" title="Permalink to this headline">¶</a></h1>
+<p>Django comes with an optional redirects application. It lets you store simple
+redirects in a database and handles the redirecting for you.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To install the redirects app, follow these steps:</p>
+<ol class="arabic simple">
+<li>Ensure that the <code class="docutils literal"><span class="pre">django.contrib.sites</span></code> framework
+<a class="reference internal" href="sites.html#enabling-the-sites-framework"><span>is installed</span></a>.</li>
+<li>Add <code class="docutils literal"><span class="pre">'django.contrib.redirects'</span></code> to your <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> setting.</li>
+<li>Add <code class="docutils literal"><span class="pre">'django.contrib.redirects.middleware.RedirectFallbackMiddleware'</span></code>
+to your <a class="reference internal" href="../settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> setting.</li>
+<li>Run the command <a class="reference internal" href="../django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code></a>.</li>
+</ol>
+</div>
+<div class="section" id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code> creates a <code class="docutils literal"><span class="pre">django_redirect</span></code> table in your database. This
+is a simple lookup table with <code class="docutils literal"><span class="pre">site_id</span></code>, <code class="docutils literal"><span class="pre">old_path</span></code> and <code class="docutils literal"><span class="pre">new_path</span></code> fields.</p>
+<p>The <code class="docutils literal"><span class="pre">RedirectFallbackMiddleware</span></code> does all of the work. Each time any Django
+application raises a 404 error, this middleware checks the redirects database
+for the requested URL as a last resort. Specifically, it checks for a redirect
+with the given <code class="docutils literal"><span class="pre">old_path</span></code> with a site ID that corresponds to the
+<a class="reference internal" href="../settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting.</p>
+<ul class="simple">
+<li>If it finds a match, and <code class="docutils literal"><span class="pre">new_path</span></code> is not empty, it redirects to
+<code class="docutils literal"><span class="pre">new_path</span></code>.</li>
+<li>If it finds a match, and <code class="docutils literal"><span class="pre">new_path</span></code> is empty, it sends a 410 (&#8220;Gone&#8221;)
+HTTP header and empty (content-less) response.</li>
+<li>If it doesn&#8217;t find a match, the request continues to be processed as
+usual.</li>
+</ul>
+<p>The middleware only gets activated for 404s &#8211; not for 500s or responses of any
+other status code.</p>
+<p>Note that the order of <a class="reference internal" href="../settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> matters. Generally, you
+can put <code class="docutils literal"><span class="pre">RedirectFallbackMiddleware</span></code> at the end of the list, because it&#8217;s a
+last resort.</p>
+<p>For more on middleware, read the <a class="reference internal" href="../../topics/http/middleware.html"><em>middleware docs</em></a>.</p>
+</div>
+<div class="section" id="how-to-add-change-and-delete-redirects">
+<h2>How to add, change and delete redirects<a class="headerlink" href="#how-to-add-change-and-delete-redirects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="via-the-admin-interface">
+<h3>Via the admin interface<a class="headerlink" href="#via-the-admin-interface" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;ve activated the automatic Django admin interface, you should see a
+&#8220;Redirects&#8221; section on the admin index page. Edit redirects as you edit any
+other object in the system.</p>
+</div>
+<div class="section" id="via-the-python-api">
+<h3>Via the Python API<a class="headerlink" href="#via-the-python-api" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.contrib.redirects.models.Redirect">
+<em class="property">class </em><code class="descclassname">models.</code><code class="descname">Redirect</code><a class="headerlink" href="#django.contrib.redirects.models.Redirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirects are represented by a standard <a class="reference internal" href="../../topics/db/models.html"><em>Django model</em></a>,
+which lives in <a class="reference external" href="https://github.com/django/django/blob/master/django/contrib/redirects/models.py">django/contrib/redirects/models.py</a>. You can access redirect
+objects via the <a class="reference internal" href="../../topics/db/queries.html"><em>Django database API</em></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sitemaps.html" class="btn btn-neutral float-right" title="The sitemap framework" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="messages.html" class="btn btn-neutral" title="The messages framework" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/redirects.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>

@@ -1,0 +1,1062 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/templates/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Django template language: For Python programmers &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Templates</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="builtins.html">Built-in template tags and filters</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The Django template language: For Python programmers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basics">Basics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-template-system">Using the template system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-render-to-string-shortcut">The <code class="docutils literal"><span class="pre">render_to_string</span></code> shortcut</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-template-system-in-standalone-mode">Configuring the template system in standalone mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-an-alternative-template-language">Using an alternative template language</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html">Templates</a> &raquo;</li>
+      
+    <li>The Django template language: For Python programmers</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-django-template-language-for-python-programmers">
+<h1>The Django template language: For Python programmers<a class="headerlink" href="#the-django-template-language-for-python-programmers" title="Permalink to this headline">¶</a></h1>
+<p>This document explains the Django template system from a technical
+perspective &#8211; how it works and how to extend it. If you&#8217;re just looking for
+reference on the language syntax, see <a class="reference internal" href="../../topics/templates.html"><em>The Django template language</em></a>.</p>
+<p>If you&#8217;re looking to use the Django template system as part of another
+application &#8211; i.e., without the rest of the framework &#8211; make sure to read
+the <a class="reference internal" href="#configuring-the-template-system-in-standalone-mode">configuration</a> section later in this document.</p>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>template</strong> is a text document, or a normal Python string, that is marked-up
+using the Django template language. A template can contain <strong>block tags</strong> or
+<strong>variables</strong>.</p>
+<p>A <strong>block tag</strong> is a symbol within a template that does something.</p>
+<p>This definition is deliberately vague. For example, a block tag can output
+content, serve as a control structure (an &#8220;if&#8221; statement or &#8220;for&#8221; loop), grab
+content from a database or enable access to other template tags.</p>
+<p>Block tags are surrounded by <code class="docutils literal"><span class="pre">&quot;{%&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;%}&quot;</span></code>.</p>
+<p>Example template with block tags:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">is_logged_in</span> <span class="cp">%}</span>Thanks for logging in!<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>Please log in.<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>A <strong>variable</strong> is a symbol within a template that outputs a value.</p>
+<p>Variable tags are surrounded by <code class="docutils literal"><span class="pre">&quot;{{&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;}}&quot;</span></code>.</p>
+<p>Example template with variables:</p>
+<div class="highlight-html+django"><div class="highlight"><pre>My first name is <span class="cp">{{</span> <span class="nv">first_name</span> <span class="cp">}}</span>. My last name is <span class="cp">{{</span> <span class="nv">last_name</span> <span class="cp">}}</span>.
+</pre></div>
+</div>
+<p>A <strong>context</strong> is a &#8220;variable name&#8221; -&gt; &#8220;variable value&#8221; mapping that is passed
+to a template.</p>
+<p>A template <strong>renders</strong> a context by replacing the variable &#8220;holes&#8221; with values
+from the context and executing all block tags.</p>
+</div>
+<div class="section" id="using-the-template-system">
+<h2>Using the template system<a class="headerlink" href="#using-the-template-system" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.template.Template">
+<em class="property">class </em><code class="descclassname">django.template.</code><code class="descname">Template</code><a class="headerlink" href="#django.template.Template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Using the template system in Python is a two-step process:</p>
+<ul class="simple">
+<li>First, you compile the raw template code into a <code class="docutils literal"><span class="pre">Template</span></code> object.</li>
+<li>Then, you call the <code class="docutils literal"><span class="pre">render()</span></code> method of the <code class="docutils literal"><span class="pre">Template</span></code> object with a
+given context.</li>
+</ul>
+<div class="section" id="compiling-a-string">
+<h3>Compiling a string<a class="headerlink" href="#compiling-a-string" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to create a <code class="docutils literal"><span class="pre">Template</span></code> object is by instantiating it
+directly. The class lives at <a class="reference internal" href="#django.template.Template" title="django.template.Template"><code class="xref py py-class docutils literal"><span class="pre">django.template.Template</span></code></a>. The constructor
+takes one argument &#8211; the raw template code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;My name is {{ my_name }}.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">&lt;django.template.Template instance&gt;</span>
+</pre></div>
+</div>
+<div class="admonition-behind-the-scenes admonition">
+<p class="first admonition-title">Behind the scenes</p>
+<p>The system only parses your raw template code once &#8211; when you create the
+<code class="docutils literal"><span class="pre">Template</span></code> object. From then on, it&#8217;s stored internally as a &#8220;node&#8221;
+structure for performance.</p>
+<p class="last">Even the parsing itself is quite fast. Most of the parsing happens via a
+single call to a single, short, regular expression.</p>
+</div>
+</div>
+<div class="section" id="rendering-a-context">
+<h3>Rendering a context<a class="headerlink" href="#rendering-a-context" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="render">
+<code class="descname">render</code><span class="sig-paren">(</span><em>context</em><span class="sig-paren">)</span><a class="headerlink" href="#render" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Once you have a compiled <code class="docutils literal"><span class="pre">Template</span></code> object, you can render a context &#8211; or
+multiple contexts &#8211; with it. The <code class="docutils literal"><span class="pre">Context</span></code> class lives at
+<a class="reference internal" href="#django.template.Context" title="django.template.Context"><code class="xref py py-class docutils literal"><span class="pre">django.template.Context</span></code></a>, and the constructor takes two (optional)
+arguments:</p>
+<ul class="simple">
+<li>A dictionary mapping variable names to variable values.</li>
+<li>The name of the current application. This application name is used
+to help <a class="reference internal" href="../../topics/http/urls.html#topics-http-reversing-url-namespaces"><span>resolve namespaced URLs</span></a>.
+If you&#8217;re not using namespaced URLs, you can ignore this argument.</li>
+</ul>
+<p>Call the <code class="docutils literal"><span class="pre">Template</span></code> object&#8217;s <code class="docutils literal"><span class="pre">render()</span></code> method with the context to &#8220;fill&#8221; the
+template:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;My name is {{ my_name }}.&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span><span class="s">&quot;my_name&quot;</span><span class="p">:</span> <span class="s">&quot;Adrian&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">&quot;My name is Adrian.&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span><span class="s">&quot;my_name&quot;</span><span class="p">:</span> <span class="s">&quot;Dolores&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">&quot;My name is Dolores.&quot;</span>
+</pre></div>
+</div>
+<div class="section" id="variables-and-lookups">
+<h4>Variables and lookups<a class="headerlink" href="#variables-and-lookups" title="Permalink to this headline">¶</a></h4>
+<p>Variable names must consist of any letter (A-Z), any digit (0-9), an underscore
+(but they must not start with an underscore) or a dot.</p>
+<p>Dots have a special meaning in template rendering. A dot in a variable name
+signifies a <strong>lookup</strong>. Specifically, when the template system encounters a
+dot in a variable name, it tries the following lookups, in this order:</p>
+<ul class="simple">
+<li>Dictionary lookup. Example: <code class="docutils literal"><span class="pre">foo[&quot;bar&quot;]</span></code></li>
+<li>Attribute lookup. Example: <code class="docutils literal"><span class="pre">foo.bar</span></code></li>
+<li>List-index lookup. Example: <code class="docutils literal"><span class="pre">foo[bar]</span></code></li>
+</ul>
+<p>Note that &#8220;bar&#8221; in a template expression like <code class="docutils literal"><span class="pre">{{</span> <span class="pre">foo.bar</span> <span class="pre">}}</span></code> will be
+interpreted as a literal string and not using the value of the variable &#8220;bar&#8221;,
+if one exists in the template context.</p>
+<p>The template system uses the first lookup type that works. It&#8217;s short-circuit
+logic. Here are a few examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Context</span><span class="p">,</span> <span class="n">Template</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;My name is {{ person.first_name }}.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;person&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;first_name&quot;</span><span class="p">:</span> <span class="s">&quot;Joe&quot;</span><span class="p">,</span> <span class="s">&quot;last_name&quot;</span><span class="p">:</span> <span class="s">&quot;Johnson&quot;</span><span class="p">}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+<span class="go">&quot;My name is Joe.&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">PersonClass</span><span class="p">:</span> <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">PersonClass</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s">&quot;Ron&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="s">&quot;Nasty&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({</span><span class="s">&quot;person&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}))</span>
+<span class="go">&quot;My name is Ron.&quot;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;The first stooge in the list is {{ stooges.0 }}.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span><span class="s">&quot;stooges&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;Larry&quot;</span><span class="p">,</span> <span class="s">&quot;Curly&quot;</span><span class="p">,</span> <span class="s">&quot;Moe&quot;</span><span class="p">]})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">&quot;The first stooge in the list is Larry.&quot;</span>
+</pre></div>
+</div>
+<p>If any part of the variable is callable, the template system will try calling
+it. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">PersonClass2</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s">&quot;Samantha&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;My name is {{ person.name }}.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({</span><span class="s">&quot;person&quot;</span><span class="p">:</span> <span class="n">PersonClass2</span><span class="p">}))</span>
+<span class="go">&quot;My name is Samantha.&quot;</span>
+</pre></div>
+</div>
+<p>Callable variables are slightly more complex than variables which only require
+straight lookups. Here are some things to keep in mind:</p>
+<ul>
+<li><p class="first">If the variable raises an exception when called, the exception will be
+propagated, unless the exception has an attribute
+<code class="docutils literal"><span class="pre">silent_variable_failure</span></code> whose value is <code class="docutils literal"><span class="pre">True</span></code>. If the exception
+<em>does</em> have a <code class="docutils literal"><span class="pre">silent_variable_failure</span></code> attribute whose value is
+<code class="docutils literal"><span class="pre">True</span></code>, the variable will render as an empty string. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&quot;My name is {{ person.first_name }}.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">PersonClass3</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">PersonClass3</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({</span><span class="s">&quot;person&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">AssertionError</span>: <span class="n">foo</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">SilentAssertionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">silent_variable_failure</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">PersonClass4</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">raise</span> <span class="n">SilentAssertionError</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">PersonClass4</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">Context</span><span class="p">({</span><span class="s">&quot;person&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">}))</span>
+<span class="go">&quot;My name is .&quot;</span>
+</pre></div>
+</div>
+<p>Note that <a class="reference internal" href="../exceptions.html#django.core.exceptions.ObjectDoesNotExist" title="django.core.exceptions.ObjectDoesNotExist"><code class="xref py py-exc docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></a>, which is the
+base class for all Django database API <code class="docutils literal"><span class="pre">DoesNotExist</span></code> exceptions, has
+<code class="docutils literal"><span class="pre">silent_variable_failure</span> <span class="pre">=</span> <span class="pre">True</span></code>. So if you&#8217;re using Django templates
+with Django model objects, any <code class="docutils literal"><span class="pre">DoesNotExist</span></code> exception will fail
+silently.</p>
+</li>
+<li><p class="first">A variable can only be called if it has no required arguments. Otherwise,
+the system will return an empty string.</p>
+</li>
+</ul>
+<ul id="alters-data-description">
+<li><p class="first">Obviously, there can be side effects when calling some variables, and
+it&#8217;d be either foolish or a security hole to allow the template system
+to access them.</p>
+<p>A good example is the <a class="reference internal" href="../models/instances.html#django.db.models.Model.delete" title="django.db.models.Model.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a> method on
+each Django model object. The template system shouldn&#8217;t be allowed to do
+something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>I will now delete this valuable data. {{ data.delete }}
+</pre></div>
+</div>
+<p>To prevent this, set an <code class="docutils literal"><span class="pre">alters_data</span></code> attribute on the callable
+variable. The template system won&#8217;t call a variable if it has
+<code class="docutils literal"><span class="pre">alters_data=True</span></code> set, and will instead replace the variable with
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a>, unconditionally.  The
+dynamically-generated <a class="reference internal" href="../models/instances.html#django.db.models.Model.delete" title="django.db.models.Model.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a> and
+<a class="reference internal" href="../models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> methods on Django model objects get
+<code class="docutils literal"><span class="pre">alters_data=True</span></code> automatically. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">sensitive_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">database_record</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="n">sensitive_function</span><span class="o">.</span><span class="n">alters_data</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</li>
+<li><div class="first versionadded">
+Occasionally you may want to turn off this feature for other reasons,
+and tell the template system to leave a variable un-called no matter
+what.  To do so, set a <code class="docutils literal"><span class="pre">do_not_call_in_templates</span></code> attribute on the
+callable with the value <code class="docutils literal"><span class="pre">True</span></code>.  The template system then will act as
+if your variable is not callable (allowing you to access attributes of
+the callable, for example).</div>
+</li>
+</ul>
+</div>
+<div class="section" id="how-invalid-variables-are-handled">
+<span id="invalid-template-variables"></span><h4>How invalid variables are handled<a class="headerlink" href="#how-invalid-variables-are-handled" title="Permalink to this headline">¶</a></h4>
+<p>Generally, if a variable doesn&#8217;t exist, the template system inserts the
+value of the <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> setting, which is set to
+<code class="docutils literal"><span class="pre">''</span></code> (the empty string) by default.</p>
+<p>Filters that are applied to an invalid variable will only be applied if
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> is set to <code class="docutils literal"><span class="pre">''</span></code> (the empty string). If
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> is set to any other value, variable
+filters will be ignored.</p>
+<p>This behavior is slightly different for the <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">for</span></code> and <code class="docutils literal"><span class="pre">regroup</span></code>
+template tags. If an invalid variable is provided to one of these template
+tags, the variable will be interpreted as <code class="docutils literal"><span class="pre">None</span></code>. Filters are always
+applied to invalid variables within these template tags.</p>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> contains a <code class="docutils literal"><span class="pre">'%s'</span></code>, the format marker will
+be replaced with the name of the invalid variable.</p>
+<div class="admonition-for-debug-purposes-only admonition">
+<p class="first admonition-title">For debug purposes only!</p>
+<p>While <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> can be a useful debugging tool,
+it is a bad idea to turn it on as a &#8216;development default&#8217;.</p>
+<p>Many templates, including those in the Admin site, rely upon the
+silence of the template system when a non-existent variable is
+encountered. If you assign a value other than <code class="docutils literal"><span class="pre">''</span></code> to
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a>, you will experience rendering
+problems with these templates and sites.</p>
+<p class="last">Generally, <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_STRING_IF_INVALID"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_STRING_IF_INVALID</span></code></a> should only be enabled
+in order to debug a specific template problem, then cleared
+once debugging is complete.</p>
+</div>
+</div>
+<div class="section" id="builtin-variables">
+<h4>Builtin variables<a class="headerlink" href="#builtin-variables" title="Permalink to this headline">¶</a></h4>
+<p>Every context contains <code class="docutils literal"><span class="pre">True</span></code>, <code class="docutils literal"><span class="pre">False</span></code> and <code class="docutils literal"><span class="pre">None</span></code>. As you would expect,
+these variables resolve to the corresponding Python objects.</p>
+<div class="versionadded">
+Before Django 1.5, these variables weren&#8217;t a special case, and they
+resolved to <code class="docutils literal"><span class="pre">None</span></code> unless you defined them in the context.</div>
+</div>
+</div>
+<div class="section" id="playing-with-context-objects">
+<h3>Playing with Context objects<a class="headerlink" href="#playing-with-context-objects" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.template.Context">
+<em class="property">class </em><code class="descclassname">django.template.</code><code class="descname">Context</code><a class="headerlink" href="#django.template.Context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Most of the time, you&#8217;ll instantiate <code class="docutils literal"><span class="pre">Context</span></code> objects by passing in a
+fully-populated dictionary to <code class="docutils literal"><span class="pre">Context()</span></code>. But you can add and delete items
+from a <code class="docutils literal"><span class="pre">Context</span></code> object once it&#8217;s been instantiated, too, using standard
+dictionary syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="s">&quot;bar&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">&#39;bar&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;newvariable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;hello&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;newvariable&#39;</span><span class="p">]</span>
+<span class="go">&#39;hello&#39;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="push">
+<code class="descname">push</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="django.template.ContextPopException">
+<em class="property">exception </em><code class="descclassname">django.template.</code><code class="descname">ContextPopException</code><a class="headerlink" href="#django.template.ContextPopException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A <code class="docutils literal"><span class="pre">Context</span></code> object is a stack. That is, you can <code class="docutils literal"><span class="pre">push()</span></code> and <code class="docutils literal"><span class="pre">pop()</span></code> it.
+If you <code class="docutils literal"><span class="pre">pop()</span></code> too much, it&#8217;ll raise
+<code class="docutils literal"><span class="pre">django.template.ContextPopException</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt;&gt;&gt; c = Context()
+&gt;&gt;&gt; c[&#39;foo&#39;] = &#39;first level&#39;
+&gt;&gt;&gt; c.push()
+&gt;&gt;&gt; c[&#39;foo&#39;] = &#39;second level&#39;
+&gt;&gt;&gt; c[&#39;foo&#39;]
+&#39;second level&#39;
+&gt;&gt;&gt; c.pop()
+&gt;&gt;&gt; c[&#39;foo&#39;]
+&#39;first level&#39;
+&gt;&gt;&gt; c[&#39;foo&#39;] = &#39;overwritten&#39;
+&gt;&gt;&gt; c[&#39;foo&#39;]
+&#39;overwritten&#39;
+&gt;&gt;&gt; c.pop()
+Traceback (most recent call last):
+...
+django.template.ContextPopException
+</pre></div>
+</div>
+<dl class="method">
+<dt id="update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>other_dict</em><span class="sig-paren">)</span><a class="headerlink" href="#update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>In addition to <code class="docutils literal"><span class="pre">push()</span></code> and <code class="docutils literal"><span class="pre">pop()</span></code>, the <code class="docutils literal"><span class="pre">Context</span></code>
+object also defines an <code class="docutils literal"><span class="pre">update()</span></code> method. This works like <code class="docutils literal"><span class="pre">push()</span></code>
+but takes a dictionary as an argument and pushes that dictionary onto
+the stack instead of an empty one.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Context</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;first level&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;updated&#39;</span><span class="p">})</span>
+<span class="go">{&#39;foo&#39;: &#39;updated&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">&#39;updated&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="go">{&#39;foo&#39;: &#39;updated&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">&#39;first level&#39;</span>
+</pre></div>
+</div>
+<p>Using a <code class="docutils literal"><span class="pre">Context</span></code> as a stack comes in handy in some custom template tags, as
+you&#8217;ll see below.</p>
+</div>
+<div class="section" id="subclassing-context-requestcontext">
+<span id="id1"></span><h3>Subclassing Context: RequestContext<a class="headerlink" href="#subclassing-context-requestcontext" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="django.template.RequestContext">
+<em class="property">class </em><code class="descclassname">django.template.</code><code class="descname">RequestContext</code><a class="headerlink" href="#django.template.RequestContext" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Django comes with a special <code class="docutils literal"><span class="pre">Context</span></code> class,
+<code class="docutils literal"><span class="pre">django.template.RequestContext</span></code>, that acts slightly differently than the
+normal <code class="docutils literal"><span class="pre">django.template.Context</span></code>. The first difference is that it takes an
+<a class="reference internal" href="../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> as its first argument. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>The second difference is that it automatically populates the context with a few
+variables, according to your <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> setting.</p>
+<p>The <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> setting is a tuple of callables &#8211;
+called <strong>context processors</strong> &#8211; that take a request object as their argument
+and return a dictionary of items to be merged into the context. By default,
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> is set to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&quot;django.contrib.auth.context_processors.auth&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.debug&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.i18n&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.media&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.static&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.core.context_processors.tz&quot;</span><span class="p">,</span>
+<span class="s">&quot;django.contrib.messages.context_processors.messages&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition to these, <code class="docutils literal"><span class="pre">RequestContext</span></code> always uses
+<code class="docutils literal"><span class="pre">django.core.context_processors.csrf</span></code>.  This is a security
+related context processor required by the admin and other contrib apps, and,
+in case of accidental misconfiguration, it is deliberately hardcoded in and
+cannot be turned off by the <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> setting.</p>
+<p>Each processor is applied in order. That means, if one processor adds a
+variable to the context and a second processor adds a variable with the same
+name, the second will override the first. The default processors are explained
+below.</p>
+<div class="admonition-when-context-processors-are-applied admonition">
+<p class="first admonition-title">When context processors are applied</p>
+<p class="last">When you use <code class="docutils literal"><span class="pre">RequestContext</span></code>, the variables you supply directly
+are added first, followed any variables supplied by context
+processors. This means that a context processor may overwrite a
+variable you&#8217;ve supplied, so take care to avoid variable names
+which overlap with those supplied by your context processors.</p>
+</div>
+<p>Also, you can give <code class="docutils literal"><span class="pre">RequestContext</span></code> a list of additional processors, using the
+optional, third positional argument, <code class="docutils literal"><span class="pre">processors</span></code>. In this example, the
+<code class="docutils literal"><span class="pre">RequestContext</span></code> instance gets a <code class="docutils literal"><span class="pre">ip_address</span></code> variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">ip_address_processor</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;ip_address&#39;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="p">[</span><span class="s">&#39;REMOTE_ADDR&#39;</span><span class="p">]}</span>
+
+<span class="k">def</span> <span class="nf">some_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># ...</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span>
+    <span class="p">},</span> <span class="p">[</span><span class="n">ip_address_processor</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you&#8217;re using Django&#8217;s <a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render_to_response" title="django.shortcuts.render_to_response"><code class="xref py py-func docutils literal"><span class="pre">render_to_response()</span></code></a>
+shortcut to populate a template with the contents of a dictionary, your
+template will be passed a <code class="docutils literal"><span class="pre">Context</span></code> instance by default (not a
+<code class="docutils literal"><span class="pre">RequestContext</span></code>). To use a <code class="docutils literal"><span class="pre">RequestContext</span></code> in your template
+rendering, pass an optional third argument to
+<a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render_to_response" title="django.shortcuts.render_to_response"><code class="xref py py-func docutils literal"><span class="pre">render_to_response()</span></code></a>: a <code class="docutils literal"><span class="pre">RequestContext</span></code>
+instance. Your code might look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># ...</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;my_template.html&#39;</span><span class="p">,</span>
+                              <span class="n">my_data_dictionary</span><span class="p">,</span>
+                              <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="last">Alternatively, use the <a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render" title="django.shortcuts.render"><code class="xref py py-meth docutils literal"><span class="pre">render()</span></code></a> shortcut which is
+the same as a call to <a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render_to_response" title="django.shortcuts.render_to_response"><code class="xref py py-func docutils literal"><span class="pre">render_to_response()</span></code></a> with a
+context_instance argument that forces the use of a <code class="docutils literal"><span class="pre">RequestContext</span></code>.</p>
+</div>
+<p>Here&#8217;s what each of the default processors does:</p>
+<div class="section" id="django-contrib-auth-context-processors-auth">
+<h4>django.contrib.auth.context_processors.auth<a class="headerlink" href="#django-contrib-auth-context-processors-auth" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain these variables:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">user</span></code> &#8211; An <code class="docutils literal"><span class="pre">auth.User</span></code> instance representing the currently
+logged-in user (or an <code class="docutils literal"><span class="pre">AnonymousUser</span></code> instance, if the client isn&#8217;t
+logged in).</li>
+<li><code class="docutils literal"><span class="pre">perms</span></code> &#8211; An instance of
+<code class="docutils literal"><span class="pre">django.contrib.auth.context_processors.PermWrapper</span></code>, representing the
+permissions that the currently logged-in user has.</li>
+</ul>
+</div>
+<div class="section" id="django-core-context-processors-debug">
+<h4>django.core.context_processors.debug<a class="headerlink" href="#django-core-context-processors-debug" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain these two variables &#8211; but only if your
+<a class="reference internal" href="../settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> setting is set to <code class="docutils literal"><span class="pre">True</span></code> and the request&#8217;s IP address
+(<code class="docutils literal"><span class="pre">request.META['REMOTE_ADDR']</span></code>) is in the <a class="reference internal" href="../settings.html#std:setting-INTERNAL_IPS"><code class="xref std std-setting docutils literal"><span class="pre">INTERNAL_IPS</span></code></a> setting:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">debug</span></code> &#8211; <code class="docutils literal"><span class="pre">True</span></code>. You can use this in templates to test whether
+you&#8217;re in <a class="reference internal" href="../settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> mode.</li>
+<li><code class="docutils literal"><span class="pre">sql_queries</span></code> &#8211; A list of <code class="docutils literal"><span class="pre">{'sql':</span> <span class="pre">...,</span> <span class="pre">'time':</span> <span class="pre">...}</span></code> dictionaries,
+representing every SQL query that has happened so far during the request
+and how long it took. The list is in order by query.</li>
+</ul>
+</div>
+<div class="section" id="django-core-context-processors-i18n">
+<h4>django.core.context_processors.i18n<a class="headerlink" href="#django-core-context-processors-i18n" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain these two variables:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">LANGUAGES</span></code> &#8211; The value of the <a class="reference internal" href="../settings.html#std:setting-LANGUAGES"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGES</span></code></a> setting.</li>
+<li><code class="docutils literal"><span class="pre">LANGUAGE_CODE</span></code> &#8211; <code class="docutils literal"><span class="pre">request.LANGUAGE_CODE</span></code>, if it exists. Otherwise,
+the value of the <a class="reference internal" href="../settings.html#std:setting-LANGUAGE_CODE"><code class="xref std std-setting docutils literal"><span class="pre">LANGUAGE_CODE</span></code></a> setting.</li>
+</ul>
+<p>See <a class="reference internal" href="../../topics/i18n/index.html"><em>Internationalization and localization</em></a> for more.</p>
+</div>
+<div class="section" id="django-core-context-processors-media">
+<h4>django.core.context_processors.media<a class="headerlink" href="#django-core-context-processors-media" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain a variable <code class="docutils literal"><span class="pre">MEDIA_URL</span></code>, providing the
+value of the <a class="reference internal" href="../settings.html#std:setting-MEDIA_URL"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_URL</span></code></a> setting.</p>
+</div>
+<div class="section" id="django-core-context-processors-static">
+<h4>django.core.context_processors.static<a class="headerlink" href="#django-core-context-processors-static" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="django.core.context_processors.static">
+<code class="descclassname">django.core.context_processors.</code><code class="descname">static</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.core.context_processors.static" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain a variable <code class="docutils literal"><span class="pre">STATIC_URL</span></code>, providing the
+value of the <a class="reference internal" href="../settings.html#std:setting-STATIC_URL"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_URL</span></code></a> setting.</p>
+</div>
+<div class="section" id="django-core-context-processors-csrf">
+<h4>django.core.context_processors.csrf<a class="headerlink" href="#django-core-context-processors-csrf" title="Permalink to this headline">¶</a></h4>
+<p>This processor adds a token that is needed by the <a class="reference internal" href="builtins.html#std:templatetag-csrf_token"><code class="xref std std-ttag docutils literal"><span class="pre">csrf_token</span></code></a> template
+tag for protection against <a class="reference internal" href="../contrib/csrf.html"><em>Cross Site Request Forgeries</em></a>.</p>
+</div>
+<div class="section" id="django-core-context-processors-request">
+<h4>django.core.context_processors.request<a class="headerlink" href="#django-core-context-processors-request" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain a variable <code class="docutils literal"><span class="pre">request</span></code>, which is the current
+<a class="reference internal" href="../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a>. Note that this processor is not enabled by default;
+you&#8217;ll have to activate it.</p>
+</div>
+<div class="section" id="django-contrib-messages-context-processors-messages">
+<h4>django.contrib.messages.context_processors.messages<a class="headerlink" href="#django-contrib-messages-context-processors-messages" title="Permalink to this headline">¶</a></h4>
+<p>If <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> contains this processor, every
+<code class="docutils literal"><span class="pre">RequestContext</span></code> will contain a single additional variable:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">messages</span></code> &#8211; A list of messages (as strings) that have been set
+via the user model (using <code class="docutils literal"><span class="pre">user.message_set.create</span></code>) or through
+the <a class="reference internal" href="../contrib/messages.html"><em>messages framework</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="writing-your-own-context-processors">
+<h4>Writing your own context processors<a class="headerlink" href="#writing-your-own-context-processors" title="Permalink to this headline">¶</a></h4>
+<p>A context processor has a very simple interface: It&#8217;s just a Python function
+that takes one argument, an <a class="reference internal" href="../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object, and
+returns a dictionary that gets added to the template context. Each context
+processor <em>must</em> return a dictionary.</p>
+<p>Custom context processors can live anywhere in your code base. All Django cares
+about is that your custom context processors are pointed-to by your
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> setting.</p>
+</div>
+</div>
+<div class="section" id="loading-templates">
+<h3>Loading templates<a class="headerlink" href="#loading-templates" title="Permalink to this headline">¶</a></h3>
+<p>Generally, you&#8217;ll store templates in files on your filesystem rather than using
+the low-level <code class="docutils literal"><span class="pre">Template</span></code> API yourself. Save templates in a directory
+specified as a <strong>template directory</strong>.</p>
+<p>Django searches for template directories in a number of places, depending on
+your template-loader settings (see &#8220;Loader types&#8221; below), but the most basic
+way of specifying template directories is by using the <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a>
+setting.</p>
+<div class="section" id="the-template-dirs-setting">
+<h4>The TEMPLATE_DIRS setting<a class="headerlink" href="#the-template-dirs-setting" title="Permalink to this headline">¶</a></h4>
+<p>Tell Django what your template directories are by using the
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a> setting in your settings file. This should be set to a
+list or tuple of strings that contain full paths to your template
+directory(ies). Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&quot;/home/html/templates/lawrence.com&quot;</span><span class="p">,</span>
+    <span class="s">&quot;/home/html/templates/default&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Your templates can go anywhere you want, as long as the directories and
+templates are readable by the Web server. They can have any extension you want,
+such as <code class="docutils literal"><span class="pre">.html</span></code> or <code class="docutils literal"><span class="pre">.txt</span></code>, or they can have no extension at all.</p>
+<p>Note that these paths should use Unix-style forward slashes, even on Windows.</p>
+</div>
+<div class="section" id="module-django.template.loader">
+<span id="the-python-api"></span><span id="ref-templates-api-the-python-api"></span><h4>The Python API<a class="headerlink" href="#module-django.template.loader" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">django.template.loader</span></code> has two functions to load templates from files:</p>
+<dl class="function">
+<dt id="django.template.loader.get_template">
+<code class="descname">get_template</code><span class="sig-paren">(</span><em>template_name</em><span class="sig-paren">)</span><a class="headerlink" href="#django.template.loader.get_template" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">get_template</span></code> returns the compiled template (a <code class="docutils literal"><span class="pre">Template</span></code> object) for
+the template with the given name. If the template doesn&#8217;t exist, it raises
+<code class="docutils literal"><span class="pre">django.template.TemplateDoesNotExist</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.template.loader.select_template">
+<code class="descname">select_template</code><span class="sig-paren">(</span><em>template_name_list</em><span class="sig-paren">)</span><a class="headerlink" href="#django.template.loader.select_template" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">select_template</span></code> is just like <code class="docutils literal"><span class="pre">get_template</span></code>, except it takes a list
+of template names. Of the list, it returns the first template that exists.</p>
+</dd></dl>
+
+<p>For example, if you call <code class="docutils literal"><span class="pre">get_template('story_detail.html')</span></code> and have the
+above <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a> setting, here are the files Django will look for,
+in order:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/home/html/templates/lawrence.com/story_detail.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">/home/html/templates/default/story_detail.html</span></code></li>
+</ul>
+<p>If you call <code class="docutils literal"><span class="pre">select_template(['story_253_detail.html',</span> <span class="pre">'story_detail.html'])</span></code>,
+here&#8217;s what Django will look for:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/home/html/templates/lawrence.com/story_253_detail.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">/home/html/templates/default/story_253_detail.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">/home/html/templates/lawrence.com/story_detail.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">/home/html/templates/default/story_detail.html</span></code></li>
+</ul>
+<p>When Django finds a template that exists, it stops looking.</p>
+<div class="admonition-tip admonition">
+<p class="first admonition-title">Tip</p>
+<p class="last">You can use <code class="docutils literal"><span class="pre">select_template()</span></code> for super-flexible &#8220;templatability.&#8221; For
+example, if you&#8217;ve written a news story and want some stories to have
+custom templates, use something like
+<code class="docutils literal"><span class="pre">select_template(['story_%s_detail.html'</span> <span class="pre">%</span> <span class="pre">story.id,</span> <span class="pre">'story_detail.html'])</span></code>.
+That&#8217;ll allow you to use a custom template for an individual story, with a
+fallback template for stories that don&#8217;t have custom templates.</p>
+</div>
+</div>
+<div class="section" id="using-subdirectories">
+<h4>Using subdirectories<a class="headerlink" href="#using-subdirectories" title="Permalink to this headline">¶</a></h4>
+<p>It&#8217;s possible &#8211; and preferable &#8211; to organize templates in subdirectories of
+the template directory. The convention is to make a subdirectory for each
+Django app, with subdirectories within those subdirectories as needed.</p>
+<p>Do this for your own sanity. Storing all templates in the root level of a
+single directory gets messy.</p>
+<p>To load a template that&#8217;s within a subdirectory, just use a slash, like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;news/story_detail.html&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the same <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a> setting from above, this example
+<code class="docutils literal"><span class="pre">get_template()</span></code> call will attempt to load the following templates:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/home/html/templates/lawrence.com/news/story_detail.html</span></code></li>
+<li><code class="docutils literal"><span class="pre">/home/html/templates/default/news/story_detail.html</span></code></li>
+</ul>
+</div>
+<div class="section" id="loader-types">
+<span id="template-loaders"></span><h4>Loader types<a class="headerlink" href="#loader-types" title="Permalink to this headline">¶</a></h4>
+<p>By default, Django uses a filesystem-based template loader, but Django comes
+with a few other template loaders, which know how to load templates from other
+sources.</p>
+<p>Some of these other loaders are disabled by default, but you can activate them
+by editing your <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_LOADERS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_LOADERS</span></code></a> setting. <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_LOADERS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_LOADERS</span></code></a>
+should be a tuple of strings, where each string represents a template loader
+class. Here are the template loaders that come with Django:</p>
+<p><code class="docutils literal"><span class="pre">django.template.loaders.filesystem.Loader</span></code></p>
+<dl class="class">
+<dt id="django.template.loaders.filesystem.Loader">
+<em class="property">class </em><code class="descclassname">filesystem.</code><code class="descname">Loader</code><a class="headerlink" href="#django.template.loaders.filesystem.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads templates from the filesystem, according to <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a>.
+This loader is enabled by default.</p>
+</dd></dl>
+
+<p><code class="docutils literal"><span class="pre">django.template.loaders.app_directories.Loader</span></code></p>
+<dl class="class">
+<dt id="django.template.loaders.app_directories.Loader">
+<em class="property">class </em><code class="descclassname">app_directories.</code><code class="descname">Loader</code><a class="headerlink" href="#django.template.loaders.app_directories.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads templates from Django apps on the filesystem. For each app in
+<a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>, the loader looks for a <code class="docutils literal"><span class="pre">templates</span></code>
+subdirectory. If the directory exists, Django looks for templates in there.</p>
+<p>This means you can store templates with your individual apps. This also
+makes it easy to distribute Django apps with default templates.</p>
+<p>For example, for this setting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;myproject.polls&#39;</span><span class="p">,</span> <span class="s">&#39;myproject.music&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>...then <code class="docutils literal"><span class="pre">get_template('foo.html')</span></code> will look for <code class="docutils literal"><span class="pre">foo.html</span></code> in these
+directories, in this order:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/path/to/myproject/polls/templates/</span></code></li>
+<li><code class="docutils literal"><span class="pre">/path/to/myproject/music/templates/</span></code></li>
+</ul>
+<p>... and will use the one it finds first.</p>
+<p>The order of <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> is significant! For example, if you
+want to customize the Django admin, you might choose to override the
+standard <code class="docutils literal"><span class="pre">admin/base_site.html</span></code> template, from <code class="docutils literal"><span class="pre">django.contrib.admin</span></code>,
+with your own <code class="docutils literal"><span class="pre">admin/base_site.html</span></code> in <code class="docutils literal"><span class="pre">myproject.polls</span></code>. You must
+then make sure that your <code class="docutils literal"><span class="pre">myproject.polls</span></code> comes <em>before</em>
+<code class="docutils literal"><span class="pre">django.contrib.admin</span></code> in <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>, otherwise
+<code class="docutils literal"><span class="pre">django.contrib.admin</span></code>&#8216;s will be loaded first and yours will be ignored.</p>
+<p>Note that the loader performs an optimization when it is first imported:
+it caches a list of which <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> packages have a
+<code class="docutils literal"><span class="pre">templates</span></code> subdirectory.</p>
+<p>This loader is enabled by default.</p>
+</dd></dl>
+
+<p><code class="docutils literal"><span class="pre">django.template.loaders.eggs.Loader</span></code></p>
+<dl class="class">
+<dt id="django.template.loaders.eggs.Loader">
+<em class="property">class </em><code class="descclassname">eggs.</code><code class="descname">Loader</code><a class="headerlink" href="#django.template.loaders.eggs.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just like <code class="docutils literal"><span class="pre">app_directories</span></code> above, but it loads templates from Python
+eggs rather than from the filesystem.</p>
+<p>This loader is disabled by default.</p>
+</dd></dl>
+
+<p><code class="docutils literal"><span class="pre">django.template.loaders.cached.Loader</span></code></p>
+<dl class="class">
+<dt id="django.template.loaders.cached.Loader">
+<em class="property">class </em><code class="descclassname">cached.</code><code class="descname">Loader</code><a class="headerlink" href="#django.template.loaders.cached.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default, the templating system will read and compile your templates every
+time they need to be rendered. While the Django templating system is quite
+fast, the overhead from reading and compiling templates can add up.</p>
+<p>The cached template loader is a class-based loader that you configure with
+a list of other loaders that it should wrap. The wrapped loaders are used to
+locate unknown templates when they are first encountered. The cached loader
+then stores the compiled <code class="docutils literal"><span class="pre">Template</span></code> in memory. The cached <code class="docutils literal"><span class="pre">Template</span></code>
+instance is returned for subsequent requests to load the same template.</p>
+<p>For example, to enable template caching with the <code class="docutils literal"><span class="pre">filesystem</span></code> and
+<code class="docutils literal"><span class="pre">app_directories</span></code> template loaders you might use the following settings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_LOADERS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">&#39;django.template.loaders.cached.Loader&#39;</span><span class="p">,</span> <span class="p">(</span>
+        <span class="s">&#39;django.template.loaders.filesystem.Loader&#39;</span><span class="p">,</span>
+        <span class="s">&#39;django.template.loaders.app_directories.Loader&#39;</span><span class="p">,</span>
+    <span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All of the built-in Django template tags are safe to use with the
+cached loader, but if you&#8217;re using custom template tags that come from
+third party packages, or that you wrote yourself, you should ensure
+that the <code class="docutils literal"><span class="pre">Node</span></code> implementation for each tag is thread-safe. For more
+information, see <a class="reference internal" href="../../howto/custom-template-tags.html#template-tag-thread-safety"><span>template tag thread safety
+considerations</span></a>.</p>
+</div>
+<p>This loader is disabled by default.</p>
+</dd></dl>
+
+<p>Django uses the template loaders in order according to the
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_LOADERS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_LOADERS</span></code></a> setting. It uses each loader until a loader finds a
+match.</p>
+</div>
+</div>
+</div>
+<div class="section" id="the-render-to-string-shortcut">
+<h2>The <code class="docutils literal"><span class="pre">render_to_string</span></code> shortcut<a class="headerlink" href="#the-render-to-string-shortcut" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django.template.loaders.django.template.loader.render_to_string">
+<code class="descclassname">django.template.loader.</code><code class="descname">render_to_string</code><span class="sig-paren">(</span><em>template_name</em>, <em>dictionary=None</em>, <em>context_instance=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.template.loaders.django.template.loader.render_to_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>To cut down on the repetitive nature of loading and rendering
+templates, Django provides a shortcut function which largely
+automates the process: <code class="docutils literal"><span class="pre">render_to_string()</span></code> in
+<a class="reference internal" href="#module-django.template.loader" title="django.template.loader"><code class="xref py py-mod docutils literal"><span class="pre">django.template.loader</span></code></a>, which loads a template, renders it and
+returns the resulting string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.template.loader</span> <span class="kn">import</span> <span class="n">render_to_string</span>
+<span class="n">rendered</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span><span class="s">&#39;my_template.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">render_to_string</span></code> shortcut takes one required argument &#8211;
+<code class="docutils literal"><span class="pre">template_name</span></code>, which should be the name of the template to load
+and render (or a list of template names, in which case Django will use
+the first template in the list that exists) &#8211; and two optional arguments:</p>
+<dl class="docutils">
+<dt>dictionary</dt>
+<dd>A dictionary to be used as variables and values for the
+template&#8217;s context. This can also be passed as the second
+positional argument.</dd>
+<dt>context_instance</dt>
+<dd>An instance of <code class="docutils literal"><span class="pre">Context</span></code> or a subclass (e.g., an instance of
+<code class="docutils literal"><span class="pre">RequestContext</span></code>) to use as the template&#8217;s context. This can
+also be passed as the third positional argument.</dd>
+</dl>
+<p>See also the <a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render_to_response" title="django.shortcuts.render_to_response"><code class="xref py py-func docutils literal"><span class="pre">render_to_response()</span></code></a> shortcut, which
+calls <code class="docutils literal"><span class="pre">render_to_string</span></code> and feeds the result into an <a class="reference internal" href="../request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>
+suitable for returning directly from a view.</p>
+</div>
+<div class="section" id="configuring-the-template-system-in-standalone-mode">
+<h2>Configuring the template system in standalone mode<a class="headerlink" href="#configuring-the-template-system-in-standalone-mode" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section is only of interest to people trying to use the template
+system as an output component in another application. If you&#8217;re using the
+template system as part of a Django application, nothing here applies to
+you.</p>
+</div>
+<p>Normally, Django will load all the configuration information it needs from its
+own default configuration file, combined with the settings in the module given
+in the <span class="target" id="index-0"></span><a class="reference internal" href="../../topics/settings.html#envvar-DJANGO_SETTINGS_MODULE"><code class="xref std std-envvar docutils literal"><span class="pre">DJANGO_SETTINGS_MODULE</span></code></a> environment variable. But if you&#8217;re
+using the template system independently of the rest of Django, the environment
+variable approach isn&#8217;t very convenient, because you probably want to configure
+the template system in line with the rest of your application rather than
+dealing with settings files and pointing to them via environment variables.</p>
+<p>To solve this problem, you need to use the manual configuration option described
+in <a class="reference internal" href="../../topics/settings.html#settings-without-django-settings-module"><span>Using settings without setting DJANGO_SETTINGS_MODULE</span></a>. Simply import the appropriate
+pieces of the templating system and then, <em>before</em> you call any of the
+templating functions, call <a class="reference internal" href="../../topics/settings.html#django.conf.settings.configure" title="django.conf.settings.configure"><code class="xref py py-func docutils literal"><span class="pre">django.conf.settings.configure()</span></code></a> with any
+settings you wish to specify. You might want to consider setting at least
+<a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DIRS</span></code></a> (if you&#8217;re going to use template loaders),
+<a class="reference internal" href="../settings.html#std:setting-DEFAULT_CHARSET"><code class="xref std std-setting docutils literal"><span class="pre">DEFAULT_CHARSET</span></code></a> (although the default of <code class="docutils literal"><span class="pre">utf-8</span></code> is probably fine)
+and <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_DEBUG</span></code></a>. If you plan to use the <a class="reference internal" href="builtins.html#std:templatetag-url"><code class="xref std std-ttag docutils literal"><span class="pre">url</span></code></a> template tag,
+you will also need to set the <a class="reference internal" href="../settings.html#std:setting-ROOT_URLCONF"><code class="xref std std-setting docutils literal"><span class="pre">ROOT_URLCONF</span></code></a> setting. All available
+settings are described in the <a class="reference internal" href="../settings.html"><em>settings documentation</em></a>,
+and any setting starting with <code class="docutils literal"><span class="pre">TEMPLATE_</span></code> is of obvious interest.</p>
+</div>
+<div class="section" id="using-an-alternative-template-language">
+<span id="topic-template-alternate-language"></span><h2>Using an alternative template language<a class="headerlink" href="#using-an-alternative-template-language" title="Permalink to this headline">¶</a></h2>
+<p>The Django <code class="docutils literal"><span class="pre">Template</span></code> and <code class="docutils literal"><span class="pre">Loader</span></code> classes implement a simple API for
+loading and rendering templates. By providing some simple wrapper classes that
+implement this API we can use third party template systems like <a class="reference external" href="http://jinja.pocoo.org/docs/">Jinja2</a> or <a class="reference external" href="http://www.cheetahtemplate.org/">Cheetah</a>. This
+allows us to use third-party template libraries without giving up useful Django
+features like the Django <code class="docutils literal"><span class="pre">Context</span></code> object and handy shortcuts like
+<a class="reference internal" href="../../topics/http/shortcuts.html#django.shortcuts.render_to_response" title="django.shortcuts.render_to_response"><code class="xref py py-func docutils literal"><span class="pre">render_to_response()</span></code></a>.</p>
+<p>The core component of the Django templating system is the <code class="docutils literal"><span class="pre">Template</span></code> class.
+This class has a very simple interface: it has a constructor that takes a single
+positional argument specifying the template string, and a <code class="docutils literal"><span class="pre">render()</span></code> method
+that takes a <a class="reference internal" href="#django.template.Context" title="django.template.Context"><code class="xref py py-class docutils literal"><span class="pre">Context</span></code></a> object and returns a string
+containing the rendered response.</p>
+<p>Suppose we&#8217;re using a template language that defines a <code class="docutils literal"><span class="pre">Template</span></code> object with
+a <code class="docutils literal"><span class="pre">render()</span></code> method that takes a dictionary rather than a <code class="docutils literal"><span class="pre">Context</span></code> object.
+We can write a simple wrapper that implements the Django <code class="docutils literal"><span class="pre">Template</span></code> interface:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">some_template_language</span>
+<span class="k">class</span> <span class="nc">Template</span><span class="p">(</span><span class="n">some_template_language</span><span class="o">.</span><span class="n">Template</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="c"># flatten the Django Context into a single dictionary.</span>
+        <span class="n">context_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">context</span><span class="o">.</span><span class="n">dicts</span><span class="p">:</span>
+            <span class="n">context_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Template</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">context_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That&#8217;s all that&#8217;s required to make our fictional <code class="docutils literal"><span class="pre">Template</span></code> class compatible
+with the Django loading and rendering system!</p>
+<p>The next step is to write a <code class="docutils literal"><span class="pre">Loader</span></code> class that returns instances of our custom
+template class instead of the default <a class="reference internal" href="#django.template.Template" title="django.template.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a>. Custom <code class="docutils literal"><span class="pre">Loader</span></code>
+classes should inherit from <code class="docutils literal"><span class="pre">django.template.loader.BaseLoader</span></code> and override
+the <code class="docutils literal"><span class="pre">load_template_source()</span></code> method, which takes a <code class="docutils literal"><span class="pre">template_name</span></code> argument,
+loads the template from disk (or elsewhere), and returns a tuple:
+<code class="docutils literal"><span class="pre">(template_string,</span> <span class="pre">template_origin)</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">load_template()</span></code> method of the <code class="docutils literal"><span class="pre">Loader</span></code> class retrieves the template
+string by calling <code class="docutils literal"><span class="pre">load_template_source()</span></code>, instantiates a <code class="docutils literal"><span class="pre">Template</span></code> from
+the template source, and returns a tuple: <code class="docutils literal"><span class="pre">(template,</span> <span class="pre">template_origin)</span></code>. Since
+this is the method that actually instantiates the <code class="docutils literal"><span class="pre">Template</span></code>, we&#8217;ll need to
+override it to use our custom template class instead. We can inherit from the
+builtin <a class="reference internal" href="#django.template.loaders.app_directories.Loader" title="django.template.loaders.app_directories.Loader"><code class="xref py py-class docutils literal"><span class="pre">django.template.loaders.app_directories.Loader</span></code></a> to take advantage
+of the <code class="docutils literal"><span class="pre">load_template_source()</span></code> method implemented there:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.template.loaders</span> <span class="kn">import</span> <span class="n">app_directories</span>
+<span class="k">class</span> <span class="nc">Loader</span><span class="p">(</span><span class="n">app_directories</span><span class="o">.</span><span class="n">Loader</span><span class="p">):</span>
+    <span class="n">is_usable</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">load_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">template_dirs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">source</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_template_source</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">template_dirs</span><span class="p">)</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">template</span><span class="p">,</span> <span class="n">origin</span>
+</pre></div>
+</div>
+<p>Finally, we need to modify our project settings, telling Django to use our custom
+loader. Now we can write all of our templates in our alternative template
+language while continuing to use the rest of the Django templating system.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../unicode.html" class="btn btn-neutral float-right" title="Unicode data" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="builtins.html" class="btn btn-neutral" title="Built-in template tags and filters" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/templates/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:51 GMT -->
+</html>

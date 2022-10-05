@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/comments/signals.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:21 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Signals sent by the comments app &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Django&#8217;s comments framework</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#quick-start-guide">Quick start guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#comment-template-tags">Comment template tags</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#more-information">More information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+          <li><a href="index.html">Django&#8217;s comments framework</a> &raquo;</li>
+      
+    <li>Signals sent by the comments app</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.comments.signals">
+<span id="signals-sent-by-the-comments-app"></span><h1>Signals sent by the comments app<a class="headerlink" href="#module-django.contrib.comments.signals" title="Permalink to this headline">¶</a></h1>
+<p>The comment app sends a series of <a class="reference internal" href="../../../topics/signals.html"><em>signals</em></a> to allow for
+comment moderation and similar activities. See <a class="reference internal" href="../../../topics/signals.html"><em>the introduction to signals</em></a> for information about how to register for and receive these
+signals.</p>
+<div class="section" id="comment-will-be-posted">
+<h2>comment_will_be_posted<a class="headerlink" href="#comment-will-be-posted" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.contrib.comments.signals.comment_will_be_posted">
+<code class="descclassname">django.contrib.comments.signals.</code><code class="descname">comment_will_be_posted</code><a class="headerlink" href="#django.contrib.comments.signals.comment_will_be_posted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sent just before a comment will be saved, after it&#8217;s been sanity checked and
+submitted. This can be used to modify the comment (in place) with posting
+details or other such actions.</p>
+<p>If any receiver returns <code class="docutils literal"><span class="pre">False</span></code> the comment will be discarded and a 400
+response will be returned.</p>
+<p>This signal is sent at more or less the same time (just before, actually) as the
+<code class="docutils literal"><span class="pre">Comment</span></code> object&#8217;s <a class="reference internal" href="../../signals.html#django.db.models.signals.pre_save" title="django.db.models.signals.pre_save"><code class="xref py py-data docutils literal"><span class="pre">pre_save</span></code></a> signal.</p>
+<p>Arguments sent with this signal:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">sender</span></code></dt>
+<dd>The comment model.</dd>
+<dt><code class="docutils literal"><span class="pre">comment</span></code></dt>
+<dd>The comment instance about to be posted. Note that it won&#8217;t have been
+saved into the database yet, so it won&#8217;t have a primary key, and any
+relations might not work correctly yet.</dd>
+<dt><code class="docutils literal"><span class="pre">request</span></code></dt>
+<dd>The <a class="reference internal" href="../../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> that posted the comment.</dd>
+</dl>
+</div>
+<div class="section" id="comment-was-posted">
+<h2>comment_was_posted<a class="headerlink" href="#comment-was-posted" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.contrib.comments.signals.comment_was_posted">
+<code class="descclassname">django.contrib.comments.signals.</code><code class="descname">comment_was_posted</code><a class="headerlink" href="#django.contrib.comments.signals.comment_was_posted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sent just after the comment is saved.</p>
+<p>Arguments sent with this signal:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">sender</span></code></dt>
+<dd>The comment model.</dd>
+<dt><code class="docutils literal"><span class="pre">comment</span></code></dt>
+<dd>The comment instance that was posted. Note that it will have already
+been saved, so if you modify it you&#8217;ll need to call
+<a class="reference internal" href="../../models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> again.</dd>
+<dt><code class="docutils literal"><span class="pre">request</span></code></dt>
+<dd>The <a class="reference internal" href="../../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> that posted the comment.</dd>
+</dl>
+</div>
+<div class="section" id="comment-was-flagged">
+<h2>comment_was_flagged<a class="headerlink" href="#comment-was-flagged" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.contrib.comments.signals.comment_was_flagged">
+<code class="descclassname">django.contrib.comments.signals.</code><code class="descname">comment_was_flagged</code><a class="headerlink" href="#django.contrib.comments.signals.comment_was_flagged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sent after a comment was &#8220;flagged&#8221; in some way. Check the flag to see if this
+was a user requesting removal of a comment, a moderator approving/removing a
+comment, or some other custom user flag.</p>
+<p>Arguments sent with this signal:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">sender</span></code></dt>
+<dd>The comment model.</dd>
+<dt><code class="docutils literal"><span class="pre">comment</span></code></dt>
+<dd>The comment instance that was posted. Note that it will have already
+been saved, so if you modify it you&#8217;ll need to call
+<a class="reference internal" href="../../models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> again.</dd>
+<dt><code class="docutils literal"><span class="pre">flag</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">django.contrib.comments.models.CommentFlag</span></code> that&#8217;s been attached to
+the comment.</dd>
+<dt><code class="docutils literal"><span class="pre">created</span></code></dt>
+<dd><code class="docutils literal"><span class="pre">True</span></code> if this is a new flag; <code class="docutils literal"><span class="pre">False</span></code> if it&#8217;s a duplicate flag.</dd>
+<dt><code class="docutils literal"><span class="pre">request</span></code></dt>
+<dd>The <a class="reference internal" href="../../request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> that posted the comment.</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="custom.html" class="btn btn-neutral float-right" title="Customizing the comments framework" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="settings.html" class="btn btn-neutral" title="Comment settings" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/comments/signals.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:21 GMT -->
+</html>

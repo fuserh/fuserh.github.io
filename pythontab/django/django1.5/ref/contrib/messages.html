@@ -1,0 +1,713 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/messages.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The messages framework &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gis/index.html">GeoDjango</a></li>
+<li class="toctree-l3"><a class="reference internal" href="humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">The messages framework</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#enabling-messages">Enabling messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-message-engine">Configuring the message engine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-messages-in-views-and-templates">Using messages in views and templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expiration-of-messages">Expiration of messages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#behavior-of-parallel-requests">Behavior of parallel requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+    <li>The messages framework</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.messages">
+<span id="the-messages-framework"></span><h1>The messages framework<a class="headerlink" href="#module-django.contrib.messages" title="Permalink to this headline">¶</a></h1>
+<p>Quite commonly in web applications, you need to display a one-time
+notification message (also known as &#8220;flash message&#8221;) to the user after
+processing a form or some other types of user input.</p>
+<p>For this, Django provides full support for cookie- and session-based
+messaging, for both anonymous and authenticated users. The messages framework
+allows you to temporarily store messages in one request and retrieve them for
+display in a subsequent request (usually the next one). Every message is
+tagged with a specific <code class="docutils literal"><span class="pre">level</span></code> that determines its priority (e.g., <code class="docutils literal"><span class="pre">info</span></code>,
+<code class="docutils literal"><span class="pre">warning</span></code>, or <code class="docutils literal"><span class="pre">error</span></code>).</p>
+<div class="section" id="enabling-messages">
+<h2>Enabling messages<a class="headerlink" href="#enabling-messages" title="Permalink to this headline">¶</a></h2>
+<p>Messages are implemented through a <a class="reference internal" href="../middleware.html"><em>middleware</em></a>
+class and corresponding <a class="reference internal" href="../templates/api.html"><em>context processor</em></a>.</p>
+<p>The default <code class="docutils literal"><span class="pre">settings.py</span></code> created by <code class="docutils literal"><span class="pre">django-admin.py</span> <span class="pre">startproject</span></code>
+already contains all the settings required to enable message functionality:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">'django.contrib.messages'</span></code> is in <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="../settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> contains
+<code class="docutils literal"><span class="pre">'django.contrib.sessions.middleware.SessionMiddleware'</span></code> and
+<code class="docutils literal"><span class="pre">'django.contrib.messages.middleware.MessageMiddleware'</span></code>.</p>
+<p>The default <a class="reference internal" href="#message-storage-backends"><span>storage backend</span></a> relies on
+<a class="reference internal" href="../../topics/http/sessions.html"><em>sessions</em></a>. That&#8217;s why <code class="docutils literal"><span class="pre">SessionMiddleware</span></code>
+must be enabled and appear before <code class="docutils literal"><span class="pre">MessageMiddleware</span></code> in
+<a class="reference internal" href="../settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a>   contains
+<code class="docutils literal"><span class="pre">'django.contrib.messages.context_processors.messages'</span></code>.</p>
+</li>
+</ul>
+<p>If you don&#8217;t want to use messages, you can remove
+<code class="docutils literal"><span class="pre">'django.contrib.messages'</span></code> from your <a class="reference internal" href="../settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>, the
+<code class="docutils literal"><span class="pre">MessageMiddleware</span></code> line from <a class="reference internal" href="../settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>, and the
+<code class="docutils literal"><span class="pre">messages</span></code> context processor from <a class="reference internal" href="../settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a>.</p>
+</div>
+<div class="section" id="configuring-the-message-engine">
+<h2>Configuring the message engine<a class="headerlink" href="#configuring-the-message-engine" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="storage-backends">
+<span id="message-storage-backends"></span><h3>Storage backends<a class="headerlink" href="#storage-backends" title="Permalink to this headline">¶</a></h3>
+<p>The messages framework can use different backends to store temporary messages.</p>
+<p>Django provides three built-in storage classes:</p>
+<dl class="class">
+<dt id="django.contrib.messages.django.contrib.messages.storage.session.SessionStorage">
+<em class="property">class </em><code class="descclassname">django.contrib.messages.storage.session.</code><code class="descname">SessionStorage</code><a class="headerlink" href="#django.contrib.messages.django.contrib.messages.storage.session.SessionStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class stores all messages inside of the request&#8217;s session. Therefore
+it requires Django&#8217;s <code class="docutils literal"><span class="pre">contrib.sessions</span></code> application.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.messages.django.contrib.messages.storage.cookie.CookieStorage">
+<em class="property">class </em><code class="descclassname">django.contrib.messages.storage.cookie.</code><code class="descname">CookieStorage</code><a class="headerlink" href="#django.contrib.messages.django.contrib.messages.storage.cookie.CookieStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class stores the message data in a cookie (signed with a secret hash
+to prevent manipulation) to persist notifications across requests. Old
+messages are dropped if the cookie data size would exceed 2048 bytes.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.messages.django.contrib.messages.storage.fallback.FallbackStorage">
+<em class="property">class </em><code class="descclassname">django.contrib.messages.storage.fallback.</code><code class="descname">FallbackStorage</code><a class="headerlink" href="#django.contrib.messages.django.contrib.messages.storage.fallback.FallbackStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class first uses <code class="docutils literal"><span class="pre">CookieStorage</span></code>, and falls back to using
+<code class="docutils literal"><span class="pre">SessionStorage</span></code> for the messages that could not fit in a single cookie.
+It also requires Django&#8217;s <code class="docutils literal"><span class="pre">contrib.sessions</span></code> application.</p>
+<p>This behavior avoids writing to the session whenever possible. It should
+provide the best performance in the general case.</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#django.contrib.messages.django.contrib.messages.storage.fallback.FallbackStorage" title="django.contrib.messages.django.contrib.messages.storage.fallback.FallbackStorage"><code class="xref py py-class docutils literal"><span class="pre">FallbackStorage</span></code></a> is the
+default storage class. If it isn&#8217;t suitable to your needs, you can select
+another storage class by setting <a class="reference internal" href="#message-storage">MESSAGE_STORAGE</a> to its full import path,
+for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MESSAGE_STORAGE</span> <span class="o">=</span> <span class="s">&#39;django.contrib.messages.storage.cookie.CookieStorage&#39;</span>
+</pre></div>
+</div>
+<p>To write your own storage class, subclass the <code class="docutils literal"><span class="pre">BaseStorage</span></code> class in
+<code class="docutils literal"><span class="pre">django.contrib.messages.storage.base</span></code> and implement the <code class="docutils literal"><span class="pre">_get</span></code> and
+<code class="docutils literal"><span class="pre">_store</span></code> methods.</p>
+</div>
+<div class="section" id="message-levels">
+<h3>Message levels<a class="headerlink" href="#message-levels" title="Permalink to this headline">¶</a></h3>
+<p>The messages framework is based on a configurable level architecture similar
+to that of the Python logging module. Message levels allow you to group
+messages by type so they can be filtered or displayed differently in views and
+templates.</p>
+<p>The built-in levels, which can be imported from <code class="docutils literal"><span class="pre">django.contrib.messages</span></code>
+directly, are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Constant</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DEBUG</span></code></td>
+<td>Development-related messages that will be ignored (or removed) in a production deployment</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Informational messages for the user</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SUCCESS</span></code></td>
+<td>An action was successful, e.g. &#8220;Your profile was updated successfully&#8221;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WARNING</span></code></td>
+<td>A failure did not occur but may be imminent</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ERROR</span></code></td>
+<td>An action was <strong>not</strong> successful or some other failure occurred</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference internal" href="#message-level">MESSAGE_LEVEL</a> setting can be used to change the minimum recorded level
+(or it can be <a class="reference internal" href="#changing-the-minimum-recorded-level-per-request">changed per request</a>). Attempts to add messages of a level less
+than this will be ignored.</p>
+</div>
+<div class="section" id="message-tags">
+<h3>Message tags<a class="headerlink" href="#message-tags" title="Permalink to this headline">¶</a></h3>
+<p>Message tags are a string representation of the message level plus any
+extra tags that were added directly in the view (see
+<a class="reference internal" href="#adding-extra-message-tags">Adding extra message tags</a> below for more details). Tags are stored in a
+string and are separated by spaces. Typically, message tags
+are used as CSS classes to customize message style based on message type. By
+default, each level has a single tag that&#8217;s a lowercase version of its own
+constant:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Level Constant</th>
+<th class="head">Tag</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DEBUG</span></code></td>
+<td><code class="docutils literal"><span class="pre">debug</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td><code class="docutils literal"><span class="pre">info</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SUCCESS</span></code></td>
+<td><code class="docutils literal"><span class="pre">success</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WARNING</span></code></td>
+<td><code class="docutils literal"><span class="pre">warning</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ERROR</span></code></td>
+<td><code class="docutils literal"><span class="pre">error</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>To change the default tags for a message level (either built-in or custom),
+set the <a class="reference internal" href="#id1">MESSAGE_TAGS</a> setting to a dictionary containing the levels
+you wish to change. As this extends the default tags, you only need to provide
+tags for the levels you wish to override:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.messages</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">messages</span>
+<span class="n">MESSAGE_TAGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="mi">50</span><span class="p">:</span> <span class="s">&#39;critical&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-messages-in-views-and-templates">
+<h2>Using messages in views and templates<a class="headerlink" href="#using-messages-in-views-and-templates" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django.contrib.messages.add_message">
+<code class="descname">add_message</code><span class="sig-paren">(</span><em>request</em>, <em>level</em>, <em>message</em>, <em>extra_tags=''</em>, <em>fail_silently=False</em><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.messages.add_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="section" id="adding-a-message">
+<h3>Adding a message<a class="headerlink" href="#adding-a-message" title="Permalink to this headline">¶</a></h3>
+<p>To add a message, call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s">&#39;Hello world.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Some shortcut methods provide a standard way to add messages with commonly
+used tags (which are usually represented as HTML classes for the message):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">messages</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> SQL statements were executed.&#39;</span> <span class="o">%</span> <span class="n">count</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Three credits remain in your account.&#39;</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Profile details updated.&#39;</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Your account expires in three days.&#39;</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Document deleted.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="displaying-messages">
+<h3>Displaying messages<a class="headerlink" href="#displaying-messages" title="Permalink to this headline">¶</a></h3>
+<p>In your template, use something like:</p>
+<div class="highlight-python"><div class="highlight"><pre>{% if messages %}
+&lt;ul class=&quot;messages&quot;&gt;
+    {% for message in messages %}
+    &lt;li{% if message.tags %} class=&quot;{{ message.tags }}&quot;{% endif %}&gt;{{ message }}&lt;/li&gt;
+    {% endfor %}
+&lt;/ul&gt;
+{% endif %}
+</pre></div>
+</div>
+<p>If you&#8217;re using the context processor, your template should be rendered with a
+<code class="docutils literal"><span class="pre">RequestContext</span></code>. Otherwise, ensure <code class="docutils literal"><span class="pre">messages</span></code> is available to
+the template context.</p>
+<p>Even if you know there is only just one message, you should still iterate over
+the <code class="docutils literal"><span class="pre">messages</span></code> sequence, because otherwise the message storage will not be cleared
+for the next request.</p>
+</div>
+<div class="section" id="creating-custom-message-levels">
+<h3>Creating custom message levels<a class="headerlink" href="#creating-custom-message-levels" title="Permalink to this headline">¶</a></h3>
+<p>Messages levels are nothing more than integers, so you can define your own
+level constants and use them to create more customized user feedback, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CRITICAL</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">CRITICAL</span><span class="p">,</span> <span class="s">&#39;A serious error occurred.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When creating custom message levels you should be careful to avoid overloading
+existing levels. The values for the built-in levels are:</p>
+<table border="1" class="docutils" id="message-level-constants">
+<colgroup>
+<col width="74%" />
+<col width="26%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Level Constant</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DEBUG</span></code></td>
+<td>10</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>20</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SUCCESS</span></code></td>
+<td>25</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WARNING</span></code></td>
+<td>30</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ERROR</span></code></td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<p>If you need to identify the custom levels in your HTML or CSS, you need to
+provide a mapping via the <a class="reference internal" href="#id1">MESSAGE_TAGS</a> setting.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are creating a reusable application, it is recommended to use
+only the built-in <a class="reference internal" href="#message-levels">message levels</a> and not rely on any custom levels.</p>
+</div>
+</div>
+<div class="section" id="changing-the-minimum-recorded-level-per-request">
+<h3>Changing the minimum recorded level per-request<a class="headerlink" href="#changing-the-minimum-recorded-level-per-request" title="Permalink to this headline">¶</a></h3>
+<p>The minimum recorded level can be set per request via the <code class="docutils literal"><span class="pre">set_level</span></code>
+method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+
+<span class="c"># Change the messages level to ensure the debug message is added.</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Test message...&#39;</span><span class="p">)</span>
+
+<span class="c"># In another request, record only messages with a level of WARNING and higher</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Your profile was updated.&#39;</span><span class="p">)</span> <span class="c"># ignored</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Your account is about to expire.&#39;</span><span class="p">)</span> <span class="c"># recorded</span>
+
+<span class="c"># Set the messages level back to default.</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">set_level</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly, the current effective level can be retrieved with <code class="docutils literal"><span class="pre">get_level</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+<span class="n">current_level</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">get_level</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For more information on how the minimum recorded level functions, see
+<a class="reference internal" href="#message-levels">Message levels</a> above.</p>
+</div>
+<div class="section" id="adding-extra-message-tags">
+<h3>Adding extra message tags<a class="headerlink" href="#adding-extra-message-tags" title="Permalink to this headline">¶</a></h3>
+<p>For more direct control over message tags, you can optionally provide a string
+containing extra tags to any of the add methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="s">&#39;Over 9000!&#39;</span><span class="p">,</span>
+                     <span class="n">extra_tags</span><span class="o">=</span><span class="s">&#39;dragonball&#39;</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Email box full&#39;</span><span class="p">,</span> <span class="n">extra_tags</span><span class="o">=</span><span class="s">&#39;email&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Extra tags are added before the default tag for that level and are space
+separated.</p>
+</div>
+<div class="section" id="failing-silently-when-the-message-framework-is-disabled">
+<h3>Failing silently when the message framework is disabled<a class="headerlink" href="#failing-silently-when-the-message-framework-is-disabled" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;re writing a reusable app (or other piece of code) and want to include
+messaging functionality, but don&#8217;t want to require your users to enable it
+if they don&#8217;t want to, you may pass an additional keyword argument
+<code class="docutils literal"><span class="pre">fail_silently=True</span></code> to any of the <code class="docutils literal"><span class="pre">add_message</span></code> family of methods. For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="s">&#39;Profile details updated.&#39;</span><span class="p">,</span>
+                     <span class="n">fail_silently</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;Hello world.&#39;</span><span class="p">,</span> <span class="n">fail_silently</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Setting <code class="docutils literal"><span class="pre">fail_silently=True</span></code> only hides the <code class="docutils literal"><span class="pre">MessageFailure</span></code> that would
+otherwise occur when the messages framework disabled and one attempts to
+use one of the <code class="docutils literal"><span class="pre">add_message</span></code> family of methods. It does not hide failures
+that may occur for other reasons.</p>
+</div>
+</div>
+</div>
+<div class="section" id="expiration-of-messages">
+<h2>Expiration of messages<a class="headerlink" href="#expiration-of-messages" title="Permalink to this headline">¶</a></h2>
+<p>The messages are marked to be cleared when the storage instance is iterated
+(and cleared when the response is processed).</p>
+<p>To avoid the messages being cleared, you can set the messages storage to
+<code class="docutils literal"><span class="pre">False</span></code> after iterating:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">storage</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">storage</span><span class="p">:</span>
+    <span class="n">do_something_with</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<span class="n">storage</span><span class="o">.</span><span class="n">used</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="behavior-of-parallel-requests">
+<h2>Behavior of parallel requests<a class="headerlink" href="#behavior-of-parallel-requests" title="Permalink to this headline">¶</a></h2>
+<p>Due to the way cookies (and hence sessions) work, <strong>the behavior of any
+backends that make use of cookies or sessions is undefined when the same
+client makes multiple requests that set or get messages in parallel</strong>. For
+example, if a client initiates a request that creates a message in one window
+(or tab) and then another that fetches any uniterated messages in another
+window, before the first window redirects, the message may appear in the
+second window instead of the first window where it may be expected.</p>
+<p>In short, when multiple simultaneous requests from the same client are
+involved, messages are not guaranteed to be delivered to the same window that
+created them nor, in some cases, at all. Note that this is typically not a
+problem in most applications and will become a non-issue in HTML5, where each
+window/tab will have its own browsing context.</p>
+</div>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<p>A few <a class="reference internal" href="../settings.html"><em>Django settings</em></a> give you control over message
+behavior:</p>
+<div class="section" id="message-level">
+<h3>MESSAGE_LEVEL<a class="headerlink" href="#message-level" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">messages.INFO</span></code></p>
+<p>This sets the minimum message that will be saved in the message storage. See
+<a class="reference internal" href="#message-levels">Message levels</a> above for more details.</p>
+<div class="admonition-important admonition">
+<p class="first admonition-title">Important</p>
+<p>If you override <code class="docutils literal"><span class="pre">MESSAGE_LEVEL</span></code> in your settings file and rely on any of
+the built-in constants, you must import the constants module directly to
+avoid the potential for circular imports, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.messages</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">message_constants</span>
+<span class="n">MESSAGE_LEVEL</span> <span class="o">=</span> <span class="n">message_constants</span><span class="o">.</span><span class="n">DEBUG</span>
+</pre></div>
+</div>
+<p class="last">If desired, you may specify the numeric values for the constants directly
+according to the values in the above <a class="reference internal" href="#message-level-constants"><span>constants table</span></a>.</p>
+</div>
+</div>
+<div class="section" id="message-storage">
+<h3>MESSAGE_STORAGE<a class="headerlink" href="#message-storage" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">'django.contrib.messages.storage.fallback.FallbackStorage'</span></code></p>
+<p>Controls where Django stores message data. Valid values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'django.contrib.messages.storage.fallback.FallbackStorage'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.messages.storage.session.SessionStorage'</span></code></li>
+<li><code class="docutils literal"><span class="pre">'django.contrib.messages.storage.cookie.CookieStorage'</span></code></li>
+</ul>
+<p>See <a class="reference internal" href="#storage-backends">Storage backends</a> for more details.</p>
+</div>
+<div class="section" id="id1">
+<h3>MESSAGE_TAGS<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="n">messages</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="s">&#39;debug&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s">&#39;info&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span> <span class="s">&#39;success&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="s">&#39;warning&#39;</span><span class="p">,</span>
+<span class="n">messages</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="s">&#39;error&#39;</span><span class="p">,}</span>
+</pre></div>
+</div>
+<p>This sets the mapping of message level to message tag, which is typically
+rendered as a CSS class in HTML. If you specify a value, it will extend
+the default. This means you only have to specify those values which you need
+to override. See <a class="reference internal" href="#displaying-messages">Displaying messages</a> above for more details.</p>
+<div class="admonition-important admonition">
+<p class="first admonition-title">Important</p>
+<p>If you override <code class="docutils literal"><span class="pre">MESSAGE_TAGS</span></code> in your settings file and rely on any of
+the built-in constants, you must import the <code class="docutils literal"><span class="pre">constants</span></code> module directly to
+avoid the potential for circular imports, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.messages</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">message_constants</span>
+<span class="n">MESSAGE_TAGS</span> <span class="o">=</span> <span class="p">{</span><span class="n">message_constants</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">If desired, you may specify the numeric values for the constants directly
+according to the values in the above <a class="reference internal" href="#message-level-constants"><span>constants table</span></a>.</p>
+</div>
+</div>
+<div class="section" id="session-cookie-domain">
+<h3>SESSION_COOKIE_DOMAIN<a class="headerlink" href="#session-cookie-domain" title="Permalink to this headline">¶</a></h3>
+<p>Default: <code class="docutils literal"><span class="pre">None</span></code></p>
+<p>The storage backends that use cookies &#8211; <code class="docutils literal"><span class="pre">CookieStorage</span></code> and
+<code class="docutils literal"><span class="pre">FallbackStorage</span></code> &#8211; use the value of <a class="reference internal" href="../settings.html#std:setting-SESSION_COOKIE_DOMAIN"><code class="xref std std-setting docutils literal"><span class="pre">SESSION_COOKIE_DOMAIN</span></code></a> in
+setting their cookies. See the <a class="reference internal" href="../settings.html"><em>settings documentation</em></a>
+for more information on how this works and why you might need to set it.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="redirects.html" class="btn btn-neutral float-right" title="The redirects app" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="markup.html" class="btn btn-neutral" title="django.contrib.markup" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/messages.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:06 GMT -->
+</html>

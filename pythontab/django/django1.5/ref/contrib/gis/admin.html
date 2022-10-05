@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/gis/admin.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GeoDjango’s admin site &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../admin/index.html">The Django admin site</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html"><code class="docutils literal"><span class="pre">django.contrib.auth</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#user">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#anonymous-users">Anonymous users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#permission">Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#group">Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.signals">Login and logout signals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auth.html#module-django.contrib.auth.backends">Authentication backends</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../comments/index.html">Django&#8217;s comments framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contenttypes.html">The contenttypes framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../csrf.html">Cross Site Request Forgery protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../databrowse.html">Databrowse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flatpages.html">The flatpages app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../formtools/index.html">django.contrib.formtools</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">GeoDjango</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="tutorial.html">GeoDjango Tutorial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="install/index.html">GeoDjango Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="model-api.html">GeoDjango Model API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="db-api.html">GeoDjango Database API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoquerysets.html">GeoQuerySet API Reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="measure.html">Measurement Objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geos.html">GEOS API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gdal.html">GDAL API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoip.html">Geolocation with GeoIP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="utils.html">GeoDjango Utilities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commands.html">GeoDjango Management Commands</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">GeoDjango&#8217;s admin site</a></li>
+<li class="toctree-l4"><a class="reference internal" href="feeds.html">Geographic Feeds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sitemaps.html">Geographic Sitemaps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="testing.html">Testing GeoDjango apps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="deployment.html">Deploying GeoDjango</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../humanize.html">django.contrib.humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../localflavor.html">The &#8220;local flavor&#8221; add-ons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../markup.html">django.contrib.markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../messages.html">The messages framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../redirects.html">The redirects app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sitemaps.html">The sitemap framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sites.html">The &#8220;sites&#8221; framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../staticfiles.html">The staticfiles app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../syndication.html">The syndication feed framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../webdesign.html">django.contrib.webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#admin">admin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#auth">auth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#comments">comments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#contenttypes">contenttypes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#csrf">csrf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#flatpages">flatpages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#formtools">formtools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#gis">gis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#localflavor">localflavor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#markup">markup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#messages">messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#redirects">redirects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sessions">sessions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sites">sites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#sitemaps">sitemaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#syndication">syndication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#webdesign">webdesign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#other-add-ons">Other add-ons</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../urls.html"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">API 参考</a> &raquo;</li>
+      
+          <li><a href="../index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a> &raquo;</li>
+      
+          <li><a href="index.html">GeoDjango</a> &raquo;</li>
+      
+    <li>GeoDjango&#8217;s admin site</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.contrib.gis.admin">
+<span id="geodjango-s-admin-site"></span><span id="ref-gis-admin"></span><h1>GeoDjango&#8217;s admin site<a class="headerlink" href="#module-django.contrib.gis.admin" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="geomodeladmin">
+<h2><code class="docutils literal"><span class="pre">GeoModelAdmin</span></code><a class="headerlink" href="#geomodeladmin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.contrib.gis.admin.GeoModelAdmin">
+<em class="property">class </em><code class="descname">GeoModelAdmin</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.default_lon">
+<code class="descname">default_lon</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.default_lon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The default center longitude.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.default_lat">
+<code class="descname">default_lat</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.default_lat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The default center latitude.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.default_zoom">
+<code class="descname">default_zoom</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.default_zoom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The default zoom level to use.  Defaults to 18.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.extra_js">
+<code class="descname">extra_js</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.extra_js" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sequence of URLs to any extra JavaScript to include.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.map_template">
+<code class="descname">map_template</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.map_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Override the template used to generate the JavaScript slippy map.
+Default is <code class="docutils literal"><span class="pre">'gis/admin/openlayers.html'</span></code>.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.map_width">
+<code class="descname">map_width</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.map_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Width of the map, in pixels.  Defaults to 600.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.map_height">
+<code class="descname">map_height</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.map_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Height of the map, in pixels.  Defaults to 400.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.openlayers_url">
+<code class="descname">openlayers_url</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.openlayers_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Link to the URL of the OpenLayers JavaScript.  Defaults to
+<code class="docutils literal"><span class="pre">'http://openlayers.org/api/2.11/OpenLayers.js'</span></code>.</p>
+<dl class="attribute">
+<dt id="django.contrib.gis.admin.GeoModelAdmin.modifiable">
+<code class="descname">modifiable</code><a class="headerlink" href="#django.contrib.gis.admin.GeoModelAdmin.modifiable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Defaults to <code class="docutils literal"><span class="pre">True</span></code>.  When set to <code class="docutils literal"><span class="pre">False</span></code>, disables editing of
+existing geometry fields in the admin.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is different from adding the geometry field to
+<a class="reference internal" href="../admin/index.html#django.contrib.admin.ModelAdmin.readonly_fields" title="django.contrib.admin.ModelAdmin.readonly_fields"><code class="xref py py-attr docutils literal"><span class="pre">readonly_fields</span></code></a>,
+which will only display the WKT of the geometry. Setting
+<code class="docutils literal"><span class="pre">modifiable=False</span></code>, actually displays the geometry in a map,
+but disables the ability to edit its vertices.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="osmgeoadmin">
+<h2><code class="docutils literal"><span class="pre">OSMGeoAdmin</span></code><a class="headerlink" href="#osmgeoadmin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="django.contrib.gis.admin.OSMGeoAdmin">
+<em class="property">class </em><code class="descname">OSMGeoAdmin</code><a class="headerlink" href="#django.contrib.gis.admin.OSMGeoAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of <a class="reference internal" href="#django.contrib.gis.admin.GeoModelAdmin" title="django.contrib.gis.admin.GeoModelAdmin"><code class="xref py py-class docutils literal"><span class="pre">GeoModelAdmin</span></code></a> that uses a spherical mercator projection
+with <a class="reference external" href="http://openstreetmap.org/">OpenStreetMap</a> street data tiles.
+See the <a class="reference internal" href="tutorial.html#osmgeoadmin-intro"><span>OSMGeoAdmin introduction</span></a>
+in the tutorial for a usage example.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="feeds.html" class="btn btn-neutral float-right" title="Geographic Feeds" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="commands.html" class="btn btn-neutral" title="GeoDjango Management Commands" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/contrib/gis/admin.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:20 GMT -->
+</html>

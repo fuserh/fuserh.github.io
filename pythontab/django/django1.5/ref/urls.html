@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/urls.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>django.conf.urls utility functions &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API 参考</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clickjacking.html">Clickjacking Protection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contrib/index.html"><code class="docutils literal"><span class="pre">contrib</span></code> packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html">django-admin.py and manage.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-admin.html#running-management-commands-from-your-code">Running management commands from your code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Django 异常</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files/index.html">File handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="middleware.html">Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models/index.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="request-response.html">Request and response objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template-response.html">TemplateResponse and SimpleTemplateResponse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates/index.html">Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unicode.html">Unicode data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urlresolvers.html"><code class="docutils literal"><span class="pre">django.core.urlresolvers</span></code> utility functions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#patterns">patterns()</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#url">url()</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#include">include()</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handler403">handler403</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handler404">handler404</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#handler500">handler500</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Django Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="validators.html">Validators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">API 参考</a> &raquo;</li>
+      
+    <li><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.conf.urls">
+<span id="django-conf-urls-utility-functions"></span><h1><code class="docutils literal"><span class="pre">django.conf.urls</span></code> utility functions<a class="headerlink" href="#module-django.conf.urls" title="Permalink to this headline">¶</a></h1>
+<div class="versionchanged">
+Starting with Django 1.4 functions <code class="docutils literal"><span class="pre">patterns</span></code>, <code class="docutils literal"><span class="pre">url</span></code>, <code class="docutils literal"><span class="pre">include</span></code> plus
+the <code class="docutils literal"><span class="pre">handler*</span></code> symbols described below live in the <code class="docutils literal"><span class="pre">django.conf.urls</span></code>
+module.<p>Until Django 1.3 they were located in <code class="docutils literal"><span class="pre">django.conf.urls.defaults</span></code>. You
+still can import them from there but it will be removed in Django 1.6.</p>
+</div>
+<div class="section" id="patterns">
+<h2>patterns()<a class="headerlink" href="#patterns" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django.conf.urls.patterns">
+<code class="descname">patterns</code><span class="sig-paren">(</span><em>prefix</em>, <em>pattern_description</em>, <em>...</em><span class="sig-paren">)</span><a class="headerlink" href="#django.conf.urls.patterns" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A function that takes a prefix, and an arbitrary number of URL patterns, and
+returns a list of URL patterns in the format Django needs.</p>
+<p>The first argument to <code class="docutils literal"><span class="pre">patterns()</span></code> is a string <code class="docutils literal"><span class="pre">prefix</span></code>. See
+<a class="reference internal" href="../topics/http/urls.html#urlpatterns-view-prefix"><span>The view prefix</span></a>.</p>
+<p>The remaining arguments should be tuples in this format:</p>
+<div class="highlight-python"><div class="highlight"><pre>(regular expression, Python callback function [, optional_dictionary [, optional_name]])
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">optional_dictionary</span></code> and <code class="docutils literal"><span class="pre">optional_name</span></code> parameters are described in
+<a class="reference internal" href="../topics/http/urls.html#views-extra-options"><span>Passing extra options to view functions</span></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Because <cite>patterns()</cite> is a function call, it accepts a maximum of 255
+arguments (URL patterns, in this case). This is a limit for all Python
+function calls. This is rarely a problem in practice, because you&#8217;ll
+typically structure your URL patterns modularly by using <cite>include()</cite>
+sections. However, on the off-chance you do hit the 255-argument limit,
+realize that <cite>patterns()</cite> returns a Python list, so you can split up the
+construction of the list.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="o">...</span>
+    <span class="p">)</span>
+<span class="n">urlpatterns</span> <span class="o">+=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="o">...</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p class="last">Python lists have unlimited size, so there&#8217;s no limit to how many URL
+patterns you can construct. The only limit is that you can only create 254
+at a time (the 255th argument is the initial prefix argument).</p>
+</div>
+</div>
+<div class="section" id="url">
+<h2>url()<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django.conf.urls.url">
+<code class="descname">url</code><span class="sig-paren">(</span><em>regex</em>, <em>view</em>, <em>kwargs=None</em>, <em>name=None</em>, <em>prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#django.conf.urls.url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>You can use the <code class="docutils literal"><span class="pre">url()</span></code> function, instead of a tuple, as an argument to
+<code class="docutils literal"><span class="pre">patterns()</span></code>. This is convenient if you want to specify a name without the
+optional extra arguments dictionary. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^index/$&#39;</span><span class="p">,</span> <span class="n">index_view</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;main-view&quot;</span><span class="p">),</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>This function takes five arguments, most of which are optional:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../topics/http/urls.html#naming-url-patterns"><span>Naming URL patterns</span></a> for why the <code class="docutils literal"><span class="pre">name</span></code>
+parameter is useful.</p>
+<p>The <code class="docutils literal"><span class="pre">prefix</span></code> parameter has the same meaning as the first argument to
+<code class="docutils literal"><span class="pre">patterns()</span></code> and is only relevant when you&#8217;re passing a string as the
+<code class="docutils literal"><span class="pre">view</span></code> parameter.</p>
+</div>
+<div class="section" id="include">
+<h2>include()<a class="headerlink" href="#include" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="django.conf.urls.include">
+<code class="descname">include</code><span class="sig-paren">(</span><em>module</em><span class="optional">[</span>, <em>namespace=None</em>, <em>app_name=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.conf.urls.include" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">include</code><span class="sig-paren">(</span><em>pattern_list</em><span class="sig-paren">)</span></dt>
+<dt>
+<code class="descname">include</code><span class="sig-paren">(</span><em>(pattern_list</em>, <em>app_namespace</em>, <em>instance_namespace)</em><span class="sig-paren">)</span></dt>
+<dd><p>A function that takes a full Python import path to another URLconf module
+that should be &#8220;included&#8221; in this place. Optionally, the <a class="reference internal" href="../topics/http/urls.html#term-application-namespace"><span class="xref std std-term">application
+namespace</span></a> and <a class="reference internal" href="../topics/http/urls.html#term-instance-namespace"><span class="xref std std-term">instance namespace</span></a> where the entries will be included
+into can also be specified.</p>
+<p><code class="docutils literal"><span class="pre">include()</span></code> also accepts as an argument either an iterable that returns
+URL patterns or a 3-tuple containing such iterable plus the names of the
+application and instance namespaces.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>module</strong> &#8211; URLconf module (or module name)</li>
+<li><strong>namespace</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Instance namespace for the URL entries being included</li>
+<li><strong>app_name</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Application namespace for the URL entries being included</li>
+<li><strong>pattern_list</strong> &#8211; Iterable of URL entries as returned by <a class="reference internal" href="#django.conf.urls.patterns" title="django.conf.urls.patterns"><code class="xref py py-func docutils literal"><span class="pre">patterns()</span></code></a></li>
+<li><strong>app_namespace</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Application namespace for the URL entries being included</li>
+<li><strong>instance_namespace</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Instance namespace for the URL entries being included</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>See <a class="reference internal" href="../topics/http/urls.html#including-other-urlconfs"><span>Including other URLconfs</span></a> and <a class="reference internal" href="../topics/http/urls.html#namespaces-and-include"><span>URL namespaces and included URLconfs</span></a>.</p>
+</div>
+<div class="section" id="handler403">
+<h2>handler403<a class="headerlink" href="#handler403" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.conf.urls.handler403">
+<code class="descname">handler403</code><a class="headerlink" href="#django.conf.urls.handler403" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A callable, or a string representing the full Python import path to the view
+that should be called if the user doesn&#8217;t have the permissions required to
+access a resource.</p>
+<p>By default, this is <code class="docutils literal"><span class="pre">'django.views.defaults.permission_denied'</span></code>. That default
+value should suffice.</p>
+<p>See the documentation about <a class="reference internal" href="../topics/http/views.html#http-forbidden-view"><span>the 403 (HTTP Forbidden) view</span></a> for more information.</p>
+<div class="versionadded">
+<code class="docutils literal"><span class="pre">handler403</span></code> is new in Django 1.4.</div>
+</div>
+<div class="section" id="handler404">
+<h2>handler404<a class="headerlink" href="#handler404" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.conf.urls.handler404">
+<code class="descname">handler404</code><a class="headerlink" href="#django.conf.urls.handler404" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A callable, or a string representing the full Python import path to the view
+that should be called if none of the URL patterns match.</p>
+<p>By default, this is <code class="docutils literal"><span class="pre">'django.views.defaults.page_not_found'</span></code>. That default
+value should suffice.</p>
+<p>See the documentation about <a class="reference internal" href="../topics/http/views.html#http-not-found-view"><span>the 404 (HTTP Not Found) view</span></a> for more information.</p>
+</div>
+<div class="section" id="handler500">
+<h2>handler500<a class="headerlink" href="#handler500" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="django.conf.urls.handler500">
+<code class="descname">handler500</code><a class="headerlink" href="#django.conf.urls.handler500" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>A callable, or a string representing the full Python import path to the view
+that should be called in case of server errors. Server errors happen when you
+have runtime errors in view code.</p>
+<p>By default, this is <code class="docutils literal"><span class="pre">'django.views.defaults.server_error'</span></code>. That default
+value should suffice.</p>
+<p>See the documentation about <a class="reference internal" href="../topics/http/views.html#http-internal-server-error-view"><span>the 500 (HTTP Internal Server Error) view</span></a> for more information.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utils.html" class="btn btn-neutral float-right" title="Django Utils" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="urlresolvers.html" class="btn btn-neutral" title="django.core.urlresolvers utility functions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/ref/urls.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>
