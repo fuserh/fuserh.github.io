@@ -1,0 +1,1320 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>模型 &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Models and databases</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">模型</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">例子</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">使用模型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">字段</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#meta-options">Meta options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-methods">Model methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-inheritance">Model inheritance</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="queries.html">Making queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregation.html">Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managers.html">Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sql.html">Performing raw SQL queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="transactions.html">Managing database transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multi-db.html">Multiple databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tablespaces.html">Tablespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimization.html">Database access optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/index.html">Examples of model relationship API usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Models and databases</a> &raquo;</li>
+      
+    <li>模型</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.db.models">
+<span id="id1"></span><h1>模型<a class="headerlink" href="#module-django.db.models" title="Permalink to this headline">¶</a></h1>
+<p>一个模型（model）是单一的，与数据库相关的数据源。它包含了存储数据必需的字段和行为。一般情况下，每个模型映射一个单独的数据库表。</p>
+<p>基础知识：</p>
+<ul class="simple">
+<li>每个模型是 <a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model" title="django.db.models.Model"><code class="xref py py-class docutils literal"><span class="pre">django.db.models.Model</span></code></a> 的一个Python子类。</li>
+<li>该模型的每个属性都代表一个数据库字段。</li>
+<li>有了这一切，Django给你自动生成数据库的访问API；详见 <a class="reference internal" href="queries.html"><em>Making queries</em></a>。</li>
+</ul>
+<div class="section" id="id2">
+<h2>例子<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>这个模型例子定义一个 <code class="docutils literal"><span class="pre">Person</span></code> ，其中包含 <code class="docutils literal"><span class="pre">first_name</span></code> 和 <code class="docutils literal"><span class="pre">last_name</span></code> 两个字段:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">first_name</span></code> 和 <code class="docutils literal"><span class="pre">last_name</span></code> 是模型的字段 <a href="#id15"><span class="problematic" id="id16">fields_</span></a> 。 每个字段被指定为一个类的属性，
+每个属性映射到一个数据库列。</p>
+<p>上面 <code class="docutils literal"><span class="pre">Person</span></code> 的模型将会创建如下的数据表:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">myapp_person</span> <span class="p">(</span>
+    <span class="ss">&quot;id&quot;</span> <span class="nb">serial</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+    <span class="ss">&quot;first_name&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="ss">&quot;last_name&quot;</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>一些技术说明：</p>
+<ul class="simple">
+<li>数据表名 <code class="docutils literal"><span class="pre">myapp_person</span></code> 是根据模型的元数据生成，但可以进行自定义。详见表名 <a class="reference internal" href="../../ref/models/options.html#table-names"><span>Table names</span></a> 了解更多</li>
+<li><code class="docutils literal"><span class="pre">id</span></code> 字段是自动添加的，但这一行为也可以被覆盖，详见：自动主键字段 <a class="reference internal" href="#automatic-primary-key-fields"><span>自增主键字段</span></a> 。</li>
+<li>在这个例子中 <code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code> 的SQL语句使用的是PostgreSQL的语法格式，但值得注意的是，Django将根据你
+设置文件 <a class="reference internal" href="../settings.html"><em>settings file</em></a> 中指定的数据库后端生成相应的SQL语句。</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>使用模型<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>一旦你定义好你的模型，你需要告诉Django你将要使用这些模型。这可以通过编辑您设置文件settings，
+在 <a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> 添加该模型所在模块的名称。</p>
+<p>例如，如果你应用的模型在 <code class="docutils literal"><span class="pre">myapp.models</span></code> 模块中（应用的包结构是通过 <a class="reference internal" href="../../ref/django-admin.html#django-admin-startapp"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">startapp</span></code></a> 创建），
+那么 <a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> 添加的部分内容如下:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c">#...</span>
+    <span class="s">&#39;myapp&#39;</span><span class="p">,</span>
+    <span class="c">#...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>当你向 <a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a> 中添加了内容，那么必须运行 <a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code></a> 更新数据库结构。</p>
+</div>
+<div class="section" id="id4">
+<h2>字段<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>模型最重要也是最需要的就是自定义的数据库字段列表。字段是该类的特殊属性。
+不要选择与 <a class="reference internal" href="../../ref/models/instances.html"><em>models API</em></a> 冲突的名字命名字段。
+例如： <code class="docutils literal"><span class="pre">clean</span></code> , <code class="docutils literal"><span class="pre">save</span></code> , <code class="docutils literal"><span class="pre">delete</span></code></p>
+<p>例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Musician</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">instrument</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Album</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">artist</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Musician</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">release_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">num_stars</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h3>字段类型<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>模型中的每个字段都是相应字段类型 <a class="reference internal" href="../../howto/custom-model-fields.html#django.db.models.Field" title="django.db.models.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> 的实例。Django使用该字段类型确定一些事情。</p>
+<ul class="simple">
+<li>数据库的字段类型（如： <code class="docutils literal"><span class="pre">INTEGER</span></code>, <code class="docutils literal"><span class="pre">VARCHAR</span></code> ）.</li>
+<li>用于渲染表单字段的小部件 <a class="reference internal" href="../../ref/forms/widgets.html"><em>widget</em></a> （如： <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;text&quot;&gt;</span></code>, <code class="docutils literal"><span class="pre">&lt;select&gt;</span></code> ）。</li>
+<li>用于Django管理后台和自动生成表单的最小验证需求。</li>
+</ul>
+<p>可以从 <a class="reference internal" href="../../ref/models/fields.html#model-field-types"><span>model field reference</span></a> 里面查到Django的全部字段类型列表。
+如果Django的内置字段类型不能满足需求，可以参阅 <a class="reference internal" href="../../howto/custom-model-fields.html"><em>Writing custom model fields</em></a> 编写自己的字段类型。</p>
+</div>
+<div class="section" id="id6">
+<h3>字段选项<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>每个字段类型都有一些特定的设置参数（参考 <a class="reference internal" href="../../ref/models/fields.html#model-field-types"><span>model field reference</span></a> ）。
+例如， <a class="reference internal" href="../../ref/models/fields.html#django.db.models.CharField" title="django.db.models.CharField"><code class="xref py py-class docutils literal"><span class="pre">CharField</span></code></a> （和它的子类）
+需要一个 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.CharField.max_length" title="django.db.models.CharField.max_length"><code class="xref py py-attr docutils literal"><span class="pre">max_length</span></code></a> 的参数，用于指明储存于数据库 <code class="docutils literal"><span class="pre">VARCHAR</span></code> 字段内的数据最大长度。</p>
+<p>还有提供给所有字段类型的常见参数，这些都是可选的。
+详情可查看 <a class="reference internal" href="../../ref/models/fields.html#common-model-field-options"><span>reference</span></a> 。这里总结一下经常使用的通用参数：</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.null" title="django.db.models.Field.null"><code class="xref py py-attr docutils literal"><span class="pre">null</span></code></a></dt>
+<dd>如果为 <code class="docutils literal"><span class="pre">True</span></code> ，Django将在数据库中存储一个空值 <code class="docutils literal"><span class="pre">NULL</span></code> 。默认为 <code class="docutils literal"><span class="pre">False</span></code> 。</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.blank" title="django.db.models.Field.blank"><code class="xref py py-attr docutils literal"><span class="pre">blank</span></code></a></dt>
+<dd><p class="first">如果为 <code class="docutils literal"><span class="pre">True</span></code> ，则允许该字段为空白。默认为 <code class="docutils literal"><span class="pre">False</span></code> 。</p>
+<p class="last">注意，该项与  <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.null" title="django.db.models.Field.null"><code class="xref py py-attr docutils literal"><span class="pre">null</span></code></a> 是不同的， <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.null" title="django.db.models.Field.null"><code class="xref py py-attr docutils literal"><span class="pre">null</span></code></a> 纯粹是与数据库相关的。
+而 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.blank" title="django.db.models.Field.blank"><code class="xref py py-attr docutils literal"><span class="pre">blank</span></code></a> 则与验证相关。如果一个字段设置为 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.blank" title="django.db.models.Field.blank"><code class="xref py py-attr docutils literal"><span class="pre">blank=True</span></code></a> ，
+表单验证时允许输入一个空值。而 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.blank" title="django.db.models.Field.blank"><code class="xref py py-attr docutils literal"><span class="pre">blank=False</span></code></a> ，则该项必需输入数据。</p>
+</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.choices" title="django.db.models.Field.choices"><code class="xref py py-attr docutils literal"><span class="pre">choices</span></code></a></dt>
+<dd><p class="first">对于拥有两个或以上选项的字段使用choices。默认给出的表单项是下拉选择框而不是文本框或其他。</p>
+<p>下面是一个choices列表的例子:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">YEAR_IN_SCHOOL_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">&#39;FR&#39;</span><span class="p">,</span> <span class="s">&#39;Freshman&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;SO&#39;</span><span class="p">,</span> <span class="s">&#39;Sophomore&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;JR&#39;</span><span class="p">,</span> <span class="s">&#39;Junior&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;SR&#39;</span><span class="p">,</span> <span class="s">&#39;Senior&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">&#39;GR&#39;</span><span class="p">,</span> <span class="s">&#39;Graduate&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>每个元组的第一个元素的值将被存储在数据库中，第二个元素的值将被显示在下拉列表中。
+实例中，选择对象的显示值可以使用 <code class="docutils literal"><span class="pre">get_FOO_display</span></code> 方法获得。例如:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">SHIRT_SIZES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;S&#39;</span><span class="p">,</span> <span class="s">&#39;Small&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;M&#39;</span><span class="p">,</span> <span class="s">&#39;Medium&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="s">&#39;Large&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">shirt_size</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">SHIRT_SIZES</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Fred Flintstone&quot;</span><span class="p">,</span> <span class="n">shirt_size</span><span class="o">=</span><span class="s">&quot;L&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">shirt_size</span>
+<span class="go">u&#39;L&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">get_shirt_size_display</span><span class="p">()</span>
+<span class="go">u&#39;Large&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.default" title="django.db.models.Field.default"><code class="xref py py-attr docutils literal"><span class="pre">default</span></code></a></dt>
+<dd>该字段的默认值。可以是一个值也可是一个可调用对象。如果是调用对象，则每次都创建一个新的对象。</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.help_text" title="django.db.models.Field.help_text"><code class="xref py py-attr docutils literal"><span class="pre">help_text</span></code></a></dt>
+<dd>表单控件上显示额外的“帮助”文本。这是一种很有用的文档，当然，你也可以不使用他。</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key</span></code></a></dt>
+<dd><p class="first">如果为 <code class="docutils literal"><span class="pre">True</span></code> ，则该字段是模型的主键。</p>
+<p class="last">如果不指定你模型中的某个字段为 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key=True</span></code></a> ，Django将自动创建一个 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.IntegerField" title="django.db.models.IntegerField"><code class="xref py py-class docutils literal"><span class="pre">IntegerField</span></code></a> 类型字段作为主键。
+所以不需要设置任何字段 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key=True</span></code></a> ，除非想覆盖默认的主键字段。更多详情请参阅 <a class="reference internal" href="#automatic-primary-key-fields"><span>自增主键字段</span></a></p>
+</dd>
+<dt><a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.unique" title="django.db.models.Field.unique"><code class="xref py py-attr docutils literal"><span class="pre">unique</span></code></a></dt>
+<dd>如果为 <code class="docutils literal"><span class="pre">True</span></code> ，该字段必需是整个表中唯一的。</dd>
+</dl>
+<p>这些都是这些字段的简短描述，详情可参阅 <a class="reference internal" href="../../ref/models/fields.html#common-model-field-options"><span>common model field option reference</span></a> 。</p>
+</div>
+<div class="section" id="automatic-primary-key-fields">
+<span id="id7"></span><h3>自增主键字段<a class="headerlink" href="#automatic-primary-key-fields" title="Permalink to this headline">¶</a></h3>
+<p>默认情况下，Django为每个模型添加下面的字段:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">AutoField</span><span class="p">(</span><span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这是一个自动递增的主键。</p>
+<p>如果你想指定一个自定义主键，只需在该字段中添加 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key=True</span></code></a> 即可。如果你设置了 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">Field.primary_key</span></code></a>
+则Django不会再增加 <code class="docutils literal"><span class="pre">id</span></code> 列。</p>
+<p>每个模型都需要拥有一个 <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key=True</span></code></a> 字段。</p>
+</div>
+<div class="section" id="verbose-field-names">
+<span id="id8"></span><h3>Verbose field names<a class="headerlink" href="#verbose-field-names" title="Permalink to this headline">¶</a></h3>
+<p>Each field type, except for <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a>,
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> and
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a>, takes an optional first positional
+argument &#8211; a verbose name. If the verbose name isn&#8217;t given, Django will
+automatically create it using the field&#8217;s attribute name, converting underscores
+to spaces.</p>
+<p>In this example, the verbose name is <code class="docutils literal"><span class="pre">&quot;person's</span> <span class="pre">first</span> <span class="pre">name&quot;</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s">&quot;person&#39;s first name&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the verbose name is <code class="docutils literal"><span class="pre">&quot;first</span> <span class="pre">name&quot;</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a>,
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> and
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> require the first argument to be a
+model class, so use the <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.verbose_name" title="django.db.models.Field.verbose_name"><code class="xref py py-attr docutils literal"><span class="pre">verbose_name</span></code></a> keyword argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">poll</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Poll</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;the related poll&quot;</span><span class="p">)</span>
+<span class="n">sites</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Site</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;list of sites&quot;</span><span class="p">)</span>
+<span class="n">place</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;related place&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The convention is not to capitalize the first letter of the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.verbose_name" title="django.db.models.Field.verbose_name"><code class="xref py py-attr docutils literal"><span class="pre">verbose_name</span></code></a>. Django will automatically capitalize the first
+letter where it needs to.</p>
+</div>
+<div class="section" id="relationships">
+<h3>Relationships<a class="headerlink" href="#relationships" title="Permalink to this headline">¶</a></h3>
+<p>Clearly, the power of relational databases lies in relating tables to each
+other. Django offers ways to define the three most common types of database
+relationships: many-to-one, many-to-many and one-to-one.</p>
+<div class="section" id="many-to-one-relationships">
+<h4>Many-to-one relationships<a class="headerlink" href="#many-to-one-relationships" title="Permalink to this headline">¶</a></h4>
+<p>To define a many-to-one relationship, use <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">django.db.models.ForeignKey</span></code></a>.
+You use it just like any other <a class="reference internal" href="../../howto/custom-model-fields.html#django.db.models.Field" title="django.db.models.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> type: by
+including it as a class attribute of your model.</p>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> requires a positional argument: the class
+to which the model is related.</p>
+<p>For example, if a <code class="docutils literal"><span class="pre">Car</span></code> model has a <code class="docutils literal"><span class="pre">Manufacturer</span></code> &#8211; that is, a
+<code class="docutils literal"><span class="pre">Manufacturer</span></code> makes multiple cars but each <code class="docutils literal"><span class="pre">Car</span></code> only has one
+<code class="docutils literal"><span class="pre">Manufacturer</span></code> &#8211; use the following definitions:</p>
+<div class="highlight-python"><div class="highlight"><pre>class Manufacturer(models.Model):
+    # ...
+
+class Car(models.Model):
+    manufacturer = models.ForeignKey(Manufacturer)
+    # ...
+</pre></div>
+</div>
+<p>You can also create <a class="reference internal" href="../../ref/models/fields.html#recursive-relationships"><span>recursive relationships</span></a> (an
+object with a many-to-one relationship to itself) and <a class="reference internal" href="../../ref/models/fields.html#lazy-relationships"><span>relationships to
+models not yet defined</span></a>; see <a class="reference internal" href="../../ref/models/fields.html#ref-foreignkey"><span>the model field
+reference</span></a> for details.</p>
+<p>It&#8217;s suggested, but not required, that the name of a
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> field (<code class="docutils literal"><span class="pre">manufacturer</span></code> in the example
+above) be the name of the model, lowercase. You can, of course, call the field
+whatever you want. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">company_that_makes_it</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Manufacturer</span><span class="p">)</span>
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> fields accept a number of extra
+arguments which are explained in <a class="reference internal" href="../../ref/models/fields.html#foreign-key-arguments"><span>the model field reference</span></a>. These options help define how the relationship
+should work; all are optional.</p>
+<p>For details on accessing backwards-related objects, see the
+<a class="reference internal" href="queries.html#backwards-related-objects"><span>Following relationships backward example</span></a>.</p>
+<p class="last">For sample code, see the <a class="reference internal" href="examples/many_to_one.html"><em>Many-to-one relationship model example</em></a>.</p>
+</div>
+</div>
+<div class="section" id="many-to-many-relationships">
+<h4>Many-to-many relationships<a class="headerlink" href="#many-to-many-relationships" title="Permalink to this headline">¶</a></h4>
+<p>To define a many-to-many relationship, use
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a>. You use it just like any other
+<a class="reference internal" href="../../howto/custom-model-fields.html#django.db.models.Field" title="django.db.models.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> type: by including it as a class attribute of
+your model.</p>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> requires a positional argument: the
+class to which the model is related.</p>
+<p>For example, if a <code class="docutils literal"><span class="pre">Pizza</span></code> has multiple <code class="docutils literal"><span class="pre">Topping</span></code> objects &#8211; that is, a
+<code class="docutils literal"><span class="pre">Topping</span></code> can be on multiple pizzas and each <code class="docutils literal"><span class="pre">Pizza</span></code> has multiple toppings
+&#8211; here&#8217;s how you&#8217;d represent that:</p>
+<div class="highlight-python"><div class="highlight"><pre>class Topping(models.Model):
+    # ...
+
+class Pizza(models.Model):
+    # ...
+    toppings = models.ManyToManyField(Topping)
+</pre></div>
+</div>
+<p>As with <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a>, you can also create
+<a class="reference internal" href="../../ref/models/fields.html#recursive-relationships"><span>recursive relationships</span></a> (an object with a
+many-to-many relationship to itself) and <a class="reference internal" href="../../ref/models/fields.html#lazy-relationships"><span>relationships to models not yet
+defined</span></a>; see <a class="reference internal" href="../../ref/models/fields.html#ref-manytomany"><span>the model field reference</span></a> for details.</p>
+<p>It&#8217;s suggested, but not required, that the name of a
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> (<code class="docutils literal"><span class="pre">toppings</span></code> in the example above)
+be a plural describing the set of related model objects.</p>
+<p>It doesn&#8217;t matter which model has the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a>, but you should only put it in one
+of the models &#8211; not both.</p>
+<p>Generally, <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> instances should go in
+the object that&#8217;s going to be edited on a form. In the above example,
+<code class="docutils literal"><span class="pre">toppings</span></code> is in <code class="docutils literal"><span class="pre">Pizza</span></code> (rather than <code class="docutils literal"><span class="pre">Topping</span></code> having a <code class="docutils literal"><span class="pre">pizzas</span></code>
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> ) because it&#8217;s more natural to think
+about a pizza having toppings than a topping being on multiple pizzas. The way
+it&#8217;s set up above, the <code class="docutils literal"><span class="pre">Pizza</span></code> form would let users select the toppings.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">See the <a class="reference internal" href="examples/many_to_many.html"><em>Many-to-many relationship model example</em></a> for a full example.</p>
+</div>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> fields also accept a number of
+extra arguments which are explained in <a class="reference internal" href="../../ref/models/fields.html#manytomany-arguments"><span>the model field reference</span></a>. These options help define how the relationship
+should work; all are optional.</p>
+</div>
+<div class="section" id="extra-fields-on-many-to-many-relationships">
+<span id="intermediary-manytomany"></span><h4>Extra fields on many-to-many relationships<a class="headerlink" href="#extra-fields-on-many-to-many-relationships" title="Permalink to this headline">¶</a></h4>
+<p>When you&#8217;re only dealing with simple many-to-many relationships such as
+mixing and matching pizzas and toppings, a standard
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> is all you need. However, sometimes
+you may need to associate data with the relationship between two models.</p>
+<p>For example, consider the case of an application tracking the musical groups
+which musicians belong to. There is a many-to-many relationship between a person
+and the groups of which they are a member, so you could use a
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> to represent this relationship.
+However, there is a lot of detail about the membership that you might want to
+collect, such as the date at which the person joined the group.</p>
+<p>For these situations, Django allows you to specify the model that will be used
+to govern the many-to-many relationship. You can then put extra fields on the
+intermediate model. The intermediate model is associated with the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> using the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField.through" title="django.db.models.ManyToManyField.through"><code class="xref py py-attr docutils literal"><span class="pre">through</span></code></a> argument to point to the model
+that will act as an intermediary. For our musician example, the code would look
+something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+    <span class="n">members</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">through</span><span class="o">=</span><span class="s">&#39;Membership&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Membership</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Person</span><span class="p">)</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Group</span><span class="p">)</span>
+    <span class="n">date_joined</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">invite_reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you set up the intermediary model, you explicitly specify foreign
+keys to the models that are involved in the ManyToMany relation. This
+explicit declaration defines how the two models are related.</p>
+<p>There are a few restrictions on the intermediate model:</p>
+<ul class="simple">
+<li>Your intermediate model must contain one - and <em>only</em> one - foreign key
+to the target model (this would be <code class="docutils literal"><span class="pre">Person</span></code> in our example). If you
+have more than one foreign key, a validation error will be raised.</li>
+<li>Your intermediate model must contain one - and <em>only</em> one - foreign key
+to the source model (this would be <code class="docutils literal"><span class="pre">Group</span></code> in our example). If you
+have more than one foreign key, a validation error will be raised.</li>
+<li>The only exception to this is a model which has a many-to-many
+relationship to itself, through an intermediary model. In this
+case, two foreign keys to the same model are permitted, but they
+will be treated as the two (different) sides of the many-to-many
+relation.</li>
+<li>When defining a many-to-many relationship from a model to
+itself, using an intermediary model, you <em>must</em> use
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField.symmetrical" title="django.db.models.ManyToManyField.symmetrical"><code class="xref py py-attr docutils literal"><span class="pre">symmetrical=False</span></code></a> (see
+<a class="reference internal" href="../../ref/models/fields.html#manytomany-arguments"><span>the model field reference</span></a>).</li>
+</ul>
+<p>Now that you have set up your <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> to use
+your intermediary model (<code class="docutils literal"><span class="pre">Membership</span></code>, in this case), you&#8217;re ready to start
+creating some many-to-many relationships. You do this by creating instances of
+the intermediate model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ringo</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Ringo Starr&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">paul</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Paul McCartney&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beatles</span> <span class="o">=</span> <span class="n">Group</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;The Beatles&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span> <span class="o">=</span> <span class="n">Membership</span><span class="p">(</span><span class="n">person</span><span class="o">=</span><span class="n">ringo</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">beatles</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">date_joined</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">1962</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">invite_reason</span><span class="o">=</span> <span class="s">&quot;Needed a new drummer.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beatles</span><span class="o">.</span><span class="n">members</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Person: Ringo Starr&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ringo</span><span class="o">.</span><span class="n">group_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Group: The Beatles&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m2</span> <span class="o">=</span> <span class="n">Membership</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">person</span><span class="o">=</span><span class="n">paul</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">beatles</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">date_joined</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">1960</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">invite_reason</span><span class="o">=</span> <span class="s">&quot;Wanted to form a band.&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beatles</span><span class="o">.</span><span class="n">members</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Person: Ringo Starr&gt;, &lt;Person: Paul McCartney&gt;]</span>
+</pre></div>
+</div>
+<p>Unlike normal many-to-many fields, you <em>can&#8217;t</em> use <code class="docutils literal"><span class="pre">add</span></code>, <code class="docutils literal"><span class="pre">create</span></code>,
+or assignment (i.e., <code class="docutils literal"><span class="pre">beatles.members</span> <span class="pre">=</span> <span class="pre">[...]</span></code>) to create relationships:</p>
+<div class="highlight-python"><div class="highlight"><pre># THIS WILL NOT WORK
+&gt;&gt;&gt; beatles.members.add(john)
+# NEITHER WILL THIS
+&gt;&gt;&gt; beatles.members.create(name=&quot;George Harrison&quot;)
+# AND NEITHER WILL THIS
+&gt;&gt;&gt; beatles.members = [john, paul, ringo, george]
+</pre></div>
+</div>
+<p>Why? You can&#8217;t just create a relationship between a <code class="docutils literal"><span class="pre">Person</span></code> and a <code class="docutils literal"><span class="pre">Group</span></code>
+- you need to specify all the detail for the relationship required by the
+<code class="docutils literal"><span class="pre">Membership</span></code> model. The simple <code class="docutils literal"><span class="pre">add</span></code>, <code class="docutils literal"><span class="pre">create</span></code> and assignment calls
+don&#8217;t provide a way to specify this extra detail. As a result, they are
+disabled for many-to-many relationships that use an intermediate model.
+The only way to create this type of relationship is to create instances of the
+intermediate model.</p>
+<p>The <a class="reference internal" href="../../ref/models/relations.html#django.db.models.fields.related.RelatedManager.remove" title="django.db.models.fields.related.RelatedManager.remove"><code class="xref py py-meth docutils literal"><span class="pre">remove()</span></code></a> method is
+disabled for similar reasons. However, the
+<a class="reference internal" href="../../ref/models/relations.html#django.db.models.fields.related.RelatedManager.clear" title="django.db.models.fields.related.RelatedManager.clear"><code class="xref py py-meth docutils literal"><span class="pre">clear()</span></code></a> method can be
+used to remove all many-to-many relationships for an instance:</p>
+<div class="highlight-python"><div class="highlight"><pre># Beatles have broken up
+&gt;&gt;&gt; beatles.members.clear()
+</pre></div>
+</div>
+<p>Once you have established the many-to-many relationships by creating instances
+of your intermediate model, you can issue queries. Just as with normal
+many-to-many relationships, you can query using the attributes of the
+many-to-many-related model:</p>
+<div class="highlight-python"><div class="highlight"><pre># Find all the groups with a member whose name starts with &#39;Paul&#39;
+&gt;&gt;&gt; Group.objects.filter(members__name__startswith=&#39;Paul&#39;)
+[&lt;Group: The Beatles&gt;]
+</pre></div>
+</div>
+<p>As you are using an intermediate model, you can also query on its attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre># Find all the members of the Beatles that joined after 1 Jan 1961
+&gt;&gt;&gt; Person.objects.filter(
+...     group__name=&#39;The Beatles&#39;,
+...     membership__date_joined__gt=date(1961,1,1))
+[&lt;Person: Ringo Starr]
+</pre></div>
+</div>
+<p>If you need to access a membership&#8217;s information you may do so by directly
+querying the <code class="docutils literal"><span class="pre">Membership</span></code> model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span> <span class="o">=</span> <span class="n">Membership</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">beatles</span><span class="p">,</span> <span class="n">person</span><span class="o">=</span><span class="n">ringo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span><span class="o">.</span><span class="n">date_joined</span>
+<span class="go">datetime.date(1962, 8, 16)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span><span class="o">.</span><span class="n">invite_reason</span>
+<span class="go">u&#39;Needed a new drummer.&#39;</span>
+</pre></div>
+</div>
+<p>Another way to access the same information is by querying the
+<a class="reference internal" href="queries.html#m2m-reverse-relationships"><span>many-to-many reverse relationship</span></a> from a
+<code class="docutils literal"><span class="pre">Person</span></code> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span> <span class="o">=</span> <span class="n">ringo</span><span class="o">.</span><span class="n">membership_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">beatles</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span><span class="o">.</span><span class="n">date_joined</span>
+<span class="go">datetime.date(1962, 8, 16)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ringos_membership</span><span class="o">.</span><span class="n">invite_reason</span>
+<span class="go">u&#39;Needed a new drummer.&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="one-to-one-relationships">
+<h4>One-to-one relationships<a class="headerlink" href="#one-to-one-relationships" title="Permalink to this headline">¶</a></h4>
+<p>To define a one-to-one relationship, use
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a>. You use it just like any other
+<code class="docutils literal"><span class="pre">Field</span></code> type: by including it as a class attribute of your model.</p>
+<p>This is most useful on the primary key of an object when that object &#8220;extends&#8221;
+another object in some way.</p>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> requires a positional argument: the
+class to which the model is related.</p>
+<p>For example, if you were building a database of &#8220;places&#8221;, you would
+build pretty standard stuff such as address, phone number, etc. in the
+database. Then, if you wanted to build a database of restaurants on
+top of the places, instead of repeating yourself and replicating those
+fields in the <code class="docutils literal"><span class="pre">Restaurant</span></code> model, you could make <code class="docutils literal"><span class="pre">Restaurant</span></code> have
+a <a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> to <code class="docutils literal"><span class="pre">Place</span></code> (because a
+restaurant &#8220;is a&#8221; place; in fact, to handle this you&#8217;d typically use
+<a class="reference internal" href="#model-inheritance"><span>inheritance</span></a>, which involves an implicit
+one-to-one relation).</p>
+<p>As with <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a>, a
+<a class="reference internal" href="../../ref/models/fields.html#recursive-relationships"><span>recursive relationship</span></a>
+can be defined and
+<a class="reference internal" href="../../ref/models/fields.html#lazy-relationships"><span>references to as-yet undefined models</span></a>
+can be made; see <a class="reference internal" href="../../ref/models/fields.html#ref-onetoone"><span>the model field reference</span></a> for details.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">See the <a class="reference internal" href="examples/one_to_one.html"><em>One-to-one relationship model example</em></a> for a full example.</p>
+</div>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> fields also accept one specific,
+optional <code class="docutils literal"><span class="pre">parent_link</span></code> argument described in the <a class="reference internal" href="../../ref/models/fields.html#ref-onetoone"><span>model field
+reference</span></a>.</p>
+<p><a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> classes used to automatically become
+the primary key on a model. This is no longer true (although you can manually
+pass in the <a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.primary_key" title="django.db.models.Field.primary_key"><code class="xref py py-attr docutils literal"><span class="pre">primary_key</span></code></a> argument if you like).
+Thus, it&#8217;s now possible to have multiple fields of type
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> on a single model.</p>
+</div>
+</div>
+<div class="section" id="models-across-files">
+<h3>Models across files<a class="headerlink" href="#models-across-files" title="Permalink to this headline">¶</a></h3>
+<p>It&#8217;s perfectly OK to relate a model to one from another app. To do this, import
+the related model at the top of the file where your model is defined. Then,
+just refer to the other model class wherever needed. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">geography.models</span> <span class="kn">import</span> <span class="n">ZipCode</span>
+
+<span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c"># ...</span>
+    <span class="n">zip_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ZipCode</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="field-name-restrictions">
+<h3>Field name restrictions<a class="headerlink" href="#field-name-restrictions" title="Permalink to this headline">¶</a></h3>
+<p>Django places only two restrictions on model field names:</p>
+<ol class="arabic">
+<li><p class="first">A field name cannot be a Python reserved word, because that would result
+in a Python syntax error. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>class Example(models.Model):
+    pass = models.IntegerField() # &#39;pass&#39; is a reserved word!
+</pre></div>
+</div>
+</li>
+<li><p class="first">A field name cannot contain more than one underscore in a row, due to
+the way Django&#8217;s query lookup syntax works. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">foo__bar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span> <span class="c"># &#39;foo__bar&#39; has two underscores!</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>These limitations can be worked around, though, because your field name doesn&#8217;t
+necessarily have to match your database column name. See the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.Field.db_column" title="django.db.models.Field.db_column"><code class="xref py py-attr docutils literal"><span class="pre">db_column</span></code></a> option.</p>
+<p>SQL reserved words, such as <code class="docutils literal"><span class="pre">join</span></code>, <code class="docutils literal"><span class="pre">where</span></code> or <code class="docutils literal"><span class="pre">select</span></code>, <em>are</em> allowed as
+model field names, because Django escapes all database table names and column
+names in every underlying SQL query. It uses the quoting syntax of your
+particular database engine.</p>
+</div>
+<div class="section" id="custom-field-types">
+<h3>Custom field types<a class="headerlink" href="#custom-field-types" title="Permalink to this headline">¶</a></h3>
+<p>If one of the existing model fields cannot be used to fit your purposes, or if
+you wish to take advantage of some less common database column types, you can
+create your own field class. Full coverage of creating your own fields is
+provided in <a class="reference internal" href="../../howto/custom-model-fields.html"><em>Writing custom model fields</em></a>.</p>
+</div>
+</div>
+<div class="section" id="meta-options">
+<span id="id9"></span><h2>Meta options<a class="headerlink" href="#meta-options" title="Permalink to this headline">¶</a></h2>
+<p>Give your model metadata by using an inner <code class="docutils literal"><span class="pre">class</span> <span class="pre">Meta</span></code>, like so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Ox</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">horn_length</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;horn_length&quot;</span><span class="p">]</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;oxen&quot;</span>
+</pre></div>
+</div>
+<p>Model metadata is &#8220;anything that&#8217;s not a field&#8221;, such as ordering options
+(<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.ordering" title="django.db.models.Options.ordering"><code class="xref py py-attr docutils literal"><span class="pre">ordering</span></code></a>), database table name (<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.db_table" title="django.db.models.Options.db_table"><code class="xref py py-attr docutils literal"><span class="pre">db_table</span></code></a>), or
+human-readable singular and plural names (<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.verbose_name" title="django.db.models.Options.verbose_name"><code class="xref py py-attr docutils literal"><span class="pre">verbose_name</span></code></a> and
+<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.verbose_name_plural" title="django.db.models.Options.verbose_name_plural"><code class="xref py py-attr docutils literal"><span class="pre">verbose_name_plural</span></code></a>). None are required, and adding <code class="docutils literal"><span class="pre">class</span>
+<span class="pre">Meta</span></code> to a model is completely optional.</p>
+<p>A complete list of all possible <code class="docutils literal"><span class="pre">Meta</span></code> options can be found in the <a class="reference internal" href="../../ref/models/options.html"><em>model
+option reference</em></a>.</p>
+</div>
+<div class="section" id="model-methods">
+<span id="id10"></span><h2>Model methods<a class="headerlink" href="#model-methods" title="Permalink to this headline">¶</a></h2>
+<p>Define custom methods on a model to add custom &#8220;row-level&#8221; functionality to your
+objects. Whereas <a class="reference internal" href="managers.html#django.db.models.Manager" title="django.db.models.Manager"><code class="xref py py-class docutils literal"><span class="pre">Manager</span></code></a> methods are intended to do
+&#8220;table-wide&#8221; things, model methods should act on a particular model instance.</p>
+<p>This is a valuable technique for keeping business logic in one place &#8211; the
+model.</p>
+<p>For example, this model has a few custom methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.localflavor.us.models</span> <span class="kn">import</span> <span class="n">USStateField</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">birth_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">USStateField</span><span class="p">()</span> <span class="c"># Yes, this is America-centric...</span>
+
+    <span class="k">def</span> <span class="nf">baby_boomer_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">&quot;Returns the person&#39;s baby-boomer status.&quot;</span>
+        <span class="kn">import</span> <span class="nn">datetime</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">birth_date</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1945</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&quot;Pre-boomer&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">birth_date</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1965</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&quot;Baby boomer&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;Post-boomer&quot;</span>
+
+    <span class="k">def</span> <span class="nf">is_midwestern</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">&quot;Returns True if this person is from the Midwest.&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;IL&#39;</span><span class="p">,</span> <span class="s">&#39;WI&#39;</span><span class="p">,</span> <span class="s">&#39;MI&#39;</span><span class="p">,</span> <span class="s">&#39;IN&#39;</span><span class="p">,</span> <span class="s">&#39;OH&#39;</span><span class="p">,</span> <span class="s">&#39;IA&#39;</span><span class="p">,</span> <span class="s">&#39;MO&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">&quot;Returns the person&#39;s full name.&quot;</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">)</span>
+    <span class="n">full_name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_full_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The last method in this example is a <a class="reference internal" href="../../glossary.html#term-property"><span class="xref std std-term">property</span></a>.</p>
+<p>The <a class="reference internal" href="../../ref/models/instances.html"><em>model instance reference</em></a> has a complete list
+of <a class="reference internal" href="../../ref/models/instances.html#model-instance-methods"><span>methods automatically given to each model</span></a>.
+You can override most of these &#8211; see <a class="reference internal" href="#overriding-predefined-model-methods">overriding predefined model methods</a>,
+below &#8211; but there are a couple that you&#8217;ll almost always want to define:</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.__unicode__" title="django.db.models.Model.__unicode__"><code class="xref py py-meth docutils literal"><span class="pre">__unicode__()</span></code></a></dt>
+<dd><p class="first">A Python &#8220;magic method&#8221; that returns a unicode &#8220;representation&#8221; of any
+object. This is what Python and Django will use whenever a model
+instance needs to be coerced and displayed as a plain string. Most
+notably, this happens when you display an object in an interactive
+console or in the admin.</p>
+<p class="last">You&#8217;ll always want to define this method; the default isn&#8217;t very helpful
+at all.</p>
+</dd>
+<dt><a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a></dt>
+<dd><p class="first">This tells Django how to calculate the URL for an object. Django uses
+this in its admin interface, and any time it needs to figure out a URL
+for an object.</p>
+<p class="last">Any object that has a URL that uniquely identifies it should define this
+method.</p>
+</dd>
+</dl>
+<div class="section" id="overriding-predefined-model-methods">
+<span id="overriding-model-methods"></span><h3>Overriding predefined model methods<a class="headerlink" href="#overriding-predefined-model-methods" title="Permalink to this headline">¶</a></h3>
+<p>There&#8217;s another set of <a class="reference internal" href="../../ref/models/instances.html#model-instance-methods"><span>model methods</span></a> that
+encapsulate a bunch of database behavior that you&#8217;ll want to customize. In
+particular you&#8217;ll often want to change the way <a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> and
+<a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.delete" title="django.db.models.Model.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a> work.</p>
+<p>You&#8217;re free to override these methods (and any other model method) to alter
+behavior.</p>
+<p>A classic use-case for overriding the built-in methods is if you want something
+to happen whenever you save an object. For example (see
+<a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a> for documentation of the parameters it accepts):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Blog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">do_something</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Blog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c"># Call the &quot;real&quot; save() method.</span>
+        <span class="n">do_something_else</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also prevent saving:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Blog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&quot;Yoko Ono&#39;s blog&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="c"># Yoko shall never have her own blog!</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">Blog</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c"># Call the &quot;real&quot; save() method.</span>
+</pre></div>
+</div>
+<p>It&#8217;s important to remember to call the superclass method &#8211; that&#8217;s
+that <code class="docutils literal"><span class="pre">super(Blog,</span> <span class="pre">self).save(*args,</span> <span class="pre">**kwargs)</span></code> business &#8211; to ensure
+that the object still gets saved into the database. If you forget to
+call the superclass method, the default behavior won&#8217;t happen and the
+database won&#8217;t get touched.</p>
+<p>It&#8217;s also important that you pass through the arguments that can be
+passed to the model method &#8211; that&#8217;s what the <code class="docutils literal"><span class="pre">*args,</span> <span class="pre">**kwargs</span></code> bit
+does. Django will, from time to time, extend the capabilities of
+built-in model methods, adding new arguments. If you use <code class="docutils literal"><span class="pre">*args,</span>
+<span class="pre">**kwargs</span></code> in your method definitions, you are guaranteed that your
+code will automatically support those arguments when they are added.</p>
+<div class="admonition-overridden-model-methods-are-not-called-on-bulk-operations admonition">
+<p class="first admonition-title">Overridden model methods are not called on bulk operations</p>
+<p>Note that the <a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.delete" title="django.db.models.Model.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a> method for an object is not
+necessarily called when <a class="reference internal" href="queries.html#topics-db-queries-delete"><span>deleting objects in bulk using a
+QuerySet</span></a>. To ensure customized delete logic
+gets executed, you can use <a class="reference internal" href="../../ref/signals.html#django.db.models.signals.pre_delete" title="django.db.models.signals.pre_delete"><code class="xref py py-data docutils literal"><span class="pre">pre_delete</span></code></a>
+and/or <a class="reference internal" href="../../ref/signals.html#django.db.models.signals.post_delete" title="django.db.models.signals.post_delete"><code class="xref py py-data docutils literal"><span class="pre">post_delete</span></code></a> signals.</p>
+<p class="last">Unfortunately, there isn&#8217;t a workaround when
+<a class="reference internal" href="../../ref/models/querysets.html#django.db.models.query.QuerySet.bulk_create" title="django.db.models.query.QuerySet.bulk_create"><code class="xref py py-meth docutils literal"><span class="pre">creating</span></code></a> or
+<a class="reference internal" href="../../ref/models/querysets.html#django.db.models.query.QuerySet.update" title="django.db.models.query.QuerySet.update"><code class="xref py py-meth docutils literal"><span class="pre">updating</span></code></a> objects in bulk,
+since none of <a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.save" title="django.db.models.Model.save"><code class="xref py py-meth docutils literal"><span class="pre">save()</span></code></a>,
+<a class="reference internal" href="../../ref/signals.html#django.db.models.signals.pre_save" title="django.db.models.signals.pre_save"><code class="xref py py-data docutils literal"><span class="pre">pre_save</span></code></a>, and
+<a class="reference internal" href="../../ref/signals.html#django.db.models.signals.post_save" title="django.db.models.signals.post_save"><code class="xref py py-data docutils literal"><span class="pre">post_save</span></code></a> are called.</p>
+</div>
+</div>
+<div class="section" id="executing-custom-sql">
+<h3>Executing custom SQL<a class="headerlink" href="#executing-custom-sql" title="Permalink to this headline">¶</a></h3>
+<p>Another common pattern is writing custom SQL statements in model methods and
+module-level methods. For more details on using raw SQL, see the documentation
+on <a class="reference internal" href="sql.html"><em>using raw SQL</em></a>.</p>
+</div>
+</div>
+<div class="section" id="model-inheritance">
+<span id="id11"></span><h2>Model inheritance<a class="headerlink" href="#model-inheritance" title="Permalink to this headline">¶</a></h2>
+<p>Model inheritance in Django works almost identically to the way normal
+class inheritance works in Python. The only decision you have to make
+is whether you want the parent models to be models in their own right
+(with their own database tables), or if the parents are just holders
+of common information that will only be visible through the child
+models.</p>
+<p>There are three styles of inheritance that are possible in Django.</p>
+<ol class="arabic simple">
+<li>Often, you will just want to use the parent class to hold information that
+you don&#8217;t want to have to type out for each child model. This class isn&#8217;t
+going to ever be used in isolation, so <a class="reference internal" href="#abstract-base-classes"><span>Abstract base classes</span></a> are
+what you&#8217;re after.</li>
+<li>If you&#8217;re subclassing an existing model (perhaps something from another
+application entirely) and want each model to have its own database table,
+<a class="reference internal" href="#multi-table-inheritance"><span>Multi-table inheritance</span></a> is the way to go.</li>
+<li>Finally, if you only want to modify the Python-level behavior of a model,
+without changing the models fields in any way, you can use
+<a class="reference internal" href="#proxy-models"><span>Proxy models</span></a>.</li>
+</ol>
+<div class="section" id="abstract-base-classes">
+<span id="id12"></span><h3>Abstract base classes<a class="headerlink" href="#abstract-base-classes" title="Permalink to this headline">¶</a></h3>
+<p>Abstract base classes are useful when you want to put some common
+information into a number of other models. You write your base class
+and put <code class="docutils literal"><span class="pre">abstract=True</span></code> in the <a class="reference internal" href="#meta-options"><span>Meta</span></a>
+class. This model will then not be used to create any database
+table. Instead, when it is used as a base class for other models, its
+fields will be added to those of the child class. It is an error to
+have fields in the abstract base class with the same name as those in
+the child (and Django will raise an exception).</p>
+<p>An example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CommonInfo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="n">CommonInfo</span><span class="p">):</span>
+    <span class="n">home_group</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">Student</span></code> model will have three fields: <code class="docutils literal"><span class="pre">name</span></code>, <code class="docutils literal"><span class="pre">age</span></code> and
+<code class="docutils literal"><span class="pre">home_group</span></code>. The <code class="docutils literal"><span class="pre">CommonInfo</span></code> model cannot be used as a normal Django
+model, since it is an abstract base class. It does not generate a database
+table or have a manager, and cannot be instantiated or saved directly.</p>
+<p>For many uses, this type of model inheritance will be exactly what you want.
+It provides a way to factor out common information at the Python level, whilst
+still only creating one database table per child model at the database level.</p>
+<div class="section" id="meta-inheritance">
+<h4><code class="docutils literal"><span class="pre">Meta</span></code> inheritance<a class="headerlink" href="#meta-inheritance" title="Permalink to this headline">¶</a></h4>
+<p>When an abstract base class is created, Django makes any <a class="reference internal" href="#meta-options"><span>Meta</span></a>
+inner class you declared in the base class available as an
+attribute. If a child class does not declare its own <a class="reference internal" href="#meta-options"><span>Meta</span></a>
+class, it will inherit the parent&#8217;s <a class="reference internal" href="#meta-options"><span>Meta</span></a>. If the child wants to
+extend the parent&#8217;s <a class="reference internal" href="#meta-options"><span>Meta</span></a> class, it can subclass it. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">CommonInfo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="n">CommonInfo</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">CommonInfo</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="s">&#39;student_info&#39;</span>
+</pre></div>
+</div>
+<p>Django does make one adjustment to the <a class="reference internal" href="#meta-options"><span>Meta</span></a> class of an abstract base
+class: before installing the <a class="reference internal" href="#meta-options"><span>Meta</span></a> attribute, it sets <code class="docutils literal"><span class="pre">abstract=False</span></code>.
+This means that children of abstract base classes don&#8217;t automatically become
+abstract classes themselves. Of course, you can make an abstract base class
+that inherits from another abstract base class. You just need to remember to
+explicitly set <code class="docutils literal"><span class="pre">abstract=True</span></code> each time.</p>
+<p>Some attributes won&#8217;t make sense to include in the <a class="reference internal" href="#meta-options"><span>Meta</span></a> class of an
+abstract base class. For example, including <code class="docutils literal"><span class="pre">db_table</span></code> would mean that all
+the child classes (the ones that don&#8217;t specify their own <a class="reference internal" href="#meta-options"><span>Meta</span></a>) would use
+the same database table, which is almost certainly not what you want.</p>
+</div>
+<div class="section" id="be-careful-with-related-name">
+<span id="abstract-related-name"></span><h4>Be careful with <code class="docutils literal"><span class="pre">related_name</span></code><a class="headerlink" href="#be-careful-with-related-name" title="Permalink to this headline">¶</a></h4>
+<p>If you are using the <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a> attribute on a <code class="docutils literal"><span class="pre">ForeignKey</span></code> or
+<code class="docutils literal"><span class="pre">ManyToManyField</span></code>, you must always specify a <em>unique</em> reverse name for the
+field. This would normally cause a problem in abstract base classes, since the
+fields on this class are included into each of the child classes, with exactly
+the same values for the attributes (including <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a>) each time.</p>
+<p>To work around this problem, when you are using <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a> in an
+abstract base class (only), part of the name should contain
+<code class="docutils literal"><span class="pre">'%(app_label)s'</span></code> and <code class="docutils literal"><span class="pre">'%(class)s'</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">'%(class)s'</span></code> is replaced by the lower-cased name of the child class
+that the field is used in.</li>
+<li><code class="docutils literal"><span class="pre">'%(app_label)s'</span></code> is replaced by the lower-cased name of the app the child
+class is contained within. Each installed application name must be unique
+and the model class names within each app must also be unique, therefore the
+resulting name will end up being different.</li>
+</ul>
+<p>For example, given an app <code class="docutils literal"><span class="pre">common/models.py</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">m2m</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">OtherModel</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&quot;</span><span class="si">%(app_label)s</span><span class="s">_</span><span class="si">%(class)s</span><span class="s">_related&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="k">class</span> <span class="nc">ChildA</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">ChildB</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Along with another app <code class="docutils literal"><span class="pre">rare/models.py</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">common.models</span> <span class="kn">import</span> <span class="n">Base</span>
+
+<span class="k">class</span> <span class="nc">ChildB</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The reverse name of the <code class="docutils literal"><span class="pre">common.ChildA.m2m</span></code> field will be
+<code class="docutils literal"><span class="pre">common_childa_related</span></code>, whilst the reverse name of the
+<code class="docutils literal"><span class="pre">common.ChildB.m2m</span></code> field will be <code class="docutils literal"><span class="pre">common_childb_related</span></code>, and finally the
+reverse name of the <code class="docutils literal"><span class="pre">rare.ChildB.m2m</span></code> field will be <code class="docutils literal"><span class="pre">rare_childb_related</span></code>.
+It is up to you how you use the <code class="docutils literal"><span class="pre">'%(class)s'</span></code> and <code class="docutils literal"><span class="pre">'%(app_label)s</span></code> portion
+to construct your related name, but if you forget to use it, Django will raise
+errors when you validate your models (or run <a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">syncdb</span></code></a>).</p>
+<p>If you don&#8217;t specify a <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a>
+attribute for a field in an abstract base class, the default reverse name will
+be the name of the child class followed by <code class="docutils literal"><span class="pre">'_set'</span></code>, just as it normally
+would be if you&#8217;d declared the field directly on the child class. For example,
+in the above code, if the <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a>
+attribute was omitted, the reverse name for the <code class="docutils literal"><span class="pre">m2m</span></code> field would be
+<code class="docutils literal"><span class="pre">childa_set</span></code> in the <code class="docutils literal"><span class="pre">ChildA</span></code> case and <code class="docutils literal"><span class="pre">childb_set</span></code> for the <code class="docutils literal"><span class="pre">ChildB</span></code>
+field.</p>
+</div>
+</div>
+<div class="section" id="multi-table-inheritance">
+<span id="id13"></span><h3>Multi-table inheritance<a class="headerlink" href="#multi-table-inheritance" title="Permalink to this headline">¶</a></h3>
+<p>The second type of model inheritance supported by Django is when each model in
+the hierarchy is a model all by itself. Each model corresponds to its own
+database table and can be queried and created individually. The inheritance
+relationship introduces links between the child model and each of its parents
+(via an automatically-created <a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a>).
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Place</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Place</span><span class="p">):</span>
+    <span class="n">serves_hot_dogs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="n">serves_pizza</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>All of the fields of <code class="docutils literal"><span class="pre">Place</span></code> will also be available in <code class="docutils literal"><span class="pre">Restaurant</span></code>,
+although the data will reside in a different database table. So these are both
+possible:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Bob&#39;s Cafe&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Bob&#39;s Cafe&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you have a <code class="docutils literal"><span class="pre">Place</span></code> that is also a <code class="docutils literal"><span class="pre">Restaurant</span></code>, you can get from the
+<code class="docutils literal"><span class="pre">Place</span></code> object to the <code class="docutils literal"><span class="pre">Restaurant</span></code> object by using the lower-case version
+of the model name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="go"># If p is a Restaurant object, this will give the child class:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">restaurant</span>
+<span class="go">&lt;Restaurant: ...&gt;</span>
+</pre></div>
+</div>
+<p>However, if <code class="docutils literal"><span class="pre">p</span></code> in the above example was <em>not</em> a <code class="docutils literal"><span class="pre">Restaurant</span></code> (it had been
+created directly as a <code class="docutils literal"><span class="pre">Place</span></code> object or was the parent of some other class),
+referring to <code class="docutils literal"><span class="pre">p.restaurant</span></code> would raise a Restaurant.DoesNotExist exception.</p>
+<div class="section" id="meta-and-multi-table-inheritance">
+<h4><code class="docutils literal"><span class="pre">Meta</span></code> and multi-table inheritance<a class="headerlink" href="#meta-and-multi-table-inheritance" title="Permalink to this headline">¶</a></h4>
+<p>In the multi-table inheritance situation, it doesn&#8217;t make sense for a child
+class to inherit from its parent&#8217;s <a class="reference internal" href="#meta-options"><span>Meta</span></a> class. All the <a class="reference internal" href="#meta-options"><span>Meta</span></a> options
+have already been applied to the parent class and applying them again would
+normally only lead to contradictory behavior (this is in contrast with the
+abstract base class case, where the base class doesn&#8217;t exist in its own
+right).</p>
+<p>So a child model does not have access to its parent&#8217;s <a class="reference internal" href="#meta-options"><span>Meta</span></a> class. However, there are a few limited cases where the child
+inherits behavior from the parent: if the child does not specify an
+<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.ordering" title="django.db.models.Options.ordering"><code class="xref py py-attr docutils literal"><span class="pre">ordering</span></code></a> attribute or a
+<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.get_latest_by" title="django.db.models.Options.get_latest_by"><code class="xref py py-attr docutils literal"><span class="pre">get_latest_by</span></code></a> attribute, it will inherit
+these from its parent.</p>
+<p>If the parent has an ordering and you don&#8217;t want the child to have any natural
+ordering, you can explicitly disable it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ChildModel</span><span class="p">(</span><span class="n">ParentModel</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="c"># Remove parent&#39;s ordering effect</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inheritance-and-reverse-relations">
+<h4>Inheritance and reverse relations<a class="headerlink" href="#inheritance-and-reverse-relations" title="Permalink to this headline">¶</a></h4>
+<p>Because multi-table inheritance uses an implicit
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> to link the child and
+the parent, it&#8217;s possible to move from the parent down to the child,
+as in the above example. However, this uses up the name that is the
+default <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a> value for
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> and
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a> relations.  If you
+are putting those types of relations on a subclass of another model,
+you <strong>must</strong> specify the
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.ForeignKey.related_name" title="django.db.models.ForeignKey.related_name"><code class="xref py py-attr docutils literal"><span class="pre">related_name</span></code></a> attribute on each
+such field. If you forget, Django will raise an error when you run
+<a class="reference internal" href="../../ref/django-admin.html#django-admin-validate"><code class="xref std std-djadmin docutils literal"><span class="pre">validate</span></code></a> or <a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">syncdb</span></code></a>.</p>
+<p>For example, using the above <code class="docutils literal"><span class="pre">Place</span></code> class again, let&#8217;s create another
+subclass with a <a class="reference internal" href="../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Supplier</span><span class="p">(</span><span class="n">Place</span><span class="p">):</span>
+    <span class="c"># Must specify related_name on all relations.</span>
+    <span class="n">customers</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Restaurant</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;provider&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="specifying-the-parent-link-field">
+<h4>Specifying the parent link field<a class="headerlink" href="#specifying-the-parent-link-field" title="Permalink to this headline">¶</a></h4>
+<p>As mentioned, Django will automatically create a
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> linking your child
+class back any non-abstract parent models. If you want to control the
+name of the attribute linking back to the parent, you can create your
+own <a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> and set
+<a class="reference internal" href="../../ref/models/fields.html#django.db.models.OneToOneField.parent_link" title="django.db.models.OneToOneField.parent_link"><code class="xref py py-attr docutils literal"><span class="pre">parent_link=True</span></code></a>
+to indicate that your field is the link back to the parent class.</p>
+</div>
+</div>
+<div class="section" id="proxy-models">
+<span id="id14"></span><h3>Proxy models<a class="headerlink" href="#proxy-models" title="Permalink to this headline">¶</a></h3>
+<p>When using <a class="reference internal" href="#multi-table-inheritance"><span>multi-table inheritance</span></a>, a new
+database table is created for each subclass of a model. This is usually the
+desired behavior, since the subclass needs a place to store any additional
+data fields that are not present on the base class. Sometimes, however, you
+only want to change the Python behavior of a model &#8211; perhaps to change the
+default manager, or add a new method.</p>
+<p>This is what proxy model inheritance is for: creating a <em>proxy</em> for the
+original model. You can create, delete and update instances of the proxy model
+and all the data will be saved as if you were using the original (non-proxied)
+model. The difference is that you can change things like the default model
+ordering or the default manager in the proxy, without having to alter the
+original.</p>
+<p>Proxy models are declared like normal models. You tell Django that it&#8217;s a
+proxy model by setting the <a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.proxy" title="django.db.models.Options.proxy"><code class="xref py py-attr docutils literal"><span class="pre">proxy</span></code></a> attribute of
+the <code class="docutils literal"><span class="pre">Meta</span></code> class to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>For example, suppose you want to add a method to the <code class="docutils literal"><span class="pre">Person</span></code> model described
+above. You can do it like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPerson</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">do_something</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">MyPerson</span></code> class operates on the same database table as its parent
+<code class="docutils literal"><span class="pre">Person</span></code> class. In particular, any new instances of <code class="docutils literal"><span class="pre">Person</span></code> will also be
+accessible through <code class="docutils literal"><span class="pre">MyPerson</span></code>, and vice-versa:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">&quot;foobar&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">MyPerson</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">&quot;foobar&quot;</span><span class="p">)</span>
+<span class="go">&lt;MyPerson: foobar&gt;</span>
+</pre></div>
+</div>
+<p>You could also use a proxy model to define a different default ordering on
+a model. You might not always want to order the <code class="docutils literal"><span class="pre">Person</span></code> model, but regularly
+order by the <code class="docutils literal"><span class="pre">last_name</span></code> attribute when you use the proxy. This is easy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">OrderedPerson</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;last_name&quot;</span><span class="p">]</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>Now normal <code class="docutils literal"><span class="pre">Person</span></code> queries will be unordered
+and <code class="docutils literal"><span class="pre">OrderedPerson</span></code> queries will be ordered by <code class="docutils literal"><span class="pre">last_name</span></code>.</p>
+<div class="section" id="querysets-still-return-the-model-that-was-requested">
+<h4>QuerySets still return the model that was requested<a class="headerlink" href="#querysets-still-return-the-model-that-was-requested" title="Permalink to this headline">¶</a></h4>
+<p>There is no way to have Django return, say, a <code class="docutils literal"><span class="pre">MyPerson</span></code> object whenever you
+query for <code class="docutils literal"><span class="pre">Person</span></code> objects. A queryset for <code class="docutils literal"><span class="pre">Person</span></code> objects will return
+those types of objects. The whole point of proxy objects is that code relying
+on the original <code class="docutils literal"><span class="pre">Person</span></code> will use those and your own code can use the
+extensions you included (that no other code is relying on anyway). It is not
+a way to replace the <code class="docutils literal"><span class="pre">Person</span></code> (or any other) model everywhere with something
+of your own creation.</p>
+</div>
+<div class="section" id="base-class-restrictions">
+<h4>Base class restrictions<a class="headerlink" href="#base-class-restrictions" title="Permalink to this headline">¶</a></h4>
+<p>A proxy model must inherit from exactly one non-abstract model class. You
+can&#8217;t inherit from multiple non-abstract models as the proxy model doesn&#8217;t
+provide any connection between the rows in the different database tables. A
+proxy model can inherit from any number of abstract model classes, providing
+they do <em>not</em> define any model fields.</p>
+<p>Proxy models inherit any <code class="docutils literal"><span class="pre">Meta</span></code> options that they don&#8217;t define from their
+non-abstract model parent (the model they are proxying for).</p>
+</div>
+<div class="section" id="proxy-model-managers">
+<h4>Proxy model managers<a class="headerlink" href="#proxy-model-managers" title="Permalink to this headline">¶</a></h4>
+<p>If you don&#8217;t specify any model managers on a proxy model, it inherits the
+managers from its model parents. If you define a manager on the proxy model,
+it will become the default, although any managers defined on the parent
+classes will still be available.</p>
+<p>Continuing our example from above, you could change the default manager used
+when you query the <code class="docutils literal"><span class="pre">Person</span></code> model like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">NewManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">MyPerson</span><span class="p">(</span><span class="n">Person</span><span class="p">):</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">NewManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>If you wanted to add a new manager to the Proxy, without replacing the
+existing default, you can use the techniques described in the <a class="reference internal" href="managers.html#custom-managers-and-inheritance"><span>custom
+manager</span></a> documentation: create a base class
+containing the new managers and inherit that after the primary base class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Create an abstract class for the new manager.</span>
+<span class="k">class</span> <span class="nc">ExtraManagers</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">secondary</span> <span class="o">=</span> <span class="n">NewManager</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="k">class</span> <span class="nc">MyPerson</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">ExtraManagers</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>You probably won&#8217;t need to do this very often, but, when you do, it&#8217;s
+possible.</p>
+</div>
+<div class="section" id="differences-between-proxy-inheritance-and-unmanaged-models">
+<span id="proxy-vs-unmanaged-models"></span><h4>Differences between proxy inheritance and  unmanaged models<a class="headerlink" href="#differences-between-proxy-inheritance-and-unmanaged-models" title="Permalink to this headline">¶</a></h4>
+<p>Proxy model inheritance might look fairly similar to creating an unmanaged
+model, using the <a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.managed" title="django.db.models.Options.managed"><code class="xref py py-attr docutils literal"><span class="pre">managed</span></code></a> attribute on a
+model&#8217;s <code class="docutils literal"><span class="pre">Meta</span></code> class. The two alternatives are not quite the same and it&#8217;s
+worth considering which one you should use.</p>
+<p>One difference is that you can (and, in fact, must unless you want an empty
+model) specify model fields on models with <code class="docutils literal"><span class="pre">Meta.managed=False</span></code>. You could,
+with careful setting of <a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.db_table" title="django.db.models.Options.db_table"><code class="xref py py-attr docutils literal"><span class="pre">Meta.db_table</span></code></a> create an unmanaged model that shadowed
+an existing model and add Python methods to it. However, that would be very
+repetitive and fragile as you need to keep both copies synchronized if you
+make any changes.</p>
+<p>The other difference that is more important for proxy models, is how model
+managers are handled. Proxy models are intended to behave exactly like the
+model they are proxying for. So they inherit the parent model&#8217;s managers,
+including the default manager. In the normal multi-table model inheritance
+case, children do not inherit managers from their parents as the custom
+managers aren&#8217;t always appropriate when extra fields are involved. The
+<a class="reference internal" href="managers.html#custom-managers-and-inheritance"><span>manager documentation</span></a> has more
+details about this latter case.</p>
+<p>When these two features were implemented, attempts were made to squash them
+into a single option. It turned out that interactions with inheritance, in
+general, and managers, in particular, made the API very complicated and
+potentially difficult to understand and use. It turned out that two options
+were needed in any case, so the current separation arose.</p>
+<p>So, the general rules are:</p>
+<ol class="arabic simple">
+<li>If you are mirroring an existing model or database table and don&#8217;t want
+all the original database table columns, use <code class="docutils literal"><span class="pre">Meta.managed=False</span></code>.
+That option is normally useful for modeling database views and tables
+not under the control of Django.</li>
+<li>If you are wanting to change the Python-only behavior of a model, but
+keep all the same fields as in the original, use <code class="docutils literal"><span class="pre">Meta.proxy=True</span></code>.
+This sets things up so that the proxy model is an exact copy of the
+storage structure of the original model when data is saved.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="multiple-inheritance">
+<h3>Multiple inheritance<a class="headerlink" href="#multiple-inheritance" title="Permalink to this headline">¶</a></h3>
+<p>Just as with Python&#8217;s subclassing, it&#8217;s possible for a Django model to inherit
+from multiple parent models. Keep in mind that normal Python name resolution
+rules apply. The first base class that a particular name (e.g. <a class="reference internal" href="#meta-options"><span>Meta</span></a>) appears in will be the one that is used; for example, this
+means that if multiple parents contain a <a class="reference internal" href="#meta-options"><span>Meta</span></a> class,
+only the first one is going to be used, and all others will be ignored.</p>
+<p>Generally, you won&#8217;t need to inherit from multiple parents. The main use-case
+where this is useful is for &#8220;mix-in&#8221; classes: adding a particular extra
+field or method to every class that inherits the mix-in. Try to keep your
+inheritance hierarchies as simple and straightforward as possible so that you
+won&#8217;t have to struggle to work out where a particular piece of information is
+coming from.</p>
+</div>
+<div class="section" id="field-name-hiding-is-not-permitted">
+<h3>Field name &#8220;hiding&#8221; is not permitted<a class="headerlink" href="#field-name-hiding-is-not-permitted" title="Permalink to this headline">¶</a></h3>
+<p>In normal Python class inheritance, it is permissible for a child class to
+override any attribute from the parent class. In Django, this is not permitted
+for attributes that are <a class="reference internal" href="../../howto/custom-model-fields.html#django.db.models.Field" title="django.db.models.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> instances (at
+least, not at the moment). If a base class has a field called <code class="docutils literal"><span class="pre">author</span></code>, you
+cannot create another model field called <code class="docutils literal"><span class="pre">author</span></code> in any class that inherits
+from that base class.</p>
+<p>Overriding fields in a parent model leads to difficulties in areas such as
+initializing new instances (specifying which field is being initialized in
+<code class="docutils literal"><span class="pre">Model.__init__</span></code>) and serialization. These are features which normal Python
+class inheritance doesn&#8217;t have to deal with in quite the same way, so the
+difference between Django model inheritance and Python class inheritance isn&#8217;t
+arbitrary.</p>
+<p>This restriction only applies to attributes which are
+<a class="reference internal" href="../../howto/custom-model-fields.html#django.db.models.Field" title="django.db.models.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> instances. Normal Python attributes
+can be overridden if you wish. It also only applies to the name of the
+attribute as Python sees it: if you are manually specifying the database
+column name, you can have the same column name appearing in both a child and
+an ancestor model for multi-table inheritance (they are columns in two
+different database tables).</p>
+<p>Django will raise a <a class="reference internal" href="../../ref/exceptions.html#django.core.exceptions.FieldError" title="django.core.exceptions.FieldError"><code class="xref py py-exc docutils literal"><span class="pre">FieldError</span></code></a> if you override
+any model field in any ancestor model.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="queries.html" class="btn btn-neutral float-right" title="Making queries" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Models and databases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/models.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+</html>

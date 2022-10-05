@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/http/middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Middleware &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../db/index.html">Models and databases</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Handling HTTP requests</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="urls.html">URL dispatcher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="views.html">Writing views</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decorators.html">View decorators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="file-uploads.html">File Uploads</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shortcuts.html">Django shortcut functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generic-views.html">Generic views</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Middleware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#activating-middleware">Activating middleware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#writing-your-own-middleware">Writing your own middleware</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sessions.html">How to use sessions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Handling HTTP requests</a> &raquo;</li>
+      
+    <li>Middleware</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="middleware">
+<h1>Middleware<a class="headerlink" href="#middleware" title="Permalink to this headline">¶</a></h1>
+<p>Middleware is a framework of hooks into Django&#8217;s request/response processing.
+It&#8217;s a light, low-level &#8220;plugin&#8221; system for globally altering Django&#8217;s input
+and/or output.</p>
+<p>Each middleware component is responsible for doing some specific function. For
+example, Django includes a middleware component, <code class="docutils literal"><span class="pre">XViewMiddleware</span></code>, that adds
+an <code class="docutils literal"><span class="pre">&quot;X-View&quot;</span></code> HTTP header to every response to a <code class="docutils literal"><span class="pre">HEAD</span></code> request.</p>
+<p>This document explains how middleware works, how you activate middleware, and
+how to write your own middleware. Django ships with some built-in middleware
+you can use right out of the box; they&#8217;re documented in the <a class="reference internal" href="../../ref/middleware.html"><em>built-in
+middleware reference</em></a>.</p>
+<div class="section" id="activating-middleware">
+<h2>Activating middleware<a class="headerlink" href="#activating-middleware" title="Permalink to this headline">¶</a></h2>
+<p>To activate a middleware component, add it to the <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>
+list in your Django settings. In <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>, each middleware
+component is represented by a string: the full Python path to the middleware&#8217;s
+class name. For example, here&#8217;s the default <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>
+created by <a class="reference internal" href="../../ref/django-admin.html#django-admin-startproject"><code class="xref std std-djadmin docutils literal"><span class="pre">django-admin.py</span> <span class="pre">startproject</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.middleware.csrf.CsrfViewMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>During the request phases (<a class="reference internal" href="#process_request" title="process_request"><code class="xref py py-meth docutils literal"><span class="pre">process_request()</span></code></a> and <a class="reference internal" href="#process_view" title="process_view"><code class="xref py py-meth docutils literal"><span class="pre">process_view()</span></code></a>
+middleware), Django applies middleware in the order it&#8217;s defined in
+<a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a>, top-down. During the response phases
+(<a class="reference internal" href="#process_response" title="process_response"><code class="xref py py-meth docutils literal"><span class="pre">process_response()</span></code></a> and <a class="reference internal" href="#process_exception" title="process_exception"><code class="xref py py-meth docutils literal"><span class="pre">process_exception()</span></code></a> middleware), the
+classes are applied in reverse order, from the bottom up. You can think of it
+like an onion: each middleware class is a &#8220;layer&#8221; that wraps the view:</p>
+<a class="reference internal image-reference" href="../../_images/middleware.png"><img alt="Middleware application order." src="../../_images/middleware.png" style="width: 502px; height: 417px;" /></a>
+<p>A Django installation doesn&#8217;t require any middleware &#8211; e.g.,
+<a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> can be empty, if you&#8217;d like &#8211; but it&#8217;s strongly
+suggested that you at least use
+<a class="reference internal" href="../../ref/middleware.html#django.middleware.common.CommonMiddleware" title="django.middleware.common.CommonMiddleware"><code class="xref py py-class docutils literal"><span class="pre">CommonMiddleware</span></code></a>.</p>
+</div>
+<div class="section" id="writing-your-own-middleware">
+<h2>Writing your own middleware<a class="headerlink" href="#writing-your-own-middleware" title="Permalink to this headline">¶</a></h2>
+<p>Writing your own middleware is easy. Each middleware component is a single
+Python class that defines one or more of the following methods:</p>
+<div class="section" id="process-request">
+<span id="request-middleware"></span><h3><code class="docutils literal"><span class="pre">process_request</span></code><a class="headerlink" href="#process-request" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="process_request">
+<code class="descname">process_request</code><span class="sig-paren">(</span><em>self</em>, <em>request</em><span class="sig-paren">)</span><a class="headerlink" href="#process_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal"><span class="pre">request</span></code> is an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. This method is
+called on each request, before Django decides which view to execute.</p>
+<p><code class="docutils literal"><span class="pre">process_request()</span></code> should return either <code class="docutils literal"><span class="pre">None</span></code> or an
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object. If it returns <code class="docutils literal"><span class="pre">None</span></code>, Django will
+continue processing this request, executing any other middleware and, then, the
+appropriate view. If it returns an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object,
+Django won&#8217;t bother calling ANY other request, view or exception middleware, or
+the appropriate view; it&#8217;ll return that <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>.
+Response middleware is always called on every response.</p>
+</div>
+<div class="section" id="process-view">
+<span id="view-middleware"></span><h3><code class="docutils literal"><span class="pre">process_view</span></code><a class="headerlink" href="#process-view" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="process_view">
+<code class="descname">process_view</code><span class="sig-paren">(</span><em>self</em>, <em>request</em>, <em>view_func</em>, <em>view_args</em>, <em>view_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#process_view" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal"><span class="pre">request</span></code> is an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. <code class="docutils literal"><span class="pre">view_func</span></code> is
+the Python function that Django is about to use. (It&#8217;s the actual function
+object, not the name of the function as a string.) <code class="docutils literal"><span class="pre">view_args</span></code> is a list of
+positional arguments that will be passed to the view, and <code class="docutils literal"><span class="pre">view_kwargs</span></code> is a
+dictionary of keyword arguments that will be passed to the view. Neither
+<code class="docutils literal"><span class="pre">view_args</span></code> nor <code class="docutils literal"><span class="pre">view_kwargs</span></code> include the first view argument
+(<code class="docutils literal"><span class="pre">request</span></code>).</p>
+<p><code class="docutils literal"><span class="pre">process_view()</span></code> is called just before Django calls the view. It should
+return either <code class="docutils literal"><span class="pre">None</span></code> or an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object. If it
+returns <code class="docutils literal"><span class="pre">None</span></code>, Django will continue processing this request, executing any
+other <code class="docutils literal"><span class="pre">process_view()</span></code> middleware and, then, the appropriate view. If it
+returns an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object, Django won&#8217;t bother
+calling ANY other request, view or exception middleware, or the appropriate
+view; it&#8217;ll return that <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>. Response
+middleware is always called on every response.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Accessing <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.POST" title="django.http.HttpRequest.POST"><code class="xref py py-attr docutils literal"><span class="pre">request.POST</span></code></a> or
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.REQUEST" title="django.http.HttpRequest.REQUEST"><code class="xref py py-attr docutils literal"><span class="pre">request.REQUEST</span></code></a> inside middleware
+from <code class="docutils literal"><span class="pre">process_request</span></code> or <code class="docutils literal"><span class="pre">process_view</span></code> will prevent any view running
+after the middleware from being able to <a class="reference internal" href="file-uploads.html#modifying-upload-handlers-on-the-fly"><span>modify the upload handlers
+for the request</span></a>, and should
+normally be avoided.</p>
+<p class="last">The <a class="reference internal" href="../../ref/middleware.html#django.middleware.csrf.CsrfViewMiddleware" title="django.middleware.csrf.CsrfViewMiddleware"><code class="xref py py-class docutils literal"><span class="pre">CsrfViewMiddleware</span></code></a> class can be
+considered an exception, as it provides the
+<a class="reference internal" href="../../ref/contrib/csrf.html#django.views.decorators.csrf.csrf_exempt" title="django.views.decorators.csrf.csrf_exempt"><code class="xref py py-func docutils literal"><span class="pre">csrf_exempt()</span></code></a> and
+<a class="reference internal" href="../../ref/contrib/csrf.html#django.views.decorators.csrf.csrf_protect" title="django.views.decorators.csrf.csrf_protect"><code class="xref py py-func docutils literal"><span class="pre">csrf_protect()</span></code></a> decorators which allow
+views to explicitly control at what point the CSRF validation should occur.</p>
+</div>
+</div>
+<div class="section" id="process-template-response">
+<span id="template-response-middleware"></span><h3><code class="docutils literal"><span class="pre">process_template_response</span></code><a class="headerlink" href="#process-template-response" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="process_template_response">
+<code class="descname">process_template_response</code><span class="sig-paren">(</span><em>self</em>, <em>request</em>, <em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#process_template_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal"><span class="pre">request</span></code> is an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. <code class="docutils literal"><span class="pre">response</span></code> is a
+subclass of <a class="reference internal" href="../../ref/template-response.html#django.template.response.SimpleTemplateResponse" title="django.template.response.SimpleTemplateResponse"><code class="xref py py-class docutils literal"><span class="pre">SimpleTemplateResponse</span></code></a> (e.g.
+<a class="reference internal" href="../../ref/template-response.html#django.template.response.TemplateResponse" title="django.template.response.TemplateResponse"><code class="xref py py-class docutils literal"><span class="pre">TemplateResponse</span></code></a>) or any response object
+that implements a <code class="docutils literal"><span class="pre">render</span></code> method.</p>
+<p><code class="docutils literal"><span class="pre">process_template_response()</span></code> must return a response object that implements a
+<code class="docutils literal"><span class="pre">render</span></code> method. It could alter the given <code class="docutils literal"><span class="pre">response</span></code> by changing
+<code class="docutils literal"><span class="pre">response.template_name</span></code> and <code class="docutils literal"><span class="pre">response.context_data</span></code>, or it could create
+and return a brand-new
+<a class="reference internal" href="../../ref/template-response.html#django.template.response.SimpleTemplateResponse" title="django.template.response.SimpleTemplateResponse"><code class="xref py py-class docutils literal"><span class="pre">SimpleTemplateResponse</span></code></a> or equivalent.</p>
+<p><code class="docutils literal"><span class="pre">process_template_response()</span></code> will only be called if the response
+instance has a <code class="docutils literal"><span class="pre">render()</span></code> method, indicating that it is a
+<a class="reference internal" href="../../ref/template-response.html#django.template.response.TemplateResponse" title="django.template.response.TemplateResponse"><code class="xref py py-class docutils literal"><span class="pre">TemplateResponse</span></code></a> or equivalent.</p>
+<p>You don&#8217;t need to explicitly render responses &#8211; responses will be
+automatically rendered once all template response middleware has been
+called.</p>
+<p>Middleware are run in reverse order during the response phase, which
+includes process_template_response.</p>
+</div>
+<div class="section" id="process-response">
+<span id="response-middleware"></span><h3><code class="docutils literal"><span class="pre">process_response</span></code><a class="headerlink" href="#process-response" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="process_response">
+<code class="descname">process_response</code><span class="sig-paren">(</span><em>self</em>, <em>request</em>, <em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#process_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal"><span class="pre">request</span></code> is an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. <code class="docutils literal"><span class="pre">response</span></code> is the
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object returned by a Django view.</p>
+<p><code class="docutils literal"><span class="pre">process_response()</span></code> must return an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>
+object. It could alter the given <code class="docutils literal"><span class="pre">response</span></code>, or it could create and return a
+brand-new <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>.</p>
+<p>Unlike the <code class="docutils literal"><span class="pre">process_request()</span></code> and <code class="docutils literal"><span class="pre">process_view()</span></code> methods, the
+<code class="docutils literal"><span class="pre">process_response()</span></code> method is always called, even if the <code class="docutils literal"><span class="pre">process_request()</span></code>
+and <code class="docutils literal"><span class="pre">process_view()</span></code> methods of the same middleware class were skipped because
+an earlier middleware method returned an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>
+(this means that your <code class="docutils literal"><span class="pre">process_response()</span></code> method cannot rely on setup done in
+<code class="docutils literal"><span class="pre">process_request()</span></code>, for example). In addition, during the response phase the
+classes are applied in reverse order, from the bottom up. This means classes
+defined at the end of <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> will be run first.</p>
+<div class="versionchanged">
+<code class="docutils literal"><span class="pre">response</span></code> may also be an <a class="reference internal" href="../../ref/request-response.html#django.http.StreamingHttpResponse" title="django.http.StreamingHttpResponse"><code class="xref py py-class docutils literal"><span class="pre">StreamingHttpResponse</span></code></a>
+object.</div>
+<p>Unlike <a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a>,
+<a class="reference internal" href="../../ref/request-response.html#django.http.StreamingHttpResponse" title="django.http.StreamingHttpResponse"><code class="xref py py-class docutils literal"><span class="pre">StreamingHttpResponse</span></code></a> does not have a <code class="docutils literal"><span class="pre">content</span></code>
+attribute. As a result, middleware can no longer assume that all responses
+will have a <code class="docutils literal"><span class="pre">content</span></code> attribute. If they need access to the content, they
+must test for streaming responses and adjust their behavior accordingly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">streaming</span><span class="p">:</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">streaming_content</span> <span class="o">=</span> <span class="n">wrap_streaming_content</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">streaming_content</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">wrap_content</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">streaming_content</span></code> should be assumed to be too large to hold in memory.
+Middleware may wrap it in a new generator, but must not consume it.</p>
+</div>
+<div class="section" id="process-exception">
+<span id="exception-middleware"></span><h3><code class="docutils literal"><span class="pre">process_exception</span></code><a class="headerlink" href="#process-exception" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="process_exception">
+<code class="descname">process_exception</code><span class="sig-paren">(</span><em>self</em>, <em>request</em>, <em>exception</em><span class="sig-paren">)</span><a class="headerlink" href="#process_exception" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal"><span class="pre">request</span></code> is an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object. <code class="docutils literal"><span class="pre">exception</span></code> is an
+<code class="docutils literal"><span class="pre">Exception</span></code> object raised by the view function.</p>
+<p>Django calls <code class="docutils literal"><span class="pre">process_exception()</span></code> when a view raises an exception.
+<code class="docutils literal"><span class="pre">process_exception()</span></code> should return either <code class="docutils literal"><span class="pre">None</span></code> or an
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object. If it returns an
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpResponse" title="django.http.HttpResponse"><code class="xref py py-class docutils literal"><span class="pre">HttpResponse</span></code></a> object, the response will be returned to
+the browser. Otherwise, default exception handling kicks in.</p>
+<p>Again, middleware are run in reverse order during the response phase, which
+includes <code class="docutils literal"><span class="pre">process_exception</span></code>. If an exception middleware returns a response,
+the middleware classes above that middleware will not be called at all.</p>
+</div>
+<div class="section" id="init">
+<h3><code class="docutils literal"><span class="pre">__init__</span></code><a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h3>
+<p>Most middleware classes won&#8217;t need an initializer since middleware classes are
+essentially placeholders for the <code class="docutils literal"><span class="pre">process_*</span></code> methods. If you do need some
+global state you may use <code class="docutils literal"><span class="pre">__init__</span></code> to set up. However, keep in mind a couple
+of caveats:</p>
+<ul class="simple">
+<li>Django initializes your middleware without any arguments, so you can&#8217;t
+define <code class="docutils literal"><span class="pre">__init__</span></code> as requiring any arguments.</li>
+<li>Unlike the <code class="docutils literal"><span class="pre">process_*</span></code> methods which get called once per request,
+<code class="docutils literal"><span class="pre">__init__</span></code> gets called only <em>once</em>, when the Web server responds to the
+first request.</li>
+</ul>
+<div class="section" id="marking-middleware-as-unused">
+<h4>Marking middleware as unused<a class="headerlink" href="#marking-middleware-as-unused" title="Permalink to this headline">¶</a></h4>
+<p>It&#8217;s sometimes useful to determine at run-time whether a piece of middleware
+should be used. In these cases, your middleware&#8217;s <code class="docutils literal"><span class="pre">__init__</span></code> method may raise
+<code class="docutils literal"><span class="pre">django.core.exceptions.MiddlewareNotUsed</span></code>. Django will then remove that
+piece of middleware from the middleware process.</p>
+</div>
+</div>
+<div class="section" id="guidelines">
+<h3>Guidelines<a class="headerlink" href="#guidelines" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Middleware classes don&#8217;t have to subclass anything.</li>
+<li>The middleware class can live anywhere on your Python path. All Django
+cares about is that the <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> setting includes
+the path to it.</li>
+<li>Feel free to look at <a class="reference internal" href="../../ref/middleware.html"><em>Django&#8217;s available middleware</em></a> for examples.</li>
+<li>If you write a middleware component that you think would be useful to
+other people, contribute to the community! <a class="reference internal" href="../../internals/contributing/index.html"><em>Let us know</em></a>, and we&#8217;ll consider adding it to Django.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sessions.html" class="btn btn-neutral float-right" title="How to use sessions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generic-views.html" class="btn btn-neutral" title="Generic views" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/http/middleware.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:50 GMT -->
+</html>

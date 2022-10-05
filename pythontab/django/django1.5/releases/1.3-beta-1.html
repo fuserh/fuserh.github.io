@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.3-beta-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django 1.3 beta 1 release notes &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#final-releases">Final releases</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#development-releases">Development releases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1.5-beta-1.html">Django 1.5 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.5-alpha-1.html">Django 1.5 alpha release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-beta-1.html">Django 1.4 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-alpha-1.html">Django 1.4 alpha release notes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Django 1.3 beta 1 release notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-new-in-django-1-3-beta-1">What&#8217;s new in Django 1.3 beta 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#backwards-incompatible-changes-in-1-3-alpha-2">Backwards-incompatible changes in 1.3 alpha 2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#changes-to-usstatefield">Changes to <code class="docutils literal"><span class="pre">USStateField</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-django-1-3-roadmap">The Django 1.3 roadmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-can-do-to-help">What you can do to help</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="1.3-alpha-1.html">Django 1.3 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-rc-1.html">Django 1.2 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-beta-1.html">Django 1.2 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-alpha-1.html">Django 1.2 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-rc-1.html">Django 1.1 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-beta-1.html">Django 1.1 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-alpha-1.html">Django 1.1 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta-2.html">Django 1.0 beta 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta.html">Django 1.0 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-2.html">Django 1.0 alpha 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-1.html">Django 1.0 alpha release notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Release notes</a> &raquo;</li>
+      
+    <li>Django 1.3 beta 1 release notes</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-1-3-beta-1-release-notes">
+<h1>Django 1.3 beta 1 release notes<a class="headerlink" href="#django-1-3-beta-1-release-notes" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to Django 1.3 beta 1!</p>
+<p>This is the second in a series of preview/development releases leading
+up to the eventual release of Django 1.3. This release is primarily
+targeted at developers who are interested in trying out new features
+and testing the Django codebase to help identify and resolve bugs
+prior to the final 1.3 release.</p>
+<p>As such, this release is <em>not</em> intended for production use, and any such use
+is discouraged.</p>
+<div class="section" id="what-s-new-in-django-1-3-beta-1">
+<h2>What&#8217;s new in Django 1.3 beta 1<a class="headerlink" href="#what-s-new-in-django-1-3-beta-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="further-tweaks-to-the-staticfiles-app">
+<h3>Further tweaks to the staticfiles app<a class="headerlink" href="#further-tweaks-to-the-staticfiles-app" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 ships with a new contrib app <a class="reference internal" href="../ref/contrib/staticfiles.html#module-django.contrib.staticfiles" title="django.contrib.staticfiles: An app for handling static files."><code class="xref py py-mod docutils literal"><span class="pre">django.contrib.staticfiles</span></code></a>
+to help developers handle the static media files (images, CSS, JavaScript,
+etc.) that are needed to render a complete web page.</p>
+<p>The <a class="reference internal" href="../ref/contrib/staticfiles.html#module-django.contrib.staticfiles" title="django.contrib.staticfiles: An app for handling static files."><code class="xref py py-mod docutils literal"><span class="pre">staticfiles</span></code></a> app ships with the ability to
+automatically serve static files during development (if the <a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a>
+setting is <code class="docutils literal"><span class="pre">True</span></code>) when using the <a class="reference internal" href="../ref/django-admin.html#django-admin-runserver"><code class="xref std std-djadmin docutils literal"><span class="pre">runserver</span></code></a> management command.
+Based on feedback from the community this release adds two new options to the
+<a class="reference internal" href="../ref/django-admin.html#django-admin-runserver"><code class="xref std std-djadmin docutils literal"><span class="pre">runserver</span></code></a> command to modify this behavior:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">--nostatic</span></code>: prevents the <a class="reference internal" href="../ref/django-admin.html#django-admin-runserver"><code class="xref std std-djadmin docutils literal"><span class="pre">runserver</span></code></a> command from serving
+files completely.</li>
+<li><code class="docutils literal"><span class="pre">--insecure</span></code>: enables serving of static files even if running with
+<a class="reference internal" href="../ref/settings.html#std:setting-DEBUG"><code class="xref std std-setting docutils literal"><span class="pre">DEBUG</span></code></a> set to False. (This is <strong>not</strong> recommended!)</li>
+</ul>
+<p>See the <a class="reference internal" href="../ref/contrib/staticfiles.html"><em>staticfiles reference documentation</em></a>
+for more details, or learn <a class="reference internal" href="../howto/static-files.html"><em>how to manage static files</em></a>.</p>
+</div>
+<div class="section" id="translation-comments">
+<h3>Translation comments<a class="headerlink" href="#translation-comments" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to give translators hints about a translatable string, you
+can add a comment prefixed with the <code class="docutils literal"><span class="pre">Translators</span></code> keyword on the line
+preceding the string, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="c"># Translators: This message appears on the home page only</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">ugettext</span><span class="p">(</span><span class="s">&quot;Welcome to my site.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The comment will appear in the resulting .po file and should also be
+displayed by most translation tools.</p>
+<p>For more information, see <a class="reference internal" href="../topics/i18n/translation.html#translator-comments"><span>Comments for translators</span></a>.</p>
+</div>
+<div class="section" id="permissions-for-inactive-users">
+<h3>Permissions for inactive users<a class="headerlink" href="#permissions-for-inactive-users" title="Permalink to this headline">¶</a></h3>
+<p>If you provide a custom auth backend with <code class="docutils literal"><span class="pre">supports_inactive_user</span></code> set to
+<code class="docutils literal"><span class="pre">True</span></code>, an inactive user model will check the backend for permissions.
+This is useful for further centralizing the permission handling. See the
+<a class="reference internal" href="../topics/auth/index.html"><em>authentication docs</em></a> for more details.</p>
+</div>
+</div>
+<div class="section" id="backwards-incompatible-changes-in-1-3-alpha-2">
+<h2>Backwards-incompatible changes in 1.3 alpha 2<a class="headerlink" href="#backwards-incompatible-changes-in-1-3-alpha-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="change-to-admin-lookup-filters">
+<h3>Change to admin lookup filters<a class="headerlink" href="#change-to-admin-lookup-filters" title="Permalink to this headline">¶</a></h3>
+<p>The Django admin has long had an undocumented &#8220;feature&#8221; allowing savvy
+users to manipulate the query string of changelist pages to filter the
+list of objects displayed. However, this also creates a security
+issue, as a staff user with sufficient knowledge of model structure
+could use this &#8220;feature&#8221; to gain access to information he or she would
+not normally have.</p>
+<p>As a result, changelist filtering now explicitly validates all lookup
+arguments in the query string, and permits only fields which are
+directly on the model, or relations explicitly permitted by the
+<code class="docutils literal"><span class="pre">ModelAdmin</span></code> definition. If you were relying on this undocumented
+feature, you will need to update your <code class="docutils literal"><span class="pre">ModelAdmin</span></code> definitions to
+whitelist the relations you choose to expose for filtering.</p>
+</div>
+<div class="section" id="introduction-of-static-url-and-static-root-settings">
+<h3>Introduction of STATIC_URL and STATIC_ROOT settings<a class="headerlink" href="#introduction-of-static-url-and-static-root-settings" title="Permalink to this headline">¶</a></h3>
+<p>The newly introduced <a class="reference internal" href="../ref/contrib/staticfiles.html#module-django.contrib.staticfiles" title="django.contrib.staticfiles: An app for handling static files."><code class="xref py py-mod docutils literal"><span class="pre">staticfiles</span></code></a> app &#8211; which extends
+Django&#8217;s abilities to handle static files for apps and projects &#8211; required the
+additon of two new settings to refer to those files in templates and code,
+especially in contrast to the <a class="reference internal" href="../ref/settings.html#std:setting-MEDIA_URL"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_URL</span></code></a> and <a class="reference internal" href="../ref/settings.html#std:setting-MEDIA_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_ROOT</span></code></a>
+settings that refer to user-uploaded files.</p>
+<p>Prior to 1.3 alpha 2 these settings were called <code class="docutils literal"><span class="pre">STATICFILES_URL</span></code> and
+<code class="docutils literal"><span class="pre">STATICFILES_ROOT</span></code> to follow the naming scheme for app-centric settings.
+Based on feedback from the community it became apparent that those settings
+created confusion, especially given the fact that handling static files is also
+desired outside the use of the optional <a class="reference internal" href="../ref/contrib/staticfiles.html#module-django.contrib.staticfiles" title="django.contrib.staticfiles: An app for handling static files."><code class="xref py py-mod docutils literal"><span class="pre">staticfiles</span></code></a> app.</p>
+<p>As a result, we took the following steps to rectify the issue:</p>
+<ul class="simple">
+<li>Two new global settings were added that will be used by, <strong>but are not
+limited to</strong>, the <a class="reference internal" href="../ref/contrib/staticfiles.html"><em>staticfiles</em></a> app:</li>
+<li><a class="reference internal" href="../ref/settings.html#std:setting-STATIC_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_ROOT</span></code></a> (formally <code class="docutils literal"><span class="pre">STATICFILES_ROOT</span></code>)</li>
+<li><a class="reference internal" href="../ref/settings.html#std:setting-STATIC_URL"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_URL</span></code></a> (formally <code class="docutils literal"><span class="pre">STATICFILES_URL</span></code>)</li>
+<li>The <code class="docutils literal"><span class="pre">django.contrib.staticfiles.templatetags.staticfiles.get_staticfiles_prefix</span></code>
+template tag was moved to Django&#8217;s core (<code class="docutils literal"><span class="pre">django.templatetags.static</span></code>) and
+renamed to <a class="reference internal" href="../ref/templates/builtins.html#std:templatetag-get_static_prefix"><code class="xref std std-ttag docutils literal"><span class="pre">get_static_prefix</span></code></a>.</li>
+<li>The <code class="docutils literal"><span class="pre">django.contrib.staticfiles.context_processors.staticfiles</span></code>
+context processor was moved to Django&#8217;s core
+(<code class="docutils literal"><span class="pre">django.core.context_processors.static</span></code>) and renamed to
+<a class="reference internal" href="../ref/templates/api.html#django.core.context_processors.static" title="django.core.context_processors.static"><code class="xref py py-func docutils literal"><span class="pre">static()</span></code></a>.</li>
+<li><a class="reference internal" href="../topics/forms/media.html#form-media-paths"><span>Paths in media definitions</span></a> now uses <a class="reference internal" href="../ref/settings.html#std:setting-STATIC_URL"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_URL</span></code></a> as the prefix
+<strong>if the value is not None</strong>, and falls back to the previously used
+<a class="reference internal" href="../ref/settings.html#std:setting-MEDIA_URL"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_URL</span></code></a> setting otherwise.</li>
+</ul>
+</div>
+<div class="section" id="changes-to-the-login-methods-of-the-admin">
+<h3>Changes to the login methods of the admin<a class="headerlink" href="#changes-to-the-login-methods-of-the-admin" title="Permalink to this headline">¶</a></h3>
+<p>In previous version the admin app defined login methods in multiple locations
+and ignored the almost identical implementation in the already used auth app.
+A side effect of this duplication was the missing adoption of the changes made
+in <a class="reference external" href="https://code.djangoproject.com/changeset/12634">r12634</a> to support a broader set of characters for usernames.</p>
+<p>This release refactors the admin&#8217;s login mechanism to use a subclass of the
+<a class="reference internal" href="../topics/auth/default.html#django.contrib.auth.forms.AuthenticationForm" title="django.contrib.auth.forms.AuthenticationForm"><code class="xref py py-class docutils literal"><span class="pre">AuthenticationForm</span></code></a> instead of a manual
+form validation. The previously undocumented method
+<code class="docutils literal"><span class="pre">'django.contrib.admin.sites.AdminSite.display_login_form'</span></code> has been removed
+in favor of a new <a class="reference internal" href="../ref/contrib/admin/index.html#django.contrib.admin.AdminSite.login_form" title="django.contrib.admin.AdminSite.login_form"><code class="xref py py-attr docutils literal"><span class="pre">login_form</span></code></a>
+attribute.</p>
+</div>
+</div>
+<div class="section" id="changes-to-usstatefield">
+<h2>Changes to <code class="docutils literal"><span class="pre">USStateField</span></code><a class="headerlink" href="#changes-to-usstatefield" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">django.contrib.localflavor</span></code> application contains collections
+of code relevant to specific countries or cultures. One such is
+<code class="docutils literal"><span class="pre">USStateField</span></code>, which provides a field for storing the two-letter postal
+abbreviation of a U.S. state. This field has consistently caused problems,
+however, because it is often used to store the state portion of a U.S postal
+address, but not all &#8220;states&#8221; recognized by the U.S Postal Service are
+actually states of the U.S. or even U.S. territory. Several
+compromises over the list of choices resulted in some users feeling
+the field supported too many locations, while others felt it supported
+too few.</p>
+<p>In Django 1.3 we&#8217;re taking a new approach to this problem, implemented
+as a pair of changes:</p>
+<ul class="simple">
+<li>The choice list for <cite>USStateField</cite> has changed. Previously, it
+consisted of the 50 U.S. states, the District of Columbia and
+U.S. overseas territories. As of Django 1.3 it includes all previous
+choices, plus the U.S. Armed Forces postal codes.</li>
+<li>A new model field,
+<code class="docutils literal"><span class="pre">django.contrib.localflavor.us.models.USPostalCodeField</span></code>, has
+been added which draws its choices from a list of all postal
+abbreviations recognized by the U.S Postal Service. This includes
+all abbreviations recognized by <cite>USStateField</cite>, plus three
+independent nations &#8211; the Federated States of Micronesia, the
+Republic of the Marshall Islands and the Republic of Palau &#8211; which
+are serviced under treaty by the U.S. postal system. A new form
+widget, <code class="docutils literal"><span class="pre">django.contrib.localflavor.us.forms.USPSSelect</span></code>, is
+also available and provides the same set of choices.</li>
+</ul>
+<p>Additionally, several finer-grained choice tuples are provided which
+allow mixing and matching of subsets of the U.S. states and
+territories, and other locations serviced by the U.S. postal
+system. Consult the <code class="docutils literal"><span class="pre">django.contrib.localflavor</span></code> documentation
+for more details.</p>
+<p>The change to <cite>USStateField</cite> is technically backwards-incompatible for
+users who expect this field to exclude Armed Forces locations. If you
+need to support U.S. mailing addresses without Armed Forces locations,
+see the list of choice tuples available in the localflavor
+documentation.</p>
+</div>
+<div class="section" id="the-django-1-3-roadmap">
+<h2>The Django 1.3 roadmap<a class="headerlink" href="#the-django-1-3-roadmap" title="Permalink to this headline">¶</a></h2>
+<p>Before the final Django 1.3 release, several other preview/development
+releases will be made available. The current schedule consists of at
+least the following:</p>
+<ul class="simple">
+<li>Week of <strong>January 24, 2011</strong>: First Django 1.3 release
+candidate. String freeze for translations.</li>
+<li>Week of <strong>January 31, 2011</strong>: Django 1.3 final release.</li>
+</ul>
+<p>If necessary, additional beta or release-candidate packages
+will be issued prior to the final 1.3 release. Django 1.3 will be
+released approximately one week after the final release candidate.</p>
+</div>
+<div class="section" id="what-you-can-do-to-help">
+<h2>What you can do to help<a class="headerlink" href="#what-you-can-do-to-help" title="Permalink to this headline">¶</a></h2>
+<p>In order to provide a high-quality 1.3 release, we need your help. Although this
+beta release is, again, <em>not</em> intended for production use, you can help the
+Django team by trying out the beta codebase in a safe test environment and
+reporting any bugs or issues you encounter. The Django ticket tracker is the
+central place to search for open issues:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://code.djangoproject.com/timeline">https://code.djangoproject.com/timeline</a></li>
+</ul>
+<p>Please open new tickets if no existing ticket corresponds to a problem you&#8217;re
+running into.</p>
+<p>Additionally, discussion of Django development, including progress toward the
+1.3 release, takes place daily on the django-developers mailing list:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://groups.google.com/group/django-developers">http://groups.google.com/group/django-developers</a></li>
+</ul>
+<p>... and in the <code class="docutils literal"><span class="pre">#django-dev</span></code> IRC channel on <code class="docutils literal"><span class="pre">irc.freenode.net</span></code>. If you&#8217;re
+interested in helping out with Django&#8217;s development, feel free to join the
+discussions there.</p>
+<p>Django&#8217;s online documentation also includes pointers on how to contribute to
+Django:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../internals/contributing/index.html"><em>How to contribute to Django</em></a></li>
+</ul>
+<p>Contributions on any level &#8211; developing code, writing documentation or simply
+triaging tickets and helping to test proposed bugfixes &#8211; are always welcome and
+appreciated.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="1.3-alpha-1.html" class="btn btn-neutral float-right" title="Django 1.3 alpha 1 release notes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="1.4-alpha-1.html" class="btn btn-neutral" title="Django 1.4 alpha release notes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.3-beta-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/examples/one_to_one.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>One-to-one relationships &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../install.html">如何安装 Django</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Models and databases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../models.html">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../queries.html">Making queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aggregation.html">Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../managers.html">Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sql.html">Performing raw SQL queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../transactions.html">Managing database transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../multi-db.html">Multiple databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tablespaces.html">Tablespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimization.html">Database access optimization</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Examples of model relationship API usage</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="many_to_many.html">Many-to-many relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="many_to_one.html">Many-to-one relationships</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">One-to-one relationships</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="../index.html">Models and databases</a> &raquo;</li>
+      
+          <li><a href="index.html">Examples of model relationship API usage</a> &raquo;</li>
+      
+    <li>One-to-one relationships</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="one-to-one-relationships">
+<h1>One-to-one relationships<a class="headerlink" href="#one-to-one-relationships" title="Permalink to this headline">¶</a></h1>
+<p>To define a one-to-one relationship, use <a class="reference internal" href="../../../ref/models/fields.html#ref-onetoone"><span>OneToOneField</span></a>.</p>
+<p>In this example, a <code class="docutils literal"><span class="pre">Place</span></code> optionally can be a <code class="docutils literal"><span class="pre">Restaurant</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">transaction</span><span class="p">,</span> <span class="n">IntegrityError</span>
+
+<span class="k">class</span> <span class="nc">Place</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s"> the place&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">serves_hot_dogs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="n">serves_pizza</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s"> the restaurant&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">place</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Waiter</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">restaurant</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Restaurant</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s"> the waiter at </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restaurant</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What follows are examples of operations that can be performed using the Python
+API facilities.</p>
+<p>Create a couple of Places:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Place</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Demon Dogs&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;944 W. Fullerton&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Place</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Ace Hardware&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="s">&#39;1013 N. Ashland&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create a Restaurant. Pass the ID of the &#8220;parent&#8221; object as this object&#8217;s ID:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Restaurant</span><span class="p">(</span><span class="n">place</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">serves_hot_dogs</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">serves_pizza</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A Restaurant can access its place:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">place</span>
+<span class="go">&lt;Place: Demon Dogs the place&gt;</span>
+</pre></div>
+</div>
+<p>A Place can access its restaurant, if available:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">restaurant</span>
+<span class="go">&lt;Restaurant: Demon Dogs the restaurant&gt;</span>
+</pre></div>
+</div>
+<p>p2 doesn&#8217;t have an associated restaurant:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">restaurant</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="gr">DoesNotExist</span>: <span class="n">Restaurant matching query does not exist.</span>
+</pre></div>
+</div>
+<p>Set the place using assignment notation. Because place is the primary key on
+Restaurant, the save will create a new restaurant:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">place</span> <span class="o">=</span> <span class="n">p2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">restaurant</span>
+<span class="go">&lt;Restaurant: Ace Hardware the restaurant&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">place</span>
+<span class="go">&lt;Place: Ace Hardware the place&gt;</span>
+</pre></div>
+</div>
+<p>Set the place back again, using assignment in the reverse direction:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">restaurant</span> <span class="o">=</span> <span class="n">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">restaurant</span>
+<span class="go">&lt;Restaurant: Demon Dogs the restaurant&gt;</span>
+</pre></div>
+</div>
+<p>Restaurant.objects.all() just returns the Restaurants, not the Places.  Note
+that there are two restaurants - Ace Hardware the Restaurant was created in the
+call to r.place = p2:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Restaurant: Demon Dogs the restaurant&gt;, &lt;Restaurant: Ace Hardware the restaurant&gt;]</span>
+</pre></div>
+</div>
+<p>Place.objects.all() returns all Places, regardless of whether they have
+Restaurants:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+<span class="go">[&lt;Place: Ace Hardware the place&gt;, &lt;Place: Demon Dogs the place&gt;]</span>
+</pre></div>
+</div>
+<p>You can query the models using <a class="reference internal" href="../queries.html#lookups-that-span-relationships"><span>lookups across relationships</span></a>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">place</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>
+<span class="go">&lt;Restaurant: Demon Dogs the restaurant&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">place__pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;Restaurant: Demon Dogs the restaurant&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">place__name__startswith</span><span class="o">=</span><span class="s">&quot;Demon&quot;</span><span class="p">)</span>
+<span class="go">[&lt;Restaurant: Demon Dogs the restaurant&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Restaurant</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">place__address__contains</span><span class="o">=</span><span class="s">&quot;Ashland&quot;</span><span class="p">)</span>
+<span class="go">[&lt;Restaurant: Demon Dogs the restaurant&gt;]</span>
+</pre></div>
+</div>
+<p>This of course works in reverse:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;Place: Demon Dogs the place&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">restaurant__place__exact</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>
+<span class="go">&lt;Place: Demon Dogs the place&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">restaurant</span><span class="o">=</span><span class="n">r</span><span class="p">)</span>
+<span class="go">&lt;Place: Demon Dogs the place&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Place</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">restaurant__place__name__startswith</span><span class="o">=</span><span class="s">&quot;Demon&quot;</span><span class="p">)</span>
+<span class="go">&lt;Place: Demon Dogs the place&gt;</span>
+</pre></div>
+</div>
+<p>Add a Waiter to the Restaurant:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">waiter_set</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;Joe&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span>
+<span class="go">&lt;Waiter: Joe the waiter at Demon Dogs the restaurant&gt;</span>
+</pre></div>
+</div>
+<p>Query the waiters:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Waiter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">restaurant__place</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>
+<span class="go">[&lt;Waiter: Joe the waiter at Demon Dogs the restaurant&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Waiter</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">restaurant__place__name__startswith</span><span class="o">=</span><span class="s">&quot;Demon&quot;</span><span class="p">)</span>
+<span class="go">[&lt;Waiter: Joe the waiter at Demon Dogs the restaurant&gt;]</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../http/index.html" class="btn btn-neutral float-right" title="Handling HTTP requests" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="many_to_one.html" class="btn btn-neutral" title="Many-to-one relationships" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/examples/one_to_one.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+</html>

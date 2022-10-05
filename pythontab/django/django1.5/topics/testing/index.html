@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/testing/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Testing in Django &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../db/index.html">Models and databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Testing in Django</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Testing Django applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doctests.html">Django and doctests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced.html">Advanced testing topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unit-tests-v-doctests">Unit tests v. doctests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#which-should-i-use">Which should I use?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#where-to-go-from-here">Where to go from here</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+    <li>Testing in Django</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="testing-in-django">
+<h1>Testing in Django<a class="headerlink" href="#testing-in-django" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Automated testing is an extremely useful bug-killing tool for the modern
+Web developer. You can use a collection of tests &#8211; a <strong>test suite</strong> &#8211; to
+solve, or avoid, a number of problems:</p>
+<ul class="simple">
+<li>When you&#8217;re writing new code, you can use tests to validate your code
+works as expected.</li>
+<li>When you&#8217;re refactoring or modifying old code, you can use tests to
+ensure your changes haven&#8217;t affected your application&#8217;s behavior
+unexpectedly.</li>
+</ul>
+<p>Testing a Web application is a complex task, because a Web application is made
+of several layers of logic &#8211; from HTTP-level request handling, to form
+validation and processing, to template rendering. With Django&#8217;s test-execution
+framework and assorted utilities, you can simulate requests, insert test data,
+inspect your application&#8217;s output and generally verify your code is doing what
+it should be doing.</p>
+<p>The best part is, it&#8217;s really easy.</p>
+<div class="section" id="unit-tests-v-doctests">
+<h2>Unit tests v. doctests<a class="headerlink" href="#unit-tests-v-doctests" title="Permalink to this headline">¶</a></h2>
+<p>There are two primary ways to write tests with Django, corresponding to the
+two test frameworks that ship in the Python standard library. The two
+frameworks are:</p>
+<ul>
+<li><p class="first"><strong>Unit tests</strong> &#8211; tests that are expressed as methods on a Python class
+that subclasses <a class="reference external" href="http://docs.python.org/2.7/library/unittest.html#unittest.TestCase" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">unittest.TestCase</span></code></a> or Django&#8217;s customized
+<a class="reference internal" href="overview.html#django.test.TestCase" title="django.test.TestCase"><code class="xref py py-class docutils literal"><span class="pre">TestCase</span></code></a>. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">MyFuncTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testBasic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;larry&#39;</span><span class="p">,</span> <span class="s">&#39;curly&#39;</span><span class="p">,</span> <span class="s">&#39;moe&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s">&#39;larry&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">my_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s">&#39;curly&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Doctests</strong> &#8211; tests that are embedded in your functions&#8217; docstrings and
+are written in a way that emulates a session of the Python interactive
+interpreter. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="n">a_list</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; a = [&#39;larry&#39;, &#39;curly&#39;, &#39;moe&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; my_func(a, 0)</span>
+<span class="sd">    &#39;larry&#39;</span>
+<span class="sd">    &gt;&gt;&gt; my_func(a, 1)</span>
+<span class="sd">    &#39;curly&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">a_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="section" id="which-should-i-use">
+<h3>Which should I use?<a class="headerlink" href="#which-should-i-use" title="Permalink to this headline">¶</a></h3>
+<p>Because Django supports both of the standard Python test frameworks, it&#8217;s up to
+you and your tastes to decide which one to use. You can even decide to use
+<em>both</em>.</p>
+<p>For developers new to testing, however, this choice can seem confusing. Here,
+then, are a few key differences to help you decide which approach is right for
+you:</p>
+<ul class="simple">
+<li>If you&#8217;ve been using Python for a while, <a class="reference external" href="http://docs.python.org/2.7/library/doctest.html#module-doctest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">doctest</span></code></a> will probably feel
+more &#8220;pythonic&#8221;. It&#8217;s designed to make writing tests as easy as possible,
+so it requires no overhead of writing classes or methods. You simply put
+tests in docstrings. This has the added advantage of serving as
+documentation (and correct documentation, at that!). However, while
+doctests are good for some simple example code, they are not very good if
+you want to produce either high quality, comprehensive tests or high
+quality documentation. Test failures are often difficult to debug
+as it can be unclear exactly why the test failed. Thus, doctests should
+generally be avoided and used primarily for documentation examples only.</li>
+<li>The <a class="reference external" href="http://docs.python.org/2.7/library/unittest.html#module-unittest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a> framework will probably feel very familiar to
+developers coming from Java. <a class="reference external" href="http://docs.python.org/2.7/library/unittest.html#module-unittest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a> is inspired by Java&#8217;s JUnit,
+so you&#8217;ll feel at home with this method if you&#8217;ve used JUnit or any test
+framework inspired by JUnit.</li>
+<li>If you need to write a bunch of tests that share similar code, then
+you&#8217;ll appreciate the <a class="reference external" href="http://docs.python.org/2.7/library/unittest.html#module-unittest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a> framework&#8217;s organization around
+classes and methods. This makes it easy to abstract common tasks into
+common methods. The framework also supports explicit setup and/or cleanup
+routines, which give you a high level of control over the environment
+in which your test cases are run.</li>
+<li>If you&#8217;re writing tests for Django itself, you should use <a class="reference external" href="http://docs.python.org/2.7/library/unittest.html#module-unittest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">unittest</span></code></a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="where-to-go-from-here">
+<h2>Where to go from here<a class="headerlink" href="#where-to-go-from-here" title="Permalink to this headline">¶</a></h2>
+<p>As unit tests are preferred in Django, we treat them in detail in the
+<a class="reference internal" href="overview.html"><em>Testing Django applications</em></a> document.</p>
+<p><a class="reference internal" href="doctests.html"><em>Django and doctests</em></a> describes Django-specific features when using doctests.</p>
+<p>You can also use any <em>other</em> Python test framework, Django provides an API and
+tools for that kind of integration. They are described in the
+<a class="reference internal" href="advanced.html#other-testing-frameworks"><span>Using different testing frameworks</span></a> section of <a class="reference internal" href="advanced.html"><em>Advanced testing topics</em></a>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="overview.html" class="btn btn-neutral float-right" title="Testing Django applications" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../files.html" class="btn btn-neutral" title="Managing files" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/testing/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:52 GMT -->
+</html>

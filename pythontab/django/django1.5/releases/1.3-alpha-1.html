@@ -1,0 +1,576 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.3-alpha-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django 1.3 alpha 1 release notes &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#final-releases">Final releases</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#development-releases">Development releases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1.5-beta-1.html">Django 1.5 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.5-alpha-1.html">Django 1.5 alpha release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-beta-1.html">Django 1.4 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-alpha-1.html">Django 1.4 alpha release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.3-beta-1.html">Django 1.3 beta 1 release notes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Django 1.3 alpha 1 release notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-new-in-django-1-3-alpha-1">What&#8217;s new in Django 1.3 alpha 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#backwards-incompatible-changes-in-1-3-alpha-1">Backwards-incompatible changes in 1.3 alpha 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#features-deprecated-in-1-3">Features deprecated in 1.3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-django-1-3-roadmap">The Django 1.3 roadmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-can-do-to-help">What you can do to help</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-rc-1.html">Django 1.2 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-beta-1.html">Django 1.2 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-alpha-1.html">Django 1.2 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-rc-1.html">Django 1.1 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-beta-1.html">Django 1.1 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-alpha-1.html">Django 1.1 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta-2.html">Django 1.0 beta 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta.html">Django 1.0 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-2.html">Django 1.0 alpha 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-1.html">Django 1.0 alpha release notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Release notes</a> &raquo;</li>
+      
+    <li>Django 1.3 alpha 1 release notes</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-1-3-alpha-1-release-notes">
+<h1>Django 1.3 alpha 1 release notes<a class="headerlink" href="#django-1-3-alpha-1-release-notes" title="Permalink to this headline">¶</a></h1>
+<p>November 11, 2010</p>
+<p>Welcome to Django 1.3 alpha 1!</p>
+<p>This is the first in a series of preview/development releases leading
+up to the eventual release of Django 1.3. This release is primarily
+targeted at developers who are interested in trying out new features
+and testing the Django codebase to help identify and resolve bugs
+prior to the final 1.3 release.</p>
+<p>As such, this release is <em>not</em> intended for production use, and any such use is
+discouraged.</p>
+<p>As of this alpha release, Django 1.3 contains a number of nifty <a class="reference internal" href="#what-s-new-in-django-1-3-alpha-1">new
+features</a>, lots of bug fixes, some minor <a class="reference internal" href="#backwards-incompatible-changes-1-3-alpha-1">backwards incompatible
+changes</a> and an easy upgrade path from Django 1.2.</p>
+<div class="section" id="what-s-new-in-django-1-3-alpha-1">
+<h2>What&#8217;s new in Django 1.3 alpha 1<a class="headerlink" href="#what-s-new-in-django-1-3-alpha-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="class-based-views">
+<h3>Class-based views<a class="headerlink" href="#class-based-views" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 adds a framework that allows you to use a class as a view.
+This means you can compose a view out of a collection of methods that
+can be subclassed and overridden to provide common views of data without
+having to write too much code.</p>
+<p>Analogs of all the old function-based generic views have been provided,
+along with a completely generic view base class that can be used as
+the basis for reusable applications that can be easily extended.</p>
+<p>See <a class="reference internal" href="../topics/class-based-views/index.html"><em>the documentation on Class-based Generic Views</em></a> for more details. There is also a document to
+help you <a class="reference external" href="https://docs.djangoproject.com/en/1.4/topics/generic-views-migration/">convert your function-based generic views to class-based
+views</a>.</p>
+</div>
+<div class="section" id="logging">
+<h3>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 adds framework-level support for Python&#8217;s logging module.
+This means you can now easily configure and control logging as part of
+your Django project. A number of logging handlers and logging calls
+have been added to Django&#8217;s own code as well &#8211; most notably, the
+error emails sent on a HTTP 500 server error are now handled as a
+logging activity. See <a class="reference internal" href="../topics/logging.html"><em>the documentation on Django&#8217;s logging
+interface</em></a> for more details.</p>
+</div>
+<div class="section" id="extended-static-files-handling">
+<h3>Extended static files handling<a class="headerlink" href="#extended-static-files-handling" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 ships with a new contrib app <code class="docutils literal"><span class="pre">'django.contrib.staticfiles'</span></code>
+to help developers handle the static media files (images, CSS, Javascript,
+etc.) that are needed to render a complete web page.</p>
+<p>In previous versions of Django, it was common to place static assets
+in <a class="reference internal" href="../ref/settings.html#std:setting-MEDIA_ROOT"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_ROOT</span></code></a> along with user-uploaded files, and serve
+them both at <a class="reference internal" href="../ref/settings.html#std:setting-MEDIA_URL"><code class="xref std std-setting docutils literal"><span class="pre">MEDIA_URL</span></code></a>. Part of the purpose of introducing
+the <code class="docutils literal"><span class="pre">staticfiles</span></code> app is to make it easier to keep static files
+separate from user-uploaded files. Static assets should now go in
+<code class="docutils literal"><span class="pre">static/</span></code> subdirectories of your apps or in other static assets
+directories listed in <a class="reference internal" href="../ref/contrib/staticfiles.html#std:setting-STATICFILES_DIRS"><code class="xref std std-setting docutils literal"><span class="pre">STATICFILES_DIRS</span></code></a>, and will be served
+at <a class="reference internal" href="../ref/settings.html#std:setting-STATIC_URL"><code class="xref std std-setting docutils literal"><span class="pre">STATIC_URL</span></code></a>.</p>
+<p>See the <a class="reference internal" href="../ref/contrib/staticfiles.html"><em>reference documentation of the app</em></a>
+for more details or learn how to <a class="reference internal" href="../howto/static-files.html"><em>manage static files</em></a>.</p>
+</div>
+<div class="section" id="unittest2-support">
+<h3><code class="docutils literal"><span class="pre">unittest2</span></code> support<a class="headerlink" href="#unittest2-support" title="Permalink to this headline">¶</a></h3>
+<p>Python 2.7 introduced some major changes to the unittest library,
+adding some extremely useful features. To ensure that every Django
+project can benefit from these new features, Django ships with a
+copy of <a class="reference external" href="http://pypi.python.org/pypi/unittest2">unittest2</a>, a copy of the Python 2.7 unittest library,
+backported for Python 2.4 compatibility.</p>
+<p>To access this library, Django provides the
+<code class="docutils literal"><span class="pre">django.utils.unittest</span></code> module alias. If you are using Python
+2.7, or you have installed unittest2 locally, Django will map the
+alias to the installed version of the unittest library. Otherwise,
+Django will use it&#8217;s own bundled version of unittest2.</p>
+<p>To use this alias, simply use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">unittest</span>
+</pre></div>
+</div>
+<p>wherever you would have historically used:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+</pre></div>
+</div>
+<p>If you want to continue to use the base unittest libary, you can &#8211;
+you just won&#8217;t get any of the nice new unittest2 features.</p>
+</div>
+<div class="section" id="transaction-context-managers">
+<h3>Transaction context managers<a class="headerlink" href="#transaction-context-managers" title="Permalink to this headline">¶</a></h3>
+<p>Users of Python 2.5 and above may now use <a class="reference internal" href="../topics/db/transactions.html#transaction-management-functions"><span>transaction management functions</span></a> as <a class="reference external" href="http://docs.python.org/glossary.html#term-context-manager">context managers</a>. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>with transaction.autocommit():
+    # ...
+</pre></div>
+</div>
+<p>For more information, see <a class="reference internal" href="../topics/db/transactions.html#transaction-management-functions"><span>Controlling transaction management in views</span></a>.</p>
+</div>
+<div class="section" id="configurable-delete-cascade">
+<h3>Configurable delete-cascade<a class="headerlink" href="#configurable-delete-cascade" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../ref/models/fields.html#django.db.models.ForeignKey" title="django.db.models.ForeignKey"><code class="xref py py-class docutils literal"><span class="pre">ForeignKey</span></code></a> and
+<a class="reference internal" href="../ref/models/fields.html#django.db.models.OneToOneField" title="django.db.models.OneToOneField"><code class="xref py py-class docutils literal"><span class="pre">OneToOneField</span></code></a> now accept an
+<a class="reference internal" href="../ref/models/fields.html#django.db.models.ForeignKey.on_delete" title="django.db.models.ForeignKey.on_delete"><code class="xref py py-attr docutils literal"><span class="pre">on_delete</span></code></a> argument to customize behavior
+when the referenced object is deleted. Previously, deletes were always
+cascaded; available alternatives now include set null, set default, set to any
+value, protect, or do nothing.</p>
+<p>For more information, see the <a class="reference internal" href="../ref/models/fields.html#django.db.models.ForeignKey.on_delete" title="django.db.models.ForeignKey.on_delete"><code class="xref py py-attr docutils literal"><span class="pre">on_delete</span></code></a>
+documentation.</p>
+</div>
+<div class="section" id="contextual-markers-in-translatable-strings">
+<h3>Contextual markers in translatable strings<a class="headerlink" href="#contextual-markers-in-translatable-strings" title="Permalink to this headline">¶</a></h3>
+<p>For translation strings with ambiguous meaning, you can now
+use the <code class="docutils literal"><span class="pre">pgettext</span></code> function to specify the context of the string.</p>
+<p>For more information, see <a class="reference internal" href="../topics/i18n/translation.html#contextual-markers"><span>Contextual markers</span></a></p>
+</div>
+<div class="section" id="everything-else">
+<h3>Everything else<a class="headerlink" href="#everything-else" title="Permalink to this headline">¶</a></h3>
+<p>Django <a class="reference internal" href="1.1.html"><em>1.1</em></a> and <a class="reference internal" href="1.2.html"><em>1.2</em></a> added
+lots of big ticket items to Django, like multiple-database support,
+model validation, and a session-based messages framework. However,
+this focus on big features came at the cost of lots of smaller
+features.</p>
+<p>To compensate for this, the focus of the Django 1.3 development
+process has been on adding lots of smaller, long standing feature
+requests. These include:</p>
+<ul class="simple">
+<li>Improved tools for accessing and manipulating the current Site via
+<code class="docutils literal"><span class="pre">django.contrib.sites.models.get_current_site()</span></code>.</li>
+<li>A <a class="reference internal" href="../topics/testing/advanced.html#django.test.client.RequestFactory" title="django.test.client.RequestFactory"><code class="xref py py-class docutils literal"><span class="pre">RequestFactory</span></code></a> for mocking
+requests in tests.</li>
+<li>A new test assertion &#8211;
+<a class="reference internal" href="../topics/testing/overview.html#django.test.TestCase.assertNumQueries" title="django.test.TestCase.assertNumQueries"><code class="xref py py-meth docutils literal"><span class="pre">assertNumQueries()</span></code></a> &#8211; making it
+easier to test the database activity associated with a view.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="backwards-incompatible-changes-in-1-3-alpha-1">
+<span id="backwards-incompatible-changes-1-3-alpha-1"></span><h2>Backwards-incompatible changes in 1.3 alpha 1<a class="headerlink" href="#backwards-incompatible-changes-in-1-3-alpha-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="passwordinput-default-rendering-behavior">
+<h3>PasswordInput default rendering behavior<a class="headerlink" href="#passwordinput-default-rendering-behavior" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../ref/forms/widgets.html#django.forms.PasswordInput" title="django.forms.PasswordInput"><code class="xref py py-class docutils literal"><span class="pre">PasswordInput</span></code></a> form widget, intended for use
+with form fields which represent passwords, accepts a boolean keyword
+argument <code class="docutils literal"><span class="pre">render_value</span></code> indicating whether to send its data back to
+the browser when displaying a submitted form with errors. Prior to
+Django 1.3, this argument defaulted to <code class="docutils literal"><span class="pre">True</span></code>, meaning that the
+submitted password would be sent back to the browser as part of the
+form. Developers who wished to add a bit of additional security by
+excluding that value from the redisplayed form could instantiate a
+<a class="reference internal" href="../ref/forms/widgets.html#django.forms.PasswordInput" title="django.forms.PasswordInput"><code class="xref py py-class docutils literal"><span class="pre">PasswordInput</span></code></a> passing <code class="docutils literal"><span class="pre">render_value=False</span></code> .</p>
+<p>Due to the sensitive nature of passwords, however, Django 1.3 takes
+this step automatically; the default value of <code class="docutils literal"><span class="pre">render_value</span></code> is now
+<code class="docutils literal"><span class="pre">False</span></code>, and developers who want the password value returned to the
+browser on a submission with errors (the previous behavior) must now
+explicitly indicate this. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">LoginForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">PasswordInput</span><span class="p">(</span><span class="n">render_value</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clearable-default-widget-for-filefield">
+<h3>Clearable default widget for FileField<a class="headerlink" href="#clearable-default-widget-for-filefield" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 now includes a <code class="docutils literal"><span class="pre">ClearableFileInput</span></code> form widget in addition to
+<code class="docutils literal"><span class="pre">FileInput</span></code>. <code class="docutils literal"><span class="pre">ClearableFileInput</span></code> renders with a checkbox to clear the
+field&#8217;s value (if the field has a value and is not required); <code class="docutils literal"><span class="pre">FileInput</span></code>
+provided no means for clearing an existing file from a <code class="docutils literal"><span class="pre">FileField</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">ClearableFileInput</span></code> is now the default widget for a <code class="docutils literal"><span class="pre">FileField</span></code>, so
+existing forms including <code class="docutils literal"><span class="pre">FileField</span></code> without assigning a custom widget will
+need to account for the possible extra checkbox in the rendered form output.</p>
+<p>To return to the previous rendering (without the ability to clear the
+<code class="docutils literal"><span class="pre">FileField</span></code>), use the <code class="docutils literal"><span class="pre">FileInput</span></code> widget in place of
+<code class="docutils literal"><span class="pre">ClearableFileInput</span></code>. For instance, in a <code class="docutils literal"><span class="pre">ModelForm</span></code> for a hypothetical
+<code class="docutils literal"><span class="pre">Document</span></code> model with a <code class="docutils literal"><span class="pre">FileField</span></code> named <code class="docutils literal"><span class="pre">document</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">Document</span>
+
+<span class="k">class</span> <span class="nc">DocumentForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Document</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;document&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">FileInput</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="new-index-on-database-session-table">
+<h3>New index on database session table<a class="headerlink" href="#new-index-on-database-session-table" title="Permalink to this headline">¶</a></h3>
+<p>Prior to Django 1.3, the database table used by the database backend
+for the <a class="reference internal" href="../topics/http/sessions.html"><em>sessions</em></a> app had no index on
+the <code class="docutils literal"><span class="pre">expire_date</span></code> column. As a result, date-based queries on the
+session table &#8211; such as the query that is needed to purge old
+sessions &#8211; would be very slow if there were lots of sessions.</p>
+<p>If you have an existing project that is using the database session
+backend, you don&#8217;t have to do anything to accommodate this change.
+However, you may get a significant performance boost if you manually
+add the new index to the session table. The SQL that will add the
+index can be found by running the <a class="reference internal" href="../ref/django-admin.html#django-admin-sqlindexes"><code class="xref std std-djadmin docutils literal"><span class="pre">sqlindexes</span></code></a> admin
+command:</p>
+<div class="highlight-python"><div class="highlight"><pre>python manage.py sqlindexes sessions
+</pre></div>
+</div>
+</div>
+<div class="section" id="no-more-naughty-words">
+<h3>No more naughty words<a class="headerlink" href="#no-more-naughty-words" title="Permalink to this headline">¶</a></h3>
+<p>Django has historically provided (and enforced) a list of profanities.
+The <a class="reference internal" href="../ref/contrib/comments/index.html"><em>comments app</em></a> has enforced this
+list of profanities, preventing people from submitting comments that
+contained one of those profanities.</p>
+<p>Unfortunately, the technique used to implement this profanities list
+was woefully naive, and prone to the <a class="reference external" href="http://en.wikipedia.org/wiki/Scunthorpe_problem">Scunthorpe problem</a>. Fixing the
+built in filter to fix this problem would require significant effort,
+and since natural language processing isn&#8217;t the normal domain of a web
+framework, we have &#8220;fixed&#8221; the problem by making the list of
+prohibited words an empty list.</p>
+<p>If you want to restore the old behavior, simply put a
+<a class="reference internal" href="../ref/settings.html#std:setting-PROFANITIES_LIST"><code class="xref std std-setting docutils literal"><span class="pre">PROFANITIES_LIST</span></code></a> setting in your settings file that includes the
+words that you want to prohibit (see the <a class="reference external" href="https://code.djangoproject.com/changeset/13996">commit that implemented this
+change</a> if you want to see the list of words that was historically
+prohibited). However, if avoiding profanities is important to you, you
+would be well advised to seek out a better, less naive approach to the
+problem.</p>
+</div>
+<div class="section" id="localflavor-changes">
+<h3>Localflavor changes<a class="headerlink" href="#localflavor-changes" title="Permalink to this headline">¶</a></h3>
+<p>Django 1.3 introduces the following backwards-incompatible changes to
+local flavors:</p>
+<ul class="simple">
+<li>Indonesia (id) &#8211; The province &#8220;Nanggroe Aceh Darussalam (NAD)&#8221;
+has been removed from the province list in favor of the new
+official designation &#8220;Aceh (ACE)&#8221;.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="features-deprecated-in-1-3">
+<h2>Features deprecated in 1.3<a class="headerlink" href="#features-deprecated-in-1-3" title="Permalink to this headline">¶</a></h2>
+<p>Django 1.3 deprecates some features from earlier releases.
+These features are still supported, but will be gradually phased out
+over the next few release cycles.</p>
+<p>Code taking advantage of any of the features below will raise a
+<code class="docutils literal"><span class="pre">PendingDeprecationWarning</span></code> in Django 1.3. This warning will be
+silent by default, but may be turned on using Python&#8217;s <a class="reference external" href="http://docs.python.org/2.7/library/warnings.html#module-warnings" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">warnings</span></code></a>
+module, or by running Python with a <code class="docutils literal"><span class="pre">-Wd</span></code> or <cite>-Wall</cite> flag.</p>
+<p>In Django 1.4, these warnings will become a <code class="docutils literal"><span class="pre">DeprecationWarning</span></code>,
+which is <em>not</em> silent. In Django 1.5 support for these features will
+be removed entirely.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">For more details, see the documentation <a class="reference internal" href="../internals/release-process.html"><em>Django&#8217;s release process</em></a> and our <a class="reference internal" href="../internals/deprecation.html"><em>deprecation timeline</em></a>.</p>
+</div>
+<div class="section" id="mod-python-support">
+<h3><code class="docutils literal"><span class="pre">mod_python</span></code> support<a class="headerlink" href="#mod-python-support" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">mod_python</span></code> library has not had a release since 2007 or a commit since
+2008. The Apache Foundation board voted to remove <code class="docutils literal"><span class="pre">mod_python</span></code> from the set
+of active projects in its version control repositories, and its lead developer
+has shifted all of his efforts toward the lighter, slimmer, more stable, and
+more flexible <code class="docutils literal"><span class="pre">mod_wsgi</span></code> backend.</p>
+<p>If you are currently using the <code class="docutils literal"><span class="pre">mod_python</span></code> request handler, you are strongly
+encouraged to redeploy your Django instances using <a class="reference internal" href="../howto/deployment/wsgi/modwsgi.html"><em>mod_wsgi</em></a>.</p>
+</div>
+<div class="section" id="function-based-generic-views">
+<h3>Function-based generic views<a class="headerlink" href="#function-based-generic-views" title="Permalink to this headline">¶</a></h3>
+<p>As a result of the introduction of class-based generic views, the
+function-based generic views provided by Django have been deprecated.
+The following modules and the views they contain have been deprecated:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">django.views.generic.create_update</span></code></li>
+<li><code class="docutils literal"><span class="pre">django.views.generic.date_based</span></code></li>
+<li><code class="docutils literal"><span class="pre">django.views.generic.list_detail</span></code></li>
+<li><code class="docutils literal"><span class="pre">django.views.generic.simple</span></code></li>
+</ul>
+</div>
+<div class="section" id="test-client-response-template-attribute">
+<h3>Test client response <code class="docutils literal"><span class="pre">template</span></code> attribute<a class="headerlink" href="#test-client-response-template-attribute" title="Permalink to this headline">¶</a></h3>
+<p>Django&#8217;s <a class="reference internal" href="../topics/testing/overview.html#test-client"><span>test client</span></a> returns
+<a class="reference internal" href="../topics/testing/overview.html#django.test.client.Response" title="django.test.client.Response"><code class="xref py py-class docutils literal"><span class="pre">Response</span></code></a> objects annotated with extra testing
+information. In Django versions prior to 1.3, this included a <code class="docutils literal"><span class="pre">template</span></code>
+attribute containing information about templates rendered in generating the
+response: either None, a single <a class="reference internal" href="../ref/templates/api.html#django.template.Template" title="django.template.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a> object, or a
+list of <a class="reference internal" href="../ref/templates/api.html#django.template.Template" title="django.template.Template"><code class="xref py py-class docutils literal"><span class="pre">Template</span></code></a> objects. This inconsistency in
+return values (sometimes a list, sometimes not) made the attribute difficult
+to work with.</p>
+<p>In Django 1.3 the <code class="docutils literal"><span class="pre">template</span></code> attribute is deprecated in favor of a new
+<a class="reference internal" href="../topics/testing/overview.html#django.test.client.Response.templates" title="django.test.client.Response.templates"><code class="xref py py-attr docutils literal"><span class="pre">templates</span></code></a> attribute, which is always a
+list, even if it has only a single element or no elements.</p>
+</div>
+<div class="section" id="djangotestrunner">
+<h3><code class="docutils literal"><span class="pre">DjangoTestRunner</span></code><a class="headerlink" href="#djangotestrunner" title="Permalink to this headline">¶</a></h3>
+<p>As a result of the introduction of support for unittest2, the features
+of <code class="docutils literal"><span class="pre">django.test.simple.DjangoTestRunner</span></code> (including fail-fast
+and Ctrl-C test termination) have been made redundant. In view of this
+redundancy, <code class="docutils literal"><span class="pre">DjangoTestRunner</span></code> has been turned into an empty placeholder
+class, and will be removed entirely in Django 1.5.</p>
+</div>
+</div>
+<div class="section" id="the-django-1-3-roadmap">
+<h2>The Django 1.3 roadmap<a class="headerlink" href="#the-django-1-3-roadmap" title="Permalink to this headline">¶</a></h2>
+<p>Before the final Django 1.3 release, several other preview/development
+releases will be made available. The current schedule consists of at
+least the following:</p>
+<ul class="simple">
+<li>Week of <strong>November 29, 2010</strong>: First Django 1.3 beta release. Final
+feature freeze for Django 1.3.</li>
+<li>Week of <strong>January 10, 2011</strong>: First Django 1.3 release
+candidate. String freeze for translations.</li>
+<li>Week of <strong>January 17, 2011</strong>: Django 1.3 final release.</li>
+</ul>
+<p>If necessary, additional alpha, beta or release-candidate packages
+will be issued prior to the final 1.3 release. Django 1.3 will be
+released approximately one week after the final release candidate.</p>
+</div>
+<div class="section" id="what-you-can-do-to-help">
+<h2>What you can do to help<a class="headerlink" href="#what-you-can-do-to-help" title="Permalink to this headline">¶</a></h2>
+<p>In order to provide a high-quality 1.3 release, we need your help. Although this
+alpha release is, again, <em>not</em> intended for production use, you can help the
+Django team by trying out the alpha codebase in a safe test environment and
+reporting any bugs or issues you encounter. The Django ticket tracker is the
+central place to search for open issues:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://code.djangoproject.com/timeline">https://code.djangoproject.com/timeline</a></li>
+</ul>
+<p>Please open new tickets if no existing ticket corresponds to a problem you&#8217;re
+running into.</p>
+<p>Additionally, discussion of Django development, including progress toward the
+1.3 release, takes place daily on the django-developers mailing list:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://groups.google.com/group/django-developers">http://groups.google.com/group/django-developers</a></li>
+</ul>
+<p>... and in the <code class="docutils literal"><span class="pre">#django-dev</span></code> IRC channel on <code class="docutils literal"><span class="pre">irc.freenode.net</span></code>. If you&#8217;re
+interested in helping out with Django&#8217;s development, feel free to join the
+discussions there.</p>
+<p>Django&#8217;s online documentation also includes pointers on how to contribute to
+Django:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../internals/contributing/index.html"><em>How to contribute to Django</em></a></li>
+</ul>
+<p>Contributions on any level &#8211; developing code, writing documentation or simply
+triaging tickets and helping to test proposed bugfixes &#8211; are always welcome and
+appreciated.</p>
+<p>Several development sprints will also be taking place before the 1.3
+release; these will typically be announced in advance on the
+django-developers mailing list, and anyone who wants to help is
+welcome to join in.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="1.2-rc-1.html" class="btn btn-neutral float-right" title="Django 1.2 RC 1 release notes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="1.3-beta-1.html" class="btn btn-neutral" title="Django 1.3 beta 1 release notes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.3-alpha-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

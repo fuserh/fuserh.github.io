@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/class-based-views/generic-editing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Form handling with class-based views &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../db/index.html">Models and databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Class-based views</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="generic-display.html">Class-based generic views</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Form handling with class-based views</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-forms">Basic Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-forms">Model Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#models-and-request-user">Models and request.user</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ajax-example">AJAX example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mixins.html">Using mixins with class-based views</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#basic-examples">Basic examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#simple-usage-in-your-urlconf">Simple usage in your URLconf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#subclassing-generic-views">Subclassing generic views</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#decorating-class-based-views">Decorating class-based views</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Class-based views</a> &raquo;</li>
+      
+    <li>Form handling with class-based views</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="form-handling-with-class-based-views">
+<h1>Form handling with class-based views<a class="headerlink" href="#form-handling-with-class-based-views" title="Permalink to this headline">¶</a></h1>
+<p>Form processing generally has 3 paths:</p>
+<ul class="simple">
+<li>Initial GET (blank or prepopulated form)</li>
+<li>POST with invalid data (typically redisplay form with errors)</li>
+<li>POST with valid data (process the data and typically redirect)</li>
+</ul>
+<p>Implementing this yourself often results in a lot of repeated boilerplate code
+(see <a class="reference internal" href="../forms/index.html#using-a-form-in-a-view"><span>Using a form in a view</span></a>). To help avoid
+this, Django provides a collection of generic class-based views for form
+processing.</p>
+<div class="section" id="basic-forms">
+<h2>Basic Forms<a class="headerlink" href="#basic-forms" title="Permalink to this headline">¶</a></h2>
+<p>Given a simple contact form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># forms.py</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+
+<span class="k">class</span> <span class="nc">ContactForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># send email using the self.cleaned_data dictionary</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The view can be constructed using a <code class="docutils literal"><span class="pre">FormView</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># views.py</span>
+<span class="kn">from</span> <span class="nn">myapp.forms</span> <span class="kn">import</span> <span class="n">ContactForm</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">FormView</span>
+
+<span class="k">class</span> <span class="nc">ContactView</span><span class="p">(</span><span class="n">FormView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">&#39;contact.html&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">ContactForm</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="s">&#39;/thanks/&#39;</span>
+
+    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="c"># This method is called when valid form data has been POSTed.</span>
+        <span class="c"># It should return an HttpResponse.</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">send_email</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ContactView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li>FormView inherits
+<a class="reference internal" href="../../ref/class-based-views/mixins-simple.html#django.views.generic.base.TemplateResponseMixin" title="django.views.generic.base.TemplateResponseMixin"><code class="xref py py-class docutils literal"><span class="pre">TemplateResponseMixin</span></code></a> so
+<a class="reference internal" href="../../ref/class-based-views/mixins-simple.html#django.views.generic.base.TemplateResponseMixin.template_name" title="django.views.generic.base.TemplateResponseMixin.template_name"><code class="xref py py-attr docutils literal"><span class="pre">template_name</span></code></a>
+can be used here.</li>
+<li>The default implementation for
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.FormMixin.form_valid" title="django.views.generic.edit.FormMixin.form_valid"><code class="xref py py-meth docutils literal"><span class="pre">form_valid()</span></code></a> simply
+redirects to the <a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.FormMixin.success_url" title="django.views.generic.edit.FormMixin.success_url"><code class="xref py py-attr docutils literal"><span class="pre">success_url</span></code></a>.</li>
+</ul>
+</div>
+<div class="section" id="model-forms">
+<h2>Model Forms<a class="headerlink" href="#model-forms" title="Permalink to this headline">¶</a></h2>
+<p>Generic views really shine when working with models.  These generic
+views will automatically create a <a class="reference internal" href="../forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a>, so long as
+they can work out which model class to use:</p>
+<ul class="simple">
+<li>If the <a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.ModelFormMixin.model" title="django.views.generic.edit.ModelFormMixin.model"><code class="xref py py-attr docutils literal"><span class="pre">model</span></code></a> attribute is
+given, that model class will be used.</li>
+<li>If <a class="reference internal" href="../../ref/class-based-views/mixins-single-object.html#django.views.generic.detail.SingleObjectMixin.get_object" title="django.views.generic.detail.SingleObjectMixin.get_object"><code class="xref py py-meth docutils literal"><span class="pre">get_object()</span></code></a>
+returns an object, the class of that object will be used.</li>
+<li>If a <a class="reference internal" href="../../ref/class-based-views/mixins-single-object.html#django.views.generic.detail.SingleObjectMixin.queryset" title="django.views.generic.detail.SingleObjectMixin.queryset"><code class="xref py py-attr docutils literal"><span class="pre">queryset</span></code></a> is
+given, the model for that queryset will be used.</li>
+</ul>
+<p>Model form views provide a
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.ModelFormMixin.form_valid" title="django.views.generic.edit.ModelFormMixin.form_valid"><code class="xref py py-meth docutils literal"><span class="pre">form_valid()</span></code></a> implementation
+that saves the model automatically.  You can override this if you have any
+special requirements; see below for examples.</p>
+<p>You don&#8217;t even need to provide a <code class="docutils literal"><span class="pre">success_url</span></code> for
+<a class="reference internal" href="../../ref/class-based-views/generic-editing.html#django.views.generic.edit.CreateView" title="django.views.generic.edit.CreateView"><code class="xref py py-class docutils literal"><span class="pre">CreateView</span></code></a> or
+<a class="reference internal" href="../../ref/class-based-views/generic-editing.html#django.views.generic.edit.UpdateView" title="django.views.generic.edit.UpdateView"><code class="xref py py-class docutils literal"><span class="pre">UpdateView</span></code></a> - they will use
+<a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a> on the model object if available.</p>
+<p>If you want to use a custom <a class="reference internal" href="../forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> (for instance to
+add extra validation) simply set
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.FormMixin.form_class" title="django.views.generic.edit.FormMixin.form_class"><code class="xref py py-attr docutils literal"><span class="pre">form_class</span></code></a> on your view.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When specifying a custom form class, you must still specify the model,
+even though the <a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.FormMixin.form_class" title="django.views.generic.edit.FormMixin.form_class"><code class="xref py py-attr docutils literal"><span class="pre">form_class</span></code></a> may
+be a <a class="reference internal" href="../forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a>.</p>
+</div>
+<p>First we need to add <a class="reference internal" href="../../ref/models/instances.html#django.db.models.Model.get_absolute_url" title="django.db.models.Model.get_absolute_url"><code class="xref py py-meth docutils literal"><span class="pre">get_absolute_url()</span></code></a> to our
+<code class="docutils literal"><span class="pre">Author</span></code> class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># models.py</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;author-detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Then we can use <a class="reference internal" href="../../ref/class-based-views/flattened-index.html#CreateView" title="CreateView"><code class="xref py py-class docutils literal"><span class="pre">CreateView</span></code></a> and friends to do the actual
+work. Notice how we&#8217;re just configuring the generic class-based views
+here; we don&#8217;t have to write any logic ourselves:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># views.py</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">,</span> <span class="n">DeleteView</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">Author</span>
+
+<span class="k">class</span> <span class="nc">AuthorCreate</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+
+<span class="k">class</span> <span class="nc">AuthorUpdate</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+
+<span class="k">class</span> <span class="nc">AuthorDelete</span><span class="p">(</span><span class="n">DeleteView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s">&#39;author-list&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We have to use <a class="reference internal" href="../../ref/urlresolvers.html#django.core.urlresolvers.reverse_lazy" title="django.core.urlresolvers.reverse_lazy"><code class="xref py py-func docutils literal"><span class="pre">reverse_lazy()</span></code></a> here, not
+just <code class="docutils literal"><span class="pre">reverse</span></code> as the urls are not loaded when the file is imported.</p>
+</div>
+<p>Finally, we hook these new views into the URLconf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># urls.py</span>
+<span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">patterns</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">myapp.views</span> <span class="kn">import</span> <span class="n">AuthorCreate</span><span class="p">,</span> <span class="n">AuthorUpdate</span><span class="p">,</span> <span class="n">AuthorDelete</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="c"># ...</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;author/add/$&#39;</span><span class="p">,</span> <span class="n">AuthorCreate</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;author_add&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;author/(?P&lt;pk&gt;\d+)/$&#39;</span><span class="p">,</span> <span class="n">AuthorUpdate</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;author_update&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;author/(?P&lt;pk&gt;\d+)/delete/$&#39;</span><span class="p">,</span> <span class="n">AuthorDelete</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;author_delete&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>These views inherit
+<a class="reference internal" href="../../ref/class-based-views/mixins-single-object.html#django.views.generic.detail.SingleObjectTemplateResponseMixin" title="django.views.generic.detail.SingleObjectTemplateResponseMixin"><code class="xref py py-class docutils literal"><span class="pre">SingleObjectTemplateResponseMixin</span></code></a>
+which uses
+<a class="reference internal" href="../../ref/class-based-views/mixins-single-object.html#django.views.generic.detail.SingleObjectTemplateResponseMixin.template_name_suffix" title="django.views.generic.detail.SingleObjectTemplateResponseMixin.template_name_suffix"><code class="xref py py-attr docutils literal"><span class="pre">template_name_suffix</span></code></a>
+to construct the
+<a class="reference internal" href="../../ref/class-based-views/mixins-simple.html#django.views.generic.base.TemplateResponseMixin.template_name" title="django.views.generic.base.TemplateResponseMixin.template_name"><code class="xref py py-attr docutils literal"><span class="pre">template_name</span></code></a>
+based on the model.</p>
+<p>In this example:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../ref/class-based-views/flattened-index.html#CreateView" title="CreateView"><code class="xref py py-class docutils literal"><span class="pre">CreateView</span></code></a> and <a class="reference internal" href="../../ref/class-based-views/flattened-index.html#UpdateView" title="UpdateView"><code class="xref py py-class docutils literal"><span class="pre">UpdateView</span></code></a> use <code class="docutils literal"><span class="pre">myapp/author_form.html</span></code></li>
+<li><a class="reference internal" href="../../ref/class-based-views/flattened-index.html#DeleteView" title="DeleteView"><code class="xref py py-class docutils literal"><span class="pre">DeleteView</span></code></a> uses <code class="docutils literal"><span class="pre">myapp/author_confirm_delete.html</span></code></li>
+</ul>
+<p class="last">If you wish to have separate templates for <a class="reference internal" href="../../ref/class-based-views/flattened-index.html#CreateView" title="CreateView"><code class="xref py py-class docutils literal"><span class="pre">CreateView</span></code></a> and
+<a class="reference internal" href="../../ref/class-based-views/flattened-index.html#UpdateView" title="UpdateView"><code class="xref py py-class docutils literal"><span class="pre">UpdateView</span></code></a>, you can set either
+<a class="reference internal" href="../../ref/class-based-views/mixins-simple.html#django.views.generic.base.TemplateResponseMixin.template_name" title="django.views.generic.base.TemplateResponseMixin.template_name"><code class="xref py py-attr docutils literal"><span class="pre">template_name</span></code></a> or
+<a class="reference internal" href="../../ref/class-based-views/mixins-single-object.html#django.views.generic.detail.SingleObjectTemplateResponseMixin.template_name_suffix" title="django.views.generic.detail.SingleObjectTemplateResponseMixin.template_name_suffix"><code class="xref py py-attr docutils literal"><span class="pre">template_name_suffix</span></code></a>
+on your view class.</p>
+</div>
+</div>
+<div class="section" id="models-and-request-user">
+<h2>Models and request.user<a class="headerlink" href="#models-and-request-user" title="Permalink to this headline">¶</a></h2>
+<p>To track the user that created an object using a <a class="reference internal" href="../../ref/class-based-views/flattened-index.html#CreateView" title="CreateView"><code class="xref py py-class docutils literal"><span class="pre">CreateView</span></code></a>,
+you can use a custom <a class="reference internal" href="../forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> to do this. First, add
+the foreign key relation to the model:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># models.py</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">created_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>Create a custom <a class="reference internal" href="../forms/modelforms.html#django.forms.ModelForm" title="django.forms.ModelForm"><code class="xref py py-class docutils literal"><span class="pre">ModelForm</span></code></a> in order to exclude the
+<code class="docutils literal"><span class="pre">created_by</span></code> field and prevent the user from editing it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># forms.py</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">Author</span>
+
+<span class="k">class</span> <span class="nc">AuthorForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;created_by&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>In the view, use the custom
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.FormMixin.form_class" title="django.views.generic.edit.FormMixin.form_class"><code class="xref py py-attr docutils literal"><span class="pre">form_class</span></code></a> and override
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.ModelFormMixin.form_valid" title="django.views.generic.edit.ModelFormMixin.form_valid"><code class="xref py py-meth docutils literal"><span class="pre">form_valid()</span></code></a> to add the
+user:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># views.py</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span>
+<span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">Author</span>
+<span class="kn">from</span> <span class="nn">myapp.forms</span> <span class="kn">import</span> <span class="n">AuthorForm</span>
+
+<span class="k">class</span> <span class="nc">AuthorCreate</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">AuthorForm</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+
+    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">created_by</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AuthorCreate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that you&#8217;ll need to <a class="reference internal" href="index.html#id2"><span>decorate this
+view</span></a> using
+<a class="reference internal" href="../auth/default.html#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a>, or
+alternatively handle unauthorized users in the
+<a class="reference internal" href="../../ref/class-based-views/mixins-editing.html#django.views.generic.edit.ModelFormMixin.form_valid" title="django.views.generic.edit.ModelFormMixin.form_valid"><code class="xref py py-meth docutils literal"><span class="pre">form_valid()</span></code></a>.</p>
+</div>
+<div class="section" id="ajax-example">
+<h2>AJAX example<a class="headerlink" href="#ajax-example" title="Permalink to this headline">¶</a></h2>
+<p>Here is a simple example showing how you might go about implementing a form that
+works for AJAX requests as well as &#8216;normal&#8217; form POSTs:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span>
+
+<span class="k">class</span> <span class="nc">AjaxableResponseMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixin to add AJAX support to a form.</span>
+<span class="sd">    Must be used with an object-based FormView (e.g. CreateView)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">render_to_json_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+        <span class="n">response_kwargs</span><span class="p">[</span><span class="s">&#39;content_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;application/json&#39;</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">form_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">is_ajax</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_to_json_response</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AjaxableResponseMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_invalid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">is_ajax</span><span class="p">():</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;pk&#39;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">instance</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_to_json_response</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">AjaxableResponseMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AuthorCreate</span><span class="p">(</span><span class="n">AjaxableResponseMixin</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mixins.html" class="btn btn-neutral float-right" title="Using mixins with class-based views" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generic-display.html" class="btn btn-neutral" title="Class-based generic views" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/class-based-views/generic-editing.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+</html>

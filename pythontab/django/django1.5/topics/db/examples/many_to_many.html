@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/examples/many_to_many.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Many-to-many relationships &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../install.html">如何安装 Django</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Models and databases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../models.html">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../queries.html">Making queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../aggregation.html">Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../managers.html">Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sql.html">Performing raw SQL queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../transactions.html">Managing database transactions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../multi-db.html">Multiple databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tablespaces.html">Tablespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../optimization.html">Database access optimization</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Examples of model relationship API usage</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Many-to-many relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="many_to_one.html">Many-to-one relationships</a></li>
+<li class="toctree-l4"><a class="reference internal" href="one_to_one.html">One-to-one relationships</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="../index.html">Models and databases</a> &raquo;</li>
+      
+          <li><a href="index.html">Examples of model relationship API usage</a> &raquo;</li>
+      
+    <li>Many-to-many relationships</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="many-to-many-relationships">
+<h1>Many-to-many relationships<a class="headerlink" href="#many-to-many-relationships" title="Permalink to this headline">¶</a></h1>
+<p>To define a many-to-many relationship, use <a class="reference internal" href="../../../ref/models/fields.html#ref-manytomany"><span>ManyToManyField</span></a>.</p>
+<p>In this example, an <code class="docutils literal"><span class="pre">Article</span></code> can be published in multiple <code class="docutils literal"><span class="pre">Publication</span></code>
+objects, and a <code class="docutils literal"><span class="pre">Publication</span></code> has multiple <code class="docutils literal"><span class="pre">Article</span></code> objects:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Publication</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,)</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Publication</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headline</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;headline&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>What follows are examples of operations that can be performed using the Python
+API facilities.</p>
+<p>Create a couple of <code class="docutils literal"><span class="pre">Publications</span></code>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;The Python Journal&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;Science News&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;Science Weekly&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Create an <code class="docutils literal"><span class="pre">Article</span></code>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">&#39;Django lets you build Web apps easily&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can&#8217;t associate it with a <code class="docutils literal"><span class="pre">Publication</span></code> until it&#8217;s been saved:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">ValueError</span>: <span class="n">&#39;Article&#39; instance needs to have a primary key value before a many-to-many relationship can be used.</span>
+</pre></div>
+</div>
+<p>Save it!</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Associate the <code class="docutils literal"><span class="pre">Article</span></code> with a <code class="docutils literal"><span class="pre">Publication</span></code>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create another <code class="docutils literal"><span class="pre">Article</span></code>, and set it to appear in both <code class="docutils literal"><span class="pre">Publications</span></code>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">&#39;NASA uses Python&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Adding a second time is OK:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Adding an object of the wrong type raises <a class="reference external" href="http://docs.python.org/2.7/library/exceptions.html#exceptions.TypeError" title="(in Python v2.7)"><code class="xref py py-exc docutils literal"><span class="pre">TypeError</span></code></a>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="c">...</span>
+<span class="gr">TypeError</span>: <span class="n">&#39;Publication&#39; instance expected</span>
+</pre></div>
+</div>
+<p>Create and add a <code class="docutils literal"><span class="pre">Publication</span></code> to an <code class="docutils literal"><span class="pre">Article</span></code> in one step using
+<a class="reference internal" href="../../../ref/models/relations.html#django.db.models.fields.related.RelatedManager.create" title="django.db.models.fields.related.RelatedManager.create"><code class="xref py py-meth docutils literal"><span class="pre">create()</span></code></a>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">new_publication</span> <span class="o">=</span> <span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;Highlights for Children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">Article</span></code> objects have access to their related <code class="docutils literal"><span class="pre">Publication</span></code> objects:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;, &lt;Publication: The Python Journal&gt;]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">Publication</span></code> objects have access to their related <code class="docutils literal"><span class="pre">Article</span></code> objects:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA uses Python&gt;]</span>
+</pre></div>
+</div>
+<p>Many-to-many relationships can be queried using <a class="reference internal" href="../queries.html#lookups-that-span-relationships"><span>lookups across
+relationships</span></a>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__id__exact</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__title__startswith</span><span class="o">=</span><span class="s">&quot;Science&quot;</span><span class="p">)</span>
+<span class="go">[&lt;Article: NASA uses Python&gt;, &lt;Article: NASA uses Python&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__title__startswith</span><span class="o">=</span><span class="s">&quot;Science&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA uses Python&gt;]</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../../../ref/models/querysets.html#django.db.models.query.QuerySet.count" title="django.db.models.query.QuerySet.count"><code class="xref py py-meth docutils literal"><span class="pre">count()</span></code></a> function respects
+<a class="reference internal" href="../../../ref/models/querysets.html#django.db.models.query.QuerySet.distinct" title="django.db.models.query.QuerySet.distinct"><code class="xref py py-meth docutils literal"><span class="pre">distinct()</span></code></a> as well:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__title__startswith</span><span class="o">=</span><span class="s">&quot;Science&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="go">2</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__title__startswith</span><span class="o">=</span><span class="s">&quot;Science&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="go">1</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__in</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">publications__in</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">])</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA uses Python&gt;]</span>
+</pre></div>
+</div>
+<p>Reverse m2m queries are supported (i.e., starting at the table that doesn&#8217;t have
+a <a class="reference internal" href="../../../ref/models/fields.html#django.db.models.ManyToManyField" title="django.db.models.ManyToManyField"><code class="xref py py-class docutils literal"><span class="pre">ManyToManyField</span></code></a>):</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id__exact</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article__headline__startswith</span><span class="o">=</span><span class="s">&quot;NASA&quot;</span><span class="p">)</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;, &lt;Publication: The Python Journal&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article__id__exact</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article__pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">a1</span><span class="p">)</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article__in</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;, &lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article__in</span><span class="o">=</span><span class="p">[</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">])</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;, &lt;Publication: The Python Journal&gt;]</span>
+</pre></div>
+</div>
+<p>Excluding a related item works as you would expect, too (although the SQL
+involved is a little complex):</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">publications</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;]</span>
+</pre></div>
+</div>
+<p>If we delete a <code class="docutils literal"><span class="pre">Publication</span></code>, its <code class="docutils literal"><span class="pre">Articles</span></code> won&#8217;t be able to access it:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>If we delete an <code class="docutils literal"><span class="pre">Article</span></code>, its <code class="docutils literal"><span class="pre">Publications</span></code> won&#8217;t be able to access it:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>Adding via the &#8216;other&#8217; end of an m2m:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">&#39;NASA finds intelligent life on Earth&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA finds intelligent life on Earth&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Science News&gt;]</span>
+</pre></div>
+</div>
+<p>Adding via the other end using keywords:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">new_article</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">&#39;Oxygen-free diet works wonders&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA finds intelligent life on Earth&gt;, &lt;Article: Oxygen-free diet works wonders&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a5</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a5</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Science News&gt;]</span>
+</pre></div>
+</div>
+<p>Removing <code class="docutils literal"><span class="pre">Publication</span></code> from an <code class="docutils literal"><span class="pre">Article</span></code>:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: Oxygen-free diet works wonders&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>And from the other end:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">a5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a5</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>Relation sets can be assigned. Assignment clears any existing set members:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Science News&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span> <span class="o">=</span> <span class="p">[</span><span class="n">p3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Science Weekly&gt;]</span>
+</pre></div>
+</div>
+<p>Relation sets can be cleared:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<p>And you can clear from the other end:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a4</span><span class="p">,</span> <span class="n">a5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA finds intelligent life on Earth&gt;, &lt;Article: Oxygen-free diet works wonders&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Science News&gt;, &lt;Publication: Science Weekly&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a4</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: Oxygen-free diet works wonders&gt;]</span>
+</pre></div>
+</div>
+<p>Recreate the <code class="docutils literal"><span class="pre">Article</span></code> and <code class="docutils literal"><span class="pre">Publication</span></code> we have deleted:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">&#39;The Python Journal&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">&#39;NASA uses Python&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Bulk delete some <code class="docutils literal"><span class="pre">Publications</span></code> - references to deleted publications should
+go:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">title__startswith</span><span class="o">=</span><span class="s">&#39;Science&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;, &lt;Article: NASA finds intelligent life on Earth&gt;, &lt;Article: NASA uses Python&gt;, &lt;Article: Oxygen-free diet works wonders&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: The Python Journal&gt;]</span>
+</pre></div>
+</div>
+<p>Bulk delete some articles - references to deleted objects should go:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">headline__startswith</span><span class="o">=</span><span class="s">&#39;Django&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="go">[&lt;Article: Django lets you build Web apps easily&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After the <a class="reference internal" href="../../../ref/models/querysets.html#django.db.models.query.QuerySet.delete" title="django.db.models.query.QuerySet.delete"><code class="xref py py-meth docutils literal"><span class="pre">delete()</span></code></a>, the
+<a class="reference internal" href="../../../ref/models/querysets.html#django.db.models.query.QuerySet" title="django.db.models.query.QuerySet"><code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code></a> cache needs to be cleared, and the
+referenced objects should be gone:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Article: NASA uses Python&gt;]</span>
+</pre></div>
+</div>
+<p>An alternate to calling
+<a class="reference internal" href="../../../ref/models/relations.html#django.db.models.fields.related.RelatedManager.clear" title="django.db.models.fields.related.RelatedManager.clear"><code class="xref py py-meth docutils literal"><span class="pre">clear()</span></code></a> is to assign the
+empty set:</p>
+<div class="highlight-pycon"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">article_set</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">new_publication</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[&lt;Publication: Highlights for Children&gt;, &lt;Publication: The Python Journal&gt;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="many_to_one.html" class="btn btn-neutral float-right" title="Many-to-one relationships" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Examples of model relationship API usage" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/examples/many_to_many.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:22 GMT -->
+</html>

@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/security.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Security in Django &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="db/index.html">Models and databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Security in Django</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cross-site-scripting-xss-protection">Cross site scripting (XSS) protection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#markup-library">Markup library</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cross-site-request-forgery-csrf-protection">Cross site request forgery (CSRF) protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sql-injection-protection">SQL injection protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clickjacking-protection">Clickjacking protection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssl-https">SSL/HTTPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-header-validation">Host header validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-security-topics">Additional security topics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">使用 Django</a> &raquo;</li>
+      
+    <li>Security in Django</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="security-in-django">
+<h1>Security in Django<a class="headerlink" href="#security-in-django" title="Permalink to this headline">¶</a></h1>
+<p>This document is an overview of Django&#8217;s security features. It includes advice
+on securing a Django-powered site.</p>
+<div class="section" id="cross-site-scripting-xss-protection">
+<span id="cross-site-scripting"></span><h2>Cross site scripting (XSS) protection<a class="headerlink" href="#cross-site-scripting-xss-protection" title="Permalink to this headline">¶</a></h2>
+<p>XSS attacks allow a user to inject client side scripts into the browsers of
+other users. This is usually achieved by storing the malicious scripts in the
+database where it will be retrieved and displayed to other users, or by getting
+users to click a link which will cause the attacker&#8217;s JavaScript to be executed
+by the user&#8217;s browser. However, XSS attacks can originate from any untrusted
+source of data, such as cookies or Web services, whenever the data is not
+sufficiently sanitized before including in a page.</p>
+<p>Using Django templates protects you against the majority of XSS attacks.
+However, it is important to understand what protections it provides
+and its limitations.</p>
+<p>Django templates <a class="reference internal" href="templates.html#automatic-html-escaping"><span>escape specific characters</span></a>
+which are particularly dangerous to HTML. While this protects users from most
+malicious input, it is not entirely foolproof. For example, it will not
+protect the following:</p>
+<div class="highlight-html+django"><div class="highlight"><pre>&lt;style class={{ var }}&gt;...&lt;/style&gt;
+</pre></div>
+</div>
+<p>If <code class="docutils literal"><span class="pre">var</span></code> is set to <code class="docutils literal"><span class="pre">'class1</span> <span class="pre">onmouseover=javascript:func()'</span></code>, this can result
+in unauthorized JavaScript execution, depending on how the browser renders
+imperfect HTML.</p>
+<p>It is also important to be particularly careful when using <code class="docutils literal"><span class="pre">is_safe</span></code> with
+custom template tags, the <a class="reference internal" href="../ref/templates/builtins.html#std:templatefilter-safe"><code class="xref std std-tfilter docutils literal"><span class="pre">safe</span></code></a> template tag, <a class="reference internal" href="../ref/utils.html#module-django.utils.safestring" title="django.utils.safestring: Functions and classes for working with strings that can be displayed safely without further escaping in HTML."><code class="xref py py-mod docutils literal"><span class="pre">mark_safe</span></code></a>, and when autoescape is turned off.</p>
+<p>In addition, if you are using the template system to output something other
+than HTML, there may be entirely separate characters and words which require
+escaping.</p>
+<p>You should also be very careful when storing HTML in the database, especially
+when that HTML is retrieved and displayed.</p>
+<div class="section" id="markup-library">
+<h3>Markup library<a class="headerlink" href="#markup-library" title="Permalink to this headline">¶</a></h3>
+<p>If you use <a class="reference internal" href="../ref/contrib/markup.html#module-django.contrib.markup" title="django.contrib.markup: A collection of template filters that implement common markup languages."><code class="xref py py-mod docutils literal"><span class="pre">django.contrib.markup</span></code></a>, you need to ensure that the filters are
+only used on trusted input, or that you have correctly configured them to ensure
+they do not allow raw HTML output. See the documentation of that module for more
+information.</p>
+</div>
+</div>
+<div class="section" id="cross-site-request-forgery-csrf-protection">
+<h2>Cross site request forgery (CSRF) protection<a class="headerlink" href="#cross-site-request-forgery-csrf-protection" title="Permalink to this headline">¶</a></h2>
+<p>CSRF attacks allow a malicious user to execute actions using the credentials
+of another user without that user&#8217;s knowledge or consent.</p>
+<p>Django has built-in protection against most types of CSRF attacks, providing you
+have <a class="reference internal" href="../ref/contrib/csrf.html#using-csrf"><span>enabled and used it</span></a> where appropriate. However, as with
+any mitigation technique, there are limitations. For example, it is possible to
+disable the CSRF module globally or for particular views. You should only do
+this if you know what you are doing. There are other <a class="reference internal" href="../ref/contrib/csrf.html#csrf-limitations"><span>limitations</span></a> if your site has subdomains that are outside of your
+control.</p>
+<p><a class="reference internal" href="../ref/contrib/csrf.html#how-csrf-works"><span>CSRF protection works</span></a> by checking for a nonce in each
+POST request. This ensures that a malicious user cannot simply &#8220;replay&#8221; a form
+POST to your Web site and have another logged in user unwittingly submit that
+form. The malicious user would have to know the nonce, which is user specific
+(using a cookie).</p>
+<p>When deployed with <a class="reference internal" href="#security-recommendation-ssl"><span>HTTPS</span></a>,
+<code class="docutils literal"><span class="pre">CsrfViewMiddleware</span></code> will check that the HTTP referer header is set to a
+URL on the same origin (including subdomain and port). Because HTTPS
+provides additional security, it is imperative to ensure connections use HTTPS
+where it is available by forwarding insecure connection requests and using
+HSTS for supported browsers.</p>
+<p>Be very careful with marking views with the <code class="docutils literal"><span class="pre">csrf_exempt</span></code> decorator unless
+it is absolutely necessary.</p>
+</div>
+<div class="section" id="sql-injection-protection">
+<h2>SQL injection protection<a class="headerlink" href="#sql-injection-protection" title="Permalink to this headline">¶</a></h2>
+<p>SQL injection is a type of attack where a malicious user is able to execute
+arbitrary SQL code on a database. This can result in records
+being deleted or data leakage.</p>
+<p>By using Django&#8217;s querysets, the resulting SQL will be properly escaped by
+the underlying database driver. However, Django also gives developers power to
+write <a class="reference internal" href="db/sql.html#executing-raw-queries"><span>raw queries</span></a> or execute
+<a class="reference internal" href="db/sql.html#executing-custom-sql"><span>custom sql</span></a>. These capabilities should be used
+sparingly and you should always be careful to properly escape any parameters
+that the user can control. In addition, you should exercise caution when using
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.extra" title="django.db.models.query.QuerySet.extra"><code class="xref py py-meth docutils literal"><span class="pre">extra()</span></code></a>.</p>
+</div>
+<div class="section" id="clickjacking-protection">
+<h2>Clickjacking protection<a class="headerlink" href="#clickjacking-protection" title="Permalink to this headline">¶</a></h2>
+<p>Clickjacking is a type of attack where a malicious site wraps another site
+in a frame. This attack can result in an unsuspecting user being tricked
+into performing unintended actions on the target site.</p>
+<p>Django contains <a class="reference internal" href="../ref/clickjacking.html#clickjacking-prevention"><span>clickjacking protection</span></a> in
+the form of the
+<a class="reference internal" href="../ref/middleware.html#django.middleware.clickjacking.XFrameOptionsMiddleware" title="django.middleware.clickjacking.XFrameOptionsMiddleware"><code class="xref py py-mod docutils literal"><span class="pre">X-Frame-Options</span> <span class="pre">middleware</span></code></a>
+which in a supporting browser can prevent a site from being rendered inside
+a frame. It is possible to disable the protection on a per view basis
+or to configure the exact header value sent.</p>
+<p>The middleware is strongly recommended for any site that does not need to have
+its pages wrapped in a frame by third party sites, or only needs to allow that
+for a small section of the site.</p>
+</div>
+<div class="section" id="ssl-https">
+<span id="security-recommendation-ssl"></span><h2>SSL/HTTPS<a class="headerlink" href="#ssl-https" title="Permalink to this headline">¶</a></h2>
+<p>It is always better for security, though not always practical in all cases, to
+deploy your site behind HTTPS. Without this, it is possible for malicious
+network users to sniff authentication credentials or any other information
+transferred between client and server, and in some cases &#8211; <strong>active</strong> network
+attackers &#8211; to alter data that is sent in either direction.</p>
+<p>If you want the protection that HTTPS provides, and have enabled it on your
+server, there are some additional steps you may need:</p>
+<ul>
+<li><p class="first">If necessary, set <a class="reference internal" href="../ref/settings.html#std:setting-SECURE_PROXY_SSL_HEADER"><code class="xref std std-setting docutils literal"><span class="pre">SECURE_PROXY_SSL_HEADER</span></code></a>, ensuring that you have
+understood the warnings there thoroughly. Failure to do this can result
+in CSRF vulnerabilities, and failure to do it correctly can also be
+dangerous!</p>
+</li>
+<li><p class="first">Set up redirection so that requests over HTTP are redirected to HTTPS.</p>
+<p>This could be done using a custom middleware. Please note the caveats under
+<a class="reference internal" href="../ref/settings.html#std:setting-SECURE_PROXY_SSL_HEADER"><code class="xref std std-setting docutils literal"><span class="pre">SECURE_PROXY_SSL_HEADER</span></code></a>. For the case of a reverse proxy, it may be
+easier or more secure to configure the main Web server to do the redirect to
+HTTPS.</p>
+</li>
+<li><p class="first">Use &#8216;secure&#8217; cookies.</p>
+<p>If a browser connects initially via HTTP, which is the default for most
+browsers, it is possible for existing cookies to be leaked. For this reason,
+you should set your <a class="reference internal" href="../ref/settings.html#std:setting-SESSION_COOKIE_SECURE"><code class="xref std std-setting docutils literal"><span class="pre">SESSION_COOKIE_SECURE</span></code></a> and
+<a class="reference internal" href="../ref/settings.html#std:setting-CSRF_COOKIE_SECURE"><code class="xref std std-setting docutils literal"><span class="pre">CSRF_COOKIE_SECURE</span></code></a> settings to <code class="docutils literal"><span class="pre">True</span></code>. This instructs the browser
+to only send these cookies over HTTPS connections. Note that this will mean
+that sessions will not work over HTTP, and the CSRF protection will prevent
+any POST data being accepted over HTTP (which will be fine if you are
+redirecting all HTTP traffic to HTTPS).</p>
+</li>
+<li><p class="first">Use HTTP Strict Transport Security (HSTS)</p>
+<p>HSTS is an HTTP header that informs a browser that all future connections
+to a particular site should always use HTTPS. Combined with redirecting
+requests over HTTP to HTTPS, this will ensure that connections always enjoy
+the added security of SSL provided one successful connection has occurred.
+HSTS is usually configured on the web server.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="host-header-validation">
+<span id="host-headers-virtual-hosting"></span><h2>Host header validation<a class="headerlink" href="#host-header-validation" title="Permalink to this headline">¶</a></h2>
+<p>Django uses the <code class="docutils literal"><span class="pre">Host</span></code> header provided by the client to construct URLs in
+certain cases. While these values are sanitized to prevent Cross Site Scripting
+attacks, a fake <code class="docutils literal"><span class="pre">Host</span></code> value can be used for Cross-Site Request Forgery,
+cache poisoning attacks, and poisoning links in emails.</p>
+<p>Because even seemingly-secure webserver configurations are susceptible to fake
+<code class="docutils literal"><span class="pre">Host</span></code> headers, Django validates <code class="docutils literal"><span class="pre">Host</span></code> headers against the
+<a class="reference internal" href="../ref/settings.html#std:setting-ALLOWED_HOSTS"><code class="xref std std-setting docutils literal"><span class="pre">ALLOWED_HOSTS</span></code></a> setting in the
+<a class="reference internal" href="../ref/request-response.html#django.http.HttpRequest.get_host" title="django.http.HttpRequest.get_host"><code class="xref py py-meth docutils literal"><span class="pre">django.http.HttpRequest.get_host()</span></code></a> method.</p>
+<p>This validation only applies via <a class="reference internal" href="../ref/request-response.html#django.http.HttpRequest.get_host" title="django.http.HttpRequest.get_host"><code class="xref py py-meth docutils literal"><span class="pre">get_host()</span></code></a>;
+if your code accesses the <code class="docutils literal"><span class="pre">Host</span></code> header directly from <code class="docutils literal"><span class="pre">request.META</span></code> you
+are bypassing this security protection.</p>
+<p>For more details see the full <a class="reference internal" href="../ref/settings.html#std:setting-ALLOWED_HOSTS"><code class="xref std std-setting docutils literal"><span class="pre">ALLOWED_HOSTS</span></code></a> documentation.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Previous versions of this document recommended configuring your webserver to
+ensure it validates incoming HTTP <code class="docutils literal"><span class="pre">Host</span></code> headers. While this is still
+recommended, in many common webservers a configuration that seems to
+validate the <code class="docutils literal"><span class="pre">Host</span></code> header may not in fact do so. For instance, even if
+Apache is configured such that your Django site is served from a non-default
+virtual host with the <code class="docutils literal"><span class="pre">ServerName</span></code> set, it is still possible for an HTTP
+request to match this virtual host and supply a fake <code class="docutils literal"><span class="pre">Host</span></code> header. Thus,
+Django now requires that you set <a class="reference internal" href="../ref/settings.html#std:setting-ALLOWED_HOSTS"><code class="xref std std-setting docutils literal"><span class="pre">ALLOWED_HOSTS</span></code></a> explicitly rather
+than relying on webserver configuration.</p>
+</div>
+<p>Additionally, as of 1.3.1, Django requires you to explicitly enable support for
+the <code class="docutils literal"><span class="pre">X-Forwarded-Host</span></code> header (via the <a class="reference internal" href="../ref/settings.html#std:setting-USE_X_FORWARDED_HOST"><code class="xref std std-setting docutils literal"><span class="pre">USE_X_FORWARDED_HOST</span></code></a>
+setting) if your configuration requires it.</p>
+</div>
+<div class="section" id="additional-security-topics">
+<span id="id1"></span><h2>Additional security topics<a class="headerlink" href="#additional-security-topics" title="Permalink to this headline">¶</a></h2>
+<p>While Django provides good security protection out of the box, it is still
+important to properly deploy your application and take advantage of the
+security protection of the Web server, operating system and other components.</p>
+<ul class="simple">
+<li>Make sure that your Python code is outside of the Web server&#8217;s root. This
+will ensure that your Python code is not accidentally served as plain text
+(or accidentally executed).</li>
+<li>Take care with any <a class="reference internal" href="../ref/models/fields.html#file-upload-security"><span>user uploaded files</span></a>.</li>
+<li>Django does not throttle requests to authenticate users. To protect against
+brute-force attacks against the authentication system, you may consider
+deploying a Django plugin or Web server module to throttle these requests.</li>
+<li>If your site accepts file uploads, it is strongly advised that you limit
+these uploads in your Web server configuration to a reasonable
+size in order to prevent denial of service (DOS) attacks. In Apache, this
+can be easily set using the <a class="reference external" href="http://httpd.apache.org/docs/2.2/mod/core.html#limitrequestbody">LimitRequestBody</a> directive.</li>
+<li>Keep your <a class="reference internal" href="../ref/settings.html#std:setting-SECRET_KEY"><code class="xref std std-setting docutils literal"><span class="pre">SECRET_KEY</span></code></a> a secret.</li>
+<li>It is a good idea to limit the accessibility of your caching system and
+database using a firewall.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="serialization.html" class="btn btn-neutral float-right" title="Serializing Django objects" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="python3.html" class="btn btn-neutral" title="Porting to Python 3" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/security.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:02 GMT -->
+</html>

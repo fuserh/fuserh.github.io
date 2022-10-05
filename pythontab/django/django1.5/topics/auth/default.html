@@ -1,0 +1,1241 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/auth/default.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using the Django authentication system &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../db/index.html">Models and databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">User authentication in Django</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Using the Django authentication system</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#user-objects">User objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#permissions-and-authorization">Permissions and Authorization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#authentication-in-web-requests">Authentication in Web requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#managing-users-in-the-admin">Managing users in the admin</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="passwords.html">Password management in Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customizing.html">Customizing authentication in Django</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">User authentication in Django</a> &raquo;</li>
+      
+    <li>Using the Django authentication system</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-the-django-authentication-system">
+<h1>Using the Django authentication system<a class="headerlink" href="#using-the-django-authentication-system" title="Permalink to this headline">¶</a></h1>
+<p>This document explains the usage of Django&#8217;s authentication system in its
+default configuration. This configuration has evolved to serve the most common
+project needs, handling a reasonably wide range of tasks, and has a careful
+implementation of passwords and permissions, and can handle many projects as
+is.  For projects where authentication needs differ from the default, Django
+supports extensive <a class="reference internal" href="customizing.html"><em>extension and customization</em></a> of authentication.</p>
+<p>Django authentication provides both authentication and authorization, together
+and is generally referred to as the authentication system, as these features
+somewhat coupled.</p>
+<div class="section" id="user-objects">
+<span id="id1"></span><h2>User objects<a class="headerlink" href="#user-objects" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> objects are the core of the
+authentication system. They typically represent the people interacting with
+your site and are used to enable things like restricting access, registering
+user profiles, associating content with creators etc. Only one class of user
+exists in Django&#8217;s authentication framework, i.e., &#8216;superusers&#8217; or admin
+&#8216;staff&#8217; users are just user objects with special attributes set, not different
+classes of user objects.</p>
+<p>The primary attributes of the default user are:</p>
+<ul class="simple">
+<li>username</li>
+<li>password</li>
+<li>email</li>
+<li>first name</li>
+<li>last name</li>
+</ul>
+<p>See the <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">full</span> <span class="pre">API</span> <span class="pre">documentation</span></code></a> for
+full reference, the documentation that follows is more task oriented.</p>
+<div class="section" id="creating-users">
+<span id="topics-auth-creating-users"></span><h3>Creating users<a class="headerlink" href="#creating-users" title="Permalink to this headline">¶</a></h3>
+<p>The most direct way to create users is to use the included
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.UserManager.create_user" title="django.contrib.auth.models.UserManager.create_user"><code class="xref py py-meth docutils literal"><span class="pre">create_user()</span></code></a> helper function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="s">&#39;john&#39;</span><span class="p">,</span> <span class="s">&#39;lennon@thebeatles.com&#39;</span><span class="p">,</span> <span class="s">&#39;johnpassword&#39;</span><span class="p">)</span>
+
+<span class="go"># At this point, user is a User object that has already been saved</span>
+<span class="go"># to the database. You can continue to change its attributes</span>
+<span class="go"># if you want to change other fields.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="s">&#39;Lennon&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you have the Django admin installed, you can also <a class="reference internal" href="#auth-admin"><span>create users
+interactively</span></a>.</p>
+</div>
+<div class="section" id="creating-superusers">
+<span id="topics-auth-creating-superusers"></span><h3>Creating superusers<a class="headerlink" href="#creating-superusers" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code></a> prompts you to create a superuser the
+first time you run it with <code class="docutils literal"><span class="pre">'django.contrib.auth'</span></code> in your
+<a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>. If you need to create a superuser at a later date,
+you can use a command line utility:</p>
+<div class="highlight-python"><div class="highlight"><pre>manage.py createsuperuser --username=joe --email=joe@example.com
+</pre></div>
+</div>
+<p>You will be prompted for a password. After you enter one, the user will be
+created immediately. If you leave off the <a class="reference internal" href="../../ref/django-admin.html#django-admin-option---username"><code class="xref std std-djadminopt docutils literal"><span class="pre">--username</span></code></a> or the
+<a class="reference internal" href="../../ref/django-admin.html#django-admin-option---email"><code class="xref std std-djadminopt docutils literal"><span class="pre">--email</span></code></a> options, it will prompt you for those values.</p>
+</div>
+<div class="section" id="changing-passwords">
+<h3>Changing passwords<a class="headerlink" href="#changing-passwords" title="Permalink to this headline">¶</a></h3>
+<p>Django does not store raw (clear text) passwords on the user model, but only
+a hash (see <a class="reference internal" href="passwords.html"><em>documentation of how passwords are managed</em></a> for full details). Because of this, do not attempt to
+manipulate the password attribute of the user directly. This is why a helper
+function is used when creating a user.</p>
+<p>To change a user&#8217;s password, you have several options:</p>
+<p><a class="reference internal" href="../../ref/django-admin.html#django-admin-changepassword"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">changepassword</span> <span class="pre">*username*</span></code></a> offers a method
+of changing a User&#8217;s password from the command line. It prompts you to
+change the password of a given user which you must enter twice. If
+they both match, the new password will be changed immediately. If you
+do not supply a user, the command will attempt to change the password
+whose username matches the current system user.</p>
+<p>You can also change a password programmatically, using
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.set_password" title="django.contrib.auth.models.User.set_password"><code class="xref py py-meth docutils literal"><span class="pre">set_password()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username__exact</span><span class="o">=</span><span class="s">&#39;john&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="s">&#39;new password&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you have the Django admin installed, you can also change user&#8217;s passwords
+on the <a class="reference internal" href="#auth-admin"><span>authentication system&#8217;s admin pages</span></a>.</p>
+<p>Django also provides <a class="reference internal" href="#built-in-auth-views"><span>views</span></a> and <a class="reference internal" href="#built-in-auth-forms"><span>forms</span></a> that may be used to allow users to change their own
+passwords.</p>
+</div>
+<div class="section" id="authenticating-users">
+<h3>Authenticating Users<a class="headerlink" href="#authenticating-users" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="django.contrib.auth.authenticate">
+<code class="descname">authenticate</code><span class="sig-paren">(</span><em>**credentials</em><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>To authenticate a given username and password, use
+<a class="reference internal" href="#django.contrib.auth.authenticate" title="django.contrib.auth.authenticate"><code class="xref py py-func docutils literal"><span class="pre">authenticate()</span></code></a>. It takes credentials in the
+form of keyword arguments, for the default configuration this is
+<code class="docutils literal"><span class="pre">username</span></code> and <code class="docutils literal"><span class="pre">password</span></code>, and it returns
+a <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> object if the password is valid
+for the given username. If the password is invalid,
+<a class="reference internal" href="#django.contrib.auth.authenticate" title="django.contrib.auth.authenticate"><code class="xref py py-func docutils literal"><span class="pre">authenticate()</span></code></a> returns <code class="docutils literal"><span class="pre">None</span></code>. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">&#39;john&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;secret&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="c"># the password verified for the user</span>
+    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_active</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;User is valid, active and authenticated&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;The password is valid, but the account has been disabled!&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c"># the authentication system was unable to verify the username and password</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;The username and password were incorrect.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="permissions-and-authorization">
+<span id="topic-authorization"></span><h2>Permissions and Authorization<a class="headerlink" href="#permissions-and-authorization" title="Permalink to this headline">¶</a></h2>
+<p>Django comes with a simple permissions system. It provides a way to assign
+permissions to specific users and groups of users.</p>
+<p>It&#8217;s used by the Django admin site, but you&#8217;re welcome to use it in your own
+code.</p>
+<p>The Django admin site uses permissions as follows:</p>
+<ul class="simple">
+<li>Access to view the &#8220;add&#8221; form and add an object is limited to users with
+the &#8220;add&#8221; permission for that type of object.</li>
+<li>Access to view the change list, view the &#8220;change&#8221; form and change an
+object is limited to users with the &#8220;change&#8221; permission for that type of
+object.</li>
+<li>Access to delete an object is limited to users with the &#8220;delete&#8221;
+permission for that type of object.</li>
+</ul>
+<p>Permissions can be set not only per type of object, but also per specific
+object instance. By using the
+<a class="reference internal" href="../../ref/contrib/admin/index.html#django.contrib.admin.ModelAdmin.has_add_permission" title="django.contrib.admin.ModelAdmin.has_add_permission"><code class="xref py py-meth docutils literal"><span class="pre">has_add_permission()</span></code></a>,
+<a class="reference internal" href="../../ref/contrib/admin/index.html#django.contrib.admin.ModelAdmin.has_change_permission" title="django.contrib.admin.ModelAdmin.has_change_permission"><code class="xref py py-meth docutils literal"><span class="pre">has_change_permission()</span></code></a> and
+<a class="reference internal" href="../../ref/contrib/admin/index.html#django.contrib.admin.ModelAdmin.has_delete_permission" title="django.contrib.admin.ModelAdmin.has_delete_permission"><code class="xref py py-meth docutils literal"><span class="pre">has_delete_permission()</span></code></a> methods provided
+by the <a class="reference internal" href="../../ref/contrib/admin/index.html#django.contrib.admin.ModelAdmin" title="django.contrib.admin.ModelAdmin"><code class="xref py py-class docutils literal"><span class="pre">ModelAdmin</span></code></a> class, it is possible to
+customize permissions for different object instances of the same type.</p>
+<p><a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> objects have two many-to-many
+fields: <code class="docutils literal"><span class="pre">groups</span></code> and <code class="docutils literal"><span class="pre">user_permissions</span></code>.
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> objects can access their related
+objects in the same way as any other <a class="reference internal" href="../db/models.html"><em>Django model</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myuser</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">group_list</span><span class="p">]</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">user_permissions</span> <span class="o">=</span> <span class="p">[</span><span class="n">permission_list</span><span class="p">]</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">user_permissions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">permission</span><span class="p">,</span> <span class="n">permission</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">user_permissions</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">permission</span><span class="p">,</span> <span class="n">permission</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">myuser</span><span class="o">.</span><span class="n">user_permissions</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="default-permissions">
+<h3>Default permissions<a class="headerlink" href="#default-permissions" title="Permalink to this headline">¶</a></h3>
+<p>When <code class="docutils literal"><span class="pre">django.contrib.auth</span></code> is listed in your <a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>
+setting, it will ensure that three default permissions &#8211; add, change and
+delete &#8211; are created for each Django model defined in one of your installed
+applications.</p>
+<p>These permissions will be created when you run <a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code></a>; the first time you run <code class="docutils literal"><span class="pre">syncdb</span></code> after adding
+<code class="docutils literal"><span class="pre">django.contrib.auth</span></code> to <a class="reference internal" href="../../ref/settings.html#std:setting-INSTALLED_APPS"><code class="xref std std-setting docutils literal"><span class="pre">INSTALLED_APPS</span></code></a>, the default permissions
+will be created for all previously-installed models, as well as for any new
+models being installed at that time. Afterward, it will create default
+permissions for new models each time you run <a class="reference internal" href="../../ref/django-admin.html#django-admin-syncdb"><code class="xref std std-djadmin docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></code></a>.</p>
+<p>Assuming you have an application with an
+<a class="reference internal" href="../../ref/models/options.html#django.db.models.Options.app_label" title="django.db.models.Options.app_label"><code class="xref py py-attr docutils literal"><span class="pre">app_label</span></code></a> <code class="docutils literal"><span class="pre">foo</span></code> and a model named <code class="docutils literal"><span class="pre">Bar</span></code>,
+to test for basic permissions you should use:</p>
+<ul class="simple">
+<li>add: <code class="docutils literal"><span class="pre">user.has_perm('foo.add_bar')</span></code></li>
+<li>change: <code class="docutils literal"><span class="pre">user.has_perm('foo.change_bar')</span></code></li>
+<li>delete: <code class="docutils literal"><span class="pre">user.has_perm('foo.delete_bar')</span></code></li>
+</ul>
+<p>The <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.Permission" title="django.contrib.auth.models.Permission"><code class="xref py py-class docutils literal"><span class="pre">Permission</span></code></a> model is rarely accessed
+directly.</p>
+</div>
+<div class="section" id="groups">
+<h3>Groups<a class="headerlink" href="#groups" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.Group" title="django.contrib.auth.models.Group"><code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.models.Group</span></code></a> models are a generic way of
+categorizing users so you can apply permissions, or some other label, to those
+users. A user can belong to any number of groups.</p>
+<p>A user in a group automatically has the permissions granted to that group. For
+example, if the group <code class="docutils literal"><span class="pre">Site</span> <span class="pre">editors</span></code> has the permission
+<code class="docutils literal"><span class="pre">can_edit_home_page</span></code>, any user in that group will have that permission.</p>
+<p>Beyond permissions, groups are a convenient way to categorize users to give
+them some label, or extended functionality. For example, you could create a
+group <code class="docutils literal"><span class="pre">'Special</span> <span class="pre">users'</span></code>, and you could write code that could, say, give them
+access to a members-only portion of your site, or send them members-only email
+messages.</p>
+</div>
+<div class="section" id="programmatically-creating-permissions">
+<h3>Programmatically creating permissions<a class="headerlink" href="#programmatically-creating-permissions" title="Permalink to this headline">¶</a></h3>
+<p>While <a class="reference internal" href="customizing.html#custom-permissions"><span>custom permissions</span></a> can be defined within
+a model&#8217;s <code class="docutils literal"><span class="pre">Meta</span></code> class, you can also create permissions directly. For
+example, you can create the <code class="docutils literal"><span class="pre">can_publish</span></code> permission for a <code class="docutils literal"><span class="pre">BlogPost</span></code> model
+in <code class="docutils literal"><span class="pre">myapp</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Group</span><span class="p">,</span> <span class="n">Permission</span>
+<span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="kn">import</span> <span class="n">ContentType</span>
+
+<span class="n">content_type</span> <span class="o">=</span> <span class="n">ContentType</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">app_label</span><span class="o">=</span><span class="s">&#39;myapp&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">&#39;BlogPost&#39;</span><span class="p">)</span>
+<span class="n">permission</span> <span class="o">=</span> <span class="n">Permission</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">codename</span><span class="o">=</span><span class="s">&#39;can_publish&#39;</span><span class="p">,</span>
+                                       <span class="n">name</span><span class="o">=</span><span class="s">&#39;Can Publish Posts&#39;</span><span class="p">,</span>
+                                       <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The permission can then be assigned to a
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> via its <code class="docutils literal"><span class="pre">user_permissions</span></code>
+attribute or to a <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.Group" title="django.contrib.auth.models.Group"><code class="xref py py-class docutils literal"><span class="pre">Group</span></code></a> via its
+<code class="docutils literal"><span class="pre">permissions</span></code> attribute.</p>
+</div>
+</div>
+<div class="section" id="authentication-in-web-requests">
+<span id="auth-web-requests"></span><h2>Authentication in Web requests<a class="headerlink" href="#authentication-in-web-requests" title="Permalink to this headline">¶</a></h2>
+<p>Django uses <a class="reference internal" href="../http/sessions.html"><em>sessions</em></a> and middleware to hook the
+authentication system into <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">request</span> <span class="pre">objects</span></code></a>.</p>
+<p>These provide a <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.user" title="django.http.HttpRequest.user"><code class="xref py py-attr docutils literal"><span class="pre">request.user</span></code></a>  attribute
+on every request which represents the current user. If the current user has not
+logged in, this attribute will be set to an instance
+of <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.AnonymousUser" title="django.contrib.auth.models.AnonymousUser"><code class="xref py py-class docutils literal"><span class="pre">AnonymousUser</span></code></a>, otherwise it will be an
+instance of <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>.</p>
+<p>You can tell them apart with
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.is_authenticated" title="django.contrib.auth.models.User.is_authenticated"><code class="xref py py-meth docutils literal"><span class="pre">is_authenticated()</span></code></a>, like so:</p>
+<div class="highlight-python"><div class="highlight"><pre>if request.user.is_authenticated():
+    # Do something for authenticated users.
+else:
+    # Do something for anonymous users.
+</pre></div>
+</div>
+<div class="section" id="how-to-log-a-user-in">
+<span id="id2"></span><h3>How to log a user in<a class="headerlink" href="#how-to-log-a-user-in" title="Permalink to this headline">¶</a></h3>
+<p>If you have an authenticated user you want to attach to the current session
+- this is done with a <a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">login()</span></code></a> function.</p>
+<dl class="function">
+<dt id="django.contrib.auth.login">
+<code class="descname">login</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>To log a user in, from a view, use <a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">login()</span></code></a>. It
+takes an <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object and a
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> object.
+<a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">login()</span></code></a> saves the user&#8217;s ID in the session,
+using Django&#8217;s session framework.</p>
+<p>Note that any data set during the anonymous session is retained in the
+session after a user logs in.</p>
+<p>This example shows how you might use both
+<a class="reference internal" href="#django.contrib.auth.authenticate" title="django.contrib.auth.authenticate"><code class="xref py py-func docutils literal"><span class="pre">authenticate()</span></code></a> and
+<a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">login()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>from django.contrib.auth import authenticate, login
+
+def my_view(request):
+    username = request.POST[&#39;username&#39;]
+    password = request.POST[&#39;password&#39;]
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            # Redirect to a success page.
+        else:
+            # Return a &#39;disabled account&#39; error message
+    else:
+        # Return an &#39;invalid login&#39; error message.
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition-calling-authenticate-first admonition">
+<p class="first admonition-title">Calling <code class="docutils literal"><span class="pre">authenticate()</span></code> first</p>
+<p class="last">When you&#8217;re manually logging a user in, you <em>must</em> call
+<a class="reference internal" href="#django.contrib.auth.authenticate" title="django.contrib.auth.authenticate"><code class="xref py py-func docutils literal"><span class="pre">authenticate()</span></code></a> before you call
+<a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">login()</span></code></a>.
+<a class="reference internal" href="#django.contrib.auth.authenticate" title="django.contrib.auth.authenticate"><code class="xref py py-func docutils literal"><span class="pre">authenticate()</span></code></a>
+sets an attribute on the <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> noting
+which authentication backend successfully authenticated that user (see the
+<a class="reference internal" href="customizing.html#authentication-backends"><span>backends documentation</span></a> for details), and
+this information is needed later during the login process. An error will be
+raise if you try to login a user object retrieved from the database
+directly.</p>
+</div>
+</div>
+<div class="section" id="how-to-log-a-user-out">
+<h3>How to log a user out<a class="headerlink" href="#how-to-log-a-user-out" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="django.contrib.auth.logout">
+<code class="descname">logout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>To log out a user who has been logged in via
+<a class="reference internal" href="#django.contrib.auth.login" title="django.contrib.auth.login"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.login()</span></code></a>, use
+<a class="reference internal" href="#django.contrib.auth.logout" title="django.contrib.auth.logout"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.logout()</span></code></a> within your view. It takes an
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a> object and has no return value.
+Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">logout</span>
+
+<span class="k">def</span> <span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="c"># Redirect to a success page.</span>
+</pre></div>
+</div>
+<p>Note that <a class="reference internal" href="#django.contrib.auth.logout" title="django.contrib.auth.logout"><code class="xref py py-func docutils literal"><span class="pre">logout()</span></code></a> doesn&#8217;t throw any errors if
+the user wasn&#8217;t logged in.</p>
+<p>When you call <a class="reference internal" href="#django.contrib.auth.logout" title="django.contrib.auth.logout"><code class="xref py py-func docutils literal"><span class="pre">logout()</span></code></a>, the session data for
+the current request is completely cleaned out. All existing data is
+removed. This is to prevent another person from using the same Web browser
+to log in and have access to the previous user&#8217;s session data. If you want
+to put anything into the session that will be available to the user
+immediately after logging out, do that <em>after</em> calling
+<a class="reference internal" href="#django.contrib.auth.logout" title="django.contrib.auth.logout"><code class="xref py py-func docutils literal"><span class="pre">django.contrib.auth.logout()</span></code></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="limiting-access-to-logged-in-users">
+<h3>Limiting access to logged-in users<a class="headerlink" href="#limiting-access-to-logged-in-users" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="the-raw-way">
+<h4>The raw way<a class="headerlink" href="#the-raw-way" title="Permalink to this headline">¶</a></h4>
+<p>The simple, raw way to limit access to pages is to check
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.is_authenticated" title="django.contrib.auth.models.User.is_authenticated"><code class="xref py py-meth docutils literal"><span class="pre">request.user.is_authenticated()</span></code></a> and either redirect to a
+login page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/login/?next=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>...or display an error message:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;myapp/login_error.html&#39;</span><span class="p">)</span>
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-login-required-decorator">
+<h4>The login_required decorator<a class="headerlink" href="#the-login-required-decorator" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="django.contrib.auth.decorators.login_required">
+<code class="descname">login_required</code><span class="sig-paren">(</span><span class="optional">[</span><em>redirect_field_name=REDIRECT_FIELD_NAME</em>, <em>login_url=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.decorators.login_required" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a shortcut, you can use the convenient
+<a class="reference internal" href="#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> decorator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> does the following:</p>
+<ul class="simple">
+<li>If the user isn&#8217;t logged in, redirect to
+<a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a>, passing the current absolute
+path in the query string. Example: <code class="docutils literal"><span class="pre">/accounts/login/?next=/polls/3/</span></code>.</li>
+<li>If the user is logged in, execute the view normally. The view code is
+free to assume the user is logged in.</li>
+</ul>
+<p>By default, the path that the user should be redirected to upon
+successful authentication is stored in a query string parameter called
+<code class="docutils literal"><span class="pre">&quot;next&quot;</span></code>. If you would prefer to use a different name for this parameter,
+<a class="reference internal" href="#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> takes an
+optional <code class="docutils literal"><span class="pre">redirect_field_name</span></code> parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">redirect_field_name</span><span class="o">=</span><span class="s">&#39;my_redirect_field&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Note that if you provide a value to <code class="docutils literal"><span class="pre">redirect_field_name</span></code>, you will most
+likely need to customize your login template as well, since the template
+context variable which stores the redirect path will use the value of
+<code class="docutils literal"><span class="pre">redirect_field_name</span></code> as its key rather than <code class="docutils literal"><span class="pre">&quot;next&quot;</span></code> (the default).</p>
+<p><a class="reference internal" href="#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> also takes an
+optional <code class="docutils literal"><span class="pre">login_url</span></code> parameter. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+
+<span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/accounts/login/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Note that if you don&#8217;t specify the <code class="docutils literal"><span class="pre">login_url</span></code> parameter, you&#8217;ll need to
+ensure that the <a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a> and your login
+view are properly associated. For example, using the defaults, add the
+following line to your URLconf:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^accounts/login/$&#39;</span><span class="p">,</span> <span class="s">&#39;django.contrib.auth.views.login&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+</div>
+<p>The <a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a> also accepts
+view function names and <a class="reference internal" href="../http/urls.html#naming-url-patterns"><span>named URL patterns</span></a>.
+This allows you to freely remap your login view within your URLconf
+without having to update the setting.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The login_required decorator does NOT check the is_active flag on a user.</p>
+</div>
+</div>
+<div class="section" id="limiting-access-to-logged-in-users-that-pass-a-test">
+<h4>Limiting access to logged-in users that pass a test<a class="headerlink" href="#limiting-access-to-logged-in-users-that-pass-a-test" title="Permalink to this headline">¶</a></h4>
+<p>To limit access based on certain permissions or some other test, you&#8217;d do
+essentially the same thing as described in the previous section.</p>
+<p>The simple way is to run your test on <a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.user" title="django.http.HttpRequest.user"><code class="xref py py-attr docutils literal"><span class="pre">request.user</span></code></a> in the view directly. For example, this view
+checks to make sure the user has an email in the desired domain:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s">&#39;@example.com&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&quot;You can&#39;t vote in this poll.&quot;</span><span class="p">)</span>
+    <span class="c"># ...</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="django.contrib.auth.decorators.user_passes_test">
+<code class="descname">user_passes_test</code><span class="sig-paren">(</span><em>func</em><span class="optional">[</span>, <em>login_url=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.decorators.user_passes_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a shortcut, you can use the convenient <code class="docutils literal"><span class="pre">user_passes_test</span></code> decorator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">user_passes_test</span>
+
+<span class="k">def</span> <span class="nf">email_check</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;@example.com&#39;</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span>
+
+<span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">email_check</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#django.contrib.auth.decorators.user_passes_test" title="django.contrib.auth.decorators.user_passes_test"><code class="xref py py-func docutils literal"><span class="pre">user_passes_test()</span></code></a> takes a required
+argument: a callable that takes a
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> object and returns <code class="docutils literal"><span class="pre">True</span></code> if
+the user is allowed to view the page. Note that
+<a class="reference internal" href="#django.contrib.auth.decorators.user_passes_test" title="django.contrib.auth.decorators.user_passes_test"><code class="xref py py-func docutils literal"><span class="pre">user_passes_test()</span></code></a> does not
+automatically check that the <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a> is
+not anonymous.</p>
+<p><a class="reference internal" href="#django.contrib.auth.decorators.user_passes_test" title="django.contrib.auth.decorators.user_passes_test"><code class="xref py py-func docutils literal"><span class="pre">user_passes_test()</span></code></a> takes an
+optional <code class="docutils literal"><span class="pre">login_url</span></code> argument, which lets you specify the URL for your
+login page (<a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a> by default).</p>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@user_passes_test</span><span class="p">(</span><span class="n">email_check</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/login/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="the-permission-required-decorator">
+<h4>The permission_required decorator<a class="headerlink" href="#the-permission-required-decorator" title="Permalink to this headline">¶</a></h4>
+<dl class="function">
+<dt id="django.contrib.auth.decorators.permission_required">
+<code class="descname">permission_required</code><span class="sig-paren">(</span><span class="optional">[</span><em>login_url=None</em>, <em>raise_exception=False</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.decorators.permission_required" title="Permalink to this definition">¶</a></dt>
+<dd><p>It&#8217;s a relatively common task to check whether a user has a particular
+permission. For that reason, Django provides a shortcut for that case: the
+<a class="reference internal" href="#django.contrib.auth.decorators.permission_required" title="django.contrib.auth.decorators.permission_required"><code class="xref py py-func docutils literal"><span class="pre">permission_required()</span></code></a> decorator.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">permission_required</span>
+
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s">&#39;polls.can_vote&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>As for the <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.has_perm" title="django.contrib.auth.models.User.has_perm"><code class="xref py py-meth docutils literal"><span class="pre">has_perm()</span></code></a> method,
+permission names take the form <code class="docutils literal"><span class="pre">&quot;&lt;app</span> <span class="pre">label&gt;.&lt;permission</span> <span class="pre">codename&gt;&quot;</span></code>
+(i.e. <code class="docutils literal"><span class="pre">polls.can_vote</span></code> for a permission on a model in the <code class="docutils literal"><span class="pre">polls</span></code>
+application).</p>
+<p>Note that <a class="reference internal" href="#django.contrib.auth.decorators.permission_required" title="django.contrib.auth.decorators.permission_required"><code class="xref py py-func docutils literal"><span class="pre">permission_required()</span></code></a>
+also takes an optional <code class="docutils literal"><span class="pre">login_url</span></code> parameter. Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">permission_required</span>
+
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s">&#39;polls.can_vote&#39;</span><span class="p">,</span> <span class="n">login_url</span><span class="o">=</span><span class="s">&#39;/loginpage/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>As in the <a class="reference internal" href="#django.contrib.auth.decorators.login_required" title="django.contrib.auth.decorators.login_required"><code class="xref py py-func docutils literal"><span class="pre">login_required()</span></code></a> decorator,
+<code class="docutils literal"><span class="pre">login_url</span></code> defaults to <a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a>.</p>
+<div class="versionchanged">
+</div>
+<p>Added <code class="docutils literal"><span class="pre">raise_exception</span></code> parameter. If given, the decorator will raise
+<a class="reference internal" href="../../ref/exceptions.html#django.core.exceptions.PermissionDenied" title="django.core.exceptions.PermissionDenied"><code class="xref py py-exc docutils literal"><span class="pre">PermissionDenied</span></code></a>, prompting
+<a class="reference internal" href="../http/views.html#http-forbidden-view"><span>the 403 (HTTP Forbidden) view</span></a> instead of
+redirecting to the login page.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="applying-permissions-to-generic-views">
+<h4>Applying permissions to generic views<a class="headerlink" href="#applying-permissions-to-generic-views" title="Permalink to this headline">¶</a></h4>
+<p>To apply a permission to a <a class="reference internal" href="../../ref/class-based-views/index.html"><em>class-based generic view</em></a>, decorate the <a class="reference internal" href="../../ref/class-based-views/base.html#django.views.generic.base.View.dispatch" title="django.views.generic.base.View.dispatch"><code class="xref py py-meth docutils literal"><span class="pre">View.dispatch</span></code></a> method on the class. See
+<a class="reference internal" href="../class-based-views/index.html#id2"><span>Decorating the class</span></a> for details.</p>
+</div>
+</div>
+<div class="section" id="module-django.contrib.auth.views">
+<span id="authentication-views"></span><span id="built-in-auth-views"></span><h3>Authentication Views<a class="headerlink" href="#module-django.contrib.auth.views" title="Permalink to this headline">¶</a></h3>
+<p>Django provides several views that you can use for handling login, logout, and
+password management. These make use of the <a class="reference internal" href="#built-in-auth-forms"><span>stock auth forms</span></a> but you can pass in your own forms as well.</p>
+<p>Django provides no default template for the authentication views - however the
+template context is documented for each view below.</p>
+<div class="versionadded">
+</div>
+<p>The built-in views all return
+a <a class="reference internal" href="../../ref/template-response.html#django.template.response.TemplateResponse" title="django.template.response.TemplateResponse"><code class="xref py py-class docutils literal"><span class="pre">TemplateResponse</span></code></a> instance, which allows
+you to easily customize the response data before rendering.  For more details,
+see the <a class="reference internal" href="../../ref/template-response.html"><em>TemplateResponse documentation</em></a>.</p>
+<p>Most built-in authentication views provide a URL name for easier reference. See
+<a class="reference internal" href="../http/urls.html"><em>the URL documentation</em></a> for details on using named URL
+patterns.</p>
+<dl class="function">
+<dt id="django.contrib.auth.views.login">
+<code class="descname">login</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>template_name</em>, <em>redirect_field_name</em>, <em>authentication_form</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.login" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">login</span></code></p>
+<p>See <a class="reference internal" href="../http/urls.html"><em>the URL documentation</em></a> for details on using
+named URL patterns.</p>
+<p>Here&#8217;s what <code class="docutils literal"><span class="pre">django.contrib.auth.views.login</span></code> does:</p>
+<ul class="simple">
+<li>If called via <code class="docutils literal"><span class="pre">GET</span></code>, it displays a login form that POSTs to the
+same URL. More on this in a bit.</li>
+<li>If called via <code class="docutils literal"><span class="pre">POST</span></code> with user submitted credentials, it tries to log
+the user in. If login is successful, the view redirects to the URL
+specified in <code class="docutils literal"><span class="pre">next</span></code>. If <code class="docutils literal"><span class="pre">next</span></code> isn&#8217;t provided, it redirects to
+<a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_REDIRECT_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_REDIRECT_URL</span></code></a> (which
+defaults to <code class="docutils literal"><span class="pre">/accounts/profile/</span></code>). If login isn&#8217;t successful, it
+redisplays the login form.</li>
+</ul>
+<p>It&#8217;s your responsibility to provide the html for the login template
+, called <code class="docutils literal"><span class="pre">registration/login.html</span></code> by default. This template gets passed
+four template context variables:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">form</span></code>: A <a class="reference internal" href="../../ref/forms/api.html#django.forms.Form" title="django.forms.Form"><code class="xref py py-class docutils literal"><span class="pre">Form</span></code></a> object representing the
+<a class="reference internal" href="#django.contrib.auth.forms.AuthenticationForm" title="django.contrib.auth.forms.AuthenticationForm"><code class="xref py py-class docutils literal"><span class="pre">AuthenticationForm</span></code></a>.</li>
+<li><code class="docutils literal"><span class="pre">next</span></code>: The URL to redirect to after successful login. This may
+contain a query string, too.</li>
+<li><code class="docutils literal"><span class="pre">site</span></code>: The current <a class="reference internal" href="../../ref/contrib/sites.html#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>,
+according to the <a class="reference internal" href="../../ref/settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting. If you don&#8217;t have the
+site framework installed, this will be set to an instance of
+<a class="reference internal" href="../../ref/contrib/sites.html#django.contrib.sites.models.RequestSite" title="django.contrib.sites.models.RequestSite"><code class="xref py py-class docutils literal"><span class="pre">RequestSite</span></code></a>, which derives the
+site name and domain from the current
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a>.</li>
+<li><code class="docutils literal"><span class="pre">site_name</span></code>: An alias for <code class="docutils literal"><span class="pre">site.name</span></code>. If you don&#8217;t have the site
+framework installed, this will be set to the value of
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.META" title="django.http.HttpRequest.META"><code class="xref py py-attr docutils literal"><span class="pre">request.META['SERVER_NAME']</span></code></a>.
+For more on sites, see <a class="reference internal" href="../../ref/contrib/sites.html"><em>The &#8220;sites&#8221; framework</em></a>.</li>
+</ul>
+<p>If you&#8217;d prefer not to call the template <code class="file docutils literal"><span class="pre">registration/login.html</span></code>,
+you can pass the <code class="docutils literal"><span class="pre">template_name</span></code> parameter via the extra arguments to
+the view in your URLconf. For example, this URLconf line would use
+<code class="file docutils literal"><span class="pre">myapp/login.html</span></code> instead:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^accounts/login/$&#39;</span><span class="p">,</span> <span class="s">&#39;django.contrib.auth.views.login&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="s">&#39;myapp/login.html&#39;</span><span class="p">}),</span>
+</pre></div>
+</div>
+<p>You can also specify the name of the <code class="docutils literal"><span class="pre">GET</span></code> field which contains the URL
+to redirect to after login by passing <code class="docutils literal"><span class="pre">redirect_field_name</span></code> to the view.
+By default, the field is called <code class="docutils literal"><span class="pre">next</span></code>.</p>
+<p>Here&#8217;s a sample <code class="file docutils literal"><span class="pre">registration/login.html</span></code> template you can use as a
+starting point. It assumes you have a <code class="file docutils literal"><span class="pre">base.html</span></code> template that
+defines a <code class="docutils literal"><span class="pre">content</span></code> block:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;base.html&quot;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">form.errors</span> <span class="cp">%}</span>
+<span class="nt">&lt;p&gt;</span>Your username and password didn&#39;t match. Please try again.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+
+<span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{%</span> <span class="k">url</span> <span class="s1">&#39;django.contrib.auth.views.login&#39;</span> <span class="cp">%}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+<span class="cp">{%</span> <span class="k">csrf_token</span> <span class="cp">%}</span>
+<span class="nt">&lt;table&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">form.username.label_tag</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">form.username</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">form.password.label_tag</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+    <span class="nt">&lt;td&gt;</span><span class="cp">{{</span> <span class="nv">form.password</span> <span class="cp">}}</span><span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="na">value=</span><span class="s">&quot;login&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name=</span><span class="s">&quot;next&quot;</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">next</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>If you have customized authentication (see
+<a class="reference internal" href="customizing.html"><em>Customizing Authentication</em></a>) you can pass a custom authentication form
+to the login view via the <code class="docutils literal"><span class="pre">authentication_form</span></code> parameter. This form must
+accept a <code class="docutils literal"><span class="pre">request</span></code> keyword argument in its <code class="docutils literal"><span class="pre">__init__</span></code> method, and
+provide a <code class="docutils literal"><span class="pre">get_user</span></code> method which returns the authenticated user object
+(this method is only ever called after successful form validation).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.logout">
+<code class="descname">logout</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>next_page</em>, <em>template_name</em>, <em>redirect_field_name</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a user out.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">logout</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">next_page</span></code>: The URL to redirect to after logout.</li>
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to display after
+logging the user out. Defaults to
+<code class="file docutils literal"><span class="pre">registration/logged_out.html</span></code> if no argument is supplied.</li>
+<li><code class="docutils literal"><span class="pre">redirect_field_name</span></code>: The name of a <code class="docutils literal"><span class="pre">GET</span></code> field containing the
+URL to redirect to after log out. Overrides <code class="docutils literal"><span class="pre">next_page</span></code> if the given
+<code class="docutils literal"><span class="pre">GET</span></code> parameter is passed.</li>
+</ul>
+<p><strong>Template context:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">title</span></code>: The string &#8220;Logged out&#8221;, localized.</li>
+<li><code class="docutils literal"><span class="pre">site</span></code>: The current <a class="reference internal" href="../../ref/contrib/sites.html#django.contrib.sites.models.Site" title="django.contrib.sites.models.Site"><code class="xref py py-class docutils literal"><span class="pre">Site</span></code></a>,
+according to the <a class="reference internal" href="../../ref/settings.html#std:setting-SITE_ID"><code class="xref std std-setting docutils literal"><span class="pre">SITE_ID</span></code></a> setting. If you don&#8217;t have the
+site framework installed, this will be set to an instance of
+<a class="reference internal" href="../../ref/contrib/sites.html#django.contrib.sites.models.RequestSite" title="django.contrib.sites.models.RequestSite"><code class="xref py py-class docutils literal"><span class="pre">RequestSite</span></code></a>, which derives the
+site name and domain from the current
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest" title="django.http.HttpRequest"><code class="xref py py-class docutils literal"><span class="pre">HttpRequest</span></code></a>.</li>
+<li><code class="docutils literal"><span class="pre">site_name</span></code>: An alias for <code class="docutils literal"><span class="pre">site.name</span></code>. If you don&#8217;t have the site
+framework installed, this will be set to the value of
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.META" title="django.http.HttpRequest.META"><code class="xref py py-attr docutils literal"><span class="pre">request.META['SERVER_NAME']</span></code></a>.
+For more on sites, see <a class="reference internal" href="../../ref/contrib/sites.html"><em>The &#8220;sites&#8221; framework</em></a>.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.logout_then_login">
+<code class="descname">logout_then_login</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>login_url</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.logout_then_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs a user out, then redirects to the login page.</p>
+<p><strong>URL name:</strong> No default URL provided</p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">login_url</span></code>: The URL of the login page to redirect to.
+Defaults to <a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a> if not supplied.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_change">
+<code class="descname">password_change</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>template_name</em>, <em>post_change_redirect</em>, <em>password_change_form</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows a user to change their password.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_change</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to use for
+displaying the password change form. Defaults to
+<code class="file docutils literal"><span class="pre">registration/password_change_form.html</span></code> if not supplied.</li>
+<li><code class="docutils literal"><span class="pre">post_change_redirect</span></code>: The URL to redirect to after a successful
+password change.</li>
+<li><code class="docutils literal"><span class="pre">password_change_form</span></code>: A custom &#8220;change password&#8221; form which must
+accept a <code class="docutils literal"><span class="pre">user</span></code> keyword argument. The form is responsible for
+actually changing the user&#8217;s password. Defaults to
+<a class="reference internal" href="#django.contrib.auth.forms.PasswordChangeForm" title="django.contrib.auth.forms.PasswordChangeForm"><code class="xref py py-class docutils literal"><span class="pre">PasswordChangeForm</span></code></a>.</li>
+</ul>
+<p><strong>Template context:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">form</span></code>: The password change form (see <code class="docutils literal"><span class="pre">password_change_form</span></code> above).</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_change_done">
+<code class="descname">password_change_done</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>template_name</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_change_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>The page shown after a user has changed their password.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_change_done</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to use.
+Defaults to <code class="file docutils literal"><span class="pre">registration/password_change_done.html</span></code> if not
+supplied.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_reset">
+<code class="descname">password_reset</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>is_admin_site</em>, <em>template_name</em>, <em>email_template_name</em>, <em>password_reset_form</em>, <em>token_generator</em>, <em>post_reset_redirect</em>, <em>from_email</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows a user to reset their password by generating a one-time use link
+that can be used to reset the password, and sending that link to the
+user&#8217;s registered email address.</p>
+<div class="versionchanged">
+Users flagged with an unusable password (see
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.set_unusable_password" title="django.contrib.auth.models.User.set_unusable_password"><code class="xref py py-meth docutils literal"><span class="pre">set_unusable_password()</span></code></a>
+will not be able to request a password reset to prevent misuse
+when using an external authentication source like LDAP.</div>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_reset</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to use for
+displaying the password reset form. Defaults to
+<code class="file docutils literal"><span class="pre">registration/password_reset_form.html</span></code> if not supplied.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">email_template_name</span></code>: The full name of a template to use for
+generating the email with the reset password link. Defaults to
+<code class="file docutils literal"><span class="pre">registration/password_reset_email.html</span></code> if not supplied.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">subject_template_name</span></code>: The full name of a template to use for
+the subject of the email with the reset password link. Defaults
+to <code class="file docutils literal"><span class="pre">registration/password_reset_subject.txt</span></code> if not supplied.</p>
+<div class="versionadded">
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">password_reset_form</span></code>: Form that will be used to get the email of
+the user to reset the password for. Defaults to
+<a class="reference internal" href="#django.contrib.auth.forms.PasswordResetForm" title="django.contrib.auth.forms.PasswordResetForm"><code class="xref py py-class docutils literal"><span class="pre">PasswordResetForm</span></code></a>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">token_generator</span></code>: Instance of the class to check the one time link.
+This will default to <code class="docutils literal"><span class="pre">default_token_generator</span></code>, it&#8217;s an instance of
+<code class="docutils literal"><span class="pre">django.contrib.auth.tokens.PasswordResetTokenGenerator</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">post_reset_redirect</span></code>: The URL to redirect to after a successful
+password reset request.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">from_email</span></code>: A valid email address. By default Django uses
+the <a class="reference internal" href="../../ref/settings.html#std:setting-DEFAULT_FROM_EMAIL"><code class="xref std std-setting docutils literal"><span class="pre">DEFAULT_FROM_EMAIL</span></code></a>.</p>
+</li>
+</ul>
+<p><strong>Template context:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">form</span></code>: The form (see <code class="docutils literal"><span class="pre">password_reset_form</span></code> above) for resetting
+the user&#8217;s password.</li>
+</ul>
+<p><strong>Email template context:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">email</span></code>: An alias for <code class="docutils literal"><span class="pre">user.email</span></code></li>
+<li><code class="docutils literal"><span class="pre">user</span></code>: The current <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>,
+according to the <code class="docutils literal"><span class="pre">email</span></code> form field. Only active users are able to
+reset their passwords (<code class="docutils literal"><span class="pre">User.is_active</span> <span class="pre">is</span> <span class="pre">True</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">site_name</span></code>: An alias for <code class="docutils literal"><span class="pre">site.name</span></code>. If you don&#8217;t have the site
+framework installed, this will be set to the value of
+<a class="reference internal" href="../../ref/request-response.html#django.http.HttpRequest.META" title="django.http.HttpRequest.META"><code class="xref py py-attr docutils literal"><span class="pre">request.META['SERVER_NAME']</span></code></a>.
+For more on sites, see <a class="reference internal" href="../../ref/contrib/sites.html"><em>The &#8220;sites&#8221; framework</em></a>.</li>
+<li><code class="docutils literal"><span class="pre">domain</span></code>: An alias for <code class="docutils literal"><span class="pre">site.domain</span></code>. If you don&#8217;t have the site
+framework installed, this will be set to the value of
+<code class="docutils literal"><span class="pre">request.get_host()</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">protocol</span></code>: http or https</li>
+<li><code class="docutils literal"><span class="pre">uid</span></code>: The user&#8217;s id encoded in base 36.</li>
+<li><code class="docutils literal"><span class="pre">token</span></code>: Token to check that the reset link is valid.</li>
+</ul>
+<p>Sample <code class="docutils literal"><span class="pre">registration/password_reset_email.html</span></code> (email body template):</p>
+<div class="highlight-html+django"><div class="highlight"><pre>Someone asked for password reset for email <span class="cp">{{</span> <span class="nv">email</span> <span class="cp">}}</span>. Follow the link below:
+<span class="cp">{{</span> <span class="nv">protocol</span><span class="cp">}}</span>://<span class="cp">{{</span> <span class="nv">domain</span> <span class="cp">}}{%</span> <span class="k">url</span> <span class="s1">&#39;password_reset_confirm&#39;</span> <span class="nv">uidb36</span><span class="o">=</span><span class="nv">uid</span> <span class="nv">token</span><span class="o">=</span><span class="nv">token</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>The same template context is used for subject template. Subject must be
+single line plain text string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_reset_done">
+<code class="descname">password_reset_done</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>template_name</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_reset_done" title="Permalink to this definition">¶</a></dt>
+<dd><p>The page shown after a user has been emailed a link to reset their
+password. This view is called by default if the <a class="reference internal" href="#django.contrib.auth.views.password_reset" title="django.contrib.auth.views.password_reset"><code class="xref py py-func docutils literal"><span class="pre">password_reset()</span></code></a> view
+doesn&#8217;t have an explicit <code class="docutils literal"><span class="pre">post_reset_redirect</span></code> URL set.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_reset_done</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to use.
+Defaults to <code class="file docutils literal"><span class="pre">registration/password_reset_done.html</span></code> if not
+supplied.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_reset_confirm">
+<code class="descname">password_reset_confirm</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>uidb36</em>, <em>token</em>, <em>template_name</em>, <em>token_generator</em>, <em>set_password_form</em>, <em>post_reset_redirect</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_reset_confirm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presents a form for entering a new password.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_reset_confirm</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">uidb36</span></code>: The user&#8217;s id encoded in base 36. Defaults to <code class="docutils literal"><span class="pre">None</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">token</span></code>: Token to check that the password is valid. Defaults to
+<code class="docutils literal"><span class="pre">None</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to display the confirm
+password view. Default value is <code class="file docutils literal"><span class="pre">registration/password_reset_confirm.html</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">token_generator</span></code>: Instance of the class to check the password. This
+will default to <code class="docutils literal"><span class="pre">default_token_generator</span></code>, it&#8217;s an instance of
+<code class="docutils literal"><span class="pre">django.contrib.auth.tokens.PasswordResetTokenGenerator</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">set_password_form</span></code>: Form that will be used to set the password.
+Defaults to <a class="reference internal" href="#django.contrib.auth.forms.SetPasswordForm" title="django.contrib.auth.forms.SetPasswordForm"><code class="xref py py-class docutils literal"><span class="pre">SetPasswordForm</span></code></a></li>
+<li><code class="docutils literal"><span class="pre">post_reset_redirect</span></code>: URL to redirect after the password reset
+done. Defaults to <code class="docutils literal"><span class="pre">None</span></code>.</li>
+</ul>
+<p><strong>Template context:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">form</span></code>: The form (see <code class="docutils literal"><span class="pre">set_password_form</span></code> above) for setting the
+new user&#8217;s password.</li>
+<li><code class="docutils literal"><span class="pre">validlink</span></code>: Boolean, True if the link (combination of uidb36 and
+token) is valid or unused yet.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.contrib.auth.views.password_reset_complete">
+<code class="descname">password_reset_complete</code><span class="sig-paren">(</span><em>request</em><span class="optional">[</span>, <em>template_name</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.password_reset_complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Presents a view which informs the user that the password has been
+successfully changed.</p>
+<p><strong>URL name:</strong> <code class="docutils literal"><span class="pre">password_reset_complete</span></code></p>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">template_name</span></code>: The full name of a template to display the view.
+Defaults to <code class="file docutils literal"><span class="pre">registration/password_reset_complete.html</span></code>.</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="helper-functions">
+<h3>Helper functions<a class="headerlink" href="#helper-functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="django.contrib.auth.views.redirect_to_login">
+<code class="descname">redirect_to_login</code><span class="sig-paren">(</span><em>next</em><span class="optional">[</span>, <em>login_url</em>, <em>redirect_field_name</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#django.contrib.auth.views.redirect_to_login" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirects to the login page, and then back to another URL after a
+successful login.</p>
+<p><strong>Required arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">next</span></code>: The URL to redirect to after a successful login.</li>
+</ul>
+<p><strong>Optional arguments:</strong></p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">login_url</span></code>: The URL of the login page to redirect to.
+Defaults to <a class="reference internal" href="../../ref/settings.html#std:setting-LOGIN_URL"><code class="xref std std-setting docutils literal"><span class="pre">settings.LOGIN_URL</span></code></a> if not supplied.</li>
+<li><code class="docutils literal"><span class="pre">redirect_field_name</span></code>: The name of a <code class="docutils literal"><span class="pre">GET</span></code> field containing the
+URL to redirect to after log out. Overrides <code class="docutils literal"><span class="pre">next</span></code> if the given
+<code class="docutils literal"><span class="pre">GET</span></code> parameter is passed.</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-django.contrib.auth.forms">
+<span id="built-in-forms"></span><span id="built-in-auth-forms"></span><h3>Built-in forms<a class="headerlink" href="#module-django.contrib.auth.forms" title="Permalink to this headline">¶</a></h3>
+<p>If you don&#8217;t want to use the built-in views, but want the convenience of not
+having to write forms for this functionality, the authentication system
+provides several built-in forms located in <a class="reference internal" href="#module-django.contrib.auth.forms" title="django.contrib.auth.forms"><code class="xref py py-mod docutils literal"><span class="pre">django.contrib.auth.forms</span></code></a>:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The built-in authentication forms make certain assumptions about the user
+model that they are working with. If you&#8217;re using a <a class="reference internal" href="customizing.html#auth-custom-user"><span>custom User model</span></a>, it may be necessary to define your own forms for the
+authentication system. For more information, refer to the documentation
+about <a class="reference internal" href="customizing.html#custom-users-and-the-built-in-auth-forms"><span>using the built-in authentication forms with custom user models</span></a>.</p>
+</div>
+<dl class="class">
+<dt id="django.contrib.auth.forms.AdminPasswordChangeForm">
+<em class="property">class </em><code class="descname">AdminPasswordChangeForm</code><a class="headerlink" href="#django.contrib.auth.forms.AdminPasswordChangeForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form used in the admin interface to change a user&#8217;s password.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.AuthenticationForm">
+<em class="property">class </em><code class="descname">AuthenticationForm</code><a class="headerlink" href="#django.contrib.auth.forms.AuthenticationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form for logging a user in.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.PasswordChangeForm">
+<em class="property">class </em><code class="descname">PasswordChangeForm</code><a class="headerlink" href="#django.contrib.auth.forms.PasswordChangeForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form for allowing a user to change their password.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.PasswordResetForm">
+<em class="property">class </em><code class="descname">PasswordResetForm</code><a class="headerlink" href="#django.contrib.auth.forms.PasswordResetForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form for generating and emailing a one-time use link to reset a
+user&#8217;s password.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.SetPasswordForm">
+<em class="property">class </em><code class="descname">SetPasswordForm</code><a class="headerlink" href="#django.contrib.auth.forms.SetPasswordForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form that lets a user change his/her password without entering the old
+password.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.UserChangeForm">
+<em class="property">class </em><code class="descname">UserChangeForm</code><a class="headerlink" href="#django.contrib.auth.forms.UserChangeForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form used in the admin interface to change a user&#8217;s information and
+permissions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="django.contrib.auth.forms.UserCreationForm">
+<em class="property">class </em><code class="descname">UserCreationForm</code><a class="headerlink" href="#django.contrib.auth.forms.UserCreationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form for creating a new user.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="authentication-data-in-templates">
+<h3>Authentication data in templates<a class="headerlink" href="#authentication-data-in-templates" title="Permalink to this headline">¶</a></h3>
+<p>The currently logged-in user and his/her permissions are made available in the
+<a class="reference internal" href="../../ref/templates/api.html"><em>template context</em></a> when you use
+<a class="reference internal" href="../../ref/templates/api.html#django.template.RequestContext" title="django.template.RequestContext"><code class="xref py py-class docutils literal"><span class="pre">RequestContext</span></code></a>.</p>
+<div class="admonition-technicality admonition">
+<p class="first admonition-title">Technicality</p>
+<p class="last">Technically, these variables are only made available in the template context
+if you use <a class="reference internal" href="../../ref/templates/api.html#django.template.RequestContext" title="django.template.RequestContext"><code class="xref py py-class docutils literal"><span class="pre">RequestContext</span></code></a> <em>and</em> your
+<a class="reference internal" href="../../ref/settings.html#std:setting-TEMPLATE_CONTEXT_PROCESSORS"><code class="xref std std-setting docutils literal"><span class="pre">TEMPLATE_CONTEXT_PROCESSORS</span></code></a> setting contains
+<code class="docutils literal"><span class="pre">&quot;django.contrib.auth.context_processors.auth&quot;</span></code>, which is default. For
+more, see the <a class="reference internal" href="../../ref/templates/api.html#subclassing-context-requestcontext"><span>RequestContext docs</span></a>.</p>
+</div>
+<div class="section" id="users">
+<h4>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h4>
+<p>When rendering a template <a class="reference internal" href="../../ref/templates/api.html#django.template.RequestContext" title="django.template.RequestContext"><code class="xref py py-class docutils literal"><span class="pre">RequestContext</span></code></a>, the
+currently logged-in user, either a  <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User" title="django.contrib.auth.models.User"><code class="xref py py-class docutils literal"><span class="pre">User</span></code></a>
+instance or an <a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.AnonymousUser" title="django.contrib.auth.models.AnonymousUser"><code class="xref py py-class docutils literal"><span class="pre">AnonymousUser</span></code></a> instance, is
+stored in the template variable <code class="docutils literal"><span class="pre">{{</span> <span class="pre">user</span> <span class="pre">}}</span></code>:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">user.is_authenticated</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>Welcome, <span class="cp">{{</span> <span class="nv">user.username</span> <span class="cp">}}</span>. Thanks for logging in.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>Welcome, new user. Please log in.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>This template context variable is not available if a <code class="docutils literal"><span class="pre">RequestContext</span></code> is not
+being used.</p>
+</div>
+<div class="section" id="permissions">
+<h4>Permissions<a class="headerlink" href="#permissions" title="Permalink to this headline">¶</a></h4>
+<p>The currently logged-in user&#8217;s permissions are stored in the template variable
+<code class="docutils literal"><span class="pre">{{</span> <span class="pre">perms</span> <span class="pre">}}</span></code>. This is an instance of
+<code class="docutils literal"><span class="pre">django.contrib.auth.context_processors.PermWrapper</span></code>, which is a
+template-friendly proxy of permissions.</p>
+<p>In the <code class="docutils literal"><span class="pre">{{</span> <span class="pre">perms</span> <span class="pre">}}</span></code> object, single-attribute lookup is a proxy to
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.has_module_perms" title="django.contrib.auth.models.User.has_module_perms"><code class="xref py py-meth docutils literal"><span class="pre">User.has_module_perms</span></code></a>.
+This example would display <code class="docutils literal"><span class="pre">True</span></code> if the logged-in user had any permissions
+in the <code class="docutils literal"><span class="pre">foo</span></code> app:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">perms</span><span class="o">.</span><span class="n">foo</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>Two-level-attribute lookup is a proxy to
+<a class="reference internal" href="../../ref/contrib/auth.html#django.contrib.auth.models.User.has_perm" title="django.contrib.auth.models.User.has_perm"><code class="xref py py-meth docutils literal"><span class="pre">User.has_perm</span></code></a>. This example
+would display <code class="docutils literal"><span class="pre">True</span></code> if the logged-in user had the permission
+<code class="docutils literal"><span class="pre">foo.can_vote</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{{</span> <span class="n">perms</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">can_vote</span> <span class="p">}}</span>
+</pre></div>
+</div>
+<p>Thus, you can check permissions in template <code class="docutils literal"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">%}</span></code> statements:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">perms.foo</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>You have permission to do something in the foo app.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">perms.foo.can_vote</span> <span class="cp">%}</span>
+        <span class="nt">&lt;p&gt;</span>You can vote!<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">perms.foo.can_drive</span> <span class="cp">%}</span>
+        <span class="nt">&lt;p&gt;</span>You can drive!<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>You don&#39;t have permission to do anything in the foo app.<span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<div class="versionadded">
+Permission lookup by &#8220;if in&#8221;.</div>
+<p>It is possible to also look permissions up by <code class="docutils literal"><span class="pre">{%</span> <span class="pre">if</span> <span class="pre">in</span> <span class="pre">%}</span></code> statements.
+For example:</p>
+<div class="highlight-html+django"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="s1">&#39;foo&#39;</span> <span class="k">in</span> <span class="nv">perms</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">if</span> <span class="s1">&#39;foo.can_vote&#39;</span> <span class="k">in</span> <span class="nv">perms</span> <span class="cp">%}</span>
+        <span class="nt">&lt;p&gt;</span>In lookup works, too.<span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="managing-users-in-the-admin">
+<span id="auth-admin"></span><h2>Managing users in the admin<a class="headerlink" href="#managing-users-in-the-admin" title="Permalink to this headline">¶</a></h2>
+<p>When you have both <code class="docutils literal"><span class="pre">django.contrib.admin</span></code> and <code class="docutils literal"><span class="pre">django.contrib.auth</span></code>
+installed, the admin provides a convenient way to view and manage users,
+groups, and permissions. Users can be created and deleted like any Django
+model. Groups can be created, and permissions can be assigned to users or
+groups. A log of user edits to models made within the admin is also stored and
+displayed.</p>
+<div class="section" id="id3">
+<h3>Creating Users<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>You should see a link to &#8220;Users&#8221; in the &#8220;Auth&#8221;
+section of the main admin index page. The &#8220;Add user&#8221; admin page is different
+than standard admin pages in that it requires you to choose a username and
+password before allowing you to edit the rest of the user&#8217;s fields.</p>
+<p>Also note: if you want a user account to be able to create users using the
+Django admin site, you&#8217;ll need to give them permission to add users <em>and</em>
+change users (i.e., the &#8220;Add user&#8221; and &#8220;Change user&#8221; permissions). If an
+account has permission to add users but not to change them, that account won&#8217;t
+be able to add users. Why? Because if you have permission to add users, you
+have the power to create superusers, which can then, in turn, change other
+users. So Django requires add <em>and</em> change permissions as a slight security
+measure.</p>
+</div>
+<div class="section" id="id4">
+<h3>Changing Passwords<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>User passwords are not displayed in the admin (nor stored in the database), but
+the <a class="reference internal" href="passwords.html"><em>password storage details</em></a> are displayed.
+Included in the display of this information is a link to
+a password change form that allows admins to change user passwords.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="passwords.html" class="btn btn-neutral float-right" title="Password management in Django" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="User authentication in Django" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/auth/default.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:20 GMT -->
+</html>

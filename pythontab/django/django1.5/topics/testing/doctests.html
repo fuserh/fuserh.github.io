@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/testing/doctests.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django and doctests &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../db/index.html">Models and databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Testing in Django</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="overview.html">Testing Django applications</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Django and doctests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced.html">Advanced testing topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#unit-tests-v-doctests">Unit tests v. doctests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#where-to-go-from-here">Where to go from here</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Testing in Django</a> &raquo;</li>
+      
+    <li>Django and doctests</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-and-doctests">
+<h1>Django and doctests<a class="headerlink" href="#django-and-doctests" title="Permalink to this headline">¶</a></h1>
+<p>Doctests use Python&#8217;s standard <a class="reference external" href="http://docs.python.org/2.7/library/doctest.html#module-doctest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">doctest</span></code></a> module, which searches your
+docstrings for statements that resemble a session of the Python interactive
+interpreter. A full explanation of how <a class="reference external" href="http://docs.python.org/2.7/library/doctest.html#module-doctest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">doctest</span></code></a> works is out of the scope
+of this document; read Python&#8217;s official documentation for the details.</p>
+<div class="admonition-what-s-a-docstring admonition">
+<p class="first admonition-title">What&#8217;s a <strong>docstring</strong>?</p>
+<p>A good explanation of docstrings (and some guidelines for using them
+effectively) can be found in <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0257"><strong>PEP 257</strong></a>:</p>
+<blockquote>
+<div>A docstring is a string literal that occurs as the first statement in
+a module, function, class, or method definition.  Such a docstring
+becomes the <code class="docutils literal"><span class="pre">__doc__</span></code> special attribute of that object.</div></blockquote>
+<p>For example, this function has a docstring that describes what it does:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">add_two</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="s">&quot;Return the result of adding two to the provided number.&quot;</span>
+    <span class="k">return</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p class="last">Because tests often make great documentation, putting tests directly in
+your docstrings is an effective way to document <em>and</em> test your code.</p>
+</div>
+<p>As with unit tests, for a given Django application, the test runner looks for
+doctests in two places:</p>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">models.py</span></code> file. You can define module-level doctests and/or a
+doctest for individual models. It&#8217;s common practice to put
+application-level doctests in the module docstring and model-level
+doctests in the model docstrings.</li>
+<li>A file called <code class="docutils literal"><span class="pre">tests.py</span></code> in the application directory &#8211; i.e., the
+directory that holds <code class="docutils literal"><span class="pre">models.py</span></code>. This file is a hook for any and all
+doctests you want to write that aren&#8217;t necessarily related to models.</li>
+</ul>
+<p>This example doctest is equivalent to the example given in the unittest section
+above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># models.py</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Animal</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An animal that knows how to make noise</span>
+
+<span class="sd">    # Create some animals</span>
+<span class="sd">    &gt;&gt;&gt; lion = Animal.objects.create(name=&quot;lion&quot;, sound=&quot;roar&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; cat = Animal.objects.create(name=&quot;cat&quot;, sound=&quot;meow&quot;)</span>
+
+<span class="sd">    # Make &#39;em speak</span>
+<span class="sd">    &gt;&gt;&gt; lion.speak()</span>
+<span class="sd">    &#39;The lion says &quot;roar&quot;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; cat.speak()</span>
+<span class="sd">    &#39;The cat says &quot;meow&quot;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">sound</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;The </span><span class="si">%s</span><span class="s"> says &quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sound</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When you <a class="reference internal" href="overview.html#running-tests"><span>run your tests</span></a>, the test runner will find this
+docstring, notice that portions of it look like an interactive Python session,
+and execute those lines while checking that the results match.</p>
+<p>In the case of model tests, note that the test runner takes care of creating
+its own test database. That is, any test that accesses a database &#8211; by
+creating and saving model instances, for example &#8211; will not affect your
+production database. However, the database is not refreshed between doctests,
+so if your doctest requires a certain state you should consider flushing the
+database or loading a fixture. (See the section on <a class="reference internal" href="overview.html#topics-testing-fixtures"><span>fixtures</span></a> for more on this.) Note that to use this feature,
+the database user Django is connecting as must have <code class="docutils literal"><span class="pre">CREATE</span> <span class="pre">DATABASE</span></code>
+rights.</p>
+<p>For more details about <a class="reference external" href="http://docs.python.org/2.7/library/doctest.html#module-doctest" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">doctest</span></code></a>, see the Python documentation.</p>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advanced.html" class="btn btn-neutral float-right" title="Advanced testing topics" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Testing Django applications" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/testing/doctests.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:53 GMT -->
+</html>

@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.1-alpha-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Django 1.1 alpha 1 release notes &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">新手入门</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../topics/index.html">使用 Django</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Release notes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#final-releases">Final releases</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#development-releases">Development releases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1.5-beta-1.html">Django 1.5 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.5-alpha-1.html">Django 1.5 alpha release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-beta-1.html">Django 1.4 beta release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.4-alpha-1.html">Django 1.4 alpha release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.3-beta-1.html">Django 1.3 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.3-alpha-1.html">Django 1.3 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-rc-1.html">Django 1.2 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-beta-1.html">Django 1.2 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.2-alpha-1.html">Django 1.2 alpha 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-rc-1.html">Django 1.1 RC 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.1-beta-1.html">Django 1.1 beta 1 release notes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Django 1.1 alpha 1 release notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#what-s-new-in-django-1-1-alpha-1">What&#8217;s new in Django 1.1 alpha 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-django-1-1-roadmap">The Django 1.1 roadmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-can-do-to-help">What you can do to help</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta-2.html">Django 1.0 beta 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-beta.html">Django 1.0 beta 1 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-2.html">Django 1.0 alpha 2 release notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="1.0-alpha-1.html">Django 1.0 alpha release notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="index.html">Release notes</a> &raquo;</li>
+      
+    <li>Django 1.1 alpha 1 release notes</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-1-1-alpha-1-release-notes">
+<h1>Django 1.1 alpha 1 release notes<a class="headerlink" href="#django-1-1-alpha-1-release-notes" title="Permalink to this headline">¶</a></h1>
+<p>February 23, 2009</p>
+<p>Welcome to Django 1.1 alpha 1!</p>
+<p>This is the first in a series of preview/development releases leading up to the
+eventual release of Django 1.1, currently scheduled to take place in April 2009.
+This release is primarily targeted at developers who are interested in trying
+out new features and testing the Django codebase to help identify and resolve
+bugs prior to the final 1.1 release.</p>
+<p>As such, this release is <em>not</em> intended for production use, and any such use is
+discouraged.</p>
+<div class="section" id="what-s-new-in-django-1-1-alpha-1">
+<h2>What&#8217;s new in Django 1.1 alpha 1<a class="headerlink" href="#what-s-new-in-django-1-1-alpha-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="orm-improvements">
+<h3>ORM improvements<a class="headerlink" href="#orm-improvements" title="Permalink to this headline">¶</a></h3>
+<p>Two major enhancements have been added to Django&#8217;s object-relational mapper
+(ORM):</p>
+<div class="section" id="aggregate-support">
+<h4>Aggregate support<a class="headerlink" href="#aggregate-support" title="Permalink to this headline">¶</a></h4>
+<p>It&#8217;s now possible to run SQL aggregate queries (i.e. <code class="docutils literal"><span class="pre">COUNT()</span></code>, <code class="docutils literal"><span class="pre">MAX()</span></code>,
+<code class="docutils literal"><span class="pre">MIN()</span></code>, etc.) from within Django&#8217;s ORM. You can choose to either return the
+results of the aggregate directly, or else annotate the objects in a
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet" title="django.db.models.query.QuerySet"><code class="xref py py-class docutils literal"><span class="pre">QuerySet</span></code></a> with the results of the aggregate
+query.</p>
+<p>This feature is available as new
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.aggregate" title="django.db.models.query.QuerySet.aggregate"><code class="xref py py-meth docutils literal"><span class="pre">aggregate()</span></code></a> and
+<a class="reference internal" href="../ref/models/querysets.html#django.db.models.query.QuerySet.annotate" title="django.db.models.query.QuerySet.annotate"><code class="xref py py-meth docutils literal"><span class="pre">annotate()</span></code></a> methods, and is covered in
+detail in <a class="reference internal" href="../topics/db/aggregation.html"><em>the ORM aggregation documentation</em></a>.</p>
+</div>
+<div class="section" id="query-expressions">
+<h4>Query expressions<a class="headerlink" href="#query-expressions" title="Permalink to this headline">¶</a></h4>
+<p>Queries can now refer to a another field on the query and can traverse
+relationships to refer to fields on related models. This is implemented in the
+new <a class="reference internal" href="../topics/db/queries.html#django.db.models.F" title="django.db.models.F"><code class="xref py py-class docutils literal"><span class="pre">F</span></code></a> object; for full details, including examples, consult the
+<a class="reference internal" href="../topics/db/queries.html#query-expressions"><span>documentation for F expressions</span></a>.</p>
+</div>
+</div>
+<div class="section" id="performance-improvements">
+<h3>Performance improvements<a class="headerlink" href="#performance-improvements" title="Permalink to this headline">¶</a></h3>
+<p>Tests written using Django&#8217;s <a class="reference internal" href="../topics/testing/index.html"><em>testing framework</em></a> now run
+dramatically faster (as much as 10 times faster in many cases).</p>
+<p>This was accomplished through the introduction of transaction-based tests: when
+using <a class="reference internal" href="../topics/testing/overview.html#django.test.TestCase" title="django.test.TestCase"><code class="xref py py-class docutils literal"><span class="pre">django.test.TestCase</span></code></a>, your tests will now be run in a transaction
+which is rolled back when finished, instead of by flushing and re-populating the
+database. This results in an immense speedup for most types of unit tests. See
+the documentation for <a class="reference internal" href="../topics/testing/overview.html#django.test.TestCase" title="django.test.TestCase"><code class="xref py py-class docutils literal"><span class="pre">TestCase</span></code></a> and <a class="reference internal" href="../topics/testing/overview.html#django.test.TransactionTestCase" title="django.test.TransactionTestCase"><code class="xref py py-class docutils literal"><span class="pre">TransactionTestCase</span></code></a> for a
+full description, and some important notes on database support.</p>
+</div>
+<div class="section" id="other-improvements">
+<h3>Other improvements<a class="headerlink" href="#other-improvements" title="Permalink to this headline">¶</a></h3>
+<p>Other new features and changes introduced since Django 1.0 include:</p>
+<ul class="simple">
+<li>The <a class="reference internal" href="../ref/contrib/csrf.html"><em>CSRF protection middleware</em></a> has been split into
+two classes &#8211; <code class="docutils literal"><span class="pre">CsrfViewMiddleware</span></code> checks incoming requests, and
+<code class="docutils literal"><span class="pre">CsrfResponseMiddleware</span></code> processes outgoing responses. The combined
+<code class="docutils literal"><span class="pre">CsrfMiddleware</span></code> class (which does both) remains for
+backwards-compatibility, but using the split classes is now recommended in
+order to allow fine-grained control of when and where the CSRF processing
+takes place.</li>
+<li><a class="reference internal" href="../ref/urlresolvers.html#django.core.urlresolvers.reverse" title="django.core.urlresolvers.reverse"><code class="xref py py-func docutils literal"><span class="pre">reverse()</span></code></a> and code which uses it (e.g., the
+<code class="docutils literal"><span class="pre">{%</span> <span class="pre">url</span> <span class="pre">%}</span></code> template tag) now works with URLs in Django&#8217;s administrative
+site, provided that the admin URLs are set up via <code class="docutils literal"><span class="pre">include(admin.site.urls)</span></code>
+(sending admin requests to the <code class="docutils literal"><span class="pre">admin.site.root</span></code> view still works, but URLs
+in the admin will not be &#8220;reversible&#8221; when configured this way).</li>
+<li>The <code class="docutils literal"><span class="pre">include()</span></code> function in Django URLconf modules can now accept sequences
+of URL patterns (generated by <code class="docutils literal"><span class="pre">patterns()</span></code>) in addition to module names.</li>
+<li>Instances of Django forms (see <a class="reference internal" href="../topics/forms/index.html"><em>the forms overview</em></a>)
+now have two additional methods, <code class="docutils literal"><span class="pre">hidden_fields()</span></code> and <code class="docutils literal"><span class="pre">visible_fields()</span></code>,
+which return the list of hidden &#8211; i.e., <code class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;hidden&quot;&gt;</span></code> &#8211; and
+visible fields on the form, respectively.</li>
+<li>The <code class="docutils literal"><span class="pre">redirect_to</span></code> generic view
+now accepts an additional keyword argument
+<code class="docutils literal"><span class="pre">permanent</span></code>. If <code class="docutils literal"><span class="pre">permanent</span></code> is <code class="docutils literal"><span class="pre">True</span></code>, the view will emit an HTTP
+permanent redirect (status code 301). If <code class="docutils literal"><span class="pre">False</span></code>, the view will emit an HTTP
+temporary redirect (status code 302).</li>
+<li>A new database lookup type &#8211; <code class="docutils literal"><span class="pre">week_day</span></code> &#8211; has been added for <code class="docutils literal"><span class="pre">DateField</span></code>
+and <code class="docutils literal"><span class="pre">DateTimeField</span></code>. This type of lookup accepts a number between 1 (Sunday)
+and 7 (Saturday), and returns objects where the field value matches that day
+of the week. See <a class="reference internal" href="../ref/models/querysets.html#field-lookups"><span>the full list of lookup types</span></a> for
+details.</li>
+<li>The <code class="docutils literal"><span class="pre">{%</span> <span class="pre">for</span> <span class="pre">%}</span></code> tag in Django&#8217;s template language now accepts an optional
+<code class="docutils literal"><span class="pre">{%</span> <span class="pre">empty</span> <span class="pre">%}</span></code> clause, to be displayed when <code class="docutils literal"><span class="pre">{%</span> <span class="pre">for</span> <span class="pre">%}</span></code> is asked to loop
+over an empty sequence. See <a class="reference internal" href="../ref/templates/builtins.html"><em>the list of built-in template tags</em></a> for examples of this.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="the-django-1-1-roadmap">
+<h2>The Django 1.1 roadmap<a class="headerlink" href="#the-django-1-1-roadmap" title="Permalink to this headline">¶</a></h2>
+<p>Before Django 1.1 goes final, several other preview/development releases will be
+made available. The current schedule consists of at least the following:</p>
+<ul class="simple">
+<li>Week of <em>March 20, 2009:</em> Django 1.1 beta 1, at which point Django 1.1 will
+be in &#8220;feature freeze&#8221;: no new features will be implemented for 1.1
+past that point, and all new feature work will be deferred to
+Django 1.2.</li>
+<li>Week of <em>April 2, 2009:</em> Django 1.1 release candidate. At this point all
+strings marked for translation must freeze to allow translations to
+be submitted in advance of the final release.</li>
+<li>Week of <em>April 13, 2009:</em> Django 1.1 final.</li>
+</ul>
+<p>If deemed necessary, additional alpha, beta or release candidate packages will
+be issued prior to the final 1.1 release.</p>
+</div>
+<div class="section" id="what-you-can-do-to-help">
+<h2>What you can do to help<a class="headerlink" href="#what-you-can-do-to-help" title="Permalink to this headline">¶</a></h2>
+<p>In order to provide a high-quality 1.1 release, we need your help. Although this
+alpha release is, again, <em>not</em> intended for production use, you can help the
+Django team by trying out the alpha codebase in a safe test environment and
+reporting any bugs or issues you encounter. The Django ticket tracker is the
+central place to search for open issues:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://code.djangoproject.com/timeline">https://code.djangoproject.com/timeline</a></li>
+</ul>
+<p>Please open new tickets if no existing ticket corresponds to a problem you&#8217;re
+running into.</p>
+<p>Additionally, discussion of Django development, including progress toward the
+1.1 release, takes place daily on the django-developers mailing list:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://groups.google.com/group/django-developers">http://groups.google.com/group/django-developers</a></li>
+</ul>
+<p>... and in the <code class="docutils literal"><span class="pre">#django-dev</span></code> IRC channel on <code class="docutils literal"><span class="pre">irc.freenode.net</span></code>. If you&#8217;re
+interested in helping out with Django&#8217;s development, feel free to join the
+discussions there.</p>
+<p>Django&#8217;s online documentation also includes pointers on how to contribute to
+Django:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../internals/contributing/index.html"><em>How to contribute to Django</em></a></li>
+</ul>
+<p>Contributions on any level &#8211; developing code, writing documentation or simply
+triaging tickets and helping to test proposed bugfixes &#8211; are always welcome and
+appreciated.</p>
+<p>Development sprints for Django 1.1 will also be taking place at PyCon US 2009,
+on the dedicated sprint days (March 30 through April 2), and anyone who wants to
+help out is welcome to join in, either in person at PyCon or virtually in the
+IRC channel or on the mailing list.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="1.0-beta-2.html" class="btn btn-neutral float-right" title="Django 1.0 beta 2 release notes" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="1.1-beta-1.html" class="btn btn-neutral" title="Django 1.1 beta 1 release notes" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/releases/1.1-alpha-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:57:18 GMT -->
+</html>

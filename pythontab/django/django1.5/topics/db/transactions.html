@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/transactions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Managing database transactions &mdash; Django 中文手册 1.5 documentation</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../contents.html" class="icon icon-home"> Django 中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/django/django1.5/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index-2.html">Django 中文文档</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro/index.html">新手入门</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">使用 Django</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install.html">如何安装 Django</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Models and databases</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="models.html">模型</a></li>
+<li class="toctree-l3"><a class="reference internal" href="queries.html">Making queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aggregation.html">Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="managers.html">Managers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sql.html">Performing raw SQL queries</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Managing database transactions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#django-s-default-transaction-behavior">Django&#8217;s default transaction behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tying-transactions-to-http-requests">Tying transactions to HTTP requests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#controlling-transaction-management-in-views">Controlling transaction management in views</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#requirements-for-transaction-handling">Requirements for transaction handling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-globally-deactivate-transaction-management">How to globally deactivate transaction management</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#savepoints">Savepoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transactions-in-mysql">Transactions in MySQL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#handling-exceptions-within-postgresql-transactions">Handling exceptions within PostgreSQL transactions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="multi-db.html">Multiple databases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tablespaces.html">Tablespaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optimization.html">Database access optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/index.html">Examples of model relationship API usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../http/index.html">Handling HTTP requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forms/index.html">Working with forms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates.html">The Django template language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class-based-views/index.html">Class-based views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">Managing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../testing/index.html">Testing in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auth/index.html">User authentication in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cache.html">Django&#8217;s cache framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../conditional-view-processing.html">Conditional View Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signing.html">Cryptographic signing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../email.html">Sending email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../i18n/index.html">Internationalization and localization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pagination.html">Pagination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python3.html">Porting to Python 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security.html">Security in Django</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../serialization.html">Serializing Django objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Django settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../signals.html">Signals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../howto/index.html">&#8220;How-to&#8221; guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq/index.html">Django FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref/index.html">API 参考</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../misc/index.html">Meta-documentation and miscellany</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../releases/index.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/index.html">Django internals</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../contents.html">Django 中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../contents.html"> &mdash; Django 中文手册 1.5 documentation</a> &raquo;</li>
+      
+          <li><a href="../index.html">使用 Django</a> &raquo;</li>
+      
+          <li><a href="index.html">Models and databases</a> &raquo;</li>
+      
+    <li>Managing database transactions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-django.db.transaction">
+<span id="managing-database-transactions"></span><h1>Managing database transactions<a class="headerlink" href="#module-django.db.transaction" title="Permalink to this headline">¶</a></h1>
+<p>Django gives you a few ways to control how database transactions are managed,
+if you&#8217;re using a database that supports transactions.</p>
+<div class="section" id="django-s-default-transaction-behavior">
+<h2>Django&#8217;s default transaction behavior<a class="headerlink" href="#django-s-default-transaction-behavior" title="Permalink to this headline">¶</a></h2>
+<p>Django&#8217;s default behavior is to run with an open transaction which it
+commits automatically when any built-in, data-altering model function is
+called. For example, if you call <code class="docutils literal"><span class="pre">model.save()</span></code> or <code class="docutils literal"><span class="pre">model.delete()</span></code>, the
+change will be committed immediately.</p>
+<p>This is much like the auto-commit setting for most databases. As soon as you
+perform an action that needs to write to the database, Django produces the
+<code class="docutils literal"><span class="pre">INSERT</span></code>/<code class="docutils literal"><span class="pre">UPDATE</span></code>/<code class="docutils literal"><span class="pre">DELETE</span></code> statements and then does the <code class="docutils literal"><span class="pre">COMMIT</span></code>.
+There&#8217;s no implicit <code class="docutils literal"><span class="pre">ROLLBACK</span></code>.</p>
+</div>
+<div class="section" id="tying-transactions-to-http-requests">
+<h2>Tying transactions to HTTP requests<a class="headerlink" href="#tying-transactions-to-http-requests" title="Permalink to this headline">¶</a></h2>
+<p>The recommended way to handle transactions in Web requests is to tie them to
+the request and response phases via Django&#8217;s <code class="docutils literal"><span class="pre">TransactionMiddleware</span></code>.</p>
+<p>It works like this: When a request starts, Django starts a transaction. If the
+response is produced without problems, Django commits any pending transactions.
+If the view function produces an exception, Django rolls back any pending
+transactions.</p>
+<p>To activate this feature, just add the <code class="docutils literal"><span class="pre">TransactionMiddleware</span></code> middleware to
+your <a class="reference internal" href="../../ref/settings.html#std:setting-MIDDLEWARE_CLASSES"><code class="xref std std-setting docutils literal"><span class="pre">MIDDLEWARE_CLASSES</span></code></a> setting:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.middleware.cache.UpdateCacheMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.middleware.transaction.TransactionMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.middleware.cache.FetchFromCacheMiddleware&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The order is quite important. The transaction middleware applies not only to
+view functions, but also for all middleware modules that come after it. So if
+you use the session middleware after the transaction middleware, session
+creation will be part of the transaction.</p>
+<p>The various cache middlewares are an exception:
+<code class="docutils literal"><span class="pre">CacheMiddleware</span></code>, <a class="reference internal" href="../../ref/middleware.html#django.middleware.cache.UpdateCacheMiddleware" title="django.middleware.cache.UpdateCacheMiddleware"><code class="xref py py-class docutils literal"><span class="pre">UpdateCacheMiddleware</span></code></a>,
+and <a class="reference internal" href="../../ref/middleware.html#django.middleware.cache.FetchFromCacheMiddleware" title="django.middleware.cache.FetchFromCacheMiddleware"><code class="xref py py-class docutils literal"><span class="pre">FetchFromCacheMiddleware</span></code></a> are never
+affected. Even when using database caching, Django&#8217;s cache backend uses its own
+database cursor (which is mapped to its own database connection internally).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">TransactionMiddleware</span></code> only affects the database aliased
+as &#8220;default&#8221; within your <a class="reference internal" href="../../ref/settings.html#std:setting-DATABASES"><code class="xref std std-setting docutils literal"><span class="pre">DATABASES</span></code></a> setting.  If you are using
+multiple databases and want transaction control over databases other than
+&#8220;default&#8221;, you will need to write your own transaction middleware.</p>
+</div>
+</div>
+<div class="section" id="controlling-transaction-management-in-views">
+<span id="transaction-management-functions"></span><h2>Controlling transaction management in views<a class="headerlink" href="#controlling-transaction-management-in-views" title="Permalink to this headline">¶</a></h2>
+<p>For most people, implicit request-based transactions work wonderfully. However,
+if you need more fine-grained control over how transactions are managed, you can
+use a set of functions in <code class="docutils literal"><span class="pre">django.db.transaction</span></code> to control transactions on a
+per-function or per-code-block basis.</p>
+<p>These functions, described in detail below, can be used in two different ways:</p>
+<ul>
+<li><p class="first">As a <a class="reference external" href="http://docs.python.org/glossary.html#term-decorator">decorator</a> on a particular function. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre>from django.db import transaction
+
+@transaction.commit_on_success
+def viewfunc(request):
+    # ...
+    # this code executes inside a transaction
+    # ...
+</pre></div>
+</div>
+</li>
+<li><p class="first">As a <a class="reference external" href="http://docs.python.org/glossary.html#term-context-manager">context manager</a> around a particular block of code:</p>
+<div class="highlight-python"><div class="highlight"><pre>from django.db import transaction
+
+def viewfunc(request):
+    # ...
+    # this code executes using default transaction management
+    # ...
+
+    with transaction.commit_on_success():
+        # ...
+        # this code executes inside a transaction
+        # ...
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Both techniques work with all supported version of Python.</p>
+<p>For maximum compatibility, all of the examples below show transactions using the
+decorator syntax, but all of the follow functions may be used as context
+managers, too.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although the examples below use view functions as examples, these
+decorators and context managers can be used anywhere in your code
+that you need to deal with transactions.</p>
+</div>
+<span class="target" id="topics-db-transactions-autocommit"></span><dl class="function">
+<dt id="django.db.transaction.autocommit">
+<code class="descname">autocommit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.autocommit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal"><span class="pre">autocommit</span></code> decorator to switch a view function to Django&#8217;s
+default commit behavior, regardless of the global transaction setting.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">transaction</span>
+
+<span class="nd">@transaction.autocommit</span>
+<span class="k">def</span> <span class="nf">viewfunc</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">....</span>
+
+<span class="nd">@transaction.autocommit</span><span class="p">(</span><span class="n">using</span><span class="o">=</span><span class="s">&quot;my_other_database&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">viewfunc2</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">....</span>
+</pre></div>
+</div>
+<p>Within <code class="docutils literal"><span class="pre">viewfunc()</span></code>, transactions will be committed as soon as you call
+<code class="docutils literal"><span class="pre">model.save()</span></code>, <code class="docutils literal"><span class="pre">model.delete()</span></code>, or any other function that writes to
+the database.  <code class="docutils literal"><span class="pre">viewfunc2()</span></code> will have this same behavior, but for the
+<code class="docutils literal"><span class="pre">&quot;my_other_database&quot;</span></code> connection.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.db.transaction.commit_on_success">
+<code class="descname">commit_on_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.commit_on_success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal"><span class="pre">commit_on_success</span></code> decorator to use a single transaction for all
+the work done in a function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">transaction</span>
+
+<span class="nd">@transaction.commit_on_success</span>
+<span class="k">def</span> <span class="nf">viewfunc</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">....</span>
+
+<span class="nd">@transaction.commit_on_success</span><span class="p">(</span><span class="n">using</span><span class="o">=</span><span class="s">&quot;my_other_database&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">viewfunc2</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">....</span>
+</pre></div>
+</div>
+<p>If the function returns successfully, then Django will commit all work done
+within the function at that point. If the function raises an exception,
+though, Django will roll back the transaction.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="django.db.transaction.commit_manually">
+<code class="descname">commit_manually</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.commit_manually" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal"><span class="pre">commit_manually</span></code> decorator if you need full control over
+transactions. It tells Django you&#8217;ll be managing the transaction on your
+own.</p>
+<p>Whether you are writing or simply reading from the database, you must
+<code class="docutils literal"><span class="pre">commit()</span></code> or <code class="docutils literal"><span class="pre">rollback()</span></code> explicitly or Django will raise a
+<a class="reference internal" href="../../ref/exceptions.html#django.db.transaction.TransactionManagementError" title="django.db.transaction.TransactionManagementError"><code class="xref py py-exc docutils literal"><span class="pre">TransactionManagementError</span></code></a> exception. This is required when reading
+from the database because <code class="docutils literal"><span class="pre">SELECT</span></code> statements may call functions which
+modify tables, and thus it is impossible to know if any data has been
+modified.</p>
+<p>Manual transaction management looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">transaction</span>
+
+<span class="nd">@transaction.commit_manually</span>
+<span class="k">def</span> <span class="nf">viewfunc</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="c"># You can commit/rollback however and whenever you want</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="o">...</span>
+
+    <span class="c"># But you&#39;ve got to remember to do it yourself!</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="o">...</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+<span class="nd">@transaction.commit_manually</span><span class="p">(</span><span class="n">using</span><span class="o">=</span><span class="s">&quot;my_other_database&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">viewfunc2</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="o">....</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="requirements-for-transaction-handling">
+<span id="topics-db-transactions-requirements"></span><h2>Requirements for transaction handling<a class="headerlink" href="#requirements-for-transaction-handling" title="Permalink to this headline">¶</a></h2>
+<p>Django requires that every transaction that is opened is closed before
+the completion of a request. If you are using <a class="reference internal" href="#django.db.transaction.autocommit" title="django.db.transaction.autocommit"><code class="xref py py-func docutils literal"><span class="pre">autocommit()</span></code></a> (the
+default commit mode) or <a class="reference internal" href="#django.db.transaction.commit_on_success" title="django.db.transaction.commit_on_success"><code class="xref py py-func docutils literal"><span class="pre">commit_on_success()</span></code></a>, this will be done
+for you automatically (with the exception of <a class="reference internal" href="sql.html#executing-custom-sql"><span>executing custom SQL</span></a>). However, if you are manually managing
+transactions (using the <a class="reference internal" href="#django.db.transaction.commit_manually" title="django.db.transaction.commit_manually"><code class="xref py py-func docutils literal"><span class="pre">commit_manually()</span></code></a> decorator), you must
+ensure that the transaction is either committed or rolled back before
+a request is completed.</p>
+<p>This applies to all database operations, not just write operations. Even
+if your transaction only reads from the database, the transaction must
+be committed or rolled back before you complete a request.</p>
+</div>
+<div class="section" id="how-to-globally-deactivate-transaction-management">
+<span id="deactivate-transaction-management"></span><h2>How to globally deactivate transaction management<a class="headerlink" href="#how-to-globally-deactivate-transaction-management" title="Permalink to this headline">¶</a></h2>
+<p>Control freaks can totally disable all transaction management by setting
+<a class="reference internal" href="../../ref/settings.html#std:setting-TRANSACTIONS_MANAGED"><code class="xref std std-setting docutils literal"><span class="pre">TRANSACTIONS_MANAGED</span></code></a> to <code class="docutils literal"><span class="pre">True</span></code> in the Django settings file.</p>
+<p>If you do this, Django won&#8217;t provide any automatic transaction management
+whatsoever. Middleware will no longer implicitly commit transactions, and
+you&#8217;ll need to roll management yourself. This even requires you to commit
+changes done by middleware somewhere else.</p>
+<p>Thus, this is best used in situations where you want to run your own
+transaction-controlling middleware or do something really strange. In almost
+all situations, you&#8217;ll be better off using the default behavior, or the
+transaction middleware, and only modify selected functions as needed.</p>
+</div>
+<div class="section" id="savepoints">
+<span id="topics-db-transactions-savepoints"></span><h2>Savepoints<a class="headerlink" href="#savepoints" title="Permalink to this headline">¶</a></h2>
+<p>A savepoint is a marker within a transaction that enables you to roll back part
+of a transaction, rather than the full transaction. Savepoints are available
+with the PostgreSQL 8, Oracle and MySQL (when using the InnoDB storage engine)
+backends. Other backends provide the savepoint functions, but they&#8217;re empty
+operations &#8211; they don&#8217;t actually do anything.</p>
+<div class="versionchanged">
+Savepoint support for the MySQL backend was added in Django 1.4.</div>
+<p>Savepoints aren&#8217;t especially useful if you are using the default
+<code class="docutils literal"><span class="pre">autocommit</span></code> behavior of Django. However, if you are using
+<code class="docutils literal"><span class="pre">commit_on_success</span></code> or <code class="docutils literal"><span class="pre">commit_manually</span></code>, each open transaction will build
+up a series of database operations, awaiting a commit or rollback. If you
+issue a rollback, the entire transaction is rolled back. Savepoints provide
+the ability to perform a fine-grained rollback, rather than the full rollback
+that would be performed by <code class="docutils literal"><span class="pre">transaction.rollback()</span></code>.</p>
+<p>Each of these functions takes a <code class="docutils literal"><span class="pre">using</span></code> argument which should be the name of
+a database for which the behavior applies.  If no <code class="docutils literal"><span class="pre">using</span></code> argument is
+provided then the <code class="docutils literal"><span class="pre">&quot;default&quot;</span></code> database is used.</p>
+<p>Savepoints are controlled by three methods on the transaction object:</p>
+<dl class="method">
+<dt id="django.db.transaction.transaction.savepoint">
+<code class="descclassname">transaction.</code><code class="descname">savepoint</code><span class="sig-paren">(</span><em>using=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.transaction.savepoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new savepoint. This marks a point in the transaction that
+is known to be in a &#8220;good&#8221; state.</p>
+<p>Returns the savepoint ID (sid).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.db.transaction.transaction.savepoint_commit">
+<code class="descclassname">transaction.</code><code class="descname">savepoint_commit</code><span class="sig-paren">(</span><em>sid</em>, <em>using=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.transaction.savepoint_commit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the savepoint to include any operations that have been performed
+since the savepoint was created, or since the last commit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="django.db.transaction.transaction.savepoint_rollback">
+<code class="descclassname">transaction.</code><code class="descname">savepoint_rollback</code><span class="sig-paren">(</span><em>sid</em>, <em>using=None</em><span class="sig-paren">)</span><a class="headerlink" href="#django.db.transaction.transaction.savepoint_rollback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rolls the transaction back to the last point at which the savepoint was
+committed.</p>
+</dd></dl>
+
+<p>The following example demonstrates the use of savepoints:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">transaction</span>
+
+<span class="nd">@transaction.commit_manually</span>
+<span class="k">def</span> <span class="nf">viewfunc</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+  <span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+  <span class="c"># open transaction now contains a.save()</span>
+  <span class="n">sid</span> <span class="o">=</span> <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint</span><span class="p">()</span>
+
+  <span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+  <span class="c"># open transaction now contains a.save() and b.save()</span>
+
+  <span class="k">if</span> <span class="n">want_to_keep_b</span><span class="p">:</span>
+      <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint_commit</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+      <span class="c"># open transaction still contains a.save() and b.save()</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint_rollback</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+      <span class="c"># open transaction now contains only a.save()</span>
+
+  <span class="n">transaction</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transactions-in-mysql">
+<h2>Transactions in MySQL<a class="headerlink" href="#transactions-in-mysql" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re using MySQL, your tables may or may not support transactions; it
+depends on your MySQL version and the table types you&#8217;re using. (By
+&#8220;table types,&#8221; we mean something like &#8220;InnoDB&#8221; or &#8220;MyISAM&#8221;.) MySQL transaction
+peculiarities are outside the scope of this article, but the MySQL site has
+<a class="reference external" href="http://dev.mysql.com/doc/refman/5.0/en/sql-syntax-transactions.html">information on MySQL transactions</a>.</p>
+<p>If your MySQL setup does <em>not</em> support transactions, then Django will function
+in auto-commit mode: Statements will be executed and committed as soon as
+they&#8217;re called. If your MySQL setup <em>does</em> support transactions, Django will
+handle transactions as explained in this document.</p>
+</div>
+<div class="section" id="handling-exceptions-within-postgresql-transactions">
+<h2>Handling exceptions within PostgreSQL transactions<a class="headerlink" href="#handling-exceptions-within-postgresql-transactions" title="Permalink to this headline">¶</a></h2>
+<p>When a call to a PostgreSQL cursor raises an exception (typically
+<code class="docutils literal"><span class="pre">IntegrityError</span></code>), all subsequent SQL in the same transaction will fail with
+the error &#8220;current transaction is aborted, queries ignored until end of
+transaction block&#8221;. Whilst simple use of <code class="docutils literal"><span class="pre">save()</span></code> is unlikely to raise an
+exception in PostgreSQL, there are more advanced usage patterns which
+might, such as saving objects with unique fields, saving using the
+force_insert/force_update flag, or invoking custom SQL.</p>
+<p>There are several ways to recover from this sort of error.</p>
+<div class="section" id="transaction-rollback">
+<h3>Transaction rollback<a class="headerlink" href="#transaction-rollback" title="Permalink to this headline">¶</a></h3>
+<p>The first option is to roll back the entire transaction. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Succeeds, but may be undone by transaction rollback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Could throw exception</span>
+<span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Succeeds, but a.save() may have been undone</span>
+</pre></div>
+</div>
+<p>Calling <code class="docutils literal"><span class="pre">transaction.rollback()</span></code> rolls back the entire transaction. Any
+uncommitted database operations will be lost. In this example, the changes
+made by <code class="docutils literal"><span class="pre">a.save()</span></code> would be lost, even though that operation raised no error
+itself.</p>
+</div>
+<div class="section" id="savepoint-rollback">
+<h3>Savepoint rollback<a class="headerlink" href="#savepoint-rollback" title="Permalink to this headline">¶</a></h3>
+<p>If you are using PostgreSQL 8 or later, you can use <a class="reference internal" href="#topics-db-transactions-savepoints"><span>savepoints</span></a> to control the extent of a rollback.
+Before performing a database operation that could fail, you can set or update
+the savepoint; that way, if the operation fails, you can roll back the single
+offending operation, rather than the entire transaction. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Succeeds, and never undone by savepoint rollback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">sid</span> <span class="o">=</span> <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint</span><span class="p">()</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Could throw exception</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint_commit</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+    <span class="n">transaction</span><span class="o">.</span><span class="n">savepoint_rollback</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Succeeds, and a.save() is never undone</span>
+</pre></div>
+</div>
+<p>In this example, <code class="docutils literal"><span class="pre">a.save()</span></code> will not be undone in the case where
+<code class="docutils literal"><span class="pre">b.save()</span></code> raises an exception.</p>
+</div>
+<div class="section" id="database-level-autocommit">
+<h3>Database-level autocommit<a class="headerlink" href="#database-level-autocommit" title="Permalink to this headline">¶</a></h3>
+<p>With PostgreSQL 8.2 or later, there is an advanced option to run PostgreSQL
+with <a class="reference internal" href="../../ref/databases.html"><em>database-level autocommit</em></a>. If you use this option,
+there is no constantly open transaction, so it is always possible to continue
+after catching an exception. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># succeeds</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># Could throw exception</span>
+<span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">c</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c"># succeeds</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is not the same as the <a class="reference internal" href="#topics-db-transactions-autocommit"><span>autocommit decorator</span></a>. When using database level autocommit
+there is no database transaction at all. The <code class="docutils literal"><span class="pre">autocommit</span></code> decorator
+still uses transactions, automatically committing each transaction when
+a database modifying operation occurs.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="multi-db.html" class="btn btn-neutral float-right" title="Multiple databases" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sql.html" class="btn btn-neutral" title="Performing raw SQL queries" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Django Software Foundation and contributors.
+      Last updated on Oct 24, 2016.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/django/django1.5/topics/db/transactions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:53:49 GMT -->
+</html>
