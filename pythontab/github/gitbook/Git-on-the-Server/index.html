@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-on-the-Server/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>服务器上的 Git &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Basics/index.html">Git 基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">服务器上的 Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html">协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting-Git-on-a-Server.html">在服务器上部署 Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Generating-Your-SSH-Public-Key.html">生成 SSH 公钥</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setting-Up-the-Server.html">架设服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Public-Access.html">公共访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GitWeb.html">GitWeb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitosis.html">Gitosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html">Gitolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Daemon.html">Git 守护进程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html">Git 托管服务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Internals/index.html">Git 内部原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+    <li>服务器上的 Git</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="git">
+<h1>服务器上的 Git<a class="headerlink" href="#git" title="永久链接至标题">¶</a></h1>
+<p>到目前为止，你应该已经学会了使用 Git 来完成日常工作。然而，如果想与他人合作，还需要一个远程的 Git 仓库。尽管技术上可以从个人的仓库里推送和拉取修改内容，但我们不鼓励这样做，因为一不留心就很容易弄混其他人的进度。另外，你也一定希望合作者们即使在自己不开机的时候也能从仓库获取数据 — 拥有一个更稳定的公共仓库十分有用。因此，更好的合作方式是建立一个大家都可以访问的共享仓库，从那里推送和拉取数据。我们将把这个仓库称为 &#8220;Git 服务器&#8221;；代理一个 Git 仓库只需要花费很少的资源，几乎从不需要整个服务器来支持它的运行。</p>
+<p>架设一台 Git 服务器并不难。第一步是选择与服务器通讯的协议。本章第一节将介绍可用的协议以及各自优缺点。下面一节将介绍一些针对各个协议典型的设置以及如何在服务器上实施。最后，如果你不介意在他人服务器上保存你的代码，又想免去自己架设和维护服务器的麻烦，倒可以试试我们介绍的几个仓库托管服务。</p>
+<p>如果你对架设自己的服务器没兴趣，可以跳到本章最后一节去看看如何申请一个代码托管服务的账户然后继续下一章，我们会在那里讨论分布式源码控制环境的林林总总。</p>
+<p>远程仓库通常只是一个裸仓库 <em>（bare repository）</em> — 即一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从硬盘上取出最新版本的快照；仓库里存放的仅仅是 Git 的数据。简单地说，裸仓库就是你工作目录中 .git 子目录内的内容。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="The-Protocols.html">协议</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html#id2">本地协议</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id3">优点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id4">缺点</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html#ssh">SSH 协议</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id5">优点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id6">缺点</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html#git">Git 协议</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id7">优点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id8">缺点</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html#http-s">HTTP/S 协议</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id9">优点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="The-Protocols.html#id10">缺点</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Getting-Git-on-a-Server.html">在服务器上部署 Git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Getting-Git-on-a-Server.html#id1">把裸仓库移到服务器上</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting-Git-on-a-Server.html#id2">小型安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting-Git-on-a-Server.html#ssh">SSH 连接</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Generating-Your-SSH-Public-Key.html">生成 SSH 公钥</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Setting-Up-the-Server.html">架设服务器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Public-Access.html">公共访问</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GitWeb.html">GitWeb</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gitosis.html">Gitosis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gitolite.html">Gitolite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#id1">安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#id2">自定义安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#id3">配置文件和存取控制规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#deny">带&#8221;deny&#8221;规则高级访问控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#restricting-pushes-by-files-changed">Restricting pushes by files changed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#id4">个人分支</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#wildcard">&#8220;Wildcard（通配符）&#8221;库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html#id7">其他功能</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Git-Daemon.html">Git 守护进程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hosted-Git.html">Git 托管服务</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#github">GitHub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id1">建立新账户</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id2">建立新仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#subversion">从 Subversion 导入项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id3">添加协作开发者</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id4">项目页面</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id5">派生项目</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html#id6">GitHub 小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="The-Protocols.html" class="btn btn-neutral float-right" title="协议" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Git-Branching/Summary.html" class="btn btn-neutral" title="小结" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-on-the-Server/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:57 GMT -->
+</html>

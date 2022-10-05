@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Basics/Undoing-Things.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:55:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>撤消操作 &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Git 基础</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Getting-a-Git-Repository.html">取得项目的 Git 仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html">记录每次更新到仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Viewing-the-Commit-History.html">查看提交历史</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">撤消操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">修改最后一次提交</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">取消已经暂存的文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">取消对文件的修改</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html">远程仓库的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html">打标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tips-and-Tricks.html">技巧和窍门</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-on-the-Server/index.html">服务器上的 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Internals/index.html">Git 内部原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Git 基础</a> &raquo;</li>
+      
+    <li>撤消操作</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>撤消操作<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>任何时候，你都有可能需要撤消刚才所做的某些操作。接下来，我们会介绍一些基本的撤消操作相关的命令。请注意，有些撤销操作是不可逆的，所以请务必谨慎小心，一旦失误，就有可能丢失部分工作成果。</p>
+<div class="section" id="id2">
+<h2>修改最后一次提交<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>有时候我们提交完了才发现漏掉了几个文件没有加，或者提交信息写错了。想要撤消刚才的提交操作，可以使用 &#8211;amend 选项重新提交:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git commit --amend
+</pre></div>
+</div>
+<p>此命令将使用当前的暂存区域快照提交。如果刚才提交完没有作任何改动，直接运行此命令的话，相当于有机会重新编辑提交说明，但将要提交的文件快照和之前的一样。</p>
+<p>启动文本编辑器后，会看到上次提交时的说明，编辑它确认没问题后保存退出，就会使用新的提交说明覆盖刚才失误的提交。</p>
+<p>如果刚才提交时忘了暂存某些修改，可以先补上暂存操作，然后再运行 &#8211;amend 提交:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git commit -m &#39;initial commit&#39;
+$ git add forgotten_file
+$ git commit --amend
+</pre></div>
+</div>
+<p>上面的三条命令最终只是产生一个提交，第二个提交命令修正了第一个的提交内容。</p>
+</div>
+<div class="section" id="id3">
+<h2>取消已经暂存的文件<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>接下来的两个小节将演示如何取消暂存区域中的文件，以及如何取消工作目录中已修改的文件。不用担心，查看文件状态的时候就提示了该如何撤消，所以不需要死记硬背。来看下面的例子，有两个修改过的文件，我们想要分开提交，但不小心用 git add . 全加到了暂存区域。该如何撤消暂存其中的一个文件呢？其实，git status 的命令输出已经告诉了我们该怎么做:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git add .
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#       modified:   benchmarks.rb
+#
+</pre></div>
+</div>
+<p>就在 “Changes to be committed” 下面，括号中有提示，可以使用 git reset HEAD &lt;file&gt;... 的方式取消暂存。好吧，我们来试试取消暂存 benchmarks.rb 文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git reset HEAD benchmarks.rb
+benchmarks.rb: locally modified
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
+# Changes not staged for commit:
+#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
+#
+#       modified:   benchmarks.rb
+#
+</pre></div>
+</div>
+<p>这条命令看起来有些古怪，先别管，能用就行。现在 benchmarks.rb 文件又回到了之前已修改未暂存的状态。</p>
+</div>
+<div class="section" id="id4">
+<h2>取消对文件的修改<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>如果觉得刚才对 benchmarks.rb 的修改完全没有必要，该如何取消修改，回到之前的状态（也就是修改之前的版本）呢？git status 同样提示了具体的撤消方法，接着上面的例子，现在未暂存区域看起来像这样:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Changes not staged for commit:</span>
+<span class="c">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span>
+<span class="c">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span>
+<span class="c">#</span>
+<span class="c">#       modified:   benchmarks.rb</span>
+<span class="c">#</span>
+</pre></div>
+</div>
+<p>在第二个括号中，我们看到了抛弃文件修改的命令（至少在 Git 1.6.1 以及更高版本中会这样提示，如果你还在用老版本，我们强烈建议你升级，以获取最佳的用户体验），让我们试试看:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git checkout -- benchmarks.rb
+$ git status
+# On branch master
+# Changes to be committed:
+#   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+#
+#       modified:   README.txt
+#
+</pre></div>
+</div>
+<p>可以看到，该文件已经恢复到修改前的版本。你可能已经意识到了，这条命令有些危险，所有对文件的修改都没有了，因为我们刚刚把之前版本的文件复制过来重写了此文件。所以在用这条命令前，请务必确定真的不再需要保留刚才的修改。如果只是想回退版本，同时保留刚才的修改以便将来继续工作，可以用下章介绍的 stashing 和分支来处理，应该会更好些。</p>
+<p>记住，任何已经提交到 Git 的都可以被恢复。即便在已经删除的分支中的提交，或者用 &#8211;amend 重新改写的提交，都可以被恢复（关于数据恢复的内容见第九章）。所以，你可能失去的数据，仅限于没有提交过的，对 Git 来说它们就像从未存在过一样。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Working-with-Remotes.html" class="btn btn-neutral float-right" title="远程仓库的使用" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Viewing-the-Commit-History.html" class="btn btn-neutral" title="查看提交历史" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Basics/Undoing-Things.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:55:07 GMT -->
+</html>

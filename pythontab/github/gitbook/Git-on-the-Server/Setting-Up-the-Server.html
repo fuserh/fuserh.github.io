@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-on-the-Server/Setting-Up-the-Server.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:55:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>架设服务器 &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Basics/index.html">Git 基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">服务器上的 Git</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="The-Protocols.html">协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting-Git-on-a-Server.html">在服务器上部署 Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Generating-Your-SSH-Public-Key.html">生成 SSH 公钥</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">架设服务器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Public-Access.html">公共访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GitWeb.html">GitWeb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitosis.html">Gitosis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gitolite.html">Gitolite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Daemon.html">Git 守护进程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Hosted-Git.html">Git 托管服务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Internals/index.html">Git 内部原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">服务器上的 Git</a> &raquo;</li>
+      
+    <li>架设服务器</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>架设服务器<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>现在我们过一边服务器端架设 SSH 访问的流程。本例将使用 authorized_keys 方法来给用户授权。我们还将假定使用类似 Ubuntu 这样的标准 Linux 发行版。首先，创建一个名为 &#8216;git&#8217; 的用户，并为其创建一个 .ssh 目录:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo adduser git
+$ su git
+$ cd
+$ mkdir .ssh
+</pre></div>
+</div>
+<p>接下来，把开发者的 SSH 公钥添加到这个用户的 authorized_keys 文件中。假设你通过电邮收到了几个公钥并存到了临时文件里。重复一下，公钥大致看起来是这个样子:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cat /tmp/id_rsa.john.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
+ojG6rs6hPB09j9R/T17/x4lhJA0F3FR1rP6kYBRsWj2aThGw6HXLm9/5zytK6Ztg3RPKK+4k
+Yjh6541NYsnEAZuXz0jTTyAUfrtU3Z5E003C4oxOj6H0rfIF1kKI9MAQLMdpGW1GYEIgS9Ez
+Sdfd8AcCIicTDWbqLAcU4UpkaX8KyGlLwsNuuGztobF8m72ALC/nLF6JLtPofwFBlgc+myiv
+O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
+dAv8JggJICUvax2T9va5 gsg-keypair
+</pre></div>
+</div>
+<p>只要把它们逐个追加到 authorized_keys 文件尾部即可:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cat /tmp/id_rsa.john.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.josie.pub &gt;&gt; ~/.ssh/authorized_keys
+$ cat /tmp/id_rsa.jessica.pub &gt;&gt; ~/.ssh/authorized_keys
+</pre></div>
+</div>
+<p>现在可以用 &#8211;bare 选项运行 git init 来建立一个裸仓库，这会初始化一个不包含工作目录的仓库:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ cd /opt/git
+$ mkdir project.git
+$ cd project.git
+$ git --bare init
+</pre></div>
+</div>
+<p>这时，Join，Josie 或者 Jessica 就可以把它加为远程仓库，推送一个分支，从而把第一个版本的项目文件上传到仓库里了。值得注意的是，每次添加一个新项目都需要通过 shell 登入主机并创建一个裸仓库目录。我们不妨以 gitserver 作为 git 用户及项目仓库所在的主机名。如果在网络内部运行该主机，并在 DNS 中设定 gitserver 指向该主机，那么以下这些命令都是可用的:</p>
+<div class="highlight-python"><div class="highlight"><pre># 在 John 的电脑上
+$ cd myproject
+$ git init
+$ git add .
+$ git commit -m &#39;initial commit&#39;
+$ git remote add origin git@gitserver:/opt/git/project.git
+$ git push origin master
+</pre></div>
+</div>
+<p>这样，其他人的克隆和推送也一样变得很简单:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone git@gitserver:/opt/git/project.git
+$ vim README
+$ git commit -am &#39;fix for the README file&#39;
+$ git push origin master
+</pre></div>
+</div>
+<p>用这个方法可以很快捷地为少数几个开发者架设一个可读写的 Git 服务。</p>
+<p>作为一个额外的防范措施，你可以用 Git 自带的 git-shell 工具限制 git 用户的活动范围。只要把它设为 git 用户登入的 shell，那么该用户就无法使用普通的 bash 或者 csh 什么的 shell 程序。编辑 /etc/passwd 文件:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ sudo vim /etc/passwd
+</pre></div>
+</div>
+<p>在文件末尾，你应该能找到类似这样的行:</p>
+<div class="highlight-python"><div class="highlight"><pre>git:x:1000:1000::/home/git:/bin/sh
+</pre></div>
+</div>
+<p>把 bin/sh 改为 /usr/bin/git-shell （或者用 which git-shell 查看它的实际安装路径）。该行修改后的样子如下:</p>
+<div class="highlight-python"><div class="highlight"><pre>git:x:1000:1000::/home/git:/usr/bin/git-shell
+</pre></div>
+</div>
+<p>现在 git 用户只能用 SSH 连接来推送和获取 Git 仓库，而不能直接使用主机 shell。尝试普通 SSH 登录的话，会看到下面这样的拒绝信息:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ssh git@gitserver
+fatal: What do you think I am? A shell?
+Connection to gitserver closed.
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Public-Access.html" class="btn btn-neutral float-right" title="公共访问" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Generating-Your-SSH-Public-Key.html" class="btn btn-neutral" title="生成 SSH 公钥" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-on-the-Server/Setting-Up-the-Server.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:55:45 GMT -->
+</html>

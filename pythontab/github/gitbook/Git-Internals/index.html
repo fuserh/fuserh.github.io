@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Internals/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Git 内部原理 &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Basics/index.html">Git 基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-on-the-Server/index.html">服务器上的 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Git 内部原理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Plumbing-and-Porcelain.html">底层命令 (Plumbing) 和高层命令 (Porcelain)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Objects.html">Git 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html">Git References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Packfiles.html">Packfiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="The-Refspec.html">The Refspec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html">传输协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Maintenance-and-Data-Recovery.html">维护及数据恢复</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+    <li>Git 内部原理</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="git">
+<h1>Git 内部原理<a class="headerlink" href="#git" title="永久链接至标题">¶</a></h1>
+<p>不管你是从前面的章节直接跳到了本章，还是读完了其余各章一直到这，你都将在本章见识 Git 的内部工作原理和实现方式。我个人发现学习这些内容对于理解 Git 的用处和强大是非常重要的，不过也有人认为这些内容对于初学者来说可能难以理解且过于复杂。正因如此我把这部分内容放在最后一章，你在学习过程中可以先阅读这部分，也可以晚点阅读这部分，这完全取决于你自己。</p>
+<p>既然已经读到这了，就让我们开始吧。首先要弄明白一点，从根本上来讲 Git 是一套内容寻址 (content-addressable) 文件系统，在此之上提供了一个 VCS 用户界面。马上你就会学到这意味着什么。</p>
+<p>早期的 Git (主要是 1.5 之前版本) 的用户界面要比现在复杂得多，这是因为它更侧重于成为文件系统而不是一套更精致的 VCS 。最近几年改进了 UI 从而使它跟其他任何系统一样清晰易用。即便如此，还是经常会有一些陈腔滥调提到早期 Git 的 UI 复杂又难学。</p>
+<p>内容寻址文件系统层相当酷，在本章中我会先讲解这部分。随后你会学到传输机制和最终要使用的各种库管理任务。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Plumbing-and-Porcelain.html">底层命令 (Plumbing) 和高层命令 (Porcelain)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Git-Objects.html">Git 对象</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Git-Objects.html#tree">tree (树) 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Objects.html#commit">commit (提交) 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Objects.html#id1">对象存储</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Git-References.html">Git References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html#head">HEAD 标记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html#tags">Tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html#test-tag">test tag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html#remotes">Remotes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Packfiles.html">Packfiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="The-Refspec.html">The Refspec</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="The-Refspec.html#refspec">推送 Refspec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="The-Refspec.html#id1">删除引用</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Transfer-Protocols.html">传输协议</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html#id2">哑协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html#id3">智能协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html#id4">上传数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html#id5">下载数据</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Maintenance-and-Data-Recovery.html">维护及数据恢复</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Maintenance-and-Data-Recovery.html#id2">维护</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Maintenance-and-Data-Recovery.html#id3">数据恢复</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Maintenance-and-Data-Recovery.html#id4">移除对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Summary.html">总结</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Plumbing-and-Porcelain.html" class="btn btn-neutral float-right" title="底层命令 (Plumbing) 和高层命令 (Porcelain)" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Git-and-Other-Systems/Summary.html" class="btn btn-neutral" title="总结" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Internals/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:58 GMT -->
+</html>

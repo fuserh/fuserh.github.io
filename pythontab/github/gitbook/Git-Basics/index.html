@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Basics/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Git 基础 &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Git 基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Getting-a-Git-Repository.html">取得项目的 Git 仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html">记录每次更新到仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Viewing-the-Commit-History.html">查看提交历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Undoing-Things.html">撤消操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html">远程仓库的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html">打标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tips-and-Tricks.html">技巧和窍门</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-on-the-Server/index.html">服务器上的 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Internals/index.html">Git 内部原理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+    <li>Git 基础</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="git">
+<h1>Git 基础<a class="headerlink" href="#git" title="永久链接至标题">¶</a></h1>
+<p>读完本章你就能上手使用 Git 了。本章将介绍几个最基本的，也是最常用的 Git 命令，以后绝大多数时间里用到的也就是这几个命令。读完本章，你就能初始化一个新的代码仓库，做一些适当配置；开始或停止跟踪某些文件；暂存或提交某些更新。我们还会展示如何让 Git 忽略某些文件，或是名称符合特定模式的文件；如何既快且容易地撤消犯下的小错误；如何浏览项目的更新历史，查看某两次更新之间的差异；以及如何从远程仓库拉数据下来或者推数据上去。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Getting-a-Git-Repository.html">取得项目的 Git 仓库</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Getting-a-Git-Repository.html#id1">在工作目录中初始化新仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Getting-a-Git-Repository.html#id2">从现有仓库克隆</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Recording-Changes-to-the-Repository.html">记录每次更新到仓库</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id2">检查当前文件状态</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id3">跟踪新文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id4">暂存已修改文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id5">忽略某些文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id6">查看已暂存和未暂存的更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id7">提交更新</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id8">跳过使用暂存区域</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id9">移除文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Recording-Changes-to-the-Repository.html#id10">移动文件</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Viewing-the-Commit-History.html">查看提交历史</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Viewing-the-Commit-History.html#id2">限制输出长度</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Viewing-the-Commit-History.html#id3">使用图形化工具查阅提交历史</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Undoing-Things.html">撤消操作</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Undoing-Things.html#id2">修改最后一次提交</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Undoing-Things.html#id3">取消已经暂存的文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Undoing-Things.html#id4">取消对文件的修改</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Working-with-Remotes.html">远程仓库的使用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id2">查看当前的远程库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id3">添加远程仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id4">从远程仓库抓取数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id5">推送数据到远程仓库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id6">查看远程仓库信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Working-with-Remotes.html#id7">远程仓库的删除和重命名</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tagging.html">打标签</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id2">列出已有标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id3">新建标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id4">含附注的标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id5">签署标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id6">轻量级标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id7">验证标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id8">后期加注标签</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tagging.html#id9">分享标签</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Tips-and-Tricks.html">技巧和窍门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tips-and-Tricks.html#id2">自动补全</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tips-and-Tricks.html#git">Git 命令别名</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Summary.html">小结</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Getting-a-Git-Repository.html" class="btn btn-neutral float-right" title="取得项目的 Git 仓库" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Getting-Started/Summary.html" class="btn btn-neutral" title="小结" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Basics/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:54:57 GMT -->
+</html>

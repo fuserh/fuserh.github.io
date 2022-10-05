@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Internals/The-Refspec.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>The Refspec &mdash; Git中文手册 0.1 文档</title>
+  
+  
+  
+    
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+  
+   
+  <script src="../_static/js/modernizr.min.js"></script>
+</head>
+<body class="wy-body-for-nav" role="document">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> Git中文手册
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.pythontab.com/github/gitbook/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Getting-Started/index.html">起步</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Basics/index.html">Git 基础</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Branching/index.html">Git 分支</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-on-the-Server/index.html">服务器上的 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distributed-Git/index.html">分布式 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-Tools/index.html">Git 工具</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Customizing-Git/index.html">自定义 Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Git-and-Other-Systems/index.html">Git 与其他系统</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Git 内部原理</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Plumbing-and-Porcelain.html">底层命令 (Plumbing) 和高层命令 (Porcelain)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-Objects.html">Git 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Git-References.html">Git References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Packfiles.html">Packfiles</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The Refspec</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#refspec">推送 Refspec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">删除引用</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Transfer-Protocols.html">传输协议</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Maintenance-and-Data-Recovery.html">维护及数据恢复</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Summary.html">总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../commands/index.html">命令索引</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index-2.html">Git中文手册</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index-2.html"> &mdash; Git中文手册 0.1 文档</a> &raquo;</li>
+      
+          <li><a href="index.html">Git 内部原理</a> &raquo;</li>
+      
+    <li>The Refspec</li>
+      <li class="wy-breadcrumbs-aside">
+        
+            <a href="../../../index.html" class="fa fa-github"> 在线手册中心</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="the-refspec">
+<h1>The Refspec<a class="headerlink" href="#the-refspec" title="永久链接至标题">¶</a></h1>
+<p>这本书读到这里，你已经使用过一些简单的远程分支到本地引用的映射方式了，这种映射可以更为复杂。 假设你像这样添加了一项远程仓库:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git remote add origin git@github.com:schacon/simplegit-progit.git
+</pre></div>
+</div>
+<p>它在你的 .git/config 文件中添加了一节，指定了远程的名称 (origin), 远程仓库的URL地址，和用于获取操作的 Refspec:</p>
+<div class="highlight-python"><div class="highlight"><pre>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/*:refs/remotes/origin/*
+</pre></div>
+</div>
+<p>Refspec 的格式是一个可选的 + 号，接着是 &lt;src&gt;:&lt;dst&gt; 的格式，这里 &lt;src&gt; 是远端上的引用格式， &lt;dst&gt; 是将要记录在本地的引用格式。可选的 + 号告诉 Git 在即使不能快速演进的情况下，也去强制更新它。</p>
+<p>缺省情况下 refspec 会被 git remote add 命令所自动生成， Git 会获取远端上 refs/heads/ 下面的所有引用，并将它写入到本地的 refs/remotes/origin/. 所以，如果远端上有一个 master 分支，你在本地可以通过下面这种方式来访问它的历史记录:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git log origin/master
+$ git log remotes/origin/master
+$ git log refs/remotes/origin/master
+</pre></div>
+</div>
+<p>它们全是等价的，因为 Git 把它们都扩展成 refs/remotes/origin/master.</p>
+<p>如果你想让 Git 每次只拉取远程的 master 分支，而不是远程的所有分支，你可以把 fetch 这一行修改成这样:</p>
+<p>fetch = +refs/heads/master:refs/remotes/origin/master</p>
+<p>这是 git fetch 操作对这个远端的缺省 refspec 值。而如果你只想做一次该操作，也可以在命令行上指定这个 refspec. 如可以这样拉取远程的 master 分支到本地的 origin/mymaster 分支:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git fetch origin master:refs/remotes/origin/mymaster
+</pre></div>
+</div>
+<p>你也可以在命令行上指定多个 refspec. 像这样可以一次获取远程的多个分支:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git fetch origin master:refs/remotes/origin/mymaster \
+   topic:refs/remotes/origin/topic
+From git@github.com:schacon/simplegit
+ ! [rejected]        master     -&gt; origin/mymaster  (non fast forward)
+ * [new branch]      topic      -&gt; origin/topic
+</pre></div>
+</div>
+<p>在这个例子中， master 分支因为不是一个可以快速演进的引用而拉取操作被拒绝。你可以在 refspec 之前使用一个 + 号来重载这种行为。</p>
+<p>你也可以在配置文件中指定多个 refspec. 如你想在每次获取时都获取 master 和 experiment 分支，就添加两行:</p>
+<div class="highlight-python"><div class="highlight"><pre>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
+</pre></div>
+</div>
+<p>但是这里不能使用部分通配符，像这样就是不合法的:</p>
+<p>fetch = +refs/heads/qa*:refs/remotes/origin/qa*</p>
+<p>但无论如何，你可以使用命名空间来达到这个目的。如你有一个QA组，他们推送一系列分支，你想每次获取 master 分支和QA组的所有分支，你可以使用这样的配置段落:</p>
+<div class="highlight-python"><div class="highlight"><pre>[remote &quot;origin&quot;]
+       url = git@github.com:schacon/simplegit-progit.git
+       fetch = +refs/heads/master:refs/remotes/origin/master
+       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
+</pre></div>
+</div>
+<p>如果你的工作流很复杂，有QA组推送的分支、开发人员推送的分支、和集成人员推送的分支，并且他们在远程分支上协作，你可以采用这种方式为他们创建各自的命名空间。</p>
+<div class="section" id="refspec">
+<h2>推送 Refspec<a class="headerlink" href="#refspec" title="永久链接至标题">¶</a></h2>
+<p>采用命名空间的方式确实很棒，但QA组成员第1次是如何将他们的分支推送到 qa/ 空间里面的呢？答案是你可以使用 refspec 来推送。</p>
+<p>如果QA组成员想把他们的 master 分支推送到远程的 qa/master 分支上，可以这样运行:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git push origin master:refs/heads/qa/master
+</pre></div>
+</div>
+<p>如果他们想让 Git 每次运行 git push origin 时都这样自动推送，他们可以在配置文件中添加 push 值:</p>
+<div class="highlight-python"><div class="highlight"><pre>[remote &quot;origin&quot;]
+      url = git@github.com:schacon/simplegit-progit.git
+      fetch = +refs/heads/*:refs/remotes/origin/*
+      push = refs/heads/master:refs/heads/qa/master
+</pre></div>
+</div>
+<p>这样，就会让 git push origin 缺省就把本地的 master 分支推送到远程的 qa/master 分支上。</p>
+</div>
+<div class="section" id="id1">
+<h2>删除引用<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>你也可以使用 refspec 来删除远程的引用，是通过运行这样的命令:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git push origin :topic
+</pre></div>
+</div>
+<p>因为 refspec 的格式是 &lt;src&gt;:&lt;dst&gt;, 通过把 &lt;src&gt; 部分留空的方式，这个意思是是把远程的 topic 分支变成空，也就是删除它。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+	<hr/>
+	<div>
+		<p>扫码关注，获取更多内容</p>
+		<img src="../../../statics/img/qrcode.jpg" width="100" height="100" />
+	</div>
+	<!-- duoshuo start -->
+	<div class="ds-thread"></div>
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"pytabdocs"};
+		(function() {
+			var ds = document.createElement('script');
+			ds.type = 'text/javascript';ds.async = true;
+			ds.src = '../../../statics/js/duoshuo.js';
+			ds.charset = 'UTF-8';
+			(document.getElementsByTagName('head')[0] 
+			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+		})();
+	</script>
+	<!-- duoshuo end -->
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Transfer-Protocols.html" class="btn btn-neutral float-right" title="传输协议" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Packfiles.html" class="btn btn-neutral" title="Packfiles" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2015, nosy.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  <script type="text/javascript" src="../../../static/js/global.html" ></script>
+  <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F141f4ed9eb11f462fa19fdd960639134' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+</body>
+
+<!-- Mirrored from docs.pythontab.com/github/gitbook/Git-Internals/The-Refspec.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 04 Oct 2022 03:56:34 GMT -->
+</html>
